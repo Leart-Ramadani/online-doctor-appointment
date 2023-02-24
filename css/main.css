@@ -780,17 +780,7 @@ nav {
 
 
 
-.ham {
-  position: fixed;
-  z-index: 888;
-  width: 35px;
-  height: 35px;
-  font-size: 22px;
-  border: none;
-  border-radius: 3px;
-  color: white;
-  background-color: rgb(33, 37, 41);
-}
+
 
 .sideBlock {
   position: absolute;
