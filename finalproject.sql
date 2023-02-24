@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2023 at 12:20 AM
+-- Generation Time: Feb 24, 2023 at 04:38 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -213,7 +213,7 @@ CREATE TABLE `orari` (
 --
 
 INSERT INTO `orari` (`id`, `doktori`, `departamenti`, `data`, `nga_ora`, `deri_oren`, `kohezgjatja`, `zene_deri`) VALUES
-(164, 'Adnan Rrustemi', 'Kardiologji', '2023-03-09', '08:00:00', '16:00:00', 20, '08:40:00'),
+(164, 'Adnan Rrustemi', 'Kardiologji', '2023-03-09', '08:00:00', '16:00:00', 20, '09:00:00'),
 (165, 'Aferdita Gashi', 'Stomatologji', '2023-03-09', '10:00:00', '18:00:00', 15, '10:15:00'),
 (166, 'Fatmir Kelmendi', 'Kirurgji', '2023-03-09', '10:00:00', '18:00:00', 15, '10:15:00'),
 (167, 'Dardane Sejdiu', 'Pediatri', '2023-03-08', '08:00:00', '16:00:00', 15, '08:15:00'),
@@ -246,7 +246,8 @@ CREATE TABLE `patient_table` (
 --
 
 INSERT INTO `patient_table` (`id`, `emri`, `mbiemri`, `numri_personal`, `gjinia`, `email`, `telefoni`, `ditlindja`, `adresa`, `username`, `password`, `verification_status`) VALUES
-(21, 'Leart', 'Ramadani', 1466408468, 'Mashkull', 'leart.ramadani06@gmail.com', '045123456', '2006-05-11', 'Hasan Prishtina', 'leartRamadani', '$2y$10$6g5QFQwX8mOZw3Q0T/i3MuJFiyF3NqcEm9T4aTla0YUnufRjtgm1.', 'true');
+(21, 'Leart', 'Ramadani', 1466408468, 'Mashkull', 'leart.ramadani06@gmail.com', '045123456', '2006-05-11', 'Hasan Prishtina', 'leartRamadani', '$2y$10$6g5QFQwX8mOZw3Q0T/i3MuJFiyF3NqcEm9T4aTla0YUnufRjtgm1.', 'true'),
+(35, 'guesst', 'demo', 563403403, 'Mashkull', 'guesst2006@gmail.com', '044123456', '2000-05-22', 'deffd', 'guesst', '$2y$10$N7CDndUkoaimhVd9i3/VHeGF8lCnOs1qYErj/Yt.nyqEtEH40/Ysq', 'true');
 
 -- --------------------------------------------------------
 
@@ -275,7 +276,8 @@ INSERT INTO `terminet` (`id`, `doktori`, `emri_pacientit`, `mbiemri_pacientit`, 
 (491, 'Fatmir Kelmendi', 'Leart', 'Ramadani', 1466408468, 'leart.ramadani06@gmail.com', '2023-03-09', '10:00:00'),
 (492, 'Dardane Sejdiu', 'Leart', 'Ramadani', 1466408468, 'leart.ramadani06@gmail.com', '2023-03-08', '08:00:00'),
 (493, 'Aferdita Gashi', 'Leart', 'Ramadani', 1466408468, 'leart.ramadani06@gmail.com', '2023-03-10', '10:00:00'),
-(494, 'Dardane Sejdiu', 'Leart', 'Ramadani', 1466408468, 'leart.ramadani06@gmail.com', '2023-03-06', '08:00:00');
+(494, 'Dardane Sejdiu', 'Leart', 'Ramadani', 1466408468, 'leart.ramadani06@gmail.com', '2023-03-06', '08:00:00'),
+(495, 'Adnan Rrustemi', 'guesst', 'demo', 563403403, 'guesst2006@gmail.com', '2023-03-09', '08:40:00');
 
 -- --------------------------------------------------------
 
@@ -320,7 +322,8 @@ INSERT INTO `terminet_e_mia` (`id`, `emri_pacientit`, `mbiemri_pacientit`, `numr
 (385, 'Leart', 'Ramadani', 1466408468, 'Fatmir Kelmendi', 'Kirurgji', '2023-03-09', '10:00:00'),
 (386, 'Leart', 'Ramadani', 1466408468, 'Dardane Sejdiu', 'Pediatri', '2023-03-08', '08:00:00'),
 (387, 'Leart', 'Ramadani', 1466408468, 'Aferdita Gashi', 'Stomatologji', '2023-03-10', '10:00:00'),
-(388, 'Leart', 'Ramadani', 1466408468, 'Dardane Sejdiu', 'Pediatri', '2023-03-06', '08:00:00');
+(388, 'Leart', 'Ramadani', 1466408468, 'Dardane Sejdiu', 'Pediatri', '2023-03-06', '08:00:00'),
+(389, 'guesst', 'demo', 563403403, 'Adnan Rrustemi', 'Kardiologji', '2023-03-09', '08:40:00');
 
 --
 -- Indexes for dumped tables
@@ -454,13 +457,13 @@ ALTER TABLE `orari`
 -- AUTO_INCREMENT for table `patient_table`
 --
 ALTER TABLE `patient_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `terminet`
 --
 ALTER TABLE `terminet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=495;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=496;
 
 --
 -- AUTO_INCREMENT for table `terminet_e_dyta`
@@ -472,7 +475,7 @@ ALTER TABLE `terminet_e_dyta`
 -- AUTO_INCREMENT for table `terminet_e_mia`
 --
 ALTER TABLE `terminet_e_mia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=389;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
