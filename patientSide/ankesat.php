@@ -11,7 +11,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ankesat</title>
+    <title>Complaints</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/responsive.css">
@@ -41,11 +41,11 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Terminet</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">Terminet e mia</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white active" aria-current="page">Ankesat</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Historia e termineve</a></li>
+            <li><a href="../index.php" class="nav-link text-white">Home</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appiontments</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appiontments</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white active" aria-current="page">Complaints</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Appiontments history</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -83,7 +83,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             $permisimi = $_POST['permisimi'];
 
             if ($ankesa == '') {
-                $error_msg = 'Keni lene hapsiern e zbrazur!';
+                $error_msg = 'Please fill out this input!';
                 $invalid_msg = 'is-invalid';
             } else {
                 $error_msg = '';
@@ -101,41 +101,41 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         }
         ?>
         <form class="form-signin" method="POST" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal text-center">Ankesat</h1>
+            <h1 class="h3 mb-3 fw-normal text-center">Complaints</h1>
 
             <div class="form-floating">
                 <input type="text" class="form-control mb-2" readonly id="floatingInput" name="name" placeholder="Emri" value="<?= $_SESSION['emri'] ?>">
-                <label for="floatingInput">Emri</label>
+                <label for="floatingInput">Name</label>
             </div>
 
             <div class="form-floating">
                 <input type="text" class="form-control mb-2" readonly id="floatingInput" name="surname" placeholder="Mbiemri" value="<?= $_SESSION['mbiemri'] ?>">
-                <label for="floatingInput">Mbiemri</label>
+                <label for="floatingInput">Last name</label>
             </div>
 
             <div class="form-floating">
                 <input type="text" class="form-control mb-2" readonly id="floatingInput" name="personal_id" placeholder="Numri personal" value="<?= $_SESSION['numri_personal'] ?>">
-                <label for="floatingInput">Numri personal</label>
+                <label for="floatingInput">Personal ID</label>
             </div>
 
             <div class="form-floating">
                 <input type="email" class="form-control mb-2 rounded" readonly id="floatingInput" name="email" placeholder="name@example.com" value="<?= $data['email'] ?>">
-                <label for="floatingInput">Email adresa</label>
+                <label for="floatingInput">Email</label>
             </div>
 
             <div class="mb-2">
-                <label for="ankesa" class="form-label">Ankesa:</label>
+                <label for="ankesa" class="form-label">Complaint:</label>
                 <textarea class="form-control <?= $invalid_msg ?? '' ?>" style="resize:none;" id="ankesa" rows="5" maxlength="350" name="ankesa"></textarea>
                 <span class="text-danger fw-normal"><?php echo $error_msg; ?></span>
             </div>
 
             <div class="mb-2">
-                <label for="permisimi" class="form-label">Sygjerimi yt per zgjidhjen e ketij problemi?</label>
-                <textarea class="form-control" style="resize:none;" id="permisimi" rows="5" maxlength="350" name="permisimi" placeholder="Opsionale "></textarea>
+                <label for="permisimi" class="form-label">Your suggestion!?</label>
+                <textarea class="form-control" style="resize:none;" id="permisimi" rows="5" maxlength="350" name="permisimi" placeholder="Optional "></textarea>
             </div>
 
 
-            <button class=" btn btn-lg btn-primary ankohu updateRes" type="submit" name="ankohu">Ankohu</button>
+            <button class=" btn btn-lg btn-primary ankohu updateRes" type="submit" name="ankohu">Sent</button>
 
         </form>
     </main>

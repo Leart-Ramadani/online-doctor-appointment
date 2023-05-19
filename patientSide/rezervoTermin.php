@@ -11,7 +11,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminet</title>
+    <title>Book Appointment</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/responsive.css">
@@ -40,11 +40,11 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link active" aria-current="page">Terminet</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">Terminet e mia</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Historia e termineve</a></li>
+            <li><a href="../index.php" class="nav-link text-white">Home</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link active" aria-current="page">Appointments</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appointments</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Appointments history</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -83,12 +83,12 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
                 <thead>
                     <tr>
                         <th scope="col" style="display: none;">ID</th>
-                        <th scope="col">Doktori</th>
-                        <th scope="col">Departamenti</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Ne dizpozicion</th>
-                        <th scope="col">Kohezgjatja</th>
-                        <th scope="col">Aksioni</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Departament</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Available</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,7 +103,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
                             <td class="text-center">
                                 <!-- href="rezervo.php?id=<?= $data['id'] ?>" -->
                                 <a class="text-decoration-none text-white popUpWindow">
-                                    <button class="btn btn-primary w-100 p-1 text-white rez">Rezervo</button>
+                                    <button class="btn btn-primary w-100 p-1 text-white rez">Book</button>
                                 </a>
                             </td>
                         </tr>
@@ -114,7 +114,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
         <?php if ($empty == 'empty') : ?>
             <article style="margin-left: 200px; width: 100%;" class="mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Nuk ka asnje termin te lire.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">There isn't free appointments.</h1>
             </article>
         <?php endif; ?>
     </main>
@@ -136,45 +136,45 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
     <div id="popWindow" class="popUp">
         <div class="pac_det">
-            <h4>Terminet</h4>
+            <h4>Appointment</h4>
             <button id="close" class="close">
                 <i class="fa-solid fa-close rezervoClose"></i>
             </button>
         </div>
 
-        <h4 class="det_pac_h4">Detajet e pacientit</h4>
+        <h4 class="det_pac_h4">Patient details</h4>
 
         <div class="emri_pac">
-            <p>Emri pacientit: <span><?= $patient_data['emri'] ?></span></p>
+            <p>Name: <span><?= $patient_data['emri'] ?></span></p>
             <hr>
-            <p>Mbiemri pacientit: <span><?= $patient_data['mbiemri'] ?></span></p>
+            <p>Last name: <span><?= $patient_data['mbiemri'] ?></span></p>
             <hr>
-            <p>Email pacientit: <span><?= $patient_data['email'] ?></span></p>
+            <p>Email: <span><?= $patient_data['email'] ?></span></p>
             <hr>
-            <p>Numri personal: <span><?= $patient_data['numri_personal'] ?></span></p>
+            <p>Personal ID: <span><?= $patient_data['numri_personal'] ?></span></p>
             <hr>
-            <p>Numri telefonit: <span><?= $patient_data['telefoni'] ?></span></p>
+            <p>Phone numebr: <span><?= $patient_data['telefoni'] ?></span></p>
             <hr>
         </div>
 
-        <h4 class="det_pac_h4">Detajet e terminit</h4>
+        <h4 class="det_pac_h4">Appointment details</h4>
 
         <div class="emri_pac doc_pac">
 
-            <p>Doktori: <span class="doc_name"></span></p>
+            <p>Doctor: <span class="doc_name"></span></p>
             <hr>
-            <p>Departamenti: <span class="doc_dep"><?= $data['departamenti'] ?> </span></p>
+            <p>Departament: <span class="doc_dep"><?= $data['departamenti'] ?> </span></p>
             <hr>
-            <p>Data e terminit: <span class="app_date"><?= $row['data'] ?></span></p>
+            <p>Appointment date: <span class="app_date"><?= $row['data'] ?></span></p>
             <hr>
-            <p>Orari: <span class="app_time"><?= $row['nga_ora'] . ' - ' . $row['deri_oren'] ?><span></p>
+            <p>Schedule: <span class="app_time"><?= $row['nga_ora'] . ' - ' . $row['deri_oren'] ?><span></p>
             <hr>
-            <p>Kohezgjatja: <span class="app_dur"><?= $row['kohezgjatja'] . 'min' ?></span></p>
+            <p>Duration: <span class="app_dur"><?= $row['kohezgjatja'] . 'min' ?></span></p>
             <hr>'
         </div>
 
         <form action="rezervo.php" method="POST" class="submit_rez">
-            <button type="submit" name="rezervo" class="rezervo">Rezervo</button>
+            <button type="submit" name="rezervo" class="rezervo">Book</button>
         </form>
 
 

@@ -39,16 +39,16 @@
             <div class="collapse navbar-collapse" id="navbarsExample04">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a href="index.php" class="nav-link active text-secondary" aria-current="page">Ballina</a>
+                        <a href="index.php" class="nav-link active text-secondary" aria-current="page">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="galeria.php" class="nav-link text-white">Galeria</a>
+                        <a href="galeria.php" class="nav-link text-white">Gallery</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./patientSide/rezervoTermin.php" class="nav-link  text-white">Terminet</a>
+                        <a href="./patientSide/rezervoTermin.php" class="nav-link  text-white">Appointments</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./patientSide/ankesat.php" class="nav-link text-white">Ankesat</a>
+                        <a href="./patientSide/ankesat.php" class="nav-link text-white">Complaints</a>
                     </li>
                 </ul>
             </div>
@@ -78,16 +78,16 @@
         <article class="blog_container">
             <img class="img" src="photos/blog.jpg">
             <div class="blog_des">
-                <h1 class="fw-bold">Ne kujdesemi per shendetin tuaj</h1>
+                <h1 class="fw-bold">We care for your health</h1>
                 <p class="fs-6">Lorem ipsum dolor sit amet, consectetur</p>
                 <a href="./patientSide/rezervoTermin.php">
-                    <button class="btn btn-outline-light btn_doc">Terminet</button>
+                    <button class="btn btn-outline-light btn_doc">Appointmens</button>
                 </a>
             </div>
         </article>
 
         <article id="doctors_art">
-            <h1 class="personeli_h1">Personeli shëndetësor</h1>
+            <h1 class="personeli_h1">Medical staff</h1>
             <hr>
         </article>
         <div #swiperRef="" class="swiper mySwiper">
@@ -99,7 +99,7 @@
                         <h4 class="doc_prof"><?= $data['departamenti'] ?></h4>
                         <p class="bio"><?= $data['biografia'] ?></p>
                         <a class="text-decoration-none text-white" href="./patientSide/shikoProfilin.php?id=<?= $data['id'] ?>">
-                            <button class="btn btn-primary p-2 w-100 fw-normal btnDoc" name="view">Shiko me shume</button>
+                            <button class="btn btn-primary p-2 w-100 fw-normal btnDoc" name="view">Read more</button>
                         </a>
                     </div>
                 <?php endforeach; ?>
@@ -193,7 +193,7 @@
 
 
         <article id="doctors_art">
-            <h1 class="personeli_h1">Lokacioni</h1>
+            <h1 class="personeli_h1">Location</h1>
             <hr>
         </article>
         <div class="mapWrapper">
@@ -209,10 +209,11 @@
 <div class="container">
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Ballina</a></li>
-            <li class="nav-item"><a href="galeria.php" class="nav-link px-2 text-muted">Galeria</a></li>
-            <li class="nav-item"><a href="./patientSide/rezervoTermin.php" class="nav-link px-2 text-muted">Terminet</a></li>
-            <li class="nav-item"><a href="./patientSide/ankesat.php" class="nav-link px-2 text-muted">Ankesat</a></li>
+            <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Home</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link px-2 text-muted">Gallery
+            </a></li>
+            <li class="nav-item"><a href="./patientSide/rezervoTermin.php" class="nav-link px-2 text-muted">Appointmens</a></li>
+            <li class="nav-item"><a href="./patientSide/ankesat.php" class="nav-link px-2 text-muted">Complaints</a></li>
         </ul>
         <p class="text-center text-muted"> Copyright ©2023 All rights reserved | This website is made by <a href="https://www.linkedin.com/in/leart-ramadani-47981125a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVVrswlowTROepZqoqZDZkw%3D%3D">Leart  Ramadani</a>.</p>
     </footer>

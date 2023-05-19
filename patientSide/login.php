@@ -78,7 +78,7 @@
         $data = $stm->fetch();
 
         if($data === false){
-            $usernameErr = 'Nuk ekziston nje llogari me kete username.';
+            $usernameErr = "This username doesn't exists.";
             $invalid_user = 'is-invalid';
         } else if(password_verify($password, $data['password'])){
 
@@ -89,7 +89,7 @@
             $check_data = $check_prep->fetch();
 
             if($check_data['verification_status'] != 'true'){
-                $verificationErr = 'Ju lutemi verifikojeni llogarin tuaj. Shikoni ne emailin tuaj per linkun verifikues.';
+                $verificationErr = 'Please verify your account. Check your email for verification link';
                 $invalid_verify = 'verificationError';
             } else{
                 $_SESSION['username'] = $data['username'];
@@ -100,7 +100,7 @@
             }
 
         } else{
-            $passErr = 'Fjalkalimi i gabuar. Provojeni perseri.';
+            $passErr = 'Wrong password. Please try again';
             $invalid_pass = 'is-invalid';
             $user2 = $username;
         }
@@ -109,7 +109,7 @@
 
     <main class="form-signin">
         <form method="POST" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal">Kyquni në llogarin tuaj</h1>
+            <h1 class="h3 mb-3 fw-normal">Log in</h1>
             <div class="rounded mb-2 <?= $invalid_verify ?? "" ?>">
                 <span class="text-white"><?php echo $verificationErr; ?></span>
             </div>
@@ -126,11 +126,11 @@
                 <span class="text-danger fw-normal"><?php echo $passErr; ?></span>
             </div>
 
-            <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Regjistrohuni</button>
+            <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Login</button>
 
-            <p class="mb-2">Nuk keni nje llogari? Klikoni <a href="signup.php">ketu.</a></p>
-            <p class="mb-2">Keni harruar fjalkalimin? Klikoni <a href="forgottenPassword.php">ketu.</a></p>
-            <p>Shkoni tek <a href="../index.php">ballina.</a></p>
+            <p class="mb-2">Don't have an account? Click <a href="signup.php">here.</a></p>
+            <p class="mb-2">Forgotten your password? Click <a href="forgottenPassword.php">here.</a></p>
+            <p>Go to <a href="../index.php">homepage.</a></p>
         </form>
     </main>
 
