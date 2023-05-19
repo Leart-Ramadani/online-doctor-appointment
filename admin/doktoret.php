@@ -192,7 +192,7 @@
      </div>
 
      <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
-     <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
+         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
          <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
              <span class="fs-4"><?php echo $_SESSION['admin'] ?></span>
          </p>
@@ -215,10 +215,6 @@
                  <strong><?php echo $_SESSION['admin'] ?></strong>
              </a>
              <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                 <li><a class="dropdown-item" href="profili.php">Profile</a></li>
-                 <li>
-                     <hr class="dropdown-divider">
-                 </li>
                  <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
              </ul>
          </div>
@@ -327,36 +323,16 @@
         ?>
 
 
-     <article class="popDoc" id="popDoc">
-
-     </article>
-
-     <article class="popDoc_info" id="popDoc_info">
-         <div class="pac_h5">
-             <h5>Informatat e doktorit</h5>
-             <button id="close" class="close">
-                 <i class="fa-solid fa-close rezervoClose"></i>
-             </button>
-         </div>
-         <div class='doc_wrapper'>
-
-         </div>
-
-     </article>
-
 
      <article class="main">
          <?php if ($empty == '') : ?>
-             <table class="table table-striped table_doc table_patient">
+             <table class="table table-striped table_doc table_patient text-center table_doctors">
                  <thead>
                      <tr>
-                         <th scope="col">Foto</th>
+                         <th scope="col" style="display: none;">ID</th>
                          <th scope="col">Doktori</th>
-                         <th scope="col">Gjinia</th>
                          <th scope="col">Departamenti</th>
                          <th scope="col">Email</th>
-                         <th scope="col">Telefoni</th>
-                         <th scope="col">Biografia</th>
                          <th scope="col">Username</th>
                          <th scope="col">Aksioni</th>
                      </tr>
@@ -364,20 +340,20 @@
                  <tbody>
                      <?php foreach ($data as $data) : ?>
                          <tr>
-                             <td class="p-0 m-0"><img src="uploads/<?= $data['foto'] ?>"></td>
+                             <td class="idShow" style="display: none;"><?= $data['id']; ?></td>
                              <td><?= $data['fullName'] ?></td>
-                             <td><?= $data['gjinia'] ?></td>
                              <td><?= $data['departamenti'] ?></td>
                              <td><?= $data['email'] ?></td>
-                             <td><?= $data['telefoni'] ?></td>
-                             <td><?= $data['biografia'] ?></td>
                              <td><?= $data['username'] ?></td>
                              <td>
+                                 <a class="text-decoration-none text-white showPop">
+                                     <button class="btn btn-primary w-25 text-white " id="showPop">View</button>
+                                 </a>
                                  <a class="text-decoration-none text-white" href="editUser.php?id=<?= $data['id']  ?>">
-                                     <button class="btn btn-warning w-100  mb-2 text-white">Edit</button>
+                                     <button class="btn btn-warning w-25 text-white">Edit</button>
                                  </a>
                                  <a class="text-decoration-none text-white" href="deleteUser.php?id=<?= $data['id']  ?>">
-                                     <button class="btn btn-danger w-100  text-white">Delete</button>
+                                     <button class="btn btn-danger w-25 text-white">Delete</button>
                                  </a>
 
                              </td>
@@ -390,14 +366,38 @@
      </article>
 
 
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
-     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js" defer></script>
+     <article class="popDoc" id="popDoc">
+
+     </article>
+
+
+     <article class="popDoc_info" id="popDoc_info">
+         <div class="pac_h5">
+             <h5>Informatat e doktorit</h5>
+             <button id="close" class="close">
+                 <i class="fa-solid fa-close rezervoClose"></i>
+             </button>
+         </div>
+
+         <div class='doc_wrapper'>
+
+     </article>
+     <script>
+
+     </script>
+
+
+     <br><br><br><br>
+
+
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js"></script>
      <!-- Font-awesome script -->
-     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous" defer></script>
+     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous"></script>
      <!-- JQuery link -->
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script>
-     <script src="../js/index.js"></script>
-     <script src="../js/pop.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+     <script src="../js/showDocInfo.js"></script>
+     <script src="../js/DoctorProfile.js"></script>
  </body>
 
  </html>

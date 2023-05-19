@@ -137,13 +137,16 @@ nav {
 .table_doc {
   width: 99%;
 }
+.table_doctors{
+  width: 75% !important;
+}
 
 .table_doc thead tr th {
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .table_doc tbody tr td {
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .form-select {
@@ -184,8 +187,8 @@ nav {
 }
 
 .table tbody tr td img {
-  width: 100px !important;
-  height: 80px !important;
+  width: 150px !important;
+  height: 100px !important;
   object-fit: contain;
 }
 
@@ -671,7 +674,6 @@ nav {
 }
 
 .blog_container {
-  z-index: -2 !important;
   height: 110%;
   position: relative;
 }
@@ -731,6 +733,7 @@ nav {
 
 .doc_wrapper {
   height: 500px;
+  padding: 15px;
 }
 
 .popDoc {
@@ -748,13 +751,43 @@ nav {
   width: 750px;
   height: 550px;
   position: fixed;
-  background-color: white;
+  background-color: #bde0fe;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); 
   display: none;
   opacity: 1;
-  border-radius: 10px;
+  border-radius: 10px; 
+}
+
+.doc_pop_img img{
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+}
+
+
+.doc_pop_des{
+  padding-top: 30px;
+  height: 58%;
+  display: flex;
+  flex-direction: column;
+}
+.doc_pop_des > p{
+  height: 69%;
+}
+.doc_pop_des div{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.doc_pop_img{
+  display: flex;
+}
+
+.popWin{
+  display: block !important;
 }
 
 .poptest {

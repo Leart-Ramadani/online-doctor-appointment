@@ -81,7 +81,7 @@
                 <h1 class="fw-bold">Ne kujdesemi per shendetin tuaj</h1>
                 <p class="fs-6">Lorem ipsum dolor sit amet, consectetur</p>
                 <a href="./patientSide/rezervoTermin.php">
-                    <button class="btn btn-outline-light btn_doc" type="button">Terminet</button>
+                    <button class="btn btn-outline-light btn_doc">Terminet</button>
                 </a>
             </div>
         </article>
@@ -214,7 +214,7 @@
             <li class="nav-item"><a href="./patientSide/rezervoTermin.php" class="nav-link px-2 text-muted">Terminet</a></li>
             <li class="nav-item"><a href="./patientSide/ankesat.php" class="nav-link px-2 text-muted">Ankesat</a></li>
         </ul>
-        <p class="text-center text-muted"> Copyright ©2023 All rights reserved | This website is made by Leart  Ramadani.</p>
+        <p class="text-center text-muted"> Copyright ©2023 All rights reserved | This website is made by <a href="https://www.linkedin.com/in/leart-ramadani-47981125a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVVrswlowTROepZqoqZDZkw%3D%3D">Leart  Ramadani</a>.</p>
     </footer>
 </div>
 

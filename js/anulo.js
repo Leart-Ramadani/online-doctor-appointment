@@ -8,16 +8,12 @@ $(document).ready(function() {
             type: "POST",
             url: "requestCancelation.php",
             data: {
-                'popAnulo': true,
-                'idAnulo': id_anulo,
+                popAnulo: true,
+                idAnulo: id_anulo,
             },
             success: function(response) {
-                console.log(response);
                 $('.doc_pac').html(response);
             }
-
         });
-
-
     });
 });
