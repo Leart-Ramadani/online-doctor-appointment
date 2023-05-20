@@ -1,7 +1,7 @@
 <?php
 include('../config.php');
 if (isset($_SESSION['admin'])) {
-    header("Location: doktoret.php");
+    header("Location: doctors.php");
 }
 ?>
 <!DOCTYPE html>
@@ -89,7 +89,7 @@ if (isset($_SESSION['admin'])) {
             $invalidUser = 'is-invalid';
         } elseif (password_verify($password, $data['password'])) {
             $_SESSION['admin'] = $data['username'];
-            header("Location: doktoret.php");
+            header("Location: doctors.php");
             $usernameErr = $passErr = '';
         } else {
             $passErr = '*Fjalkalimi nuk eshte i sakte. Ju lutem provojeni perseri.';

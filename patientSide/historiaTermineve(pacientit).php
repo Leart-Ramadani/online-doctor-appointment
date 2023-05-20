@@ -11,7 +11,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appiontments history</title>
+    <title>Appointments history</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/responsive.css">
@@ -42,10 +42,10 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li><a href="../index.php" class="nav-link text-white">Home</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appiontments</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appiontments</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appointments</a></li>
             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white active" aria-current="page">Appiontments history</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white active" aria-current="page">Appointments history</a></li>
         </ul>
         <hr>
         <div class="dropdown">

@@ -2,16 +2,28 @@
 include('../config.php');
 
 $id = $_GET['id'];
-$sql = "SELECT * FROM ORARI WHERE id=:id";
+$sql = "SELECT * FROM orari WHERE id=:id";
 $prep = $con->prepare($sql);
 $prep->bindParam(':id', $id);
 $prep->execute();
 $datas = $prep->fetch();
 
+$duration = $datas['kohezgjatja'];
+
+if($duration == 15){
+    $fiften = 'selected';
+} else if($duration == 20){
+    $twen = 'selected';
+} else if($duration == 30){
+    $thir = 'selected';
+} else if($duration == 45){
+    $fifo = 'selected';
+}
+
 ?>
 
 <?php require('header.php'); ?>
-<title>Orari</title>
+<title>Schedule</title>
 </head>
 
 
@@ -22,9 +34,11 @@ $prep->execute();
 $doctors = $prep->fetchAll();
 ?>
 
-<body>
-    <form class="form-signin" method="POST" enctype="multipart/form-data" autocomplete="off">
-        <h1 class="h3 mb-3 fw-normal text-center">Ndrysho orarin</h1>
+<body style="background: #f5f5f5;">
+    <a href="./orari.php" class="backDoc" title="Go Back"><i class="fa-solid fa-arrow-left"></i></a>
+    <main class="mainOrari">
+    <form class="form-signin " method="POST" enctype="multipart/form-data" autocomplete="off">
+        <h1 class="h3 mb-3 fw-normal text-center">Edit schedule</h1>
 
         <select class="form-select" aria-label="Default select example" name="doktori">
             <option selected class="fst-italic"><?= $datas['doktori'] ?></option>
@@ -34,33 +48,35 @@ $doctors = $prep->fetchAll();
         </select>
 
         <div class="col-lg-3 col-sm-6">
-            <label for="startDate">Data:</label>
+            <label for="startDate">Date:</label>
             <input id="startDate" class="form-control ditlindja" name="data" type="date" value="<?= $datas['data'] ?>" />
         </div>
 
         <div class="text-center">
             <div class="d-inline-block me-1" style="float: left;">
-                <label for="startingHour">Nga ora:</label>
+                <label for="startingHour">From time:</label>
                 <input id="startingHour" class="form-control time" name="from_time" type="time" value="<?= $datas['nga_ora'] ?>" />
             </div>
 
             <div class="d-inline-block mb-2" style="float: right;">
-                    <label for=" leavingHour">Deri oren:</label>
+                    <label for=" leavingHour">To time:</label>
                 <input id="leavingHour" class="form-control time" name="to_time" type="time" value="<?= $datas['deri_oren'] ?>" />
             </div>
 
         </div>
 
         <select class="form-select mt-2" aria-label="Default select example" name="kohzgjatja">
-            <option selected>Kohezgjatja</option>
-            <option value="15">15min</option>
-            <option value="20">20min</option>
-            <option value="30">30min</option>
-            <option value="45">45min</option>
+            <option selected>Duration</option>
+            <option <?= $fiften ?? "" ?> value="15">15min</option>
+            <option <?= $twen ?? "" ?> value="20">20min</option>
+            <option <?= $thir ?? "" ?> value="30">30min</option>
+            <option <?= $fifo ?? "" ?> value="45">45min</option>
         </select>
 
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="submit">Ndryshoni</button>
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="submit">Edit</button>
     </form>
+
+    </main>
 
     <?php
     if (isset($_POST['submit'])) {

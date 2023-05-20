@@ -745,19 +745,21 @@ nav {
   display: none;
   background-color: black;
   opacity: .7;
+  z-index: 999;
 }
 
 .popDoc_info {
   width: 750px;
   height: 550px;
   position: fixed;
-  background-color: #bde0fe;
+  background-color: white;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); 
   display: none;
   opacity: 1;
   border-radius: 10px; 
+  z-index: 9999;
 }
 
 .doc_pop_img img{
@@ -861,4 +863,57 @@ nav {
   height: 100%;
   width: 100%;
   max-width: 100%;
+}
+
+.editForm{
+  width: 100%;
+}
+
+.popDocEdit{
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  width: 640px;
+  padding: 5px;
+}
+
+.editForm{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+
+}
+.editForm > div{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.editForm input:not(input[type=radio]),
+.editForm select {
+  width: 300px;
+}
+.editForm select{
+  height: 58px;
+}
+
+.editForm textarea{
+  width: 600px;
+}
+
+.backDoc{
+  color: #212259;
+  text-decoration: none;
+  font-size: 30px;
+  margin: 10px;
+}
+.backDoc:hover{
+  color: #212259;
+  opacity: .7;
+}
+
+.mainOrari{
+  display: flex;
+  justify-content: center;
 }

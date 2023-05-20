@@ -52,7 +52,7 @@
                     }
                 } else {
                     $em = "Format not supported";
-                    header("Location: doktoret.php?$em");
+                    header("Location: doctors.php?$em");
                 }
             }
         }

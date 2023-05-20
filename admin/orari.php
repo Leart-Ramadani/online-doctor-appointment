@@ -7,7 +7,7 @@ if (!isset($_SESSION['admin'])) {
 ?>
 
 <?php include('header.php') ?>
-<title>Orari</title>
+<title>Schedule</title>
 </head>
 
 <body>
@@ -21,15 +21,15 @@ if (!isset($_SESSION['admin'])) {
          </p>
          <hr>
          <ul class="nav nav-pills flex-column mb-auto">
-             <li class="nav-item"><a href="doktoret.php" class="nav-link text-white" aria-current="page">Doktoret</a></li>
-             <li><a href="departamentet.php" class="nav-link text-white ">Departamentet</a></li>
-             <li><a href="orari.php" class="nav-link text-white active">Orari</a></li>
-             <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
-             <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
-             <li><a href="historiaTerminit.php" class="nav-link text-white">Historia e termineve</a></li>
-             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>
-             <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat e anulimit te termineve</a></li>
+             <li class="nav-item"><a href="doctors.php" class="nav-link text-white" aria-current="page">Doctors</a></li>
+             <li><a href="departamentet.php" class="nav-link text-white ">Departaments</a></li>
+             <li><a href="orari.php" class="nav-link text-white active">Schedule</a></li>
+             <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
+             <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
+             <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
+             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
+             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancellation requests</a></li>
          </ul>
          <hr>
          <div class="dropdown">
@@ -73,7 +73,7 @@ if (!isset($_SESSION['admin'])) {
         if (isset($_POST['submit'])) {
 
             if (empty($_POST['doktori'])) {
-                $doktorErr = '*Duhet te zgjedhni nje doktor.';
+                $doktorErr = '*Doctor must be selected.';
                 $invalid_doc = 'is-invalid';
             } else {
                 $doktori = $_POST['doktori'];
@@ -85,7 +85,7 @@ if (!isset($_SESSION['admin'])) {
 
 
             if (empty($_POST['data'])) {
-                $dateErr = '*Ju duhet te caktoni nje date.';
+                $dateErr = '*Date must be picked.';
                 $invalid_date = 'is-invalid';
             } else {
                 $data = $_POST['data'];
@@ -95,7 +95,7 @@ if (!isset($_SESSION['admin'])) {
                 $dateTimestamp2 = strtotime($date2);
 
                 if ($dateTimestamp1 <= $dateTimestamp2) {
-                    $dateErr = '*Nuk lejohen datat te cilat jane me heret ose te njejta si data e sotme.';
+                    $dateErr = "*Date can't be earlier or the same as this day.";
                     $invalid_date = 'is-invalid';
                 } else {
                     $data = $_POST['data'];
@@ -105,16 +105,16 @@ if (!isset($_SESSION['admin'])) {
             }
 
             if (empty($_POST['from_time'])) {
-                $from_time_err = '*Ju duhet te caktoni oren nga kur do te filloj orari i punes.';
+                $from_time_err = '*You must pick time when doctor starts work.';
                 $invalid_from_time = 'is-invalid';
             } else {
                 $nga_ora = $_POST['from_time'];
                 if ($nga_ora < '08:00') {
-                    $from_time_err = '*Nuk lejohet te caktoni oren me heret se 08:00';
+                    $from_time_err = "*Time can't be earlier than 08:00";
                     $invalid_from_time = 'is-invalid';
                 } else {
                     if ($nga_ora > '14:00') {
-                        $from_time_err = '*Nuk lejohet te caktoni oren me vone se 14:00';
+                        $from_time_err = "*Time can't be later than 14:00";
                         $invalid_from_time = 'is-invalid';
                     } else {
                         $nga_ora = $_POST['from_time'];
@@ -125,16 +125,16 @@ if (!isset($_SESSION['admin'])) {
             }
 
             if (empty($_POST['to_time'])) {
-                $to_time_err = '*Ju duhet te caktoni oren se kur do te perfundoj orari i punes.';
+                $to_time_err = '*You must pick time when doctor finishes work.';
                 $invalid_to_time = 'is-invalid';
             } else {
                 $deri_oren = $_POST['to_time'];
                 if ($deri_oren < '14:00') {
-                    $to_time_err = '*Nuk lejohet te caktoni oren me heret se 14:00';
+                    $to_time_err = "*Time can't be earlier than 14:00";
                     $invalid_to_time = 'is-invalid';
                 } else {
                     if ($deri_oren > '18:00') {
-                        $to_time_err = '*Nuk lejohet te caktoni oren me vone se 18:00';
+                        $to_time_err = "*Time can't be later than 18:00";
                         $invalid_to_time = 'is-invalid';
                     } else {
                         $deri_oren = $_POST['to_time'];
@@ -145,7 +145,7 @@ if (!isset($_SESSION['admin'])) {
             }
 
             if (empty($_POST['kohzgjatja'])) {
-                $durationErr = '*Ju duhet te caktoni kohezgjatjen e terminit';
+                $durationErr = '*You must select duration of appointment';
                 $invalid_duration = 'is-invalid';
             } else {
                 $kohzgjatja = $_POST['kohzgjatja'];
@@ -256,9 +256,9 @@ if (!isset($_SESSION['admin'])) {
                                 $gender_data = $gender_prep->fetch();
 
                                 if ($gender_data['gjinia'] == 'Mashkull') {
-                                    $gjinia = 'I nderuar z.';
+                                    $gjinia = 'Dear Mr.';
                                 } else {
-                                    $gjinia = 'E nderuar znj.';
+                                    $gjinia = 'Dear Mrs.';
                                 }
 
                                 $mail = new PHPMailer(true);
@@ -284,14 +284,14 @@ if (!isset($_SESSION['admin'])) {
                                     $mail->isHTML(true);                                        //Set email format to HTML
 
 
-                                    $mail->Subject = 'Termini u rezeruva';
+                                    $mail->Subject = 'Appointment booked';
                                     $mail->Body    =   "<p style='font-size: 16px; color: black;'>
                                                                     $gjinia{$mbiemriPacientit10},
                                                                     <br> <br>
-                                                                    Termini juaj i dytë me datë:$data, në orën:$zene_deri, 
-                                                                    është rezervuar me sukses.
+                                                                    Your second appointment in date:$data, time:$zene_deri, 
+                                                                    has been successfully booked.
                                                                     <br><br>
-                                                                    Me respekt, <br>
+                                                                    Sincerely, <br>
                                                                     sistemi-termineve-online.com
                                                                     </p>";
 
@@ -317,7 +317,7 @@ if (!isset($_SESSION['admin'])) {
             <h1 class="h3 fw-normal text-center">Orari</h1>
             <div>
                 <select class="form-select <?= $invalid_doc ?? "" ?> res" aria-label="Default select example" name="doktori">
-                    <option value="">Zgjidhni doktorin</option>
+                    <option value="">Pick doctor</option>
                     <?php foreach ($doc_data as $doc_data) : ?>
                         <option value="<?= $doc_data['fullName'] ?>"><?= $doc_data['fullName'] ?></option>
                     <?php endforeach; ?>
@@ -326,7 +326,7 @@ if (!isset($_SESSION['admin'])) {
             </div>
 
             <div class="d-inline-block">
-                <label for="startDate">Data:</label>
+                <label for="startDate">Date:</label>
                 <input id="startDate" class="form-control data  <?= $invalid_date ?? "" ?>" name="data" type="date" value="<?= $s_date ?>" />
                 <span class="text-danger fw-normal"><?php echo $dateErr; ?></span>
             </div>
@@ -334,20 +334,20 @@ if (!isset($_SESSION['admin'])) {
 
             <div class="text-center mb-0 resOrari">
                 <div class="d-inline-block w-50" style="float: left;">
-                    <label for="startingHour">Nga ora:</label>
+                    <label for="startingHour">From time:</label>
                     <input id="startingHour" class="form-control time  <?= $invalid_from_time ?? "" ?>" name="from_time" type="time" value="<?= $from_time ?>" />
                     <span class="text-danger fw-normal"><?php echo $from_time_err; ?></span>
                 </div>
 
                 <div class="d-inline-block w-50" style="float: right;">
-                    <label for="leavingHour">Deri oren:</label>
+                    <label for="leavingHour">To time:</label>
                     <input id="leavingHour" class="form-control  time time1 <?= $invalid_to_time ?? "" ?>" name="to_time" type="time" value="<?= $to_time; ?>" />
                     <span class="text-danger ms-2 fw-normal"><?php echo $to_time_err; ?></span>
                 </div>
 
                 <div>
                     <select class="form-select res <?= $invalid_duration ?? "" ?>" aria-label="Default select example" name="kohzgjatja">
-                        <option value="" selected>Kohezgjatja</option>
+                        <option value="" selected>Duration</option>
                         <option value="15">15min</option>
                         <option value="20">20min</option>
                         <option value="30">30min</option>
@@ -397,12 +397,12 @@ if (!isset($_SESSION['admin'])) {
             <table class="table table-striped text-center table_patinet">
                 <thead>
                     <tr>
-                        <th scope="col">Doktori</th>
-                        <th scope="col">Departamenti</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Ne dizpozicion</th>
-                        <th scope="col">Kohezgjatja</th>
-                        <th scope="col">Aksioni</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Departament</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Available</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -414,8 +414,8 @@ if (!isset($_SESSION['admin'])) {
                             <td><?= $data['nga_ora'] . '-' . $data['deri_oren'] ?></td>
                             <td><?= $data['kohezgjatja'] . 'min' ?> </td>
                             <td class="text-center">
-                                <a class="text-decoration-none text-white" href="editOrari.php?id=<?= $data['id']  ?>"><button class="btn btn-primary w-100 mb-1 p-1 text-white">Edit</button></a>
-                                <a class="text-decoration-none text-white" href="deleteOrarin.php?id=<?= $data['id']  ?>"><button class="btn btn-danger w-100 p-1 text-white">Delete</button></a>
+                                <a class="text-decoration-none text-white" href="editOrari.php?id=<?= $data['id']  ?>"><button class="btn btn-primary w-25  p-1 text-white">Edit</button></a>
+                                <a class="text-decoration-none text-white" href="deleteOrarin.php?id=<?= $data['id']  ?>"><button class="btn btn-danger w-50 p-1 text-white">Delete</button></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -425,7 +425,7 @@ if (!isset($_SESSION['admin'])) {
 
         <?php if ($empty == 'empty') : ?>
             <article class="text-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Nuk ka asnje orar te caktuar.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Data not found.</h1>
             </article>
         <?php endif; ?>
     </article>

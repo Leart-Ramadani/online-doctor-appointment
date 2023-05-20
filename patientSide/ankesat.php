@@ -42,10 +42,10 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li><a href="../index.php" class="nav-link text-white">Home</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appiontments</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appiontments</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appointments</a></li>
             <li><a href="ankesat.php" class="nav-link text-white active" aria-current="page">Complaints</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Appiontments history</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Appointments history</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -80,22 +80,20 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             $personal_id = $_SESSION['numri_personal'];
             $email = $data['email'];
             $ankesa = $_POST['ankesa'];
-            $permisimi = $_POST['permisimi'];
 
             if ($ankesa == '') {
                 $error_msg = 'Please fill out this input!';
                 $invalid_msg = 'is-invalid';
             } else {
                 $error_msg = '';
-                $ankesa_sql = "INSERT INTO ankesat(emri, mbiemri, numri_personal, email, ankesa, permisimi)
-                    VALUES(:emri, :mbiemri, :numri_personal, :email, :ankesa, :permisimi)";
+                $ankesa_sql = "INSERT INTO ankesat(emri, mbiemri, numri_personal, email, ankesa)
+                    VALUES(:emri, :mbiemri, :numri_personal, :email, :ankesa)";
                 $ankesa_prep = $con->prepare($ankesa_sql);
                 $ankesa_prep->bindParam(':emri', $name);
                 $ankesa_prep->bindParam(':mbiemri', $surname);
                 $ankesa_prep->bindParam(':numri_personal', $personal_id);
                 $ankesa_prep->bindParam(':email', $email);
                 $ankesa_prep->bindParam(':ankesa', $ankesa);
-                $ankesa_prep->bindParam(':permisimi', $permisimi);
                 $ankesa_prep->execute();
             }
         }
@@ -124,15 +122,11 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             </div>
 
             <div class="mb-2">
-                <label for="ankesa" class="form-label">Complaint:</label>
+                <label for="ankesa" class="form-label">Your complaint:</label>
                 <textarea class="form-control <?= $invalid_msg ?? '' ?>" style="resize:none;" id="ankesa" rows="5" maxlength="350" name="ankesa"></textarea>
                 <span class="text-danger fw-normal"><?php echo $error_msg; ?></span>
             </div>
 
-            <div class="mb-2">
-                <label for="permisimi" class="form-label">Your suggestion!?</label>
-                <textarea class="form-control" style="resize:none;" id="permisimi" rows="5" maxlength="350" name="permisimi" placeholder="Optional "></textarea>
-            </div>
 
 
             <button class=" btn btn-lg btn-primary ankohu updateRes" type="submit" name="ankohu">Sent</button>

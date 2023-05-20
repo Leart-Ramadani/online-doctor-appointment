@@ -1,49 +1,37 @@
 <?php
 include('../config.php');
-
-
 $id = $_GET['id'];
+$edit_sql = "SELECT * FROM doctor_personal_info WHERE id=:id";
+$edit_prep = $con->prepare($edit_sql);
+$edit_prep->bindParam(':id', $id);
+$edit_prep->execute();
+$editData = $edit_prep->fetch();
 
-$sql = "SELECT * FROM doctor_personal_info WHERE id=:id";
+if ($editData['gjinia'] == 'Mashkull') {
+    $maleGender = 'checked';
+} else if ($editData['gjinia'] == 'Femer') {
+    $femGender = 'checked';
+}
 
-$prep = $con->prepare($sql);
-$prep->bindParam(':id', $id);
-$prep->execute();
-
-$row = $prep->fetch();
-
-
+$dep_sql = "SELECT * FROM departamentet";
+$dep_prep = $con->prepare($dep_sql);
+$dep_prep->execute();
+$depData = $dep_prep->fetchAll();
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orari</title>
-    <link rel="stylesheet" href="../css/main.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link rel="stylesheet" href="../bootstrap-5.1.3-examples/sidebars/sidebars.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
-    <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js" defer></script>
+<?php include('./header.php'); ?>
+<title>Edit Doctor Profile</title>
 
 </head>
 
-<body>
-    <?php
-    $sql = "SELECT * FROM departamentet";
-    $stm = $con->prepare($sql);
-    $stm->execute();
-    $data = $stm->fetchAll();
-    ?>
+<body style="background: #f5f5f5;">
 
-    <main class="form-signin text-center main_side ">
+
+    <main>
 
         <?php
         $fullNameErr = $departamentErr = $genderErr = $emailErr = $photoErr = $phoneErr = $bioErr  = $userErr = $passErr = "";
 
-        if (isset($_POST['edito'])) {
+        if (isset($_POST['update'])) {
 
             function testInput($data)
             {
@@ -192,90 +180,104 @@ $row = $prep->fetch();
                 $stm->bindParam(':telefoni', $tel);
                 $stm->bindParam(':username', $username);
                 $stm->bindParam(':password', $encPass);
-                if($stm->execute()){
-                    header("Location: doktoret.php");
+                if ($stm->execute()) {
+                    header("Location: doctors.php");
                     $name = $lastName = $personalNumber = $gender = $userEmail = $biografia = $phone = $user1 = "";
                 }
-                
-
             }
         }
 
         ?>
-        <form method="POST" enctype="multipart/form-data" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal">Editoni nje doktor</h1>
 
-            <div class="form-floating">
-                <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput" name="fullName" value="<?= $row['fullName'] ?>" placeholder="Emri i plote">
-                <label for="floatingInput">Emri i plote</label>
-                <span class="text-danger fw-normal"><?php echo $fullNameErr; ?></span>
+
+        <a href="./doctors.php" class="backDoc" title="Go back"><i class="fa-solid fa-arrow-left"></i></a>
+        <article class="popDocEdit rounded" id="popDocEdit">
+            <h3 class="text-center">Edit Doctor Account</h3>
+            <div class="editForm_wrapper">
+                <form class="editForm" autocomplete="off" method="POST" enctype="multipart/form-data">
+                    <div class="d-flex">
+                        <div class="form-floating">
+                            <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput" name="fullName" placeholder="Full name" value="<?= $editData['fullName']; ?>">
+                            <label for="floatingInput">Full name</label>
+                            <span class="text-danger fw-normal"><?php echo $fullNameErr; ?></span>
+                        </div>
+                        <div>
+                            <select class="form-select <?= $invalid_dep ?? "" ?> " aria-label="Default select example" name="departament">
+                                <option selected value="<?= $editData['departamenti']; ?>"><?= $editData['departamenti']; ?></option>
+                                <?php foreach ($depData as $depData) : ?>
+                                    <option value="<?= $depData['departamenti']; ?>"><?= $depData['departamenti']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <span class="text-danger fw-normal"><?php echo $departamentErr; ?></span>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div class="d-flex editGender">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Mashkull" <?= $maleGender ?? "" ?>>
+                                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Femer" <?= $femGender ?? "" ?>>
+                                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                                </div> <br>
+                            </div>
+                            <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
+                        </div>
+
+                        <div class="form-floating">
+                            <input type="email" class="form-control rounded <?= $invalid_email ?? "" ?>" id="floatingInput" name="email" placeholder="name@example.com" value="<?= $editData['email'] ?>">
+                            <label for="floatingInput">Email</label>
+                            <span class="text-danger fw-normal"><?php echo $emailErr; ?></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Photo</label>
+                            <input class="form-control <?= $invalid_photo ?? "" ?>" type="file" name="my_image" id="formFile">
+                            <span class="text-danger fw-normal"><?php echo $photoErr;?></span>
+                        </div>
+
+                        <div class="form-floating mt-3">
+                            <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Phone number" value="<?= $editData['telefoni']; ?>">
+                            <label for="floatingInput">Phone number</label>
+                            <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="biografia" class="form-label">Personal bio</label>
+                        <textarea class="form-control <?= $invalid_bio ?? "" ?>" id="biografia" rows="4" maxlength="250" name="docBio"><?= $editData['biografia']; ?></textarea>
+                        <span class="text-danger fw-normal"><?php echo $bioErr; ?></span>
+                    </div>
+
+                    <div class="d-flex">
+
+                        <div class="form-floating">
+                            <input type="text" class="form-control <?= $invalid_user ?? "" ?>" id="floatingInput" name="username" placeholder="Username" value="<?= $editData['username']; ?>">
+                            <label for="floatingInput">Username</label>
+                            <span class="text-danger fw-normal"><?php echo $userErr; ?></span>
+                        </div>
+
+                        <div class="form-floating">
+                            <input type="password" class="form-control <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+                            <span class="text-danger fw-normal"><?php echo $passErr; ?></span>
+                        </div>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary mt-1" type="submit" name="update">Update</button>
+                </form>
             </div>
-
-            <div>
-                <select class="form-select mt-2 <?= $invalid_dep ?? "" ?>" aria-label="Default select example" name="departament">
-                    <option class="fst-italic fw-bold" selected value="<?= $row['departamenti'] ?>"><?= $row['departamenti'] ?></option>
-                    <?php foreach ($data as $data) : ?>
-                        <option value="<?= $data['departamenti'] ?>"><?= $data['departamenti'] ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <span class="text-danger fw-normal"><?php echo $departamentErr; ?></span>
-            </div>
-
-
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Mashkull">
-                <label class="form-check-label" for="inlineRadio1">Mashkull</label>
-            </div>
-
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Femer">
-                <label class="form-check-label" for="inlineRadio2">Femer</label>
-            </div> <br>
-            <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
-
-            <div class="form-floating">
-                <input type="email" class="form-control mt-2 <?= $invalid_email ?? "" ?>" id="floatingInput" name="email" placeholder="name@example.com" value="<?= $row['email'] ?>">
-                <label for="floatingInput">Email adresa</label>
-                <span class="text-danger fw-normal"><?php echo $emailErr; ?></span>
-            </div>
-
-            <div class="mb-3">
-                <label for="formFile" class="form-label <?= $invalid_photo ?? "" ?>">Foto</label>
-                <input class="form-control" type="file" name="my_image" id="formFile">
-                <span class="text-danger fw-normal"><?php echo $photoErr; ?></span>
-            </div>
-
-            <div class="form-floating ">
-                <input type="tel" class="form-control mt-2 <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Telefoni" value="<?= $row['telefoni'] ?>">
-                <label for="floatingInput">Telefoni</label>
-                <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
-            </div>
-
-            <div class="mb-3">
-                <label for="biografia" class="form-label <?= $invalid_bio ?? "" ?>">Biografia personale</label>
-                <textarea class="form-control" id="biografia" rows="4" maxlength="250" name="docBio"><?= $row['biografia'] ?></textarea>
-                <span class="text-danger fw-normal"><?php echo $bioErr; ?></span>
-            </div>
-
-            <div class="form-floating">
-                <input type="text" class="form-control mt-2 <?= $invalid_user ?? "" ?>" id="floatingInput" name="username" placeholder="Username" value="<?= $row['username'] ?>">
-                <label for="floatingInput">Username</label>
-                <span class="text-danger fw-normal"><?php echo $userErr; ?></span>
-            </div>
-
-            <div class="form-floating">
-                <input type="password" class="form-control mt-2 <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Password">
-                <label for="floatingPassword">Password</label>
-                <span class="text-danger fw-normal"><?php echo $passErr; ?></span>
-            </div>
-
-            <button class="w-100 btn btn-lg btn-primary" type="submit" name="edito">Editoni</button>
-        </form>
+        </article>
 
     </main>
 
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
+    <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js" defer></script>
 
 </body>
 

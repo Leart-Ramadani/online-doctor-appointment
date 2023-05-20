@@ -3,17 +3,17 @@
     if (!isset($_SESSION['admin'])) {
         header("Location: login.php");
     }
-    ?>
+?>
  <?php include('header.php') ?>
- <title>Doktoret</title>
+ <title>Doctors</title>
  </head>
 
  <body>
      <?php
         $nameErr = $surnameErr = $departamentErr = $genderErr = $emailErr = $photoErr = $phoneErr = $bioErr  = $userErr = $passErr = "";
-        $name = $lastName = $personalNumber = $gender = $userEmail = $biografia = $phone = $user1 = "";
+        $name = $lastName = $personalNumber = $genderMale = $genderFem = $userEmail = $biografia = $phone = $user1 = "";
 
-        if (isset($_POST['regjistro'])) {
+        if (isset($_POST['register'])) {
 
             function testInput($data)
             {
@@ -24,12 +24,12 @@
             }
 
             if (empty($_POST['name'])) {
-                $nameErr = '*Emri duhet plotesuar.';
+                $nameErr = '*Name must be filed.';
                 $invalid_name = 'is-invalid';
             } else {
                 $emri = testInput($_POST['name']);
                 if (!preg_match("/^[a-zA-z]*$/", $emri)) {
-                    $nameErr = '*Nuk lejohen karaktere tjera perveq shkronjave.';
+                    $nameErr = '*Only letters are allowed.';
                     $invalid_name = 'is-invalid';
                 } else {
                     $nameErr = '';
@@ -38,12 +38,12 @@
             }
 
             if (empty($_POST['surname'])) {
-                $surnameErr = '*Mbiemri duhet plotesuar.';
+                $surnameErr = '*Last name must be filled.';
                 $invalid_surname = 'is-invalid';
             } else {
                 $mbiemri = testInput($_POST['surname']);
                 if (!preg_match("/^[a-zA-z]*$/", $mbiemri)) {
-                    $surnameErr = '*Nuk lejohen karaktere tjera perveq shkronjave.';
+                    $surnameErr = '*Only letters are allowed.';
                     $invalid_surname = 'is-invalid';
                 } else {
                     $surnameErr = '';
@@ -52,7 +52,7 @@
             }
 
             if (empty($_POST['departament'])) {
-                $departamentErr = '*Duhet te zgjidhni nje departament.';
+                $departamentErr = '*You must select a departament.';
                 $invalid_dep = 'is-invalid';
             } else {
                 $departamenti = $_POST['departament'];
@@ -60,20 +60,25 @@
             }
 
             if (!isset($_POST['gender'])) {
-                $genderErr = '*Gjinia duhet zgjedhur';
+                $genderErr = '*Gender must be selected';
             } else {
                 $gjinia = testInput($_POST['gender']);
+                if($gjinia == 'Mashkull'){
+                    $genderMale = 'checked';
+                } else if($gjinia == 'Femer'){
+                    $genderFem = 'checked';
+                }
                 $genderErr = '';
             }
 
             if (empty($_POST['email'])) {
-                $emailErr = '*Email duhet plotesuar.';
+                $emailErr = '*Email must be filled.';
                 $invalid_email = 'is-invalid';
             } else {
                 $pattern = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^";
                 $email = testInput($_POST['email']);
                 if (!preg_match($pattern, $email)) {
-                    $emailErr = '*Email adresa e mesiperme nuk eshte valide.';
+                    $emailErr = '*Invalid email.';
                     $invalid_email = 'is-invalid';
                 } else {
                     $userEmail = $email;
@@ -83,7 +88,7 @@
 
 
             if (isset($_POST['my_image']) && empty($_POST['my_image'])) {
-                $photoErr = '*Duhet te shtoni nje foto te personit ne fjale.';
+                $photoErr = '*Image must be choosed.';
                 $invalid_photo = 'is-invalid';
             } else {
                 $photoErr = '';
@@ -95,7 +100,7 @@
                 if ($error === 0) {
                     $photoErr = '';
                     if ($img_size > 12500000) {
-                        $photo_err = "*Ky file eshte shume i madh.";
+                        $photo_err = "*This image is to large.";
                         $invalid_photo = 'is-invalid';
                     } else {
                         $photoErr = '';
@@ -108,24 +113,24 @@
                             $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
                             $img_upload_path = 'uploads/' . $new_img_name;
                             move_uploaded_file($tmp_name, $img_upload_path);
-                        } else {
-                            $photoErr = "*Ky format nuk eshte valid. <br> Formatet e lejuara(jpg, jpeg, png, gif, webp).";
+                        } else {    
+                            $photoErr = "*This format is not valid valid. <br>Allowed formates(jpg, jpeg, png, gif, webp).";
                             $invalid_photo = 'is-invalid';
                         }
                     }
                 } else {
-                    $photoErr = "*Eshte shfaqur nje gabim i panjohur!";
+                    $photoErr = "*Unknown error!";
                     $invalid_photo = 'is-invalid';
                 }
             }
 
             if (empty($_POST['phone'])) {
-                $phoneErr = '*Telefoni duhet plotesuar.';
+                $phoneErr = '*Phone number must be filled.';
                 $invalid_phone = 'is-invalid';
             } else {
                 $tel = testInput($_POST['phone']);
                 if (!preg_match('/^[0-9]{9}+$/', $tel)) {
-                    $phoneErr = '*Numri i telefonit i mesiperm nuk eshte valid.';
+                    $phoneErr = '*Invalid phone number.';
                     $invalid_phone = 'is-invalid';
                 } else {
                     $phoneErr = '';
@@ -135,7 +140,7 @@
 
 
             if (empty($_POST['docBio'])) {
-                $bioErr = '*Biografia duhet plotesuar.';
+                $bioErr = '*Personal bio must be filled.';
                 $invalid_bio = 'is-invalid';
             } else {
                 $bio = testInput($_POST['docBio']);
@@ -144,7 +149,7 @@
             }
 
             if (empty($_POST['username'])) {
-                $userErr = '*Username duhet plotesuar.';
+                $userErr = '*Username must be filled.';
                 $invalid_user = 'is-invalid';
             } else {
                 $username = testInput($_POST['username']);
@@ -153,7 +158,7 @@
             }
 
             if (empty($_POST['password'])) {
-                $passErr = '*Password duhet plotesuar.';
+                $passErr = '*Password must be filled.';
                 $invalid_pass = 'is-invalid';
             } else {
                 $password = testInput($_POST['password']);
@@ -198,15 +203,15 @@
          </p>
          <hr>
          <ul class="nav nav-pills flex-column mb-auto">
-             <li class="nav-item"><a href="doktoret.php" class="nav-link active" aria-current="page">Doktoret</a></li>
-             <li><a href="departamentet.php" class="nav-link text-white">Departamentet</a></li>
-             <li><a href="orari.php" class="nav-link text-white">Orari</a></li>
-             <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
-             <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
-             <li><a href="historiaTerminit.php" class="nav-link text-white">Historia e termineve</a></li>
-             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>
-             <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat e anulimit te termineve</a></li>
+             <li class="nav-item"><a href="doctors.php" class="nav-link active" aria-current="page">Doctors</a></li>
+             <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
+             <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
+             <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
+             <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
+             <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
+             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
+             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancellation requests</a></li>
          </ul>
          <hr>
          <div class="dropdown">
@@ -229,24 +234,24 @@
 
      <main class="text-center main mainRes">
          <form method="POST" class="form-signin reg_doc" enctype="multipart/form-data" autocomplete="off">
-             <h1 class="h3 mb-3 fw-normal">Regjistroni nje doktor</h1>
+             <h1 class="h3 mb-3 fw-normal">Register a doctor</h1>
 
              <div class="form-floating">
-                 <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput" name="name" placeholder="Emri" value="<?= $name; ?>">
-                 <label for="floatingInput">Emri</label>
+                 <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput" name="name" placeholder="Name" value="<?= $name; ?>">
+                 <label for="floatingInput">Name</label>
                  <span class="text-danger fw-normal"><?php echo $nameErr; ?></span>
              </div>
 
 
              <div class="form-floating">
-                 <input type="text" class="form-control mt-2 <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Mbiemri" value="<?= $lastName; ?>">
-                 <label for="floatingInput">Mbiemri</label>
+                 <input type="text" class="form-control mt-2 <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Last name" value="<?= $lastName; ?>">
+                 <label for="floatingInput">Last name</label>
                  <span class="text-danger fw-normal"><?php echo $surnameErr; ?></span>
              </div>
 
              <div>
                  <select class="form-select <?= $invalid_dep ?? "" ?> mt-2" aria-label="Default select example" name="departament">
-                     <option value="">Zgjidhni nje departament</option>
+                     <option value="">Choose a departament</option>
                      <?php foreach ($data as $data) : ?>
                          <option value="<?= $data['departamenti'] ?>"><?= $data['departamenti'] ?></option>
                      <?php endforeach; ?>
@@ -255,36 +260,36 @@
              </div>
 
              <div class="form-check form-check-inline mt-2">
-                 <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Mashkull">
-                 <label class="form-check-label" for="inlineRadio1">Mashkull</label>
+                 <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Mashkull" <?= $genderMale ?? "" ?>>
+                 <label class="form-check-label" for="inlineRadio1">Male</label>
              </div>
 
              <div class="form-check form-check-inline mt-2">
-                 <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Femer">
-                 <label class="form-check-label" for="inlineRadio2">Femer</label>
+                 <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Femer" <?= $genderFem ?? "" ?>>
+                 <label class="form-check-label" for="inlineRadio2">Female</label>
              </div> <br>
              <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
 
              <div class="form-floating">
                  <input type="email" class="form-control mt-2 <?= $invalid_email ?? "" ?>" id="floatingInput" name="email" placeholder="name@example.com" value="<?= $userEmail; ?>">
-                 <label for="floatingInput">Email adresa</label>
+                 <label for="floatingInput">Email</label>
                  <span class="text-danger fw-normal"><?php echo $emailErr; ?></span>
              </div>
 
              <div class="mb-3">
-                 <label for="formFile" class="form-label mt-2">Foto</label>
+                 <label for="formFile" class="form-label mt-2">Image</label>
                  <input class="form-control <?= $invalid_photo ?? "" ?>" type="file" name="my_image" id="formFile">
                  <span class="text-danger fw-normal"><?php echo $photoErr; ?></span>
              </div>
 
              <div class="form-floating">
-                 <input type="tel" class="form-control mt-2 <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Telefoni" value="<?= $phone; ?>">
-                 <label for="floatingInput">Telefoni</label>
+                 <input type="tel" class="form-control mt-2 <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Phone number" value="<?= $phone; ?>">
+                 <label for="floatingInput">Phone number</label>
                  <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
              </div>
 
              <div class="mb-3">
-                 <label for="biografia" class="form-label mt-2">Biografia personale</label>
+                 <label for="biografia" class="form-label mt-2">Personal bio</label>
                  <textarea class="form-control <?= $invalid_bio ?? "" ?>" id="biografia" rows="4" maxlength="250" name="docBio"><?= $biografia; ?></textarea>
                  <span class="text-danger fw-normal"><?php echo $bioErr; ?></span>
              </div>
@@ -301,7 +306,7 @@
                  <span class="text-danger fw-normal"><?php echo $passErr; ?></span>
              </div>
 
-             <button class="w-100 btn btn-lg btn-primary" type="submit" name="regjistro">Regjistrohuni</button>
+             <button class="w-100 btn btn-lg btn-primary" type="submit" name="register">Register</button>
          </form>
 
 
@@ -330,11 +335,11 @@
                  <thead>
                      <tr>
                          <th scope="col" style="display: none;">ID</th>
-                         <th scope="col">Doktori</th>
-                         <th scope="col">Departamenti</th>
+                         <th scope="col">Doctor</th>
+                         <th scope="col">Departament</th>
                          <th scope="col">Email</th>
                          <th scope="col">Username</th>
-                         <th scope="col">Aksioni</th>
+                         <th scope="col">Action</th>
                      </tr>
                  </thead>
                  <tbody>
@@ -349,10 +354,10 @@
                                  <a class="text-decoration-none text-white showPop">
                                      <button class="btn btn-primary w-25 text-white " id="showPop">View</button>
                                  </a>
-                                 <a class="text-decoration-none text-white" href="editUser.php?id=<?= $data['id']  ?>">
+                                 <a href="editUser.php?id=<?= $data['id']  ?>" class="text-decoration-none text-white showEditPop">
                                      <button class="btn btn-warning w-25 text-white">Edit</button>
                                  </a>
-                                 <a class="text-decoration-none text-white" href="deleteUser.php?id=<?= $data['id']  ?>">
+                                 <a href="deleteUser.php?id=<?= $data['id']  ?>" class="text-decoration-none text-white">
                                      <button class="btn btn-danger w-25 text-white">Delete</button>
                                  </a>
 
@@ -373,7 +378,7 @@
 
      <article class="popDoc_info" id="popDoc_info">
          <div class="pac_h5">
-             <h5>Informatat e doktorit</h5>
+             <h5>Doctor information</h5>
              <button id="close" class="close">
                  <i class="fa-solid fa-close rezervoClose"></i>
              </button>
@@ -382,14 +387,11 @@
          <div class='doc_wrapper'>
 
      </article>
-     <script>
-
-     </script>
 
 
-     <br><br><br><br>
+     
 
-
+     <!-- External scripts -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
      <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js"></script>
      <!-- Font-awesome script -->

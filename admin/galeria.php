@@ -5,7 +5,7 @@ if (!isset($_SESSION['admin'])) {
 }
 ?>
 <?php include('header.php') ?>
-<title>Galeria</title>
+<title>Gallery</title>
 </head>
 
 <body>
@@ -45,7 +45,7 @@ if (!isset($_SESSION['admin'])) {
                     }
                 } else {
                     $em = "Format not supported";
-                    header("Location: doktoret.php?$em");
+                    header("Location: doctors.php?$em");
                 }
             }
         }
@@ -63,15 +63,15 @@ if (!isset($_SESSION['admin'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doktoret</a></li>
-            <li><a href="departamentet.php" class="nav-link text-white">Departamentet</a></li>
-            <li><a href="orari.php" class="nav-link text-white">Orari</a></li>
-            <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
-            <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
-            <li><a href="historiaTerminit.php" class="nav-link text-white">Historia e termineve</a></li>
-            <li class="nav-item"><a href="galeria.php" class="nav-link active" aria-current="page">Galeria</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat e anulimit te termineve</a></li>
+            <li class="nav-item"><a href="doctors.php" class="nav-link text-white">Doctors</a></li>
+            <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
+            <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
+            <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
+            <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link active" aria-current="page">Gallery</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancellation requests</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -90,12 +90,12 @@ if (!isset($_SESSION['admin'])) {
     </div>
 
     <main class=" text-center main_galeria mainRes">
-        <h1 class="h3 text-center fw-normal mt-3">Shto nje foto ne galleri</h1>
+        <h1 class="h3 text-center fw-normal mt-3">Add an image</h1>
         <form method="POST" class="form-sigin" enctype="multipart/form-data" autocomplete="off">
             <div class="mb-3">
                 <input class="form-control" type="file" name="galeria" id="formFile">
             </div>
-            <button class="w-100 btn btn-lg btn-primary" type="submit" name="shto">Shtoni</button>
+            <button class="w-100 btn btn-lg btn-primary" type="submit" name="shto">Add</button>
         </form>
 
 
@@ -109,12 +109,12 @@ if (!isset($_SESSION['admin'])) {
 
 
     <article class="galeria_wrapper mt-5">
-        <h3 class="h3 text-center fw-normal mt-5 mb-3">Galeria</h3> 
+        <h3 class="h3 text-center fw-normal mt-5 mb-3">Gallery</h3> 
         <table class="table table-border w-50 table_patient">
             <thead>
                 <tr>
-                    <th scope="col">Foto</th>
-                    <th scope="col">Aksioni</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>

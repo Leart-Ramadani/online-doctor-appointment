@@ -1,3 +1,4 @@
+// Pop up window for view doctor proflie
 const showPopButtons = document.querySelectorAll('.showPop');
 const popDoc = document.getElementById('popDoc');
 const popDocInfo = document.getElementById('popDoc_info');
@@ -19,6 +20,8 @@ const showHideWindow = () => {
 
 showHideWindow();
 
+
+// Send ajax request to display the doctor data
 $(document).ready(function () {
     $('.showPop').on('click', function (r) {
         r.preventDefault();
