@@ -21,7 +21,7 @@ if (!isset($_SESSION['admin'])) {
          </p>
          <hr>
          <ul class="nav nav-pills flex-column mb-auto">
-             <li class="nav-item"><a href="doctors.php" class="nav-link text-white" aria-current="page">Doctors</a></li>
+             <li class="nav-item"><a href="doktoret.php" class="nav-link text-white" aria-current="page">Doctors</a></li>
              <li><a href="departamentet.php" class="nav-link text-white ">Departaments</a></li>
              <li><a href="orari.php" class="nav-link text-white active">Schedule</a></li>
              <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
@@ -317,7 +317,7 @@ if (!isset($_SESSION['admin'])) {
             <h1 class="h3 fw-normal text-center">Orari</h1>
             <div>
                 <select class="form-select <?= $invalid_doc ?? "" ?> res" aria-label="Default select example" name="doktori">
-                    <option value="">Pick doctor</option>
+                    <option value="">Pick a doctor</option>
                     <?php foreach ($doc_data as $doc_data) : ?>
                         <option value="<?= $doc_data['fullName'] ?>"><?= $doc_data['fullName'] ?></option>
                     <?php endforeach; ?>

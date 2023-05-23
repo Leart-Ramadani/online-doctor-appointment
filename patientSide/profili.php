@@ -11,7 +11,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Profili</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/responsive.css">
@@ -40,11 +40,11 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a href="../index.php" class="nav-link text-white">Home</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appointments</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appointments</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white" >Appointments history</a></li>
+            <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Terminet</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">Terminet e mia</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Historia e termineve</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -53,7 +53,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
                 <strong class="useri"><?php echo $_SESSION['username'] ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="profili.php">Profile</a></li>
+                <li><a class="dropdown-item" href="profili.php">Profili</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
@@ -63,7 +63,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     </div>
 
 
-    <main class=" main mainRes mainProfili">
+    <main class=" main mainRes mainProfili pb-3">
         <?php
         $nameErr = $surnameErr = $personalNrErr = $genderErr = $emailErr = $birthdayErr = $phoneErr = $adressErr = $usernameErr = $PassErr = $newPass_err = $confirmPass_err = "";
 
@@ -78,12 +78,12 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             }
 
             if (empty($_POST['name'])) {
-                $nameErr = '*Name must be filled.';
+                $nameErr = '*Emri duhet plotesuar.';
                 $invalid_name = 'is-invalid';
             } else {
                 $emri = testInput($_POST['name']);
                 if (!preg_match("/^[a-zA-z]*$/", $emri)) {
-                    $nameErr = '*Only letters are allowed.';
+                    $nameErr = '*Nuk lejohen karaktere tjera perveq shkronjave.';
                     $invalid_name = 'is-invalid';
                 } else {
                     $nameErr = '';
@@ -91,12 +91,12 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             }
 
             if (empty($_POST['surname'])) {
-                $surnameErr = '*Last name must be filled.';
+                $surnameErr = '*Mbiemri duhet plotesuar.';
                 $invalid_surname = 'is-invalid';
             } else {
                 $mbiemri = testInput($_POST['surname']);
                 if (!preg_match("/^[a-zA-z]*$/", $mbiemri)) {
-                    $surnameErr = '*Only letters are allowed.';
+                    $surnameErr = '*Nuk lejohen karaktere tjera perveq shkronjave.';
                     $invalid_surname = 'is-invalid';
                 } else {
                     $surnameErr = '';
@@ -104,16 +104,16 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             }
 
             if (empty($_POST['personal_id'])) {
-                $personalNrErr = '*Personal ID must be filled.';
+                $personalNrErr = '*Numri personal duhet plotesuar.';
                 $invalid_personal_id = 'is-invalid';
             } else {
                 $numri_personal = testInput($_POST['personal_id']);
                 if (!preg_match("/^[0-9]*$/", $numri_personal)) {
-                    $personalNrErr = "*Only numbers are allowed.";
+                    $personalNrErr = "*Nuk lejohen karaktere tjera perveq numrave.";
                     $invalid_personal_id = 'is-invalid';
                 } else {
                     if (strlen($numri_personal) != 10) {
-                        $personalNrErr = '*Personal ID must be 10 digit number';
+                        $personalNrErr = '*Numri personal duhet te jete 10 karaktere';
                         $invalid_personal_id = 'is-invalid';
                     } else {
                         $personalNrErr = '';
@@ -122,20 +122,20 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             }
 
             if (!isset($_POST['gender'])) {
-                $genderErr = '*Gender must be selected';
+                $genderErr = '*Gjinia duhet zgjedhur';
             } else {
                 $gjinia = testInput($_POST['gender']);
                 $genderErr = '';
             }
 
             if (empty($_POST['email'])) {
-                $emailErr = '*Email must be filled.';
+                $emailErr = '*Email duhet plotesuar.';
                 $invalid_email = 'is-invalid';
             } else {
                 $pattern = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^";
                 $email = testInput($_POST['email']);
                 if (!preg_match($pattern, $email)) {
-                    $emailErr = '*Invalid email.';
+                    $emailErr = '*Ky email nuk pranohet.';
                     $invalid_email = 'is-invalid';
                 } else {
 
@@ -144,7 +144,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             }
 
             if (empty($_POST['birthday'])) {
-                $birthdayErr = '*Birthday must be filled.';
+                $birthdayErr = '*Ditelindja duhet plotesuar.';
                 $invalid_birthday = 'is-invalid';
             } else {
                 $ditlindja = testInput($_POST['birthday']);
@@ -152,12 +152,12 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             }
 
             if (empty($_POST['phone'])) {
-                $phoneErr = '*Phone number must be filled.';
+                $phoneErr = '*Numri i telefonit duhet plotesuar.';
                 $invalid_phone = 'is-invalid';
             } else {
                 $telefoni = testInput($_POST['phone']);
                 if (!preg_match('/^[0-9]{9}+$/', $telefoni)) {
-                    $phoneErr = '*Invalid phone number.';
+                    $phoneErr = '*Ky numer i telefonit nuk pranohet.';
                     $invalid_phone = 'is-invalid';
                 } else {
                     $phoneErr = '';
@@ -165,7 +165,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             }
 
             if (empty($_POST['adress'])) {
-                $adressErr = '*Adress must be filled.';
+                $adressErr = '*Adresa duhet plotesuar.';
                 $invalid_adress = 'is-invalid';
             } else {
                 $adresa = testInput($_POST['adress']);
@@ -173,7 +173,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             }
 
             if (empty($_POST['username'])) {
-                $usernameErr = '*Username must be filled.';
+                $usernameErr = '*Username duhet plotesuar.';
                 $invalid_username = 'is-invalid';
             } else {
                 $username = testInput($_POST['username']);
@@ -182,7 +182,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
 
             if (empty($_POST['newPassword'])) {
-                $newPass_err = '*New password must be filled.';
+                $newPass_err = '*Fjalkalimi i ri duhet plotesuar.';
                 $invalid_newPass = 'is-invalid';
             } else {
                 $newPassword = $_POST['newPassword'];
@@ -190,7 +190,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             }
 
             if (empty($_POST['confirmPassword'])) {
-                $confirmPass_err = '*Confirm password must be filled.';
+                $confirmPass_err = '*Duhet te konfirmosh fjalkalimin.';
                 $invalid_confirmPass = 'is-invalid';
             } else {
                 $confirmPassword = $_POST['confirmPassword'];
@@ -199,7 +199,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
 
             if (empty($_POST['password'])) {
-                $PassErr = '*Actual password must be filled.';
+                $PassErr = '*Fjalkalimi aktual duhet vendosur.';
                 $invalid_pass = 'is-invalid';
             } else {
                 $password = testInput($_POST['password']);
@@ -217,7 +217,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
                     if ($newPass_err == '' && $confirmPass_err == '') {
                         if ($newPassword !== $confirmPassword) {
-                            $confirmPass_err = "Passwords doesn't match.";
+                            $confirmPass_err = "*Fjalkalimet nuk perputhen.";
                             $invalid_confirmPass = 'is-invalid';
                         } else {
                             $confirmPass_err = '';
@@ -225,7 +225,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
                         }
                     }
                 } else {
-                    $PassErr = 'Incorrect password. Please try again.';
+                    $PassErr = '*Fjalkalimi nuk eshte i sakte.';
                     $invalid_pass = 'is-invalid';
                 }
             }
@@ -254,7 +254,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
                 $prep->bindParam(':password', $encPass);
                 if ($prep->execute()) {
                     echo "<script>
-                            alert('Your account has been successfully updated.');
+                            alert('Llogaria juaj eshte perditesuar me sukses.');
                             window.location.replace('../index.php');
                         </script>";
                 } else {
@@ -265,7 +265,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
         ?>
         <form method="POST" class="form-sigin form-siginPro" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal">Update data</h1>
+            <h1 class="h3 mb-3 fw-normal">Perditeso llogarine</h1>
             <?php
 
             $sql = "SELECT * FROM patient_table WHERE numri_personal=:numri_personal";
@@ -276,31 +276,31 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             ?>
 
             <div class="form-floating mb-2">
-                <input type="text" class="form-control res <?= $invalid_name ?? "" ?>" id="floatingInput" name="name" placeholder="Name" value="<?= $data['emri'] ?>">
-                <label for="floatingInput">Name</label>
+                <input type="text" class="form-control res <?= $invalid_name ?? "" ?>" id="floatingInput" name="name" placeholder="Emri" value="<?= $data['emri'] ?>">
+                <label for="floatingInput">Emri</label>
                 <span class="text-danger fw-normal"><?php echo $nameErr; ?></span>
             </div>
 
             <div class="form-floating mb-2">
-                <input type="text" class="form-control res <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Last name" value="<?= $data['mbiemri'] ?>">
-                <label for="floatingInput">Last Name</label>
+                <input type="text" class="form-control res <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Mbiemri" value="<?= $data['mbiemri'] ?>">
+                <label for="floatingInput">Mbiemri</label>
                 <span class="text-danger fw-normal"><?php echo $surnameErr; ?></span>
             </div>
 
             <div class="form-floating mb-2">
-                <input type="text" class="form-control res <?= $invalid_personal_id ?? "" ?>" id="floatingInput" name="personal_id" placeholder="Personal ID" value="<?= $data['numri_personal'] ?>">
-                <label for="floatingInput">Personal ID</label>
+                <input type="text" class="form-control res <?= $invalid_personal_id ?? "" ?>" id="floatingInput" name="personal_id" placeholder="Numri personal" value="<?= $data['numri_personal'] ?>">
+                <label for="floatingInput">Numri personal</label>
                 <span class="text-danger fw-normal"><?php echo $personalNrErr; ?></span>
             </div>
 
             <div class="form-check form-check-inline mb-2">
                 <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Mashkull">
-                <label class="form-check-label" for="inlineRadio1">Male</label>
+                <label class="form-check-label" for="inlineRadio1">Mashkull</label>
             </div>
 
             <div class="form-check form-check-inline mb-2">
                 <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Femer">
-                <label class="form-check-label" for="inlineRadio2">Female</label>
+                <label class="form-check-label" for="inlineRadio2">Femer</label>
             </div> <br>
             <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
             <div class="form-floating mb-2">
@@ -310,20 +310,20 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             </div>
 
             <div class="col-lg-3 col-sm-6 mb-2">
-                <label for="startDate">Birthday:</label>
+                <label for="startDate">Ditelindja:</label>
                 <input id="startDate" class="form-control ditlindja res <?= $invalid_birthday ?? "" ?>" name="birthday" type="date" value="<?= $data['ditlindja'] ?>" />
                 <span class="text-danger fw-normal"><?php echo $birthdayErr; ?></span>
             </div>
 
             <div class="form-floating mb-2">
-                <input type="tel" class="form-control  res<?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Phone number" value="<?= $data['telefoni'] ?>">
-                <label for="floatingInput">Phone number</label>
+                <input type="tel" class="form-control  res<?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Numri i telefonit" value="<?= $data['telefoni'] ?>">
+                <label for="floatingInput">Numri i telefonit</label>
                 <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
             </div>
 
             <div class="form-floating mb-2">
-                <input type="text" class="form-control res <?= $invalid_adress ?? "" ?>" id="floatingInput" name="adress" placeholder="Adress" value="<?= $data['adresa'] ?>">
-                <label for="floatingInput">Adress</label>
+                <input type="text" class="form-control res <?= $invalid_adress ?? "" ?>" id="floatingInput" name="adress" placeholder="Adresa" value="<?= $data['adresa'] ?>">
+                <label for="floatingInput">Adresa</label>
                 <span class="text-danger fw-normal"><?php echo $adressErr; ?></span>
             </div>
 
@@ -334,24 +334,24 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             </div>
 
             <div class="form-floating">
-                <input type="password" class="form-control mb-2 res <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Password">
-                <label for="floatingPassword">Actual password</label>
+                <input type="password" class="form-control mb-2 res <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Fjalkalimi aktual">
+                <label for="floatingPassword">Fjalkalimi aktual</label>
                 <span class="text-danger fw-normal"><?php echo $PassErr; ?></span>
             </div>
 
             <div class="form-floating">
-                <input type="password" class="form-control res mb-2 <?= $invalid_newPass ?? "" ?>" id="floatingPassword" name="newPassword" placeholder="Password">
-                <label for="floatingPassword">New password</label>
+                <input type="password" class="form-control res mb-2 <?= $invalid_newPass ?? "" ?>" id="floatingPassword" name="newPassword" placeholder="Fjalkalimi i ri">
+                <label for="floatingPassword">Fjalkalimi i ri</label>
                 <span class="text-danger fw-normal"><?php echo $newPass_err; ?></span>
             </div>
 
             <div class="form-floating">
-                <input type="password" class="form-control res mb-2  <?= $invalid_confirmPass ?? "" ?>" id="floatingPassword" name="confirmPassword" placeholder="Password">
-                <label for="floatingPassword">Confirm password</label>
+                <input type="password" class="form-control res mb-2  <?= $invalid_confirmPass ?? "" ?>" id="floatingPassword" name="confirmPassword" placeholder="Konfirmo fjalkalimin">
+                <label for="floatingPassword">Konfirmo fjalkalimin</label>
                 <span class="text-danger fw-normal"><?php echo $confirmPass_err; ?></span>
             </div>
 
-            <button class=" btn btn-lg btn-primary updateRes" type="submit" name="update">Update</button>
+            <button class=" btn btn-lg btn-primary updateRes" type="submit" name="update">Perditeso</button>
 
         </form>
 

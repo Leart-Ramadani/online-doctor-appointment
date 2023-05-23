@@ -53,8 +53,8 @@ if (isset($_POST['anulo'])) {
         $res_prep->bindParam(':ora', $ora);
         $res_prep->bindParam(':arysejaAnulimit', $arsyejaAnulimit);
         if ($res_prep->execute()) {
-            $msg = "Your cancellation request has been successfully sent. <br>
-                    The answer for your request will be sent in your email.";
+            $msg = "Kerkesa juaj per anulimin e terminit eshte derguar me sukses. <br>
+                    Ju do te njoftoheni permes email-it per pergjigjjen e kerkeses!";
             $njoftim = 'njoftim';
         }
     }
@@ -68,7 +68,7 @@ if (isset($_POST['anulo'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Appointments</title>
+    <title>Termient e mia</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/responsive.css">
@@ -98,11 +98,11 @@ if (isset($_POST['anulo'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a href="../index.php" class="nav-link text-white">Home</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appointments</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white active" aria-current="page">My appointments</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Appointments history</a></li>
+            <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Terminet</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white active" aria-current="page">Terminet e mia</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Historia e termineve</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -152,11 +152,11 @@ if (isset($_POST['anulo'])) {
                 <thead>
                     <tr>
                         <th scope="col" style="display: none;">ID</th>
-                        <th scope="col">Doctor</th>
-                        <th scope="col">Departament</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Time</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Doktori</th>
+                        <th scope="col">Departamenti</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Ora</th>
+                        <th scope="col">Aksioni</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -169,7 +169,7 @@ if (isset($_POST['anulo'])) {
                             <td><?= $data['ora'] ?></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white anuloPop ">
-                                    <button class="btn btn-warning w-100 p-1 text-white rez">Cancel</button>
+                                    <button class="btn btn-warning w-100 p-1 text-white rez">Anulo</button>
                                 </a>
                             </td>
                         </tr>
@@ -181,7 +181,7 @@ if (isset($_POST['anulo'])) {
 
         <?php if ($empty == 'empty') : ?>
             <article style="margin-left: 200px; width: 100%;" class="mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">You don't have any booked appointment.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Nuk ke termine te rezervuara.</h1>
             </article>
         <?php endif; ?>
     </main>
@@ -193,28 +193,28 @@ if (isset($_POST['anulo'])) {
 
     <div id="popWindow" class="popAnulo">
         <div class="pac_h5">
-            <h5>Cancel Appointment</h5>
+            <h5>Anulo terminin</h5>
             <button id="close" class="close">
                 <i class="fa-solid fa-close rezervoClose"></i>
             </button>
         </div>
 
-        <h5 class="det_pac_h4">Patient Details</h5>
+        <h5 class="det_pac_h4">Detajet e pacientit</h5>
 
         <div class="emri_pac">
-            <p>Name: <span><?= $pacienti_fetch['emri'] ?></span></p>
+            <p>Emri: <span><?= $pacienti_fetch['emri'] ?></span></p>
             <hr>
-            <p>Last name: <span><?= $pacienti_fetch['mbiemri'] ?></span></p>
+            <p>Mbiemri: <span><?= $pacienti_fetch['mbiemri'] ?></span></p>
             <hr>
             <p>Email: <span><?= $pacienti_fetch['email'] ?></span></p>
             <hr>
-            <p>Personal ID: <span><?= $pacienti_fetch['numri_personal'] ?></span></p>
+            <p>Numri personal: <span><?= $pacienti_fetch['numri_personal'] ?></span></p>
             <hr>
-            <p>Phone number: <span><?= $pacienti_fetch['telefoni'] ?></span></p>
+            <p>Nr. telefonit: <span><?= $pacienti_fetch['telefoni'] ?></span></p>
             <hr>
         </div>
 
-        <h5 class="det_pac_h4">Appointment Details</h5>
+        <h5 class="det_pac_h4">Detajet e terminit</h5>
 
         <div class="emri_pac doc_pac">
 
@@ -222,17 +222,17 @@ if (isset($_POST['anulo'])) {
 
         <form action="terminet_e_mia.php" method="POST" class="submit_anu">
             <div class="mb-3">
-                <label for="arsyeja" class="form-label">Reason for cancellation:</label>
+                <label for="arsyeja" class="form-label">Arsyeja e anulimit:</label>
                 <textarea class="form-control text" id="arsyeja" rows="3" maxlength="250" name="arsyejaAnulimit"></textarea>
             </div>
 
-            <button type="submit" name="anulo" class="anulo btn btn-primary w-25">Sent</button>
+            <button type="submit" name="anulo" class="anulo btn btn-primary w-25">Dergo</button>
         </form>
     </div>
 
     <div class="popMsg <?= $njoftim ?? '' ?>">
         <div class="pac_h5">
-            <h5>Notification</h5>
+            <h5>Njoftim</h5>
             <button id="close" class="close">
                 <i class="fa-solid fa-close rezervoClose"></i>
             </button>

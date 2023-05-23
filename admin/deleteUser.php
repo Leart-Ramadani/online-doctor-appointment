@@ -12,6 +12,6 @@
 
 	$prep->execute();
 
-	header("Location: doctors.php");
+	header("Location: doktoret.php");
 	
 ?>

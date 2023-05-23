@@ -181,7 +181,7 @@ $depData = $dep_prep->fetchAll();
                 $stm->bindParam(':username', $username);
                 $stm->bindParam(':password', $encPass);
                 if ($stm->execute()) {
-                    header("Location: doctors.php");
+                    header("Location: doktoret.php");
                     $name = $lastName = $personalNumber = $gender = $userEmail = $biografia = $phone = $user1 = "";
                 }
             }
@@ -190,7 +190,7 @@ $depData = $dep_prep->fetchAll();
         ?>
 
 
-        <a href="./doctors.php" class="backDoc" title="Go back"><i class="fa-solid fa-arrow-left"></i></a>
+        <a href="./doktoret.php" class="backDoc" title="Go back"><i class="fa-solid fa-arrow-left"></i></a>
         <article class="popDocEdit rounded" id="popDocEdit">
             <h3 class="text-center">Edit Doctor Account</h3>
             <div class="editForm_wrapper">

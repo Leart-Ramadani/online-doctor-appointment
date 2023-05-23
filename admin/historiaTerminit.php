@@ -20,7 +20,7 @@ if (!isset($_SESSION['admin'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="doctors.php" class="nav-link text-white">Doctors</a></li>
+            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doctors</a></li>
             <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
             <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
             <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>

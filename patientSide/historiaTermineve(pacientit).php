@@ -11,7 +11,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointments history</title>
+    <title>Historia e termineve</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/responsive.css">
@@ -41,11 +41,11 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a href="../index.php" class="nav-link text-white">Home</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appointments</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appointments</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white active" aria-current="page">Appointments history</a></li>
+            <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Terminet</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">Termient e mia</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white active" aria-current="page">Historia e termineve</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -54,7 +54,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
                 <strong class="useri"><?php echo $_SESSION['username'] ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="profili.php">Profile</a></li>
+                <li><a class="dropdown-item" href="profili.php">Profili</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
@@ -81,12 +81,12 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             <table class="table table-striped text-center mt-2 table_patient">
                 <thead>
                     <tr>
-                        <th scope="col">Doctor</th>
-                        <th scope="col">Departament</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Time</th>
-                        <th scope="col">Diagnose</th>
-                        <th scope="col">Receipt</th>
+                        <th scope="col">Doktori</th>
+                        <th scope="col">Departamenti</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Ora</th>
+                        <th scope="col">Diagnoza</th>
+                        <th scope="col">Recepti</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,7 +106,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
         <?php if ($empty == 'empty') : ?>
             <article class="mt-5 dataNotfound">
-                <h1 class=" h1 fw-normal text-center mt-5">Data not found.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Nuk u gjeten te dhena ne databaze.</h1>
             </article>
         <?php endif; ?>
 

@@ -24,7 +24,7 @@ $email = $_GET['email'];
     $newPass_err = $confirmPass_err = '';
     if (isset($_POST['submit'])) {
         if (empty($_POST['newPass'])) {
-            $newPass_err = 'You must fill out new password.';
+            $newPass_err = 'Ju duhet te shkurani fjalkalimin e ri.';
             $invalid_newPass = 'is-invalid';
         } else {
             $newPass_err = '';
@@ -32,7 +32,7 @@ $email = $_GET['email'];
         }
 
         if (empty($_POST['confirmPass'])) {
-            $confirmPass_err = 'You must confirm password.';
+            $confirmPass_err = 'Ju duhet te konfirmoni fjalkalimin e ri.';
             $invalid_confirmPass = 'is-invalid';
         } else {
             $confirmPass_err = '';
@@ -41,7 +41,7 @@ $email = $_GET['email'];
 
         if ($newPass_err == '' && $confirmPass_err == '') {
             if ($newPass !== $confirmPass) {
-                $confirmPass_err = "Passwords doesn't match";
+                $confirmPass_err = "Fjalkalimet nuk perputhen";
                 $invalid_confirmPass = 'is-invalid';
             } else {
                 $encPass = password_hash($confirmPass, PASSWORD_DEFAULT);
@@ -51,7 +51,7 @@ $email = $_GET['email'];
                 $prep->bindParam(':password', $encPass);
                 if ($prep->execute()) {
                     echo "<script>
-                                    alert('Password has been successfully reset.');
+                                    alert('Fjalkalimi eshte rivendosur me sukses.');
                                     window.location.replace('login.php');
                                 </script>";
                 }
@@ -61,20 +61,20 @@ $email = $_GET['email'];
     ?>
     <main class="main">
         <form method="post" class="form-signin" autocomplete="off">
-            <h1 class="h3 mb-4 fw-normal">Reset your password</h1>
+            <h1 class="h3 mb-4 fw-normal">Rivendos fjalkalimin</h1>
             <div class="form-floating mb-2">
                 <input type="password" class="form-control rounded <?= $invalid_newPass ?? '' ?>" id="floatingInput" name="newPass" placeholder="Fjalekalimi i ri">
-                <label for="floatingInput">New password</label>
+                <label for="floatingInput">Fjalekalimi i ri</label>
                 <span class="text-danger fw-normal"><?php echo $newPass_err; ?></span>
             </div>
 
             <div class="form-floating">
                 <input type="password" class="form-control rounded <?= $invalid_confirmPass ?? '' ?>" id="floatingInput" name="confirmPass" placeholder="Konfirmo fjalekalimin">
-                <label for="floatingInput">Confirm password</label>
+                <label for="floatingInput">Konfirmo fjalekalimin</label>
                 <span class="text-danger fw-normal"><?php echo $confirmPass_err; ?></span>
             </div>
 
-            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="submit">Submit</button>
+            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="submit">Vazhdo</button>
         </form>
     </main>
 </body>

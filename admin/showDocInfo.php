@@ -24,10 +24,6 @@ if(isset($_POST['popShow']) && $_POST['popShow'] == true){
         </div>
         <div class='doc_pop_des'>
             <p>{$data['biografia']}</p>
-            <div>
-                <button class='w-25 btn btn-lg btn-warning text-white'>Edit</button>
-                <button class='w-25 btn btn-lg btn-danger ms-2'>Delete</button>
-            </div>
         </div>
         ";
 }

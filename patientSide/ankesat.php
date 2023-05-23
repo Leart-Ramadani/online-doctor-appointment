@@ -129,7 +129,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
 
 
-            <button class=" btn btn-lg btn-primary ankohu updateRes" type="submit" name="ankohu">Sent</button>
+            <button class=" btn btn-lg btn-primary ankohu updateRes" type="submit" name="ankohu">Send</button>
 
         </form>
     </main>

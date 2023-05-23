@@ -40,10 +40,10 @@
             <div class="collapse navbar-collapse" id="navbarsExample04">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a href="../index.php" class="nav-link active text-white" aria-current="page">Home</a>
+                        <a href="../index.php" class="nav-link active text-white" aria-current="page">Ballina</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../galeria.php" class="nav-link text-white">Gallery</a>
+                        <a href="../galeria.php" class="nav-link text-white">Galeria</a>
                     </li>
                     <li class="nav-item">
                         <a href="./patientSide/rezervoTermin.php" class="nav-link  text-white">Terminet</a>

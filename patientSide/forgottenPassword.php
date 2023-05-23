@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
+    <title>Rivendos fjalekalimin</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -39,7 +39,7 @@
         $data = $prep->fetch();
 
         if (!$data) {
-            $error = "This email doesn't exists.";
+            $error = "*Ky username nuk eksizton.";
             $invalid_error = 'is-invalid';
         } else{
             $mail = new PHPMailer(true);
@@ -64,14 +64,14 @@
                 $mail->isHTML(true);                                        //Set email format to HTML
 
 
-                $mail->Subject = 'Reset password';
-                $mail->Body    = "<p style='font-size: 18px;'>Click <a href='localhost/Sistemi-per-rezervimin-e-termineve/patientSide/resetPassword.php?email=$email'>here</a> 
-                to reset your account.</p>";
+                $mail->Subject = 'Rivendos fjalkalimin';
+                $mail->Body    = "<p style='font-size: 18px;'>Kliko <a href='localhost/Sistemi-per-rezervimin-e-termineve/patientSide/resetPassword.php?email=$email'>ketu</a> 
+                per te rivendosur fjalkalimin.</p>";
 
                 $mail->send();
 
                 echo "<script>
-                        alert('We sent you the link to reset the password: $email.');
+                        alert('Ne ju derguam linkun per te rivendosur fjalkalimin ne emailin: $email.');
                         window.location.replace('login.php');
                     </script>";
 
@@ -82,7 +82,7 @@
     }
     ?>
     <form method="post" class="form-signin" autocomplete="off">
-        <h1 class="h3 mb-4 fw-normal">Reset Password</h1>
+        <h1 class="h3 mb-4 fw-normal">Rivendos fjalekalimin</h1>
         <div class="form-floating">
             <input type="email" class="form-control rounded <?= $invalid_error ?? '' ?>" id="floatingInput" name="email" placeholder="Email">
             <label for="floatingInput">Email</label>

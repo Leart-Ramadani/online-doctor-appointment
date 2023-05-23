@@ -65,15 +65,15 @@ $data = $stm->fetch();
 
 
         echo $return = "
-            <p>Doctor: <span class='doc_name'>{$data['fullName']}</span></p> 
+            <p>Doktori: <span class='doc_name'>{$data['fullName']}</span></p> 
             <hr>
-            <p>Departament: <span class='doc_dep'>{$data['departamenti']}</span></p> 
+            <p>Departamenti: <span class='doc_dep'>{$data['departamenti']}</span></p> 
             <hr>
-            <p>Appointment Date: <span class='app_date'>{$row['data']}</span></p> 
+            <p>Data e terminit: <span class='app_date'>{$row['data']}</span></p> 
             <hr>
-            <p>Schedule: <span class='app_time'> {$row['nga_ora']} - {$row['deri_oren']}<span></p>
+            <p>Orari: <span class='app_time'> {$row['nga_ora']} - {$row['deri_oren']}<span></p>
             <hr>
-            <p>Duration: <span class='app_dur'>{$row['kohezgjatja']}min</span></p>
+            <p>Kohezgjatja: <span class='app_dur'>{$row['kohezgjatja']}min</span></p>
             <hr>";
     }
 
@@ -119,9 +119,9 @@ $data = $stm->fetch();
         $gender_data = $gender_prep->fetch();
 
         if ($gender_data['gjinia'] == 'Mashkull') {
-            $gjinia = 'Dear Mr.';
+            $gjinia = 'I nderuar z.';
         } else {
-            $gjinia = 'Dear Mrs.';
+            $gjinia = 'E nderuar znj.';
         }
 
 
@@ -135,7 +135,7 @@ $data = $stm->fetch();
 
         if ($check_data) {
             echo "<script>
-                    alert('You already have booked one appointment at Dr.{$check_data['doktori']}.');
+                    alert('Ti ke nje termin te rezervuar te dr.{$check_data['doktori']}.');
                     window.location.replace('rezervoTermin.php');
                 </script>";
         } else {
@@ -200,21 +200,21 @@ $data = $stm->fetch();
                             $mail->isHTML(true);                                        //Set email format to HTML
 
 
-                            $mail->Subject = 'Appointment has been booked';
+                            $mail->Subject = 'Termini eshte rezervuar';
                             $mail->Body    =   "<p style='font-size: 16px; color: black;'>
                                             $gjinia{$mbiemri_pacientit},
                                             <br> <br>
-                                            Your appointment in date:$data, time:$zene_deri, 
-                                            has been successfully booked.
+                                            Termini juaj me date:$data, ne ora:$zene_deri, 
+                                            eshte rezervuar me sukses.
                                             <br><br>
-                                            Sincerely, <br>
+                                            Me respekt, <br>
                                             sistemi-termineve-online.com
                                             </p>";
 
                             $mail->send();
 
                             echo "<script>
-                                alert('Appointment has been successfully booked.');
+                                alert('Termini juaj eshte rezervuar me sukses.');
                                 window.location.replace('terminet_e_mia.php');
                             </script>";
                             unset($_SESSION['id_ofApp']);
@@ -234,7 +234,7 @@ $data = $stm->fetch();
                 $delete_prep->bindParam(':id', $id);
                 $delete_prep->execute();
                 echo "<script>
-                    alert('We are sorry but all the appoinments has been booked.');
+                    alert('Na vjen keq mirepo nuk ka termine te lira.');
                     // window.location.replace('rezervoTermin.php');
                 </script>";
             }
