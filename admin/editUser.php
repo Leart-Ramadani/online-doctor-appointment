@@ -19,7 +19,7 @@ $dep_prep->execute();
 $depData = $dep_prep->fetchAll();
 ?>
 <?php include('./header.php'); ?>
-<title>Edit Doctor Profile</title>
+<title>Perditeso</title>
 
 </head>
 
@@ -192,13 +192,13 @@ $depData = $dep_prep->fetchAll();
 
         <a href="./doktoret.php" class="backDoc" title="Go back"><i class="fa-solid fa-arrow-left"></i></a>
         <article class="popDocEdit rounded" id="popDocEdit">
-            <h3 class="text-center">Edit Doctor Account</h3>
+            <h3 class="text-center">Perditeso llogarin</h3>
             <div class="editForm_wrapper">
                 <form class="editForm" autocomplete="off" method="POST" enctype="multipart/form-data">
                     <div class="d-flex">
                         <div class="form-floating">
-                            <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput" name="fullName" placeholder="Full name" value="<?= $editData['fullName']; ?>">
-                            <label for="floatingInput">Full name</label>
+                            <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput" name="fullName" placeholder="Emri i plote" value="<?= $editData['fullName']; ?>">
+                            <label for="floatingInput">Emri i plote</label>
                             <span class="text-danger fw-normal"><?php echo $fullNameErr; ?></span>
                         </div>
                         <div>
@@ -216,12 +216,12 @@ $depData = $dep_prep->fetchAll();
                             <div class="d-flex editGender">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Mashkull" <?= $maleGender ?? "" ?>>
-                                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                                    <label class="form-check-label" for="inlineRadio1">Mashkull</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Femer" <?= $femGender ?? "" ?>>
-                                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                                    <label class="form-check-label" for="inlineRadio2">Femer</label>
                                 </div> <br>
                             </div>
                             <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
@@ -237,19 +237,19 @@ $depData = $dep_prep->fetchAll();
                     <div class="d-flex">
 
                         <div class="mb-3">
-                            <label for="formFile" class="form-label">Photo</label>
+                            <label for="formFile" class="form-label">Foto</label>
                             <input class="form-control <?= $invalid_photo ?? "" ?>" type="file" name="my_image" id="formFile">
                             <span class="text-danger fw-normal"><?php echo $photoErr;?></span>
                         </div>
 
                         <div class="form-floating mt-3">
-                            <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Phone number" value="<?= $editData['telefoni']; ?>">
-                            <label for="floatingInput">Phone number</label>
+                            <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Numri i telefonit" value="<?= $editData['telefoni']; ?>">
+                            <label for="floatingInput">Numri i telefonit</label>
                             <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="biografia" class="form-label">Personal bio</label>
+                        <label for="biografia" class="form-label">Biografia</label>
                         <textarea class="form-control <?= $invalid_bio ?? "" ?>" id="biografia" rows="4" maxlength="250" name="docBio"><?= $editData['biografia']; ?></textarea>
                         <span class="text-danger fw-normal"><?php echo $bioErr; ?></span>
                     </div>
@@ -263,12 +263,12 @@ $depData = $dep_prep->fetchAll();
                         </div>
 
                         <div class="form-floating">
-                            <input type="password" class="form-control <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Password">
-                            <label for="floatingPassword">Password</label>
+                            <input type="password" class="form-control <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Fjalkalimi">
+                            <label for="floatingPassword">Fjalkalimi</label>
                             <span class="text-danger fw-normal"><?php echo $passErr; ?></span>
                         </div>
                     </div>
-                    <button class="w-100 btn btn-lg btn-primary mt-1" type="submit" name="update">Update</button>
+                    <button class="w-100 btn btn-lg btn-primary mt-1" type="submit" name="update">Perditeso</button>
                 </form>
             </div>
         </article>

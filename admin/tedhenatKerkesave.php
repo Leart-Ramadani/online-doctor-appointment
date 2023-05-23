@@ -71,7 +71,7 @@ $data = $prep->fetch();
             </a>
 
             <a class="text-decoration-none text-white d-inline-block kerkesa" href="deleteKerkesen.php?id=<?= $data['id']  ?>">
-                <button class="btn btn-danger w-100 p-2 text-white mb-1 ms-3">Delete </button>
+                <button class="btn btn-danger w-100 p-2 text-white mb-1 ms-3">Fshij </button>
             </a>
         </div>
 

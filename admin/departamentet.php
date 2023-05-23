@@ -5,7 +5,7 @@ if (!isset($_SESSION['admin'])) {
 }
 ?>
 <?php include('header.php'); ?>
-<title>Departaments</title>
+<title>Departamentet</title>
 </head>
 
 <body>
@@ -19,15 +19,15 @@ if (!isset($_SESSION['admin'])) {
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doctors</a></li>
-            <li><a href="departamentet.php" class="nav-link text-white active" aria-current="page">Departaments</a></li>
-            <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
-            <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
-            <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
-            <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
-            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
-            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancellation requests</a></li>
+            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doktoret</a></li>
+            <li><a href="departamentet.php" class="nav-link text-white active" aria-current="page">Departamentet</a></li>
+            <li><a href="orari.php" class="nav-link text-white">Orari</a></li>
+            <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
+            <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
+            <li><a href="historiaTerminit.php" class="nav-link text-white">Historia termineve</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
+            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat per anulim</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -36,10 +36,6 @@ if (!isset($_SESSION['admin'])) {
                 <strong><?php echo $_SESSION['admin'] ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="profili.php">Profile</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
                 <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
             </ul>
         </div>
@@ -56,12 +52,12 @@ if (!isset($_SESSION['admin'])) {
         }
 
         if (empty($_POST['departamenti'])) {
-            $depErr = 'Departament must be filled.';
+            $depErr = '*Departamenti duhet plotesuar.';
             $invalid_dep = 'is-invalid';
         } else {
             $departament = testInput($_POST['departamenti']);
             if (!preg_match("/^[a-z A-z]*$/", $departament)) {
-                $depErr = 'Only letters are allowed';
+                $depErr = '*Nuk lejohen karaktere tjera perveq shkronjave.';
                 $invalid_dep = 'is-invalid';
             } else {
                 $sql = "SELECT * FROM departamentet WHERE departamenti=:departamenti";
@@ -71,7 +67,7 @@ if (!isset($_SESSION['admin'])) {
                 $row = $stm->fetch();
 
                 if ($row) {
-                    $depErr = 'This departament already exists.';
+                    $depErr = '*Ky departament ekziston ne databaze.';
                     $invalid_dep = 'is-invalid';
                 } else {
                     $depErr = '';
@@ -90,12 +86,12 @@ if (!isset($_SESSION['admin'])) {
 
     <main class="text-center main mainRes">
         <form method="POST" autocomplete="off" class="form-signin text-center departament">
-            <h1 class="h3 mb-3 fw-normal">Add a departament</h1>
+            <h1 class="h3 mb-3 fw-normal">Shto nje departament</h1>
             <div class="form-floating">
-                <input type="text" class="form-control <?= $invalid_dep ?? "" ?>" id="floatingPassword" name="departamenti" placeholder="Departament">
-                <label for="floatingPassword">Departament</label>
+                <input type="text" class="form-control <?= $invalid_dep ?? "" ?>" id="floatingPassword" name="departamenti" placeholder="Departamenti">
+                <label for="floatingPassword">Departamenti</label>
                 <span class="text-danger fw-normal"><?php echo $depErr; ?></span>
-                <button class="w-100 btn btn-lg btn-primary mt-2" type="submit" name="submit">Add</button>
+                <button class="w-100 btn btn-lg btn-primary mt-2" type="submit" name="submit">Shto</button>
             </div>
         </form>
 
@@ -117,12 +113,12 @@ if (!isset($_SESSION['admin'])) {
 
     <article class="table_wrapper">
         <?php if ($empty == '') : ?>
-            <table class="table table-striped table-borderd w-50">
+            <table class="table table-striped table-borderd w-50 text-center">
                 <thead>
                     <tr>
                         <th scope="col" class="text-center">#</th>
-                        <th scope="col">Departaments</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Departamenti</th>
+                        <th scope="col">Aksioni</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -143,7 +139,7 @@ if (!isset($_SESSION['admin'])) {
 
         <?php if ($empty == 'empty') : ?>
             <article class="text-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Data not found.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Nuk u gjeten te dhena ne databaze.</h1>
             </article>
         <?php endif; ?>
     </article>

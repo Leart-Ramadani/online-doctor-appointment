@@ -5,7 +5,7 @@ if (!isset($_SESSION['admin'])) {
 }
 ?>
 <?php include('header.php') ?>
-<title>Cancellation requests</title>
+<title>Kerkesat per anulimin e terminit</title>
 </head>
 
 <body>
@@ -19,15 +19,15 @@ if (!isset($_SESSION['admin'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doctors</a></li>
-            <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
-            <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
-            <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
-            <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
-            <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
-            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
-            <li><a href="kerkesatAnulimit.php" class="nav-link text-white active" aria-current="page">Cancellation requests</a></li>
+            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doktoret</a></li>
+            <li><a href="departamentet.php" class="nav-link text-white">Departamentet</a></li>
+            <li><a href="orari.php" class="nav-link text-white">Orari</a></li>
+            <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
+            <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
+            <li><a href="historiaTerminit.php" class="nav-link text-white">Historia termineve</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
+            <li><a href="kerkesatAnulimit.php" class="nav-link text-white active" aria-current="page">Kerkesat per anulim</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -36,10 +36,6 @@ if (!isset($_SESSION['admin'])) {
                 <strong><?php echo $_SESSION['admin'] ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="profili.php">Profile</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
                 <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
             </ul>
         </div>
@@ -64,12 +60,12 @@ if (!isset($_SESSION['admin'])) {
             <table class="table table-striped text-center mt-2 table_patient">
                 <thead>
                     <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Last name</th>
-                        <th scope="col">Personal ID</th>
-                        <th scope="col">Doctor</th>
-                        <th scope="col">Departament</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Emri</th>
+                        <th scope="col">Mbiemri</th>
+                        <th scope="col">Numri personal</th>
+                        <th scope="col">Doktori</th>
+                        <th scope="col">Departamenti</th>
+                        <th scope="col">Aksioni</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,7 +78,7 @@ if (!isset($_SESSION['admin'])) {
                             <td><?= $data['departamenti'] ?></td>
                             <td>
                                 <a class="text-decoration-none text-white" href="tedhenatKerkesave.php?id=<?= $data['id']  ?>">
-                                    <button class="btn btn-primary w-100 p-1 text-white mb-1 rez">Details</button>
+                                    <button class="btn btn-primary w-100 p-1 text-white mb-1 rez">Detajet</button>
                                 </a>
                             </td>
                         </tr>
@@ -93,7 +89,7 @@ if (!isset($_SESSION['admin'])) {
 
         <?php if ($empty == 'empty') : ?>
             <article style="margin-left: 200px;" class="text-center">
-                <h1 class=" h1 fw-normal text-center">Data not found.</h1>
+                <h1 class=" h1 fw-normal text-center">Nuk u gjeten te dhena ne databaze.</h1>
             </article>
         <?php endif; ?>
     </main>

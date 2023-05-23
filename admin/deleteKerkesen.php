@@ -37,26 +37,26 @@
 
     try {
 
-        $mail->SMTPDebug = 0;
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'terminet.online@gmail.com';
-        $mail->Password   = 'vaiddzxpncfvvksh';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;         
+        $mail->SMTPDebug = 0;                                       //Enable verbose debug output
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        $mail->Username   = 'terminet.online@gmail.com';            //SMTP username
+        $mail->Password   = 'vaiddzxpncfvvksh';                          //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-
-        $mail->setFrom('terminet.online@gmail.com', 'sistemi-termineve-online.com');
-        $mail->addAddress($data['email'], $data['emri_pacientit'].' '.$data['mbiemri_pacientit']); 
+        //Recipients
+        $mail->setFrom('terminet.online@gmail.com', 'terminet-online.com');
+        $mail->addAddress($data['email'], $data['emri_pacientit'].' '.$data['mbiemri_pacientit']);                           //Add a recipient
 
 
         //Content
-        $mail->isHTML(true);        
+        $mail->isHTML(true);           
 
 
         $mail->Subject = 'Kerkesa per anulimin e terminit';
-        $mail->Body    = "<p style='font-size: 18px; color: black;'>
+        $mail->Body    = "<p>
                     $gjinia{$data['mbiemri_pacientit']},
                     <br>
                     Kërkesa juaj për anulimin e terminit me datë:{$data['data']}, në orën:{$data['ora']}, 

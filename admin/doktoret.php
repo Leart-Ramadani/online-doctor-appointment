@@ -5,7 +5,7 @@
     }
 ?>
  <?php include('header.php') ?>
- <title>Doctors</title>
+ <title>Doktoret</title>
  </head>
 
  <body>
@@ -24,12 +24,12 @@
             }
 
             if (empty($_POST['name'])) {
-                $nameErr = '*Name must be filed.';
+                $nameErr = '*Emri duhet plotesuar.';
                 $invalid_name = 'is-invalid';
             } else {
                 $emri = testInput($_POST['name']);
                 if (!preg_match("/^[a-zA-z]*$/", $emri)) {
-                    $nameErr = '*Only letters are allowed.';
+                    $nameErr = '*Nuk lejohen karaktere tjera perveq shkronjave.';
                     $invalid_name = 'is-invalid';
                 } else {
                     $nameErr = '';
@@ -38,12 +38,12 @@
             }
 
             if (empty($_POST['surname'])) {
-                $surnameErr = '*Last name must be filled.';
+                $surnameErr = '*Mbiemri duhet plotesuar.';
                 $invalid_surname = 'is-invalid';
             } else {
                 $mbiemri = testInput($_POST['surname']);
                 if (!preg_match("/^[a-zA-z]*$/", $mbiemri)) {
-                    $surnameErr = '*Only letters are allowed.';
+                    $surnameErr = '*Nuk lejohen karaktere tjera perveq shkronjave.';
                     $invalid_surname = 'is-invalid';
                 } else {
                     $surnameErr = '';
@@ -52,7 +52,7 @@
             }
 
             if (empty($_POST['departament'])) {
-                $departamentErr = '*You must select a departament.';
+                $departamentErr = '*Ju duhet te zgjedhni nje departament.';
                 $invalid_dep = 'is-invalid';
             } else {
                 $departamenti = $_POST['departament'];
@@ -60,7 +60,7 @@
             }
 
             if (!isset($_POST['gender'])) {
-                $genderErr = '*Gender must be selected';
+                $genderErr = '*Gjinia duhet zgjedhur';
             } else {
                 $gjinia = testInput($_POST['gender']);
                 if($gjinia == 'Mashkull'){
@@ -72,13 +72,13 @@
             }
 
             if (empty($_POST['email'])) {
-                $emailErr = '*Email must be filled.';
+                $emailErr = '*Emaili duhet plotesuar.';
                 $invalid_email = 'is-invalid';
             } else {
                 $pattern = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^";
                 $email = testInput($_POST['email']);
                 if (!preg_match($pattern, $email)) {
-                    $emailErr = '*Invalid email.';
+                    $emailErr = '*Ky email nuk eshte valid.';
                     $invalid_email = 'is-invalid';
                 } else {
                     $userEmail = $email;
@@ -88,7 +88,7 @@
 
 
             if (isset($_POST['my_image']) && empty($_POST['my_image'])) {
-                $photoErr = '*Image must be choosed.';
+                $photoErr = '*Ju duhet te zgjedhni nje foto.';
                 $invalid_photo = 'is-invalid';
             } else {
                 $photoErr = '';
@@ -100,7 +100,7 @@
                 if ($error === 0) {
                     $photoErr = '';
                     if ($img_size > 12500000) {
-                        $photo_err = "*This image is to large.";
+                        $photo_err = "*Kjo foto eshte shume e madhe.";
                         $invalid_photo = 'is-invalid';
                     } else {
                         $photoErr = '';
@@ -114,23 +114,23 @@
                             $img_upload_path = 'uploads/' . $new_img_name;
                             move_uploaded_file($tmp_name, $img_upload_path);
                         } else {    
-                            $photoErr = "*This format is not valid valid. <br>Allowed formates(jpg, jpeg, png, gif, webp).";
+                            $photoErr = "*Ky format nuk pranohet. <br>Formatet e lejuara(jpg, jpeg, png, gif, webp).";
                             $invalid_photo = 'is-invalid';
                         }
                     }
                 } else {
-                    $photoErr = "*Unknown error!";
+                    $photoErr = "*Gabim i panjohur!";
                     $invalid_photo = 'is-invalid';
                 }
             }
 
             if (empty($_POST['phone'])) {
-                $phoneErr = '*Phone number must be filled.';
+                $phoneErr = '*Numri i telefonit duhet vendosur.';
                 $invalid_phone = 'is-invalid';
             } else {
                 $tel = testInput($_POST['phone']);
                 if (!preg_match('/^[0-9]{9}+$/', $tel)) {
-                    $phoneErr = '*Invalid phone number.';
+                    $phoneErr = '*Ky numer i telefonit nuk eshte valid.';
                     $invalid_phone = 'is-invalid';
                 } else {
                     $phoneErr = '';
@@ -140,7 +140,7 @@
 
 
             if (empty($_POST['docBio'])) {
-                $bioErr = '*Personal bio must be filled.';
+                $bioErr = '*Biografia personale e mjekut duhet plotesuar.';
                 $invalid_bio = 'is-invalid';
             } else {
                 $bio = testInput($_POST['docBio']);
@@ -149,7 +149,7 @@
             }
 
             if (empty($_POST['username'])) {
-                $userErr = '*Username must be filled.';
+                $userErr = '*Username duhet plotesuar.';
                 $invalid_user = 'is-invalid';
             } else {
                 $username = testInput($_POST['username']);
@@ -158,7 +158,7 @@
             }
 
             if (empty($_POST['password'])) {
-                $passErr = '*Password must be filled.';
+                $passErr = '*Fjalkalimi duhet plotesuar.';
                 $invalid_pass = 'is-invalid';
             } else {
                 $password = testInput($_POST['password']);
@@ -203,15 +203,15 @@
          </p>
          <hr>
          <ul class="nav nav-pills flex-column mb-auto">
-             <li class="nav-item"><a href="doktoret.php" class="nav-link active" aria-current="page">Doctors</a></li>
-             <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
-             <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
-             <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
-             <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
-             <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
-             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
-             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
-             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancellation requests</a></li>
+             <li class="nav-item"><a href="doktoret.php" class="nav-link active" aria-current="page">Doktoret</a></li>
+             <li><a href="departamentet.php" class="nav-link text-white">Departamentet</a></li>
+             <li><a href="orari.php" class="nav-link text-white">Orari</a></li>
+             <li><a href="terminet.php" class="nav-link text-white">Termibet</a></li>
+             <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
+             <li><a href="historiaTerminit.php" class="nav-link text-white">Historia termineve</a></li>
+             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>
+             <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
+             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat per anulim</a></li>
          </ul>
          <hr>
          <div class="dropdown">
@@ -234,24 +234,24 @@
 
      <main class="text-center main mainRes">
          <form method="POST" class="form-signin reg_doc" enctype="multipart/form-data" autocomplete="off">
-             <h1 class="h3 mb-3 fw-normal">Register a doctor</h1>
+             <h1 class="h3 mb-3 fw-normal">Regjistro nje doktor</h1>
 
              <div class="form-floating">
-                 <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput" name="name" placeholder="Name" value="<?= $name; ?>">
-                 <label for="floatingInput">Name</label>
+                 <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput" name="name" placeholder="Emri" value="<?= $name; ?>">
+                 <label for="floatingInput">Emri</label>
                  <span class="text-danger fw-normal"><?php echo $nameErr; ?></span>
              </div>
 
 
              <div class="form-floating">
-                 <input type="text" class="form-control mt-2 <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Last name" value="<?= $lastName; ?>">
-                 <label for="floatingInput">Last name</label>
+                 <input type="text" class="form-control mt-2 <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Mbiemri" value="<?= $lastName; ?>">
+                 <label for="floatingInput">Mbiemri</label>
                  <span class="text-danger fw-normal"><?php echo $surnameErr; ?></span>
              </div>
 
              <div>
                  <select class="form-select <?= $invalid_dep ?? "" ?> mt-2" aria-label="Default select example" name="departament">
-                     <option value="">Choose a departament</option>
+                     <option value="">Zgjedh departamentin</option>
                      <?php foreach ($data as $data) : ?>
                          <option value="<?= $data['departamenti'] ?>"><?= $data['departamenti'] ?></option>
                      <?php endforeach; ?>
@@ -261,12 +261,12 @@
 
              <div class="form-check form-check-inline mt-2">
                  <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Mashkull" <?= $genderMale ?? "" ?>>
-                 <label class="form-check-label" for="inlineRadio1">Male</label>
+                 <label class="form-check-label" for="inlineRadio1">Mashkull</label>
              </div>
 
              <div class="form-check form-check-inline mt-2">
                  <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Femer" <?= $genderFem ?? "" ?>>
-                 <label class="form-check-label" for="inlineRadio2">Female</label>
+                 <label class="form-check-label" for="inlineRadio2">Femer</label>
              </div> <br>
              <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
 
@@ -277,19 +277,19 @@
              </div>
 
              <div class="mb-3">
-                 <label for="formFile" class="form-label mt-2">Image</label>
+                 <label for="formFile" class="form-label mt-2">Foto</label>
                  <input class="form-control <?= $invalid_photo ?? "" ?>" type="file" name="my_image" id="formFile">
                  <span class="text-danger fw-normal"><?php echo $photoErr; ?></span>
              </div>
 
              <div class="form-floating">
-                 <input type="tel" class="form-control mt-2 <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Phone number" value="<?= $phone; ?>">
-                 <label for="floatingInput">Phone number</label>
+                 <input type="tel" class="form-control mt-2 <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Numri i telefonit" value="<?= $phone; ?>">
+                 <label for="floatingInput">Numri i telefonit</label>
                  <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
              </div>
 
              <div class="mb-3">
-                 <label for="biografia" class="form-label mt-2">Personal bio</label>
+                 <label for="biografia" class="form-label mt-2">Biografia</label>
                  <textarea class="form-control <?= $invalid_bio ?? "" ?>" id="biografia" rows="4" maxlength="250" name="docBio"><?= $biografia; ?></textarea>
                  <span class="text-danger fw-normal"><?php echo $bioErr; ?></span>
              </div>
@@ -301,12 +301,12 @@
              </div>
 
              <div class="form-floating">
-                 <input type="password" class="form-control mt-2 <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Password">
-                 <label for="floatingPassword">Password</label>
+                 <input type="password" class="form-control mt-2 <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Fjalkalimi">
+                 <label for="floatingPassword">Fjalkalimi</label>
                  <span class="text-danger fw-normal"><?php echo $passErr; ?></span>
              </div>
 
-             <button class="w-100 btn btn-lg btn-primary" type="submit" name="register">Register</button>
+             <button class="w-100 btn btn-lg btn-primary" type="submit" name="register">Regjistro</button>
          </form>
 
 
@@ -335,11 +335,11 @@
                  <thead>
                      <tr>
                          <th scope="col" style="display: none;">ID</th>
-                         <th scope="col">Doctor</th>
-                         <th scope="col">Departament</th>
-                         <th scope="col">Email</th>
+                         <th scope="col">Doktori</th>
+                         <th scope="col">Departamenti</th>
+                         <th scope="col">Emaili</th>
                          <th scope="col">Username</th>
-                         <th scope="col">Action</th>
+                         <th scope="col">Aksioni</th>
                      </tr>
                  </thead>
                  <tbody>
@@ -351,14 +351,14 @@
                              <td><?= $data['email'] ?></td>
                              <td><?= $data['username'] ?></td>
                              <td>
-                                 <a class="text-decoration-none text-white showPop">
-                                     <button class="btn btn-primary w-25 text-white " id="showPop">View</button>
+                                 <a class="text-decoration-none w-25 text-white showPop">
+                                     <button class="btn btn-primary  text-white " id="showPop">Shiko</button>
                                  </a>
-                                 <a href="editUser.php?id=<?= $data['id']  ?>" class="text-decoration-none text-white showEditPop">
-                                     <button class="btn btn-warning w-25 text-white">Edit</button>
+                                 <a href="editUser.php?id=<?= $data['id']  ?>" class="text-decoration-none w-25 text-white showEditPop">
+                                     <button class="btn btn-warning  text-white">Ndrysho</button>
                                  </a>
-                                 <a href="deleteUser.php?id=<?= $data['id']  ?>" class="text-decoration-none text-white">
-                                     <button class="btn btn-danger w-25 text-white">Delete</button>
+                                 <a href="deleteUser.php?id=<?= $data['id']  ?>" class="text-decoration-none w-25 text-white">
+                                     <button class="btn btn-danger text-white">Fshij</button>
                                  </a>
 
                              </td>

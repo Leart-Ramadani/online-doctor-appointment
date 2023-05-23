@@ -109,7 +109,7 @@
 
     <main class="form-signin">
         <form method="POST" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal">Log in</h1>
+            <h1 class="h3 mb-3 fw-normal">Kyquni ne llogarine tuaj</h1>
             <div class="rounded mb-2 <?= $invalid_verify ?? "" ?>">
                 <span class="text-white"><?php echo $verificationErr; ?></span>
             </div>

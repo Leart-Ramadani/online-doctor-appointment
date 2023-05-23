@@ -6,7 +6,7 @@ if (!isset($_SESSION['admin'])) {
 ?>
 
 <?php include('header.php') ?>
-<title>Appointments history</title>
+<title>Historia e termineve</title>
 </head>
 
 <body>
@@ -20,15 +20,15 @@ if (!isset($_SESSION['admin'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doctors</a></li>
-            <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
-            <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
-            <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
-            <li><a href="pacientat.php" class="nav-link text-white">Patients</a></li>
-            <li><a href="pacientat.php" class="nav-link text-white active" aria-current="page">Appointments history</a></li>
-            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
-            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancellation requests</a></li>
+            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doktoret</a></li>
+            <li><a href="departamentet.php" class="nav-link text-white">Departamentet</a></li>
+            <li><a href="orari.php" class="nav-link text-white">Orari</a></li>
+            <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
+            <li><a href="pacientat.php" class="nav-link text-white">Pacientat</a></li>
+            <li><a href="pacientat.php" class="nav-link text-white active" aria-current="page">Historia termineve</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
+            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat per anulim</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -37,10 +37,6 @@ if (!isset($_SESSION['admin'])) {
                 <strong><?php echo $_SESSION['admin'] ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="profili.php">Profile</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
                 <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
             </ul>
         </div>
@@ -65,16 +61,16 @@ if (!isset($_SESSION['admin'])) {
             <table class="table table-striped text-center mt-2 patient_table">
                 <thead>
                     <tr>
-                        <th scope="col">Doctor</th>
-                        <th scope="col">Departament</th>
-                        <th scope="col">Patient</th>
-                        <th scope="col">Personal ID</th>
+                        <th scope="col">Doktori</th>
+                        <th scope="col">Departamenti</th>
+                        <th scope="col">Pacienti</th>
+                        <th scope="col">Nr.personal</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Time</th>
-                        <th scope="col">Diagnose</th>
-                        <th scope="col">Recipe</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Ora</th>
+                        <th scope="col">Diagnoza</th>
+                        <th scope="col">Recepti</th>
+                        <th scope="col">Aksioni</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,7 +86,9 @@ if (!isset($_SESSION['admin'])) {
                             <td><?= $data['diagnoza'] ?></td>
                             <td><?= $data['recepti'] ?></td>
                             <td class="text-center">
-                                <a class="text-decoration-none text-white" href="deleteHistorinTerminit.php?id=<?= $data['id']  ?>"><button class="btn btn-danger w-100 mt-1 p-1 text-white">Delete</button></a>
+                                <a class="text-decoration-none text-white" href="deleteHistorinTerminit.php?id=<?= $data['id']  ?>">
+                                    <button class="btn btn-danger w-100 mt-1 p-1 text-white">Delete</button>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -100,7 +98,7 @@ if (!isset($_SESSION['admin'])) {
 
         <?php if ($empty == 'empty') : ?>
             <article style="margin-left: 200px;" class="text-center">
-                <h1 class=" h1 fw-normal text-center">Data not found.</h1>
+                <h1 class=" h1 fw-normal text-center">Nuk u gjeten te dhena ne databaze.</h1>
             </article>
         <?php endif; ?>
     </main>

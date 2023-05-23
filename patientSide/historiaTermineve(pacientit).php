@@ -43,7 +43,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         <ul class="nav nav-pills flex-column mb-auto">
             <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
             <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Terminet</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">Termient e mia</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">Terminet e mia</a></li>
             <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
             <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white active" aria-current="page">Historia e termineve</a></li>
         </ul>
