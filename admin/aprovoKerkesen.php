@@ -41,8 +41,8 @@
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'terminet.online@gmail.com';
-        $mail->Password   = 'vaiddzxpncfvvksh';
+        $mail->Username   = 'terminetonline193@gmail.com';            //SMTP username
+        $mail->Password   = 'feqjqxuujfpugmls';    
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;         
 

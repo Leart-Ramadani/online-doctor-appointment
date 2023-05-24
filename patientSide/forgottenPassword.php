@@ -50,9 +50,9 @@
                 $mail->isSMTP();                                            //Send using SMTP
                 $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'terminet.online@gmail.com';            //SMTP username
-                $mail->Password   = 'vaiddzxpncfvvksh';                          //SMTP password
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                $mail->Username   = 'terminetonline193@gmail.com';            //SMTP username
+                $mail->Password   = 'feqjqxuujfpugmls';                     //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
                 $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                 //Recipients
@@ -65,7 +65,7 @@
 
 
                 $mail->Subject = 'Rivendos fjalkalimin';
-                $mail->Body    = "<p style='font-size: 18px;'>Kliko <a href='localhost/Sistemi-per-rezervimin-e-termineve/patientSide/resetPassword.php?email=$email'>ketu</a> 
+                $mail->Body    = "<p style='font-size: 18px;'>Kliko <a href='localhost/online-doctor-appointment-master/patientSide/resetPassword.php?email=$email'>ketu</a> 
                 per te rivendosur fjalkalimin.</p>";
 
                 $mail->send();
@@ -76,7 +76,7 @@
                     </script>";
 
             } catch(Exception $e){
-                echo "Fatal Error.";
+                echo "Fatal error {$mail->ErrorInfo}";
             }
         }
     }
