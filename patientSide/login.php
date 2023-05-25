@@ -82,15 +82,18 @@
             $invalid_user = 'is-invalid';
         } else if(password_verify($password, $data['password'])){
 
-            $check_sql = "SELECT verification_status FROM patient_table WHERE username=:username";
+            $check_sql = "SELECT verificated FROM patient_table WHERE username=:username";
             $check_prep = $con->prepare($check_sql);
             $check_prep->bindParam(':username', $username);
             $check_prep->execute();
             $check_data = $check_prep->fetch();
 
-            if($check_data['verification_status'] != 'true'){
-                $verificationErr = '*Ju lutemi te verifikoni llogarine tuaj. Shikoni email-in tuaj per linkun verifikues';
-                $invalid_verify = 'verificationError';
+            if($check_data['verificated'] != true){
+                $_SESSION['verify'] = $username;
+                echo "<script>
+                    alert('Kjo llogari nuk eshte e verifikuar! Shikoni emailin per kodin verifikues')
+                    window.location.replace('./emailVerification.php')
+                    </script>";
             } else{
                 $_SESSION['username'] = $data['username'];
                 $_SESSION['emri'] = $data['emri'];

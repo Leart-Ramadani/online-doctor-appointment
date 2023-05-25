@@ -284,23 +284,28 @@
                 $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                 //Recipients
-                $mail->setFrom('terminet.online@gmail.com', 'terminet-online.com');
+                $mail->setFrom('no@reply.com', 'terminet-online.com');
                 $mail->addAddress($email, $emri.' '.$mbiemri);                           //Add a recipient
 
 
                 //Content
-                $mail->isHTML(true);                                        //Set email format to HTML
-
+                $mail->isHTML(true);                  //Set email format to HTML
+                $veri_code = rand(111111, 999999);
 
                 $mail->Subject = 'Email verification';
-                $mail->Body    = "<p style='font-size: 18px;'>Aktivizo llogarin duke klikuar ne kete <a href='localhost/Sistemi-per-rezervimin-e-termineve/patientSide/emailVerification.php?email=$email'>link.</a> </p>";
+                $mail->Body    = "<p style='font-size: 16px;'>
+                                Kodi per te verifikuar llogarin tende: <b>$veri_code</b> <br>
+                                Ky kod eshte valid vetem per 02:30 minuta!
+                                </p>";
 
                 $mail->send();
 
-                $defaultVerification = 'false';
+                $veri_date = date('Y-m-d');
+                $veri_time = date('H:i:s');
+                $verificated = false;
 
-                $sql = "INSERT INTO patient_table(emri, mbiemri, numri_personal, gjinia, email, telefoni, ditlindja, adresa, username, password, verification_status)
-                VALUES(:emri, :mbiemri, :numri_personal, :gjinia, :email, :telefoni, :ditlindja, :adresa, :username, :password, :verification_status)";
+                $sql = "INSERT INTO patient_table(emri, mbiemri, numri_personal, gjinia, email, telefoni, ditlindja, adresa, username, password, veri_code, veri_date, veri_time, verificated)
+                VALUES(:emri, :mbiemri, :numri_personal, :gjinia, :email, :telefoni, :ditlindja, :adresa, :username, :password, :veri_code, :veri_date, :veri_time, :verificated)";
                 $prep = $con->prepare($sql);
                 $prep->bindParam(':emri', $emri);
                 $prep->bindParam(':mbiemri', $mbiemri);
@@ -312,12 +317,17 @@
                 $prep->bindParam(':adresa', $adresa);
                 $prep->bindParam(':username', $username);
                 $prep->bindParam(':password', $encPass);
-                $prep->bindParam(':verification_status', $defaultVerification);
+                $prep->bindParam(':veri_code', $veri_code);
+                $prep->bindParam(':veri_date', $veri_date);
+                $prep->bindParam(':veri_time', $veri_time);
+                $prep->bindParam(':verificated', $verificated);
+
 
                 if($prep->execute()){
+                    $_SESSION['verify'] = $username;
                     echo "<script>
-                            alert('Ju lutem verifikojeni llogarin tuaj. Shikoni emailin tuaj per linkun verifikues.');
-                            window.location.replace('login.php');   
+                            alert('Ju lutem verifikojeni llogarin tuaj. Shikoni emailin tuaj per kodin verifikues.');
+                            window.location.replace('./emailVerification.php');   
                         </script>";
                 }
                 exit();
