@@ -1,4 +1,4 @@
-# Sistemi per rezervimin e termineve online
+# Sistemi per rezervimin e termineve onlineee
 
 ## <u>INFO</u>: Per te funksionuar Website siq eshte planifikuar eshte e domosdoshme qasja ne internet. <br> <br>
 
