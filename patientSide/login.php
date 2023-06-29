@@ -71,18 +71,18 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT username, password, emri, mbiemri, numri_personal FROM patient_table where username = :Username";
+        $sql = "SELECT username, password, emri, mbiemri, numri_personal, email FROM patient_table where username = :Username or email=:Username";
         $stm = $con->prepare($sql);
         $stm->bindParam(":Username", $username);
         $stm->execute();
         $data = $stm->fetch();
 
         if($data === false){
-            $usernameErr = "*Ky username nuk ekziston.";
+            $usernameErr = "*Ky username ose email nuk ekziston.";
             $invalid_user = 'is-invalid';
         } else if(password_verify($password, $data['password'])){
 
-            $check_sql = "SELECT verificated FROM patient_table WHERE username=:username";
+            $check_sql = "SELECT verificated FROM patient_table WHERE username=:username or email=:username";
             $check_prep = $con->prepare($check_sql);
             $check_prep->bindParam(':username', $username);
             $check_prep->execute();
@@ -118,8 +118,8 @@
             </div>
 
             <div class="form-floating">
-                <input type="text" class="form-control <?= $invalid_user ?? "" ?>" id="floatingInput" name="username" placeholder="Username" value="<?= $user2 ?>">
-                <label for="floatingInput">Username</label>
+                <input type="text" class="form-control <?= $invalid_user ?? "" ?>" id="floatingInput" name="username" placeholder="Username ose email" value="<?= $user2 ?>">
+                <label for="floatingInput">Username ose email</label>
                 <span class="text-danger fw-normal"><?php echo $usernameErr; ?></span>
             </div>
 

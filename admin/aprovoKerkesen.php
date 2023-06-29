@@ -1,5 +1,6 @@
 <?php
     include('../config.php');
+    require_once('../emailData.php');
 
     $id = $_GET['id'];
 
@@ -41,8 +42,8 @@
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'terminetonline193@gmail.com';            //SMTP username
-        $mail->Password   = 'feqjqxuujfpugmls';    
+        $mail->Username   = SITE_EMAIL;            //SMTP username
+        $mail->Password   = SITE_PASSWORD;    
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;         
 

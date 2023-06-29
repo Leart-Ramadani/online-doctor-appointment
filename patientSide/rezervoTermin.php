@@ -1,5 +1,6 @@
 <?php
 include('../config.php');
+
 if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     header("Location: login.php");
 }
@@ -174,7 +175,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         </div>
 
         <form action="rezervo.php" method="POST" class="submit_rez">
-            <button type="submit" name="rezervo" class="rezervo">Rezervo</button>
+            <button type="submit" name="rezervo" class="btn btn-success">Rezervo</button>
         </form>
 
 

@@ -1,6 +1,7 @@
 <?php
 
 include('../config.php');
+require_once('../emailData.php');
 
 $numri_personal = $_GET['numri_personal'];
 $data = $_GET['data'];
@@ -39,6 +40,13 @@ $doc_data = $doc_prep->fetch();
     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js" defer></script>
     <!-- Font-awesome script -->
     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous"></script>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -163,14 +171,15 @@ $doc_data = $doc_prep->fetch();
 
                         $mail = new PHPMailer(true);
 
+                        include("./gitginore/gitignore.php");
                         try {
                             //Server settings
                             $mail->SMTPDebug = 0;                                       //Enable verbose debug output
                             $mail->isSMTP();                                            //Send using SMTP
                             $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
                             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                            $mail->Username   = 'terminetonline193@gmail.com';            //SMTP username
-                            $mail->Password   = 'feqjqxuujfpugmls';                            //SMTP password
+                            $mail->Username   = SITE_EMAIL;                         //SMTP username
+                            $mail->Password   = SITE_PASSWORD;                            //SMTP password
                             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
                             $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 

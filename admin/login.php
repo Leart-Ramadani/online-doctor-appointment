@@ -110,11 +110,11 @@ if (isset($_SESSION['admin'])) {
 
             <div class="form-floating">
                 <input type="password" class="form-control rounded <?= $invalidPass ?? '' ?>" id="floatingPassword" name="password" placeholder="Password">
-                <label for="floatingPassword">Password</label>
+                <label for="floatingPassword">Fjalkalimi</label>
                 <span class="text-danger fw-normal"><?php echo $passErr; ?></span>
             </div>
 
-            <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Regjistrohuni</button>
+            <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Kyquni</button>
         </form>
     </main>
 </body>

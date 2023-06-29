@@ -187,7 +187,7 @@
                 $stm->bindParam(':username', $username);
                 $stm->bindParam(':password', $encPass);
                 $stm->execute();
-                $name = $lastName = $personalNumber = $gender = $userEmail = $biografia = $phone = $user1 = "";
+                $name = $lastName = $personalNumber = $gender = $userEmail = $biografia = $phone = $user1 = $genderFem = $genderMale = "";
             }
         }
 
@@ -391,9 +391,9 @@
 
      
 
-     <!-- External scripts -->
+     <!-- External scripts
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js"></script>
+     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js"></script> -->
      <!-- Font-awesome script -->
      <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous"></script>
      <!-- JQuery link -->

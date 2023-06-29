@@ -144,7 +144,8 @@ nav {
 .table_doc {
   width: 99%;
 }
-.table_doctors{
+
+.table_doctors {
   width: 75% !important;
 }
 
@@ -264,7 +265,7 @@ nav {
   border-radius: 5px;
 }
 
-.updateRes{
+.updateRes {
   width: 300px !important;
 }
 
@@ -350,22 +351,6 @@ nav {
   margin-top: 15px;
 }
 
-.submit_rez button {
-  font-size: 20px;
-  width: 100px;
-  height: 40px;
-  border: none;
-  color: white;
-  background-color: rgba(0, 128, 0, 0.877);
-}
-
-.submit_rez button:hover {
-  opacity: .6;
-}
-
-.submit_rez button:active {
-  opacity: .7;
-}
 
 
 .time {
@@ -762,40 +747,42 @@ nav {
   background-color: white;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); 
+  transform: translate(-50%, -50%);
   display: none;
   opacity: 1;
-  border-radius: 10px; 
+  border-radius: 10px;
   z-index: 9999;
 }
 
-.doc_pop_img img{
+.doc_pop_img img {
   width: 220px;
   height: 220px;
   object-fit: contain;
 }
 
 
-.doc_pop_des{
+.doc_pop_des {
   padding-top: 30px;
   height: 58%;
   display: flex;
   flex-direction: column;
 }
-.doc_pop_des > p{
+
+.doc_pop_des>p {
   height: 69%;
 }
-.doc_pop_des div{
+
+.doc_pop_des div {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
 }
 
-.doc_pop_img{
+.doc_pop_img {
   display: flex;
 }
 
-.popWin{
+.popWin {
   display: block !important;
 }
 
@@ -872,11 +859,11 @@ nav {
   max-width: 100%;
 }
 
-.editForm{
+.editForm {
   width: 100%;
 }
 
-.popDocEdit{
+.popDocEdit {
   position: absolute;
   top: 30%;
   left: 50%;
@@ -885,13 +872,14 @@ nav {
   padding: 5px;
 }
 
-.editForm{
+.editForm {
   display: flex;
   flex-direction: column;
   padding: 10px;
 
 }
-.editForm > div{
+
+.editForm>div {
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
@@ -901,77 +889,64 @@ nav {
 .editForm select {
   width: 300px;
 }
-.editForm select{
+
+.editForm select {
   height: 58px;
 }
 
-.editForm textarea{
+.editForm textarea {
   width: 600px;
 }
 
-.backDoc{
+.backDoc {
   color: #212259;
   text-decoration: none;
   font-size: 30px;
   margin: 10px;
 }
-.backDoc:hover{
+
+.backDoc:hover {
   color: #212259;
   opacity: .7;
 }
 
-.mainOrari{
+.mainOrari {
   display: flex;
   justify-content: center;
 }
 
 .kerkesa_wrapper {
-  margin-top: 2%;
   margin-bottom: 0;
   display: flex;
   justify-content: center;
 }
+  
+  .kerkesa {
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    line-height: 170%;
+    letter-spacing: 1px;
+    padding: 10px 20px;
+  } 
 
-.kerkesa {
+.firstPartKerkesa,
+.secondPartKerkesa{
+  width: 330px;
   display: flex;
   flex-direction: column;
-  border: 2px solid currentColor;
-  color: var(--primary);
-  width: 450px;
-  line-height: 170%;
-  letter-spacing: 1px;
-  padding: 10px 20px;
 }
-
-.kerkesa_h1 {
-  color: var(--primary);
-  border-bottom: 2px solid currentColor;
-  padding: 0 20px;
-  font-size: 24px;
-  width: fit-content;
-}
-
-.kerkesa_h1 {
-  margin-left: 55px;
-}
-
-.h1_flex {
+.firsecKerkesa{
   display: flex;
-  justify-content: center;
+  gap: 15px;
 }
 
-.kerkesa div label {
-  font-size: 20px;
-  color: var(--primary);
-}
-
-.kerkesa_p {
-  font-size: 20px;
-  margin-left: 5px;
-}
-
-.kerkesa div {
+.kerkesaAction{
   display: flex;
+  justify-content: space-between;
+}
+.kerkesaAction a{
+  width: 320px;
 }
 
 .fa-arrow-left {
@@ -996,118 +971,94 @@ nav {
 
 .veri_code::-webkit-outer-spin-button,
 .veri_code::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .veri_code:disabled {
-    opacity: .5;
+  opacity: .5;
 }
 
 
 .mainVeriCode {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -80%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -80%);
 }
 
 .veri_form {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    border: 2px solid var(--border);
-    border-radius: 5px;
-    padding: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 20px;
 }
 
 .veri_form h1 {
-    color: var(--border);
-    font-weight: 400;
+  color: #212529;
+  font-weight: 400;
 }
 
-.veri_form p,
-.veri_form button {
-    color: var(--border);
-    font-size: 16px;
+.veri_form p{
+  color: #212529;
+  font-size: 16px;
 }
 
 .veri_form a {
-    margin-bottom: 20px;
-    margin-top: 20px;
-    cursor: pointer;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  cursor: pointer;
 }
 
 .countdown {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-decoration: none;
-    background-color: transparent;
-    border: none;
-    color: var(--border);
-
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  color: #212529;
+}
+.countdown:hover{
+  color: #212529;
 }
 
 .restart {
-    opacity: .5;
-    text-decoration: underline;
+  opacity: .5;
+  text-decoration: underline;
 }
 
 .timer {
-    color: white;
-    opacity: 1;
+  color: #212529;
+  opacity: 1;
 }
-
+.verifyBtnWrapper{
+  width: 320px;
+}
 .veri_form input {
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
-    text-align: center;
-    border: 2px solid var(--secondary);
-    background-color: var(--background);
-    color: var(--secondary);
-    border-radius: 5px;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  text-align: center;
+  background-color: #fff;
+  color: #212529;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
 }
 
 .veri_form input:focus {
-    outline: none;
-    border-color: var(--focus);
-    color: var(--focus);
+  transition: .1s ease-in;
+  color: #212529;
+  background-color: #fff;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, .25);
 }
 
-
-.verify {
-    width: 260px;
-    height: 40px;
-    margin-top: 30px;
-    border: 2px solid var(--secondary);
-    background-color: var(--background);
-    color: var(--secondary);
-    font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.verify:hover {
-    transition: .2s ease-in;
-    background-color: var(--secondary);
-    color: var(--background);
-}
-
-.verify:focus {
-    outline: none;
-    border-color: var(--focus);
-    color: var(--focus);
-}
-
-.verify:active {
-    opacity: .5;
-    transition: none;
-}
 
 .verify:disabled {
-    opacity: .5;
+  opacity: .5;
 }

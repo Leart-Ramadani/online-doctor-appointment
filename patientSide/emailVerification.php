@@ -29,10 +29,12 @@ if($data['verificated'] == true){
     <link rel="stylesheet" href="../css/main.css">
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
 
 </head>
 
-<body style="background-color: #081C15;">
+<body style="background-color: #f5f5f5;">
     <main class="mainVeriCode">
         <form autocomplete="off" class="veri_form">
             <h1>Verifikoni llogarine tuaj</h1>
@@ -45,7 +47,9 @@ if($data['verificated'] == true){
                 <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp5">
                 <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp6">
             </div>
-            <button type="button" class="verify" id="verify">Verifiko</button>
+            <div class="verifyBtnWrapper">
+                <button type="button" class="verify w-100 mt-3 btn btn-lg btn-primary" id="verify">Verifiko</button>
+            </div>
             <a class="countdown"><span class="restart"> Dergo kodin perseri:</span> <span class="timer"> </span></a>
         </form>
     </main>

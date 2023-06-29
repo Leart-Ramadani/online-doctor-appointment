@@ -12,6 +12,14 @@
 
 <?php require('header.php'); ?>
 <title>Change Photo</title>
+<style>
+    body{
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
 </head>
 
 <body>
@@ -60,10 +68,9 @@
 ?>
 
     <main class="form-signin text-center main_side" style="flex-direction: column;">    
-        <h1 class="h3 text-center fw-normal mb-5">Shto nje foto ne galleri</h1>
+        <h1 class="h3 text-center fw-normal mb-5">Perditeso foton</h1>
         <form method="POST" enctype="multipart/form-data" autocomplete="off">
             <div class="mb-3">
-                <label for="formFile" class="form-label">Foto</label>
                 <input class="form-control" type="file" name="galeria" id="formFile">
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit" name="ndrro">Perditeso</button>

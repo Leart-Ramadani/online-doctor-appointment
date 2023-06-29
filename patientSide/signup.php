@@ -66,6 +66,7 @@
 
 <body class="text-center">
     <?php
+    require_once('../emailData.php');
     require 'C:\xampp\htdocs\Sistemi-per-rezervimin-e-termineve\patientSide\PHPMailer-master\src\Exception.php';
     require 'C:\xampp\htdocs\Sistemi-per-rezervimin-e-termineve\patientSide\PHPMailer-master\src\PHPMailer.php';
     require 'C:\xampp\htdocs\Sistemi-per-rezervimin-e-termineve\patientSide\PHPMailer-master\src\SMTP.php';
@@ -278,8 +279,8 @@
                 $mail->isSMTP();                                            //Send using SMTP
                 $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'terminetonline193@gmail.com';            //SMTP username
-                $mail->Password   = 'feqjqxuujfpugmls';                         //SMTP password
+                $mail->Username   = SITE_EMAIL;            //SMTP username
+                $mail->Password   = SITE_PASSWORD;                         //SMTP password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
                 $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -347,25 +348,25 @@
             <h1 class="h3 mb-3 fw-normal">Regjistrohuni</h1>
 
             <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput name" name="name" placeholder="Emri" value="<?= $name ?>">
+                <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput name" name="name" placeholder="Emri" value="test">
                 <label for="floatingInput">Emri</label>
                 <span class="text-danger fw-normal"><?php echo $nameErr; ?></span>
             </div>
 
             <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Mbiemri" value="<?= $lastName ?>">
+                <input type="text" class="form-control <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Mbiemri" value="test">
                 <label for="floatingInput">Mbiemri</label>
                 <span class="text-danger fw-normal"><?php echo $surnameErr; ?></span>
             </div>
 
             <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_personal_id ?? "" ?>" id="floatingInput" name="personal_id" placeholder="Numri personal" maxlength="10" value="<?= $personalNumber ?>">
+                <input type="text" class="form-control <?= $invalid_personal_id ?? "" ?>" id="floatingInput" name="personal_id" placeholder="Numri personal" maxlength="10" value="1478523690">
                 <label for="floatingInput">Numri personal</label>
                 <span class="text-danger fw-normal"><?php echo $personalNrErr; ?></span>
             </div>
 
             <div class="form-check form-check-inline mb-1">
-                <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Mashkull">
+                <input class="form-check-input" type="radio" checked name="gender" id="inlineRadio1" value="Mashkull">
                 <label class="form-check-label" for="inlineRadio1">Mashkull</label>
             </div>
 
@@ -376,31 +377,31 @@
             <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
 
             <div class="form-floating mb-1">
-                <input type="email" class="form-control rounded <?= $invalid_email ?? "" ?>" id="floatingInput" name="email" placeholder="name@example.com" value="<?= $userEmail ?>">
+                <input type="email" class="form-control rounded <?= $invalid_email ?? "" ?>" id="floatingInput" name="email" placeholder="name@example.com" value="guesst2006@gmail.com">
                 <label for="floatingInput">Email</label>
                 <span class="text-danger fw-normal"><?php echo $emailErr; ?></span>
             </div>
 
             <div class="mb-1">
                 <label for="startDate">Ditelindja:</label>
-                <input id="startDate" class="form-control ditlindja <?= $invalid_birthday ?? "" ?>" name="birthday" type="date" value="<?= $birthday ?>" />
+                <input id="startDate" class="form-control ditlindja <?= $invalid_birthday ?? "" ?>" name="birthday" type="date" value="02/02/2000" />
                 <span class="text-danger fw-normal"><?php echo $birthdayErr; ?></span>
             </div>
 
             <div class="form-floating mb-1">
-                <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Telefoni" value="<?= $phone ?>">
+                <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Telefoni" value="045123987">
                 <label for="floatingInput">Telefoni</label>
                 <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
             </div>
 
             <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_adress ?? "" ?>" id="floatingInput" name="adress" placeholder="Adresa" value="<?= $addres ?>">
+                <input type="text" class="form-control <?= $invalid_adress ?? "" ?>" id="floatingInput" name="adress" placeholder="Adresa" value="demo">
                 <label for="floatingInput">Adresa</label>
                 <span class="text-danger fw-normal"><?php echo $adressErr; ?></span>
             </div>
 
             <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_username ?? "" ?>" id="floatingInput" name="username" placeholder="Username" value="<?= $user1 ?>">
+                <input type="text" class="form-control <?= $invalid_username ?? "" ?>" id="floatingInput" name="username" placeholder="Username" value="test">
                 <label for="floatingInput">Username</label>
                 <span class="text-danger fw-normal"><?php echo $usernameErr; ?></span>
             </div>

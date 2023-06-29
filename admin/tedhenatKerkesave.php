@@ -20,61 +20,77 @@ $data = $prep->fetch();
     <article class="kerkesa_wrapper">
         <section class="kerkesa">
             <div>
-                <a href="kerkesatAnulimit.php" class="goBack" title="Go back"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="kerkesatAnulimit.php" class="goBack" title="Go back"><i class="fa-solid fa-arrow-left text-dark"></i></a>
                 <div class="h1_flex">
-                    <h1 class="appointment_h1 kerkesa_h1 ">Kerkesa e anulimit</h1>
+                    <h1 class="h3 mb-4 fw-normal text-center">Kerkesa e anulimit</h1>
                 </div>
             </div>
-            <div>
-                <label>Emri dhe mbiemri:</label>
-                <p class="kerkesa_p"><?= $data['emri_pacientit']. ' ' . $data['mbiemri_pacientit'] ?></p>
-            </div>
-            <div>
-                <label>Numri personal:</label>
-                <p class="kerkesa_p"><?= $data['numri_personal'] ?></p>
-            </div>
-            <div>
-                <label>Email:</label>
-                <p class="kerkesa_p"><?= $data['email'] ?></p>
-            </div>
-            <div>
-                <label>Numri i telefonit:</label>
-                <p class="kerkesa_p"><?= $data['telefoni'] ?></p>
-            </div>
+            <article class=firsecKerkesa" style="  display: flex; gap: 15px;">
+                <div class="firstPartKerkesa">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" readonly id="floatingInput" placeholder="Emri dhe mbiemri"
+                            value="<?= $data['emri_pacientit']. ' ' . $data['mbiemri_pacientit'] ?>">
+                        <label for="floatingInput">Emri dhe mbiemri</label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" readonly id="floatingInput" placeholder="Numri persoanl"
+                            value="<?= $data['numri_personal'] ?>">
+                        <label for="floatingInput">Numri persoanl</label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" readonly id="floatingInput" placeholder="Email"
+                            value="<?= $data['email'] ?>">
+                        <label for="floatingInput">Email</label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" readonly id="floatingInput" placeholder="Numri i telefonit"
+                            value="<?= $data['telefoni'] ?>">
+                        <label for="floatingInput">Numri i telefonit</label>
+                    </div>
+                </div>
     
-            <div>
-                <label>Emri i doktorit:</label>
-                <p class="kerkesa_p"><?= $data['doktori'] ?></p>
+                <div class="secondPartKerkesa">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" readonly id="floatingInput" placeholder="Doktori"
+                            value="<?= $data['doktori'] ?>">
+                        <label for="floatingInput">Doktori</label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" readonly id="floatingInput" placeholder="Departamenti"
+                            value="<?= $data['departamenti'] ?>">
+                        <label for="floatingInput">Departamenti</label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" readonly id="floatingInput" placeholder="Data e terminit"
+                            value="<?= $data['data'] ?>">
+                        <label for="floatingInput">Data e terminit</label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" readonly id="floatingInput" placeholder="Ora" value="<?= $data['ora'] ?>">
+                        <label for="floatingInput">Ora</label>
+                    </div>
+                </div>
+            </article>
+            
+
+            <div class="mb-2 d-flex">
+                <label for="ankesa" class="form-label">Arsyeja e kerkeses:</label>
+                <textarea class="form-control" readonly style="resize:none;" rows="5"><?= $data['arsyeja_anulimit'] ?></textarea>
             </div>
-            <div>
-                <label>Departamenti:</label>
-                <p class="kerkesa_p"><?= $data['departamenti'] ?></p>
-            </div>
-            <div>
-                <label>Data e terminit:</label>
-                <p class="kerkesa_p"><?= $data['data'] ?></p>
-            </div>
-            <div>
-                <label>Ora:</label>
-                <p class="kerkesa_p"><?= $data['ora'] ?></p>
-            </div>
-    
-            <div >
-                <label style="width: 30%;">Arsyeja e kerkeses:</label> <br>
-                <p class="kerkesa_p"><?= $data['arsyeja_anulimit'] ?></p>
-            </div>
-    
-            <div class="mt-5">
-                <a class="text-decoration-none text-white d-inline-block kerkesa" href="aprovoKerkesen.php?id=<?= $data['id']  ?>">
-                    <button class="btn btn-warning w-100 p-2 text-white rounded mb-1">Aprovo</button>
+
+            <div class="kerkesaAction mt-3">
+                <a class="text-decoration-none text-white d-inline-block"
+                    href="aprovoKerkesen.php?id=<?= $data['id']  ?>">
+                    <button class="btn btn-success w-100 p-2 text-white rounded mb-1">Aprovo</button>
                 </a>
-    
-                <a class="text-decoration-none text-white d-inline-block kerkesa" href="deleteKerkesen.php?id=<?= $data['id']  ?>">
-                    <button class="btn btn-danger w-100 p-2 text-white mb-1 ms-3">Fshij </button>
+
+                <a class="text-decoration-none text-white d-inline-block"
+                    href="deleteKerkesen.php?id=<?= $data['id']  ?>">
+                    <button class="btn btn-danger w-100 p-2 text-white mb-1">Mos aprovo</button>
                 </a>
             </div>
-    
-    
+
+
         </section>
     </article>
 </body>

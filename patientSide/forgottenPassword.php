@@ -1,4 +1,7 @@
-<?php include('../config.php'); ?>
+<?php 
+    include('../config.php'); 
+    require_once('../emailData.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +18,7 @@
     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js" defer></script>
 </head>
 
-<body>
+<body style="background: #f5f5f5; display: flex; justify-content: center; align-items: center;">
     <?php
     $error = '';
 
@@ -50,8 +53,8 @@
                 $mail->isSMTP();                                            //Send using SMTP
                 $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'terminetonline193@gmail.com';            //SMTP username
-                $mail->Password   = 'feqjqxuujfpugmls';                     //SMTP password
+                $mail->Username   = SITE_EMAIL;                         //SMTP username
+                $mail->Password   = SITE_PASSWORD;                     //SMTP password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
                 $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -82,14 +85,15 @@
     }
     ?>
     <form method="post" class="form-signin" autocomplete="off">
-        <h1 class="h3 mb-4 fw-normal">Rivendos fjalekalimin</h1>
+        <h1 class="h3 mb-4 fw-normal text-center">Rivendos fjalekalimin</h1>
         <div class="form-floating">
             <input type="email" class="form-control rounded <?= $invalid_error ?? '' ?>" id="floatingInput" name="email" placeholder="Email">
             <label for="floatingInput">Email</label>
             <span class="text-danger fw-normal"><?php echo $error; ?></span>
         </div>
-
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="submit">Submit</button>
+        
+        <button class="w-100 btn btn-lg btn-primary mt-3 mb-2" type="submit" name="submit">Submit</button>
+        <p class="text-center">Kthehuni tek <a href="./login.php">ballina.</a></p>
     </form>
 
 </body>
