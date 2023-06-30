@@ -51,9 +51,9 @@ $doc_data = $doc_prep->fetch();
 
 <body>
     <?php
-    require "C:\xampp\htdocs\online-doctor-appointment-master\patientSide\PHPMailer-master\src\Exception.php";
-    require "C:\xampp\htdocs\online-doctor-appointment-master\patientSide\PHPMailer-master\src\PHPMailer.php";
-    require "C:\xampp\htdocs\online-doctor-appointment-master\patientSide\PHPMailer-master\src\SMTP.php";
+    require("../patientSide/PHPMailer-master/src/Exception.php");
+    require("../patientSide/PHPMailer-master/src/PHPMailer.php");
+    require("../patientSide/PHPMailer-master/src/SMTP.php");
     //Import PHPMailer classes into the global namespace
     //These must be at the top of your script, not inside a function
 
