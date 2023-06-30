@@ -50,10 +50,10 @@
                 <?php } else { ?>
                     <a href="./patientSide/logout.php"><button type="button" class="btn btn-outline-warning me-2">Log out</button></a>
                 <?php } ?>
-                <a href="./admin/login.php" >
+                <a href="./admin/login.php">
                     <img src="./photos/admin-64px.png" alt="Admin" width="40px" title="Admin Side">
                 </a>
-                <a href="./doctorSide/login.php" >
+                <a href="./doctorSide/login.php">
                     <img class="bg-light rounded-pill ms-2" src="./photos/doctor-64px.png" alt="Doctor Side" width="40px" title="Doctor Side">
                 </a>
             </div>
@@ -62,25 +62,77 @@
 
     <main>
         <?php
-        $sql = "SELECT * FROM galeria";
+        $sql = "SELECT COUNT(*) as total FROM galeria";
         $prep = $con->prepare($sql);
         $prep->execute();
-        $data = $prep->fetchAll();
+        $data = $prep->fetch();
+        $totalImages = $data['total'];
+
+        $totalPages = ceil($totalImages / 6);
+
+        $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+
+        $startIndex = ($currentPage - 1) * 6;
+
+        $query = "SELECT * FROM galeria LIMIT :startIndex, 6";
+        $stmt = $con->prepare($query);
+        $stmt->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
+        $stmt->execute();
+        $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         ?>
         <article id="doctors_art">
             <h1>Gallery</h1>
             <hr>
 
             <section id="gallery">
-                <?php foreach ($data as $data) : ?>
-                    <a href="./admin/uploads_gallery/<?= $data['foto_src'] ?>" data-lightbox="mygallery">
-                        <img src="./admin/uploads_gallery/<?= $data['foto_src'] ?>">
+                <?php foreach ($images as $image) : ?>
+                    <a href="./admin/uploads_gallery/<?= $image['foto_src'] ?>" data-lightbox="mygallery">
+                        <img src="./admin/uploads_gallery/<?= $image['foto_src'] ?>">
                     </a>
                 <?php endforeach; ?>
                 <article id="biggerImage">
                     <img src="">
                 </article>
             </section>
+            <div class="imagePagination">
+                <?php
+                $maxVisibleLinks = 5; // Maximum number of visible page links
+
+                $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
+                $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
+
+                $showEllipsisStart = ($startPage > 1);
+                $showEllipsisEnd = ($endPage < $totalPages);
+
+                if ($showEllipsisStart) {
+                    echo '<a href="?page=1" class="paginationLink">1</a>';
+                    echo '<span class="ellipsis">...</span>';
+                }
+
+                if ($currentPage > 1) {
+                    $previousPage = $currentPage - 1;
+                    echo '<a href="?page=' . $previousPage . '" class="paginationLink"><</a>';
+                }
+
+                for ($i = $startPage; $i <= $endPage; $i++) {
+                    $activePage = ($i == $currentPage) ? 'activePage' : '';
+                    echo '<a class="paginationLink ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a> ';
+                }
+
+                if ($showEllipsisEnd) {
+                    echo '<span class="ellipsis">...</span>';
+                    echo '<a href="?page=' . $totalPages . '" class="paginationLink">' . $totalPages . '</a>';
+                }
+
+                if ($currentPage < $totalPages) {
+                    $nextPage = $currentPage + 1;
+                    echo '<a href="?page=' . $nextPage . '" class="paginationLink">></a>';
+                }
+                ?>
+            </div>
+
+
 
     </main>
 
@@ -94,7 +146,8 @@
             <li class="nav-item"><a href="./patientSide/rezervoTermin.php" class="nav-link px-2 text-muted">Appointments</a></li>
             <li class="nav-item"><a href="./patientSide/ankesat.php" class="nav-link px-2 text-muted">Complaints</a></li>
         </ul>
-        <p class="text-center text-muted"> Copyright ©2023 All rights reserved | This website is made by <a href="https://www.linkedin.com/in/leart-ramadani-47981125a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVVrswlowTROepZqoqZDZkw%3D%3D">Leart  Ramadani</a>.</p>    </footer>
+        <p class="text-center text-muted"> Copyright ©2023 All rights reserved | This website is made by <a href="https://www.linkedin.com/in/leart-ramadani-47981125a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVVrswlowTROepZqoqZDZkw%3D%3D">Leart Ramadani</a>.</p>
+    </footer>
 </div>
 
 </html>
