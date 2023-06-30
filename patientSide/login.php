@@ -78,7 +78,7 @@
         $data = $stm->fetch();
 
         if($data === false){
-            $usernameErr = "*Ky username ose email nuk ekziston.";
+            $usernameErr = "*This username or email doesn't exists!";
             $invalid_user = 'is-invalid';
         } else if(password_verify($password, $data['password'])){
 
@@ -91,7 +91,7 @@
             if($check_data['verificated'] != true){
                 $_SESSION['verify'] = $username;
                 echo "<script>
-                    alert('Kjo llogari nuk eshte e verifikuar! Shikoni emailin per kodin verifikues')
+                    alert('This account isn't verified yet. Check your email for verification code!')
                     window.location.replace('./emailVerification.php')
                     </script>";
             } else{
@@ -103,7 +103,7 @@
             }
 
         } else{
-            $passErr = '*Fjalkalimi nuk eshte i sakte';
+            $passErr = '*Wrong password';
             $invalid_pass = 'is-invalid';
             $user2 = $username;
         }
@@ -112,28 +112,28 @@
 
     <main class="form-signin">
         <form method="POST" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal">Kyquni ne llogarine tuaj</h1>
+            <h1 class="h3 mb-3 fw-normal">Log in</h1>
             <div class="rounded mb-2 <?= $invalid_verify ?? "" ?>">
                 <span class="text-white"><?php echo $verificationErr; ?></span>
             </div>
 
             <div class="form-floating">
                 <input type="text" class="form-control <?= $invalid_user ?? "" ?>" id="floatingInput" name="username" placeholder="Username ose email" value="<?= $user2 ?>">
-                <label for="floatingInput">Username ose email</label>
+                <label for="floatingInput">Username or email</label>
                 <span class="text-danger fw-normal"><?php echo $usernameErr; ?></span>
             </div>
 
             <div class="form-floating mt-2">
-                <input type="password" class="form-control rounded <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Fjalkalimi">
-                <label for="floatingPassword">Fjalkalimi</label>
+                <input type="password" class="form-control rounded <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Password">
+                <label for="floatingPassword">Password</label>
                 <span class="text-danger fw-normal"><?php echo $passErr; ?></span>
             </div>
 
             <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Login</button>
 
-            <p class="mb-2">Nuk ke nje llogari? Kliko <a href="signup.php">ketu.</a></p>
-            <p class="mb-2">Keni harruar fjalkalimin? Kliko <a href="forgottenPassword.php">ketu.</a></p>
-            <p>Kthehuni tek <a href="../index.php">ballina.</a></p>
+            <p class="mb-2">Don't have an account? <a href="signup.php">Sign up.</a></p>
+            <p class="mb-2">Forgot your password? Click <a href="forgottenPassword.php">here.</a></p>
+            <p>Go back to <a href="../index.php">homepage.</a></p>
         </form>
     </main>
 

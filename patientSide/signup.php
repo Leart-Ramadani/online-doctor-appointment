@@ -97,12 +97,12 @@
         }
 
         if (empty($_POST['name'])) {
-            $nameErr = 'Emri duhet plotesuar.';
+            $nameErr = '*Name must be filled!';
             $invalid_name = 'is-invalid';
         } else {
             $emri = testInput($_POST['name']);
             if (!preg_match("/^[a-zA-z]*$/", $emri)) {
-                $nameErr = 'Nuk lejohen karaktere tjera perveq shkronjave.';
+                $nameErr = '*Only alphabetical letters are allowed!';
                 $invalid_name = 'is-invalid';
             } else {
                 $nameErr = '';
@@ -111,12 +111,12 @@
         }
 
         if (empty($_POST['surname'])) {
-            $surnameErr = 'Mbiemri duhet plotesuar.';
+            $surnameErr = '*Last name must be filled!';
             $invalid_surname = 'is-invalid';
         } else {
             $mbiemri = testInput($_POST['surname']);
             if (!preg_match("/^[a-zA-z]*$/", $mbiemri)) {
-                $surnameErr = 'Nuk lejohen karaktere tjera perveq shkronjave.';
+                $surnameErr = '*Only alphabetical letters are allowed!';
                 $invalid_surname = 'is-invalid';
             } else {
                 $surnameErr = '';
@@ -125,16 +125,16 @@
         }
 
         if (empty($_POST['personal_id'])) {
-            $personalNrErr = 'Numri personal duhet plotesuar.';
+            $personalNrErr = '*Personal ID must be filled!';
             $invalid_personal_id = 'is-invalid';
         } else {
             $numri_personal = testInput($_POST['personal_id']);
             if (!preg_match("/^[0-9]*$/", $numri_personal)) {
-                $personalNrErr = "Nuk lejohen karaktere tjera perveq numrave.";
+                $personalNrErr = "*Only numbers are allowed!";
                 $invalid_personal_id = 'is-invalid';
             } else {
                 if (strlen($numri_personal) != 10) {
-                    $personalNrErr = '*Numri personal nuk duhet te jete me i shkurter se 10 karaktere';
+                    $personalNrErr = '*Personal ID must be 10 characters!';
                     $invalid_personal_id = 'is-invalid';
                 } else {
                     $check_personal_id = "SELECT numri_personal FROM patient_table WHERE numri_personal=:numri_personal";
@@ -144,7 +144,7 @@
                     $personal_id_data = $personal_id_prep->fetch();
 
                     if ($personal_id_data) {
-                        $personalNrErr = 'Nje llogari eshte e hapur me kete numer personal.';
+                        $personalNrErr = '*An account already exists using this ID';
                         $invalid_personal_id = 'is-invalid';
                     } else {
                         $personalNrErr = '';
@@ -155,21 +155,26 @@
         }
 
         if (!isset($_POST['gender'])) {
-            $genderErr = 'Gjinia duhet zgjedhur';
+            $genderErr = '*Gender msut be selected!';
         } else {
             $gjinia = testInput($_POST['gender']);
             $genderErr = '';
             $gender = $gjinia;
+            if($gender == 'Mashkull'){
+                $maleGender = 'checked';
+            } else if($gender == 'Femer'){
+                $femaleGender = 'checked';
+            }
         }
 
         if (empty($_POST['email'])) {
-            $emailErr = 'Email duhet plotesuar.';
+            $emailErr = '*Email must be filled!';
             $invalid_email = 'is-invalid';
         } else {
             $pattern = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^";
             $email = testInput($_POST['email']);
             if (!preg_match($pattern, $email)) {
-                $emailErr = 'Email adresa e mesiperme nuk eshte valide.';
+                $emailErr = '*The given email is invalid!';
                 $invalid_email = 'is-invalid';
             } else {
                 $check_email = "SELECT email FROM patient_table WHERE email=:email";
@@ -179,7 +184,7 @@
                 $check_email_data = $check_email_prep->fetch();
 
                 if ($check_email_data) {
-                    $emailErr = 'Nje llogari eshte e hapur me kete email.';
+                    $emailErr = '*An account already exists using this email!';
                     $invalid_email = 'is-invalid';
                 } else {
                     $userEmail = $email;
@@ -189,7 +194,7 @@
         }
 
         if (empty($_POST['birthday'])) {
-            $birthdayErr = 'Ditelindja duhet plotesuar.';
+            $birthdayErr = '*Birthday must be filled.';
             $invalid_birthday = 'is-invalid';
         } else {
             $ditlindja = testInput($_POST['birthday']);
@@ -198,12 +203,12 @@
         }
 
         if (empty($_POST['phone'])) {
-            $phoneErr = 'Telefoni duhet plotesuar.';
+            $phoneErr = '*Phone number must be filled!';
             $invalid_phone = 'is-invalid';
         } else {
             $telefoni = testInput($_POST['phone']);
             if (!preg_match('/^[0-9]{9}+$/', $telefoni)) {
-                $phoneErr = 'Numri i telefonit i mesiperm nuk eshte valid.';
+                $phoneErr = '*The given phone number is invalid!';
                 $invalid_phone = 'is-invalid';
             } else {
                 $check_phone = "SELECT telefoni FROM patient_table WHERE telefoni=:telefoni";
@@ -213,7 +218,7 @@
                 $check_phone_data = $check_phone_prep->fetch();
 
                 if ($check_phone_data) {
-                    $phoneErr = 'Nje llogari eshte hapur me kete numer te telefonit.';
+                    $phoneErr = '*An account already exists using this phone number!';
                     $invalid_phone = 'is-invalid';
                 } else {
                     $phoneErr = '';
@@ -223,7 +228,7 @@
         }
 
         if (empty($_POST['adress'])) {
-            $adressErr = 'Adresa duhet plotesuar.';
+            $adressErr = '*Adress must be filled!';
             $invalid_adress = 'is-invalid';
         } else {
             $adresa = testInput($_POST['adress']);
@@ -232,7 +237,7 @@
         }
 
         if (empty($_POST['username'])) {
-            $usernameErr = 'Username duhet plotesuar.';
+            $usernameErr = '*Username must be filled!';
             $invalid_username = 'is-invalid';
         } else {
             $username = testInput($_POST['username']);
@@ -244,7 +249,7 @@
             $check_username_data = $check_username_prep->fetch();
 
             if ($check_username_data) {
-                $usernameErr = 'Nje llogari eshte e hapur me kete username';
+                $usernameErr = '*An account already exists using this username!';
                 $invalid_username = 'is-invalid';
             } else {
                 $usernameErr = '';
@@ -253,7 +258,7 @@
         }
 
         if (empty($_POST['password'])) {
-            $PassErr = 'Password duhet plotesuar.';
+            $PassErr = '*Password must be filled!';
             $invalid_pass = 'is-invalid';
         } else {
             $password = testInput($_POST['password']);
@@ -279,7 +284,7 @@
                 $mail->isSMTP();                                            //Send using SMTP
                 $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = SITE_EMAIL;            //SMTP username
+                $mail->Username   = SITE_EMAIL;                            //SMTP username
                 $mail->Password   = SITE_PASSWORD;                         //SMTP password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
                 $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
@@ -290,13 +295,13 @@
 
 
                 //Content
-                $mail->isHTML(true);                  //Set email format to HTML
+                $mail->isHTML(true);                                        //Set email format to HTML
                 $veri_code = rand(111111, 999999);
 
                 $mail->Subject = 'Email verification';
                 $mail->Body    = "<p style='font-size: 16px;'>
-                                Kodi per te verifikuar llogarin tende: <b>$veri_code</b> <br>
-                                Ky kod eshte valid vetem per 02:30 minuta!
+                                Verification code: <b>$veri_code</b> <br>
+                                This code is available for only 02:30 minutes!
                                 </p>";
 
                 $mail->send();
@@ -327,7 +332,7 @@
                 if($prep->execute()){
                     $_SESSION['verify'] = $username;
                     echo "<script>
-                            alert('Ju lutem verifikojeni llogarin tuaj. Shikoni emailin tuaj per kodin verifikues.');
+                            alert('Please verify your account! Check your email for the verification code.);
                             window.location.replace('./emailVerification.php');   
                         </script>";
                 }
@@ -336,7 +341,7 @@
 
             } catch (Exception $e) {
                 echo "<script>
-                        alert('Regjistrimi i llogarise deshtoi! Ju lutemi kontrolloni lidhjen e internetit para se te provoni perseri');
+                        alert('Sign up failed! Please check your internet connection before trying again!');
                     </script>";
             }
         }
@@ -345,63 +350,63 @@
     ?>
     <main class="form-signin">
         <form method="POST" autocomplete="off" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <h1 class="h3 mb-3 fw-normal">Regjistrohuni</h1>
+            <h1 class="h3 mb-3 fw-normal">Sign up</h1>
 
             <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput name" name="name" placeholder="Emri" value="test">
-                <label for="floatingInput">Emri</label>
+                <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput name" name="name" placeholder="Name" value="<?= $name ?>">
+                <label for="floatingInput">Name</label>
                 <span class="text-danger fw-normal"><?php echo $nameErr; ?></span>
             </div>
 
             <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Mbiemri" value="test">
-                <label for="floatingInput">Mbiemri</label>
+                <input type="text" class="form-control <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Last name" value="<?= $lastName ?>">
+                <label for="floatingInput">Last name</label>
                 <span class="text-danger fw-normal"><?php echo $surnameErr; ?></span>
             </div>
 
             <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_personal_id ?? "" ?>" id="floatingInput" name="personal_id" placeholder="Numri personal" maxlength="10" value="1478523690">
-                <label for="floatingInput">Numri personal</label>
+                <input type="text" class="form-control <?= $invalid_personal_id ?? "" ?>" id="floatingInput" name="personal_id" placeholder="Personal ID" maxlength="10" value="<?= $personalNumber ?>">
+                <label for="floatingInput">Personal ID</label>
                 <span class="text-danger fw-normal"><?php echo $personalNrErr; ?></span>
             </div>
 
             <div class="form-check form-check-inline mb-1">
-                <input class="form-check-input" type="radio" checked name="gender" id="inlineRadio1" value="Mashkull">
-                <label class="form-check-label" for="inlineRadio1">Mashkull</label>
+                <input class="form-check-input" type="radio" <?= $maleGender ?? '' ?> name="gender" id="inlineRadio1" value="Mashkull">
+                <label class="form-check-label" for="inlineRadio1">Male</label>
             </div>
 
             <div class="form-check form-check-inline mb-1">
-                <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Femer">
-                <label class="form-check-label" for="inlineRadio2">Femer</label>
+                <input class="form-check-input" type="radio" <?= $femaleGender ?? '' ?> name="gender" id="inlineRadio2" value="Femer">
+                <label class="form-check-label" for="inlineRadio2">Female</label>
             </div> <br>
             <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
 
             <div class="form-floating mb-1">
-                <input type="email" class="form-control rounded <?= $invalid_email ?? "" ?>" id="floatingInput" name="email" placeholder="name@example.com" value="guesst2006@gmail.com">
+                <input type="email" class="form-control rounded <?= $invalid_email ?? "" ?>" id="floatingInput" name="email" placeholder="name@example.com" value="<?= $userEmail ?>">
                 <label for="floatingInput">Email</label>
                 <span class="text-danger fw-normal"><?php echo $emailErr; ?></span>
             </div>
 
             <div class="mb-1">
-                <label for="startDate">Ditelindja:</label>
-                <input id="startDate" class="form-control ditlindja <?= $invalid_birthday ?? "" ?>" name="birthday" type="date" value="02/02/2000" />
+                <label for="startDate">Birthday:</label>
+                <input id="startDate" class="form-control ditlindja <?= $invalid_birthday ?? "" ?>" name="birthday" type="date" value="<?= $birthday ?>" />
                 <span class="text-danger fw-normal"><?php echo $birthdayErr; ?></span>
             </div>
 
             <div class="form-floating mb-1">
-                <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Telefoni" value="045123987">
-                <label for="floatingInput">Telefoni</label>
+                <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Phone number" value="<?= $phone ?>">
+                <label for="floatingInput">Phone number</label>
                 <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
             </div>
 
             <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_adress ?? "" ?>" id="floatingInput" name="adress" placeholder="Adresa" value="demo">
-                <label for="floatingInput">Adresa</label>
+                <input type="text" class="form-control <?= $invalid_adress ?? "" ?>" id="floatingInput" name="adress" placeholder="Adress" value="<?= $addres ?>">
+                <label for="floatingInput">Adress</label>
                 <span class="text-danger fw-normal"><?php echo $adressErr; ?></span>
             </div>
 
             <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_username ?? "" ?>" id="floatingInput" name="username" placeholder="Username" value="test">
+                <input type="text" class="form-control <?= $invalid_username ?? "" ?>" id="floatingInput" name="username" placeholder="Username" value="<?= $user1 ?>">
                 <label for="floatingInput">Username</label>
                 <span class="text-danger fw-normal"><?php echo $usernameErr; ?></span>
             </div>
@@ -412,8 +417,8 @@
                 <span class="text-danger fw-normal"><?php echo $PassErr; ?></span>
             </div>
 
-            <button class="w-100 btn btn-lg btn-primary mt-4" type="submit" name="submit">Regjistrohuni</button>
-            <p>Keni nje llogari? Klikoni <a href="login.php">ketu.</a></p>
+            <button class="w-100 btn btn-lg btn-primary mt-4" type="submit" name="submit">Sign up</button>
+            <p>Already have an account?  <a href="login.php">Log in</a></p>
         </form>
     </main>
 </body>

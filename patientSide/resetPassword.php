@@ -59,22 +59,22 @@ $email = $_GET['email'];
         }
     }
     ?>
-    <main class="main">
+    <main style="display: flex; justify-content: center; align-items: center;">
         <form method="post" class="form-signin" autocomplete="off">
-            <h1 class="h3 mb-4 fw-normal">Rivendos fjalkalimin</h1>
+            <h1 class="h3 mb-4 fw-normal text-center">Reset password</h1>
             <div class="form-floating mb-2">
-                <input type="password" class="form-control rounded <?= $invalid_newPass ?? '' ?>" id="floatingInput" name="newPass" placeholder="Fjalekalimi i ri">
-                <label for="floatingInput">Fjalekalimi i ri</label>
+                <input type="password" class="form-control rounded <?= $invalid_newPass ?? '' ?>" id="floatingInput" name="newPass" placeholder="New password">
+                <label for="floatingInput">New password</label>
                 <span class="text-danger fw-normal"><?php echo $newPass_err; ?></span>
             </div>
 
             <div class="form-floating">
-                <input type="password" class="form-control rounded <?= $invalid_confirmPass ?? '' ?>" id="floatingInput" name="confirmPass" placeholder="Konfirmo fjalekalimin">
-                <label for="floatingInput">Konfirmo fjalekalimin</label>
+                <input type="password" class="form-control rounded <?= $invalid_confirmPass ?? '' ?>" id="floatingInput" name="confirmPass" placeholder="Confirm password">
+                <label for="floatingInput">Confirm password</label>
                 <span class="text-danger fw-normal"><?php echo $confirmPass_err; ?></span>
             </div>
 
-            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="submit">Vazhdo</button>
+            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="submit">Reset</button>
         </form>
     </main>
 </body>

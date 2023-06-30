@@ -42,7 +42,7 @@
         $data = $prep->fetch();
 
         if (!$data) {
-            $error = "*Ky username nuk eksizton.";
+            $error = "*This email doesn't exists in our system.";
             $invalid_error = 'is-invalid';
         } else{
             $mail = new PHPMailer(true);
@@ -67,14 +67,14 @@
                 $mail->isHTML(true);                                        //Set email format to HTML
 
 
-                $mail->Subject = 'Rivendos fjalkalimin';
-                $mail->Body    = "<p style='font-size: 18px;'>Kliko <a href='localhost/online-doctor-appointment-master/patientSide/resetPassword.php?email=$email'>ketu</a> 
-                per te rivendosur fjalkalimin.</p>";
+                $mail->Subject = 'Reset password';
+                $mail->Body    = "<p style='font-size: 18px;'>Click <a href='localhost/online-doctor-appointment-master/patientSide/resetPassword.php?email=$email'>here</a> 
+                to reset your password.</p>";
 
                 $mail->send();
 
                 echo "<script>
-                        alert('Ne ju derguam linkun per te rivendosur fjalkalimin ne emailin: $email.');
+                        alert('We sent you a link to reset your account password in this email: $email.');
                         window.location.replace('login.php');
                     </script>";
 
@@ -85,7 +85,7 @@
     }
     ?>
     <form method="post" class="form-signin" autocomplete="off">
-        <h1 class="h3 mb-4 fw-normal text-center">Rivendos fjalekalimin</h1>
+        <h1 class="h3 mb-4 fw-normal text-center">Reset password</h1>
         <div class="form-floating">
             <input type="email" class="form-control rounded <?= $invalid_error ?? '' ?>" id="floatingInput" name="email" placeholder="Email">
             <label for="floatingInput">Email</label>
@@ -93,7 +93,7 @@
         </div>
         
         <button class="w-100 btn btn-lg btn-primary mt-3 mb-2" type="submit" name="submit">Submit</button>
-        <p class="text-center">Kthehuni tek <a href="./login.php">ballina.</a></p>
+        <p class="text-center">Go back to <a href="./login.php">login.</a></p>
     </form>
 
 </body>
