@@ -79,7 +79,30 @@ nav {
   margin-left: 200px;
 }
 
+.imagePagination{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
+.paginationLink{
+  text-decoration: none;
+  border: 1px solid rgba(119, 136, 153, 0.659);
+  color: rgba(119, 136, 153, 0.659);
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.paginationLink:hover{
+  border-color: #0D6EFD;
+}
+.activePage{
+  border-color: #0D6EFD;
+  color: #0D6EFD;
+}
 
 .bd-placeholder-img {
   font-size: 1.125rem;
