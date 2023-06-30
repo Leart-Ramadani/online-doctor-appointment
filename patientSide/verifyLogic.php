@@ -79,7 +79,7 @@ if ($otp === $veri_code) {
 
             $mail->Subject = 'Email verification';
             $mail->Body    = "<p style='font-size: 16px;'>
-                    $username llogaria juaj eshte verifikuar me sukses.
+                    $username your account is successfully verified.
                 </p>";
 
 
@@ -97,8 +97,8 @@ if ($otp === $veri_code) {
         unset($_SESSION['verify']);
         echo "Your account has been successfully verified";
     } else {
-        echo "Ky kod ka skaduar!";
+        echo "This code has expierd!";
     }
 } else {
-    echo "Ky kod nuk eshte i sakte! Ju lutemi provojeni perseri.";
+    echo "Wrong code. Please try again!";
 }
