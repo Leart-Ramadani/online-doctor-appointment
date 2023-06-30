@@ -25,6 +25,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script>
     <script src="../js/index.js" defer></script>
     <script src="../js/anulo.js" defer></script>
+    <script src="./js/slider.js" defer></script>
     <!-- Font-awesome script -->
     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous" defer></script>
 </head>
@@ -87,109 +88,31 @@
         </article>
 
         <article id="doctors_art">
-            <h1 class="personeli_h1">Medical staff</h1>
+            <h1 class="personeli_h1">Our expert doctors</h1>
             <hr>
         </article>
-        <div #swiperRef="" class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <?php foreach ($data as $data) : ?>
-                    <div id="doctor1" class="swiper-slide">
-                        <img class="doc_img" src="./admin/uploads/<?= $data['foto'] ?>" alt="Kardiolog" width="200px !improtant">
-                        <h1 class="doc_name"><?= $data['fullName'] ?></h1>
-                        <h4 class="doc_prof"><?= $data['departamenti'] ?></h4>
-                        <p class="bio"><?= $data['biografia'] ?></p>
-                        <a class="text-decoration-none text-white" href="./patientSide/shikoProfilin.php?id=<?= $data['id'] ?>">
-                            <button class="btn btn-primary p-2 w-100 fw-normal btnDoc" name="view">Read more</button>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
 
-            </div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+        <div class="docActions">
+            <button class="prevDoc"><div class="leftArrow"></div></button>
+            <button class="nextBtn"><div class="rightArrow"></div></button>
         </div>
 
+        <section class="docInfoWrapper">
+            <?php foreach ($data as $data) : ?>
+                <div class="doc_info">
+                    <img src="./admin/uploads/<?= $data['foto'] ?>" alt="">
+                    <div class="doc_des">
+                        <h1><?= $data['fullName'] ?></h1>
+                        <p><?= $data['departamenti'] ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
 
-        <!-- Swiper JS -->
-        <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+        </section>
 
-        <script src="/js/swipper.js"></script>
-        <!-- Initialize Swiper -->
-        <script>
-            let screenWidth = window.screen.width;
-            let swipper;
-            if (screenWidth > 768) {
-                swiper = new Swiper(".mySwiper", {
-                    slidesPerView: 4,
-                    centeredSlides: true,
-                    spaceBetween: 100,
-                    pagination: {
-                        el: ".swiper-pagination",
-                        type: "fraction",
-                    },
-                    navigation: {
-                        nextEl: ".swiper-button-next",
-                        prevEl: ".swiper-button-prev",
-                    }
-                });
-            } else if (screenWidth <= 768) {
-                swiper = new Swiper(".mySwiper", {
-                    slidesPerView: 3,
-                    centeredSlides: true,
-                    spaceBetween: 40,
-                    pagination: {
-                        el: ".swiper-pagination",
-                        type: "fraction",
-                    },
-                    navigation: {
-                        nextEl: ".swiper-button-next",
-                        prevEl: ".swiper-button-prev",
-                    }
-                });
-            } else if (screenWidth <= 700) {
-                swiper = new Swiper(".mySwiper", {
-                    slidesPerView: 3,
-                    centeredSlides: true,
-                    spaceBetween: 10,
-                    pagination: {
-                        el: ".swiper-pagination",
-                        type: "fraction",
-                    },
-                    navigation: {
-                        nextEl: ".swiper-button-next",
-                        prevEl: ".swiper-button-prev",
-                    }
-                });
-            } else if (screenWidth <= 565) {
-                swiper = new Swiper(".mySwiper", {
-                    slidesPerView: 5,
-                    centeredSlides: true,
-                    spaceBetween: 10,
-                    pagination: {
-                        el: ".swiper-pagination",
-                        type: "fraction",
-                    },
-                    navigation: {
-                        nextEl: ".swiper-button-next",
-                        prevEl: ".swiper-button-prev",
-                    }
-                });
-            } else if (screenWidth <= 425) {
-                swiper = new Swiper(".mySwiper", {
-                    slidesPerView: 4,
-                    centeredSlides: true,
-                    spaceBetween: 10,
-                    pagination: {
-                        el: ".swiper-pagination",
-                        type: "fraction",
-                    },
-                    navigation: {
-                        nextEl: ".swiper-button-next",
-                        prevEl: ".swiper-button-prev",
-                    }
-                });
-            }
-        </script>
+
+
+
 
 
         <article id="doctors_art">
@@ -198,10 +121,8 @@
         </article>
         <div class="mapWrapper">
             <div id="my-map-canvas">
-                <iframe class="mapFrame" 
-                    frameborder="0" 
-                    src="https://www.google.com/maps/embed/v1/place?q=QKUK,+Pristina&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"></iframe>
-                </div>
+                <iframe class="mapFrame" frameborder="0" src="https://www.google.com/maps/embed/v1/place?q=QKUK,+Pristina&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"></iframe>
+            </div>
         </div>
     </main>
 </body>
@@ -212,11 +133,14 @@
             <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Homepage</a></li>
             <li class="nav-item"><a href="galeria.php" class="nav-link px-2 text-muted">Gallery</a></li>
             <li class="nav-item"><a href="./patientSide/rezervoTermin.php" class="nav-link px-2 text-muted">Appointments</a></li>
-            <li class="nav-item"><a href="./patientSide/ankesat.php" class="nav-link px-2 text-muted">Complaints    </a></li>
+            <li class="nav-item"><a href="./patientSide/ankesat.php" class="nav-link px-2 text-muted">Complaints </a></li>
         </ul>
-        <p class="text-center text-muted"> Copyright ©2023 All rights reserved | This website is made by <a href="https://www.linkedin.com/in/leart-ramadani-47981125a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVVrswlowTROepZqoqZDZkw%3D%3D">Leart  Ramadani</a>.</p>
+        <p class="text-center text-muted"> Copyright ©2023 All rights reserved | This website is made by <a href="https://www.linkedin.com/in/leart-ramadani-47981125a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVVrswlowTROepZqoqZDZkw%3D%3D">Leart Ramadani</a>.</p>
     </footer>
 </div>
 
+
+
+</body>
 
 </html>
