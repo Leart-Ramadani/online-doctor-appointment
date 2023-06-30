@@ -94,7 +94,10 @@ nav {
     font-size: 3.5rem;
   }
 }
-
+.navbar{
+  top: 0;
+  position: sticky !important;
+}
 .form-signin {
   width: 100%;
   max-width: 330px;
@@ -1068,12 +1071,14 @@ nav {
   font-size: 40px;
   text-align: center;
   width: 250px;
-  height: 330px;
+  height: 300px;
   background-color: white;
   transition: .2s ease-in;
   display: none;
   cursor: pointer;
   overflow: hidden;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .doc_info:hover .doc_des{
   background-color: #17a2b8;
@@ -1142,9 +1147,8 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: rgba(119, 136, 153, 0.4);
   font-weight: 100;
-  border: 1px solid rgba(119, 136, 153, 0.4);
+  border: 1px solid rgba(119, 136, 153, 0.659);
   border-radius: 7px;
   background-color: white;
   width: 40px;
