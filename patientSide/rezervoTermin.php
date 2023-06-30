@@ -175,7 +175,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         </div>
 
         <form action="rezervo.php" method="POST" class="submit_rez">
-            <button type="submit" name="rezervo" class="btn btn-success">Book</button>
+            <button type="submit" name="rezervo" class="btn btn-success">Book Appointment</button>
         </form>
 
 
