@@ -154,17 +154,18 @@
             }
         }
 
-        if (!isset($_POST['gender'])) {
-            $genderErr = '*Gender msut be selected!';
+        if (empty($_POST['gender'])) {
+            $genderErr = '*You must select the gender.';
+            $invalid_gender = 'is-invalid';
         } else {
-            $gjinia = testInput($_POST['gender']);
-            $genderErr = '';
-            $gender = $gjinia;
-            if($gender == 'Mashkull'){
-                $maleGender = 'checked';
-            } else if($gender == 'Femer'){
-                $femaleGender = 'checked';
+            $gender = $_POST['gender'];
+            $gjinia = $gender;
+            if($gjinia == 'Mashkull'){
+                $maleSel = 'selected';
+            } else if($gjinia == 'Femer'){
+                $femSel = 'selected';
             }
+            $genderErr = '';
         }
 
         if (empty($_POST['email'])) {
@@ -198,9 +199,21 @@
             $invalid_birthday = 'is-invalid';
         } else {
             $ditlindja = testInput($_POST['birthday']);
-            $birthdayErr = '';
-            $birthday = $ditlindja;
+            
+            $birthdayDate = new DateTime($ditlindja);
+            $currentDate = new DateTime();
+            
+            $age = $currentDate->diff($birthdayDate)->y;
+            
+            if ($age >= 18) {
+                $birthdayErr = '';
+                $birthday = $ditlindja;
+            } else {
+                $birthdayErr = '*You must be 18 years or older.';
+                $invalid_birthday = 'is-invalid';
+            }
         }
+        
 
         if (empty($_POST['phone'])) {
             $phoneErr = '*Phone number must be filled!';
@@ -352,75 +365,93 @@
         <form method="POST" autocomplete="off" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <h1 class="h3 mb-3 fw-normal">Sign up</h1>
 
-            <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput name" name="name" placeholder="Name" value="<?= $name ?>">
-                <label for="floatingInput">Name</label>
-                <span class="text-danger fw-normal"><?php echo $nameErr; ?></span>
+            <div class="tab">
+                <div class="form-floating mb-1">
+                    <input type="text" class="form-control <?= $invalid_name ?? "" ?>" id="floatingInput name" name="name" placeholder="Name" value="<?= $name ?>">
+                    <label for="floatingInput">Name</label>
+                    <span class="text-danger fw-normal"><?php echo $nameErr; ?></span>
+                </div>
+
+                <div class="form-floating mb-1">
+                    <input type="text" class="form-control <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Last name" value="<?= $lastName ?>">
+                    <label for="floatingInput">Last name</label>
+                    <span class="text-danger fw-normal"><?php echo $surnameErr; ?></span>
+                </div>
+
+                <div class="form-floating mb-1">
+                    <input type="text" class="form-control <?= $invalid_personal_id ?? "" ?>" id="floatingInput" name="personal_id" placeholder="Personal ID" maxlength="10" value="<?= $personalNumber ?>">
+                    <label for="floatingInput">Personal ID</label>
+                    <span class="text-danger fw-normal"><?php echo $personalNrErr; ?></span>
+                </div>
+                
+                <div class="mb-2">
+                 <select class="form-select <?= $invalid_gender ?? "" ?> mt-2" aria-label="Default select example" name="gender">
+                    <option value="">Select gender</option>
+                    <option value="Mashkull" <?= $maleSel ?? "" ?>>Mashkull</option>
+                    <option value="Femer" <?= $femSel ?? "" ?>>Femer</option>
+                 </select>
+                 <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
+             </div>
+
             </div>
 
-            <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Last name" value="<?= $lastName ?>">
-                <label for="floatingInput">Last name</label>
-                <span class="text-danger fw-normal"><?php echo $surnameErr; ?></span>
+
+            <div class="tab">
+                <div class="form-floating mb-1">
+                    <input type="email" class="form-control rounded <?= $invalid_email ?? "" ?>" id="floatingInput" name="email" placeholder="name@example.com" value="<?= $userEmail ?>">
+                    <label for="floatingInput">Email</label>
+                    <span class="text-danger fw-normal"><?php echo $emailErr; ?></span>
+                </div>
+
+
+
+                <div class="mb-1">
+                    <label for="startDate">Birthday:</label>
+                    <input id="startDate" class="form-control ditlindja <?= $invalid_birthday ?? "" ?>" name="birthday" type="date" value="<?= $birthday ?>" />
+                    <span class="text-danger fw-normal"><?php echo $birthdayErr; ?></span>
+                </div>
+            </div>
+            
+
+            <div class="tab">
+                <div class="form-floating mb-1">
+                    <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Phone number" value="<?= $phone ?>">
+                    <label for="floatingInput">Phone number</label>
+                    <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
+                </div>
+    
+                <div class="form-floating mb-1">
+                    <input type="text" class="form-control <?= $invalid_adress ?? "" ?>" id="floatingInput" name="adress" placeholder="Adress" value="<?= $addres ?>">
+                    <label for="floatingInput">Adress</label>
+                    <span class="text-danger fw-normal"><?php echo $adressErr; ?></span>
+                </div>
             </div>
 
-            <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_personal_id ?? "" ?>" id="floatingInput" name="personal_id" placeholder="Personal ID" maxlength="10" value="<?= $personalNumber ?>">
-                <label for="floatingInput">Personal ID</label>
-                <span class="text-danger fw-normal"><?php echo $personalNrErr; ?></span>
+            <div class="tab">
+                <div class="form-floating mb-1">
+                    <input type="text" class="form-control <?= $invalid_username ?? "" ?>" id="floatingInput" name="username" placeholder="Username" value="<?= $user1 ?>">
+                    <label for="floatingInput">Username</label>
+                    <span class="text-danger fw-normal"><?php echo $usernameErr; ?></span>
+                </div>
+    
+                <div class="form-floating">
+                    <input type="password" class="form-control rounded mb-0 <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Password">
+                    <label for="floatingPassword">Password</label>
+                    <span class="text-danger fw-normal"><?php echo $PassErr; ?></span>
+                </div>
+    
+                <button class="w-100 btn btn-lg btn-primary mt-4" type="submit" name="submit">Sign up</button>
             </div>
-
-            <div class="form-check form-check-inline mb-1">
-                <input class="form-check-input" type="radio" <?= $maleGender ?? '' ?> name="gender" id="inlineRadio1" value="Mashkull">
-                <label class="form-check-label" for="inlineRadio1">Male</label>
-            </div>
-
-            <div class="form-check form-check-inline mb-1">
-                <input class="form-check-input" type="radio" <?= $femaleGender ?? '' ?> name="gender" id="inlineRadio2" value="Femer">
-                <label class="form-check-label" for="inlineRadio2">Female</label>
-            </div> <br>
-            <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
-
-            <div class="form-floating mb-1">
-                <input type="email" class="form-control rounded <?= $invalid_email ?? "" ?>" id="floatingInput" name="email" placeholder="name@example.com" value="<?= $userEmail ?>">
-                <label for="floatingInput">Email</label>
-                <span class="text-danger fw-normal"><?php echo $emailErr; ?></span>
-            </div>
-
-            <div class="mb-1">
-                <label for="startDate">Birthday:</label>
-                <input id="startDate" class="form-control ditlindja <?= $invalid_birthday ?? "" ?>" name="birthday" type="date" value="<?= $birthday ?>" />
-                <span class="text-danger fw-normal"><?php echo $birthdayErr; ?></span>
-            </div>
-
-            <div class="form-floating mb-1">
-                <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Phone number" value="<?= $phone ?>">
-                <label for="floatingInput">Phone number</label>
-                <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
-            </div>
-
-            <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_adress ?? "" ?>" id="floatingInput" name="adress" placeholder="Adress" value="<?= $addres ?>">
-                <label for="floatingInput">Adress</label>
-                <span class="text-danger fw-normal"><?php echo $adressErr; ?></span>
-            </div>
-
-            <div class="form-floating mb-1">
-                <input type="text" class="form-control <?= $invalid_username ?? "" ?>" id="floatingInput" name="username" placeholder="Username" value="<?= $user1 ?>">
-                <label for="floatingInput">Username</label>
-                <span class="text-danger fw-normal"><?php echo $usernameErr; ?></span>
-            </div>
-
-            <div class="form-floating">
-                <input type="password" class="form-control rounded mb-0 <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Password">
-                <label for="floatingPassword">Password</label>
-                <span class="text-danger fw-normal"><?php echo $PassErr; ?></span>
-            </div>
-
-            <button class="w-100 btn btn-lg btn-primary mt-4" type="submit" name="submit">Sign up</button>
             <p>Already have an account?  <a href="login.php">Log in</a></p>
         </form>
     </main>
+
+
+    <script>
+        let tab = document.querySelectorAll('.tab');
+
+        tab[0].style.display = 'block';
+    </script>
 </body>
 
 </html>
