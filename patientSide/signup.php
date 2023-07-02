@@ -74,8 +74,8 @@
 <body class="text-center">
 
     <main class="form-signin">
-        <form method="POST" autocomplete="off" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" id="registerForm">
-            <h1 class="h3 mb-3 fw-normal">Sign up</h1>
+        <form method="POST" autocomplete="off" action="validateForm.php" id="registerForm">
+            <h1 class="h3 mb-3 fw-normal register">Sign up</h1>
 
             <!-- First tab of register inputs (name, lastName, personal ID, gender) -->
             <div class="tab">
@@ -158,12 +158,14 @@
 
             </div>
 
+            <div class="tab loader"></div>
+
             <!-- Register form action buttons -->
             <div class="d-flex justify-content-end mt-2 ">
                 <button class="w-25 btn btn-primary me-2 prev" type="button">Prev</button>
                 <button class="w-25 btn btn-primary next" type="button">Next</button>
             </div>
-            <p class="mt-2">Already have an account? <a href="login.php">Log in</a></p>
+            <p class="mt-2 loginLink">Already have an account? <a href="login.php">Log in</a></p>
         </form>
     </main>
 </body>
