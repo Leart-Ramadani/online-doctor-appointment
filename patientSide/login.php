@@ -1,8 +1,8 @@
 <?php
-    include('../config.php');
-    if(isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
-        header("Location: ../index.php");
-    }
+include('../config.php');
+if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
+    header("Location: ../index.php");
+}
 
 ?>
 <!DOCTYPE html>
@@ -62,12 +62,12 @@
 </head>
 
 <body class="text-center">
-<?php
-    
+    <?php
+
     $usernameErr = $passErr = $verificationErr = '';
     $user2 = '';
 
-    if(isset($_POST['submit'])){
+    if (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
 
@@ -77,10 +77,10 @@
         $stm->execute();
         $data = $stm->fetch();
 
-        if($data === false){
+        if ($data === false) {
             $usernameErr = "*This username or email doesn't exists!";
             $invalid_user = 'is-invalid';
-        } else if(password_verify($password, $data['password'])){
+        } else if (password_verify($password, $data['password'])) {
 
             $check_sql = "SELECT verificated FROM patient_table WHERE username=:username or email=:username";
             $check_prep = $con->prepare($check_sql);
@@ -88,27 +88,26 @@
             $check_prep->execute();
             $check_data = $check_prep->fetch();
 
-            if($check_data['verificated'] != true){
+            if ($check_data['verificated'] != true) {
                 $_SESSION['verify'] = $username;
                 echo "<script>
                     alert('This account isn't verified yet. Check your email for verification code!')
                     window.location.replace('./emailVerification.php')
                     </script>";
-            } else{
+            } else {
                 $_SESSION['username'] = $data['username'];
                 $_SESSION['emri'] = $data['emri'];
                 $_SESSION['mbiemri'] = $data['mbiemri'];
                 $_SESSION['numri_personal'] = $data['numri_personal'];
                 header("Location: ./rezervoTermin.php");
             }
-
-        } else{
+        } else {
             $passErr = '*Wrong password';
             $invalid_pass = 'is-invalid';
             $user2 = $username;
         }
     }
-?>
+    ?>
 
     <main class="form-signin">
         <form method="POST" autocomplete="off">
@@ -128,6 +127,27 @@
                 <label for="floatingPassword">Password</label>
                 <span class="text-danger fw-normal"><?php echo $passErr; ?></span>
             </div>
+
+            <div class="form-check d-flex mb-2 justify-content-end">
+                <label class="form-check-label" for="flexCheckDefault">Show password</label>
+                <input class="form-check-input ms-2" type="checkbox" value="" id="flexCheckDefault">
+            </div>
+
+            <script>
+                const passInput = document.getElementById('floatingPassword');
+                const showPassCheckBox = document.getElementById('flexCheckDefault');
+
+                const showPass = () => {
+                    if (showPassCheckBox.checked) {
+                        passInput.type = 'text';
+                    } else {
+                        passInput.type = 'password';
+                    }
+                }
+
+                showPassCheckBox.addEventListener('change', showPass);
+            </script>
+
 
             <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Login</button>
 

@@ -151,10 +151,30 @@
                 </div>
 
                 <div class="form-floating">
-                    <input type="password" class="form-control confirmPass rounded mb-0" id="floatingPassword" name="confirmPass" placeholder="Confirm password">
-                    <label for="floatingPassword">Confirm password</label>
+                    <input type="password" class="form-control confirmPass rounded mb-0" id="confirmPassword" name="confirmPass" placeholder="Confirm password">
+                    <label for="confirmPassword">Confirm password</label>
                     <span class="text-danger fw-normal confirmPassErr"></span>
                 </div>
+
+                <div class="form-check d-flex mb-2 justify-content-end">
+                    <label class="form-check-label" for="flexCheckDefault">Show password</label>
+                    <input class="form-check-input ms-2" type="checkbox" value="" id="flexCheckDefault">
+                </div>
+
+                <script>
+                    const passInput = document.getElementById('floatingPassword');
+                    const confirmPassInput = document.getElementById('confirmPassword');
+                    const showPassCheckBox = document.getElementById('flexCheckDefault');
+
+                    const showPass = () => {
+                        const passType = showPassCheckBox.checked ? 'text' : 'password';
+                        passInput.type = passType;
+                        confirmPassInput.type = passType;
+                    };
+
+                    showPassCheckBox.addEventListener('change', showPass);
+                </script>
+
 
             </div>
 

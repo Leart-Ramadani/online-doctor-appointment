@@ -87,14 +87,14 @@ if (isset($_SESSION['doctor'])) {
 
 
         if ($data == false) {
-            $err_user = "Ky username nuk ekziston.";
+            $err_user = "*This username doesn't exists!";
             $invalid_user = 'is-invalid';
         } else if (password_verify($password, $data['password'])) {
             $_SESSION['doctor'] = $data['fullName'];
             $_SESSION['doc_username'] = $data['username'];
             header("Location: terminet.php");
         } else {
-            $err_pass = "Fjalkalimi nuk eshte i sakte.";
+            $err_pass = "*Incorrect password!";
             $user1 = $username;
             $invalid_pass = 'is-invalid';
         }
@@ -105,7 +105,7 @@ if (isset($_SESSION['doctor'])) {
     ?>
     <main class="form-signin">
         <form method="POST" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal">Kyquni në llogarin e doktorit</h1>
+            <h1 class="h3 mb-3 fw-normal">Login to doctor side</h1>
 
 
             <div class="form-floating">
@@ -116,14 +116,36 @@ if (isset($_SESSION['doctor'])) {
 
 
             <div class="form-floating mt-2">
-                <input type="password" class="form-control <?= $invalid_pass ?? '' ?>" id="floatingPassword" name="password" placeholder="Password">
+                <input type="password" class="form-control rounded <?= $invalid_pass ?? '' ?>" id="floatingPassword" name="password" placeholder="Password">
                 <label for="floatingPassword">Password</label>
             </div>
             <span class="text-danger fw-normal"><?php echo $err_pass; ?></span>
 
-            <button class="w-100 btn btn-lg btn-primary mt-2" type="submit" name="submit">Regjistrohuni</button>
+            <div class="form-check d-flex mb-2 justify-content-end">
+                <label class="form-check-label" for="flexCheckDefault">Show password</label>
+                <input class="form-check-input ms-2" type="checkbox" value="" id="flexCheckDefault">
+            </div>
+
+            <script>
+                const passInput = document.getElementById('floatingPassword');
+                const showPassCheckBox = document.getElementById('flexCheckDefault');
+
+                const showPass = () => {
+                    if (showPassCheckBox.checked) {
+                        passInput.type = 'text';
+                    } else {
+                        passInput.type = 'password';
+                    }
+                }
+
+                showPassCheckBox.addEventListener('change', showPass);
+            </script>
+
+            <button class="w-100 btn btn-lg btn-primary mt-2" type="submit" name="submit">Log in</button>
         </form>
     </main>
+
+    
 
 
 
