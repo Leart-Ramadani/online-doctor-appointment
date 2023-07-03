@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2023 at 04:04 PM
+-- Generation Time: Jul 03, 2023 at 09:20 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -61,9 +61,7 @@ CREATE TABLE `ankesat` (
 --
 
 INSERT INTO `ankesat` (`id`, `emri`, `mbiemri`, `numri_personal`, `email`, `ankesa`, `permisimi`) VALUES
-(19, 'Leart', 'Ramadani', 1234567890, 'leart.ramadani06@gmail.com', 'Sjelle joprofesionale', ''),
-(21, 'test', 'test', 1478523690, 'guesst2006@gmail.com', 'gvjgj', ''),
-(22, 'test', 'test', 1478523690, 'guesst2006@gmail.com', 'fgfhfgh', '');
+(23, 'Leart', 'Ramadani', 1234567890, 'leart.ramadani06@gmail.com', 'palidhej', '');
 
 -- --------------------------------------------------------
 
@@ -174,7 +172,8 @@ CREATE TABLE `historia_e_termineve` (
 --
 
 INSERT INTO `historia_e_termineve` (`id`, `doktori`, `departamenti`, `pacienti`, `numri_personal`, `email_pacientit`, `data`, `ora`, `diagnoza`, `recepti`) VALUES
-(65, 'Adnan Rrustemi', 'Kardiologji', 'Leart Ramadani', '1466408468', 'leart.ramadani06@gmail.com', '2023-03-09', '08:00:00', 'Ftohje e lehte', 'Paracetamol');
+(65, 'Adnan Rrustemi', 'Kardiologji', 'Leart Ramadani', '1466408468', 'leart.ramadani06@gmail.com', '2023-03-09', '08:00:00', 'Ftohje e lehte', 'Paracetamol'),
+(67, 'Nora Bajrami', 'Pediatri', 'Leart Ramadani', '1234567890', 'leart.ramadani06@gmail.com', '2023-07-06', '09:00:00', 'Ftohje', 'Paracetamol');
 
 -- --------------------------------------------------------
 
@@ -201,19 +200,7 @@ CREATE TABLE `kerkesatanulimit` (
 --
 
 INSERT INTO `kerkesatanulimit` (`id`, `emri_pacientit`, `mbiemri_pacientit`, `numri_personal`, `email`, `telefoni`, `doktori`, `departamenti`, `data`, `ora`, `arsyeja_anulimit`) VALUES
-(62, 'Leart', 'Ramadani', 1234567890, 'leart.ramadani06@gmail.com', '044123789', 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '08:00:00', 'ddfgdf'),
-(63, 'Leart', 'Ramadani', 1234567890, 'leart.ramadani06@gmail.com', '044123789', 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '08:00:00', 'ddfgdf'),
-(64, 'Leart', 'Ramadani', 1234567890, 'leart.ramadani06@gmail.com', '044123789', 'Nora Bajrami', 'Pediatri', '2023-05-31', '12:00:00', 'uyvugv'),
-(65, 'Test', 'Test', 2147483647, 'guesst2006@gmail.com', '044125875', 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '08:00:00', 'Personal]'),
-(66, 'Leart', 'Ramadani', 1234567890, 'leart.ramadani06@gmail.com', '044123789', 'Dardane Sejdiu', 'Pediatri', '2023-05-31', '08:00:00', 'lll'),
-(67, 'Test', 'Test', 2147483647, 'guesst2066@gmail.com', '044123654', 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '08:00:00', 'jjj'),
-(68, 'Test', 'Test', 2147483647, 'guesst2066@gmail.com', '044123654', 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '08:00:00', 'jujh'),
-(69, 'test', 'test', 1513516516, 'guesst2006@gmail.com', '044455666', 'Artan Qorri', 'Kardiologji', '2023-05-31', '09:00:00', 'jashte vendi'),
-(70, 'Test', 'Test', 1513516516, 'guesst2006@gmail.com', '044455666', 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '08:00:00', 'jhbjg'),
-(71, 'test', 'test', 1478523690, 'guesst2006@gmail.com', '045123987', 'Artan Qorri', 'Kardiologji', '2023-05-31', '09:15:00', 'dfdf'),
-(72, 'test', 'test', 1478523690, 'guesst2006@gmail.com', '045123987', 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '08:55:00', 'dgdg'),
-(73, 'Leart', 'Ramadani', 1234567890, 'leart.ramadani06@gmail.com', '044123789', 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '08:00:00', 'fvfvfv'),
-(74, 'test', 'test', 1478523690, 'guesst2006@gmail.com', '045123987', 'Dardane Sejdiu', 'Pediatri', '2023-05-31', '08:15:00', 'Personlae');
+(78, 'Guesst', 'Guesst', 1561353106, 'guesst2006@gmail.com', '044156566', 'Nora Bajrami', 'Pediatri', '2023-07-06', '08:40:00', 'palidhje');
 
 -- --------------------------------------------------------
 
@@ -237,7 +224,7 @@ CREATE TABLE `orari` (
 --
 
 INSERT INTO `orari` (`id`, `doktori`, `departamenti`, `data`, `nga_ora`, `deri_oren`, `kohezgjatja`, `zene_deri`) VALUES
-(177, 'Nora Bajrami', 'Pediatri', '2023-07-13', '08:00:00', '16:00:00', 15, '09:00:00');
+(178, 'Nora Bajrami', 'Pediatri', '2023-07-06', '08:00:00', '16:00:00', 20, '09:40:00');
 
 -- --------------------------------------------------------
 
@@ -268,7 +255,8 @@ CREATE TABLE `patient_table` (
 --
 
 INSERT INTO `patient_table` (`id`, `emri`, `mbiemri`, `numri_personal`, `gjinia`, `email`, `telefoni`, `ditlindja`, `adresa`, `username`, `password`, `veri_code`, `veri_date`, `veri_time`, `verificated`) VALUES
-(1, 'Leart', 'Ramadani', 1234567890, 'Mashkull', 'leart.ramadani06@gmail.com', '044123789', '2000-05-11', 'lorem ipsum', 'leartRamadani', '$2y$10$8lqeXHPI5kgSPSr36Ue38OcXJT0o35GrahIVJMZkNXaxm5cDUwY8a', 456086, '2023-05-25', '20:13:40', 1);
+(1, 'Leart', 'Ramadani', 1234567890, 'Mashkull', 'leart.ramadani06@gmail.com', '044123789', '2000-05-11', 'lorem ipsum', 'leartRamadani', '$2y$10$8lqeXHPI5kgSPSr36Ue38OcXJT0o35GrahIVJMZkNXaxm5cDUwY8a', 456086, '2023-05-25', '20:13:40', 1),
+(76, 'Guesst', 'Guesst', 1561353106, 'Mashkull', 'guesst2006@gmail.com', '044156566', '2000-01-01', 'lorem ipsum', 'guesst', '$2y$10$WrgCkUfgYOvBUZFNamYXBO7pwBVyhD11cbA4Gx15a5MZE53rmhuGC', 612949, '2023-07-03', '21:09:25', 1);
 
 -- --------------------------------------------------------
 
@@ -292,12 +280,7 @@ CREATE TABLE `terminet` (
 --
 
 INSERT INTO `terminet` (`id`, `doktori`, `emri_pacientit`, `mbiemri_pacientit`, `numri_personal`, `email_pacientit`, `data`, `ora`) VALUES
-(493, 'Aferdita Gashi', 'Leart', 'Ramadani', 1466408468, 'leart.ramadani06@gmail.com', '2023-03-10', '10:00:00'),
-(496, 'Adnan Rrustemi', 'Leart', 'Ramadani', 1466408468, 'leart.ramadani06@gmail.com', '2023-05-31', '08:00:00'),
-(511, 'Adnan Rrustemi', 'test', 'test', 1478523690, 'guesst2006@gmail.com', '2023-05-31', '08:55:00'),
-(512, 'Adnan Rrustemi', 'Leart', 'Ramadani', 1234567890, 'leart.ramadani06@gmail.com', '2023-05-31', '09:10:00'),
-(513, 'Dardane Sejdiu', 'test', 'test', 1478523690, 'guesst2006@gmail.com', '2023-05-31', '08:15:00'),
-(517, 'Nora Bajrami', 'test', 'test', 1478523690, 'guesst2006@gmail.com', '2023-07-13', '08:45:00');
+(523, 'Nora Bajrami', 'Leart', 'Ramadani', 1234567890, 'leart.ramadani06@gmail.com', '2023-07-06', '09:20:00');
 
 -- --------------------------------------------------------
 
@@ -314,6 +297,13 @@ CREATE TABLE `terminet_e_dyta` (
   `email_pacientit` varchar(100) NOT NULL,
   `data` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `terminet_e_dyta`
+--
+
+INSERT INTO `terminet_e_dyta` (`id`, `doktori`, `emri_pacientit`, `mbiemri_pacientit`, `numri_personal`, `email_pacientit`, `data`) VALUES
+(72, 'Nora Bajrami', 'Guesst', 'Guesst', 1561353106, 'guesst2006@gmail.com', '2023-07-13');
 
 -- --------------------------------------------------------
 
@@ -337,11 +327,7 @@ CREATE TABLE `terminet_e_mia` (
 --
 
 INSERT INTO `terminet_e_mia` (`id`, `emri_pacientit`, `mbiemri_pacientit`, `numri_personal`, `doktori`, `departamenti`, `data`, `ora`) VALUES
-(390, 'Leart', 'Ramadani', 1466408468, 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '08:00:00'),
-(405, 'test', 'test', 1478523690, 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '08:55:00'),
-(406, 'Leart', 'Ramadani', 1234567890, 'Adnan Rrustemi', 'Kardiologji', '2023-05-31', '09:10:00'),
-(407, 'test', 'test', 1478523690, 'Dardane Sejdiu', 'Pediatri', '2023-05-31', '08:15:00'),
-(411, 'test', 'test', 1478523690, 'Nora Bajrami', 'Pediatri', '2023-07-13', '08:45:00');
+(417, 'Leart', 'Ramadani', 1234567890, 'Nora Bajrami', 'Pediatri', '2023-07-06', '09:20:00');
 
 --
 -- Indexes for dumped tables
@@ -433,7 +419,7 @@ ALTER TABLE `admin_table`
 -- AUTO_INCREMENT for table `ankesat`
 --
 ALTER TABLE `ankesat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `departamentet`
@@ -457,43 +443,43 @@ ALTER TABLE `galeria`
 -- AUTO_INCREMENT for table `historia_e_termineve`
 --
 ALTER TABLE `historia_e_termineve`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `kerkesatanulimit`
 --
 ALTER TABLE `kerkesatanulimit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `orari`
 --
 ALTER TABLE `orari`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT for table `patient_table`
 --
 ALTER TABLE `patient_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `terminet`
 --
 ALTER TABLE `terminet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=518;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=524;
 
 --
 -- AUTO_INCREMENT for table `terminet_e_dyta`
 --
 ALTER TABLE `terminet_e_dyta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `terminet_e_mia`
 --
 ALTER TABLE `terminet_e_mia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=412;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=418;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
