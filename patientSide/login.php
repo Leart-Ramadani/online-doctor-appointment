@@ -78,7 +78,7 @@ if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
         $data = $stm->fetch();
 
         if ($data === false) {
-            $usernameErr = "*This username or email doesn't exists!";
+            $usernameErr = "*Ky username ose email nuk eksizton!";
             $invalid_user = 'is-invalid';
         } else if (password_verify($password, $data['password'])) {
 
@@ -91,7 +91,7 @@ if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
             if ($check_data['verificated'] != true) {
                 $_SESSION['verify'] = $username;
                 echo "<script>
-                    alert('This account isn't verified yet. Check your email for verification code!')
+                    alert('Kjo llogari nuk eshte verifikuar ende. Kontrolloje emailin tuaj per kodin verifikues!')
                     window.location.replace('./emailVerification.php')
                     </script>";
             } else {
@@ -102,7 +102,7 @@ if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
                 header("Location: ./rezervoTermin.php");
             }
         } else {
-            $passErr = '*Wrong password';
+            $passErr = '*Fjalekalimi i pasakt!';
             $invalid_pass = 'is-invalid';
             $user2 = $username;
         }
@@ -111,25 +111,25 @@ if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
 
     <main class="form-signin">
         <form method="POST" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal">Log in</h1>
+            <h1 class="h3 mb-3 fw-normal">Kyqu ne llogarin tuaj</h1>
             <div class="rounded mb-2 <?= $invalid_verify ?? "" ?>">
                 <span class="text-white"><?php echo $verificationErr; ?></span>
             </div>
 
             <div class="form-floating">
                 <input type="text" class="form-control <?= $invalid_user ?? "" ?>" id="floatingInput" name="username" placeholder="Username ose email" value="<?= $user2 ?>">
-                <label for="floatingInput">Username or email</label>
+                <label for="floatingInput">Username ose email</label>
                 <span class="text-danger fw-normal"><?php echo $usernameErr; ?></span>
             </div>
 
             <div class="form-floating mt-2">
                 <input type="password" class="form-control rounded <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Password">
-                <label for="floatingPassword">Password</label>
+                <label for="floatingPassword">Fjalekalimi</label>
                 <span class="text-danger fw-normal"><?php echo $passErr; ?></span>
             </div>
 
             <div class="form-check d-flex mb-2 justify-content-end">
-                <label class="form-check-label" for="flexCheckDefault">Show password</label>
+                <label class="form-check-label" for="flexCheckDefault">Shfaq passwordin</label>
                 <input class="form-check-input ms-2" type="checkbox" value="" id="flexCheckDefault">
             </div>
 
@@ -149,11 +149,12 @@ if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
             </script>
 
 
-            <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Login</button>
+            <button class="w-100 btn btn-lg btn-primary mb-3" type="submit" name="submit">Kyqu</button>
 
-            <p class="mb-2">Don't have an account? <a href="signup.php">Sign up.</a></p>
-            <p class="mb-2">Forgot your password? Click <a href="forgottenPassword.php">here.</a></p>
-            <p>Go back to <a href="../index.php">homepage.</a></p>
+            <p class="mb-1">Nuk ke nje llogari? <a href="signup.php">Regjistrohu</a></p>
+            <p class="mb-1">Keni harruar fjalkalimin? Kliko <a href="forgottenPassword.php">ketu.</a></p>
+            <p>Kthehuni te <a href="../index.php">ballina.</a></p>
+            </div>
         </form>
     </main>
 

@@ -206,7 +206,7 @@
              <li class="nav-item"><a href="doktoret.php" class="nav-link active" aria-current="page">Doktoret</a></li>
              <li><a href="departamentet.php" class="nav-link text-white">Departamentet</a></li>
              <li><a href="orari.php" class="nav-link text-white">Orari</a></li>
-             <li><a href="terminet.php" class="nav-link text-white">Termibet</a></li>
+             <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
              <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
              <li><a href="historiaTerminit.php" class="nav-link text-white">Historia termineve</a></li>
              <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>

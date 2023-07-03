@@ -285,8 +285,8 @@ if (isset($_POST['set']) && $_POST['id'] == 4) {
 
         $mail->Subject = 'Email verification';
         $mail->Body    = "<p style='font-size: 16px;'>
-                        Verification code: <b>$veri_code</b> <br>
-                        This code is available for only 02:30 minutes!
+                        Kodi i verifikimit: <b>$veri_code</b> <br>
+                        Ky kod eshte i vlefshem per vetem 02:30 minuta!
                         </p>";
 
         $mail->send();

@@ -42,7 +42,7 @@
         $data = $prep->fetch();
 
         if (!$data) {
-            $error = "*This email doesn't exists in our system.";
+            $error = "*Ky email nuk ekziston ne sistemin tone!";
             $invalid_error = 'is-invalid';
         } else{
             $mail = new PHPMailer(true);
@@ -59,7 +59,7 @@
                 $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                 //Recipients
-                $mail->setFrom('terminet.online@gmail.com', 'terminet-online.com');
+                $mail->setFrom('no@replay.com', 'terminet-online.com');
                 $mail->addAddress($email, $data['emri'].' '.$data['mbiemri']);                           //Add a recipient
 
 
@@ -67,14 +67,14 @@
                 $mail->isHTML(true);                                        //Set email format to HTML
 
 
-                $mail->Subject = 'Reset password';
-                $mail->Body    = "<p style='font-size: 18px;'>Click <a href='localhost/online-doctor-appointment-master/patientSide/resetPassword.php?email=$email'>here</a> 
-                to reset your password.</p>";
+                $mail->Subject = 'Rivendos fjalkalimin';
+                $mail->Body    = "<p style='font-size: 18px;'>Kliko <a href='localhost/online-doctor-appointment-master/patientSide/resetPassword.php?email=$email'>ketu</a> 
+                per te rivendosur fjalkalimin.</p>";
 
                 $mail->send();
 
                 echo "<script>
-                        alert('We sent you a link to reset your account password in this email: $email.');
+                        alert('Ne ju derguam nje link per te rivendosur fjalkalimin ne emailin: $email.');
                         window.location.replace('login.php');
                     </script>";
 
@@ -85,15 +85,15 @@
     }
     ?>
     <form method="post" class="form-signin" autocomplete="off">
-        <h1 class="h3 mb-4 fw-normal text-center">Reset password</h1>
+        <h1 class="h3 mb-4 fw-normal text-center">Rivendos fjalekalimin</h1>
         <div class="form-floating">
             <input type="email" class="form-control rounded <?= $invalid_error ?? '' ?>" id="floatingInput" name="email" placeholder="Email">
             <label for="floatingInput">Email</label>
             <span class="text-danger fw-normal"><?php echo $error; ?></span>
         </div>
         
-        <button class="w-100 btn btn-lg btn-primary mt-3 mb-2" type="submit" name="submit">Submit</button>
-        <p class="text-center">Go back to <a href="./login.php">login.</a></p>
+        <button class="w-100 btn btn-lg btn-primary mt-3 mb-2" type="submit" name="submit">Vazhdo</button>
+        <p class="text-center">Kthehuni perseri per tu <a href="./login.php">kyqyr.</a></p>
     </form>
 
 </body>

@@ -10,7 +10,7 @@ $email = $_GET['email'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
+    <title>Rivendos fjalkalimin</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -61,20 +61,20 @@ $email = $_GET['email'];
     ?>
     <main style="display: flex; justify-content: center; align-items: center;">
         <form method="post" class="form-signin" autocomplete="off">
-            <h1 class="h3 mb-4 fw-normal text-center">Reset password</h1>
+            <h1 class="h3 mb-4 fw-normal text-center">Rivendos fjalkalimin</h1>
             <div class="form-floating mb-2">
                 <input type="password" class="form-control rounded <?= $invalid_newPass ?? '' ?>" id="floatingInput" name="newPass" placeholder="New password">
-                <label for="floatingInput">New password</label>
+                <label for="floatingInput">Fjalekalimi i ri</label>
                 <span class="text-danger fw-normal"><?php echo $newPass_err; ?></span>
             </div>
 
             <div class="form-floating">
                 <input type="password" class="form-control rounded <?= $invalid_confirmPass ?? '' ?>" id="floatingInput" name="confirmPass" placeholder="Confirm password">
-                <label for="floatingInput">Confirm password</label>
+                <label for="floatingInput">Konfirmo fjalekalimin</label>
                 <span class="text-danger fw-normal"><?php echo $confirmPass_err; ?></span>
             </div>
 
-            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="submit">Reset</button>
+            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" name="submit">Rivendos</button>
         </form>
     </main>
 </body>

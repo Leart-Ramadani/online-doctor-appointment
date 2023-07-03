@@ -97,11 +97,7 @@ if (!isset($_SESSION['admin'])) {
                 <h1 class=" h1 fw-normal text-center">Nuk u gjeten te dhena ne databaze.</h1>
             </article>
         <?php endif; ?>
-        </main>
-
-
-
-
+    </main>
 </body>
 
 </html>

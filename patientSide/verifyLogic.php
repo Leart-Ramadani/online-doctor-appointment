@@ -77,9 +77,9 @@ if ($otp === $veri_code) {
             $veri_date = date('Y-m-d');
             $veri_time = date('H:i:s');
 
-            $mail->Subject = 'Email verification';
+            $mail->Subject = 'Verifikimi i llogaris';
             $mail->Body    = "<p style='font-size: 16px;'>
-                    $username your account is successfully verified.
+                    $username llogaria juaj eshte verifikuar me sukses.
                 </p>";
 
 

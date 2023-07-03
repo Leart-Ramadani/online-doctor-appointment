@@ -16,13 +16,13 @@ if (isset($_POST['popAnulo'])) {
 
 
     echo $return = "
-    <p>Doctor: <span class='doc_name'>{$ter_data['doktori']}</span></p> 
+    <p>Doktori: <span class='doc_name'>{$ter_data['doktori']}</span></p> 
     <hr>
-    <p>Departament: <span class='doc_dep'>{$ter_data['departamenti']}</span></p> 
+    <p>Departamenti: <span class='doc_dep'>{$ter_data['departamenti']}</span></p> 
     <hr>
-    <p>Appointment date: <span class='app_date'>{$ter_data['data']}</span></p> 
+    <p>Data e terminit: <span class='app_date'>{$ter_data['data']}</span></p> 
     <hr>
-    <p>Time: <span class='app_time'> {$ter_data['ora']} <span></p>
+    <p>Ora: <span class='app_time'> {$ter_data['ora']} <span></p>
     <hr>";
 }
 

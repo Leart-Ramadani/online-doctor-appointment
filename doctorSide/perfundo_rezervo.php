@@ -4,7 +4,7 @@ include('../config.php');
 require_once('../emailData.php');
 
 $numri_personal = $_GET['numri_personal'];
-$data = $_GET['data'];
+$data = $_GET['data'];  
 $diagnoza = $_GET['diagnoza'];
 $recepti = $_GET['recepti'];
 $ora = $_GET['ora'];
