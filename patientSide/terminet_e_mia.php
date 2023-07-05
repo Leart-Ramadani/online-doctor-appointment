@@ -148,8 +148,9 @@ if (isset($_POST['anulo'])) {
     $sort = "";
 
 
-    $countSql = "SELECT COUNT(*) as total FROM terminet_e_mia";
+    $countSql = "SELECT COUNT(*) as total FROM terminet_e_mia WHERE numri_personal=:numri_personal";
     $countPrep = $con->prepare($countSql);
+    $countPrep->bindParam(':numri_personal', $_SESSION['numri_personal']);
     $countPrep->execute();
     $totalRows = $countPrep->fetch();
 
@@ -321,11 +322,49 @@ if (isset($_POST['anulo'])) {
         <?php endif; ?>
 
 
-        <?php if ($empty == 'empty') : ?>
-            <article class="mt-5 d-flex justify-content-center">
-                <h1 class=" h1 fw-normal text-center mt-5">Ju nuk keni ndonje termin te rezeruva.</h1>
+
+        <?php if ($empty == 'empty') { ?>
+            <article class=" d-flex justify-content-center mt-5">
+                <h1 class=" h1 fw-normal text-center mt-5">Nuk keni ndonje termin te rezervuar.</h1>
             </article>
-        <?php endif; ?>
+        <?php } else { ?>
+            <div class="imagePagination justify-content-start ms-2">
+                <?php
+                $maxVisibleLinks = 5; // Maximum number of visible page links
+
+                $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
+                $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
+
+                $showEllipsisStart = ($startPage > 1);
+                $showEllipsisEnd = ($endPage < $totalPages);
+
+                if ($showEllipsisStart) {
+                    echo '<a href="?page=1" class="paginationLink">1</a>';
+                    echo '<span class="ellipsis">...</span>';
+                }
+
+                if ($currentPage > 1) {
+                    $previousPage = $currentPage - 1;
+                    echo '<a href="?page=' . $previousPage . '" class="paginationLink"><</a>';
+                }
+
+                for ($i = $startPage; $i <= $endPage; $i++) {
+                    $activePage = ($i == $currentPage) ? 'activePage' : '';
+                    echo '<a class="paginationLink ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a> ';
+                }
+
+                if ($showEllipsisEnd) {
+                    echo '<span class="ellipsis">...</span>';
+                    echo '<a href="?page=' . $totalPages . '" class="paginationLink">' . $totalPages . '</a>';
+                }
+
+                if ($currentPage < $totalPages) {
+                    $nextPage = $currentPage + 1;
+                    echo '<a href="?page=' . $nextPage . '" class="paginationLink">></a>';
+                }
+                ?>
+            </div>
+        <?php } ?>
     </main>
 
     <article id="popWrapper" class="popWrapper <?= $njoftim ?? '' ?>">

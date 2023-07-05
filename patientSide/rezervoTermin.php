@@ -254,7 +254,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
                 <h1 class=" h1 fw-normal text-center mt-5">Nuk u gjenden te dhena ne databaze.</h1>
             </article>
         <?php } else { ?>
-            <div class="imagePagination justify-content-end me-2">
+            <div class="imagePagination justify-content-start ms-2">
                 <?php
                 $maxVisibleLinks = 5; // Maximum number of visible page links
 

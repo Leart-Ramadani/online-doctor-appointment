@@ -64,11 +64,91 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     </div>
 
     <?php
-    $sql = "SELECT * FROM historia_e_termineve WHERE numri_personal=:numri_personal";
-    $stm = $con->prepare($sql);
-    $stm->bindParam(':numri_personal', $_SESSION['numri_personal']);
-    $stm->execute();
-    $data = $stm->fetchAll();
+    $searchedQuery = "";
+    $showEntries;
+    $entries = isset($_GET['entries']) ? $_GET['entries'] : 25;
+    if (isset($_GET['entries'])) {
+        $showEntries = $_GET['entries'];
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+        if ($showEntries == 25) {
+            $entry25 = 'selected';
+        } else if ($showEntries == 50) {
+            $entry50 = 'selected';
+        } else if ($showEntries == 75) {
+            $entry75 = 'selected';
+        } else if ($showEntries == 100) {
+            $entry100 = 'selected';
+        }
+    }
+
+
+    $sortDefault = "default";
+
+    $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : $sortDefault;
+
+    $sort = "";
+
+
+    $countSql = "SELECT COUNT(*) as total FROM historia_e_termineve WHERE numri_personal=:numri_personal";
+    $countPrep = $con->prepare($countSql);
+    $countPrep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+    $countPrep->execute();
+    $totalRows = $countPrep->fetch();
+
+    $totalRows = $totalRows['total'];
+
+    $totalPages = ceil($totalRows / $entries);
+
+    $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    $startIndex = ($currentPage - 1) * $entries;
+
+
+    if ($sortBy == "default") {
+        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
+        $sortDate = 'selected';
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+    } else if ($sortBy == "ASC") {
+        $sort = " ORDER BY doktori ASC LIMIT :startIndex, $entries";
+        $sortASC = 'selected';
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+    } else if ($sortBy == "DESC") {
+        $sort = " ORDER BY doktori DESC LIMIT :startIndex, $entries";
+        $sortDESC = 'selected';
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+    } else if ($sortBy == "date") {
+        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
+        $sortDate = 'selected';
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+    }
+
+
+    $keywordPrep;
+    if (isset($_GET['search'])) {
+        $keyword = $_GET['keyword'];
+
+        $sort = "SELECT * FROM historia_e_termineve WHERE numri_personal=:numri_personal AND (doktori=:keyword OR departamenti=:keyword) " . $sort;
+        $sql = $sort;
+
+        $prep = $con->prepare($sql);
+        $prep->bindParam(':keyword', $keyword);
+        $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+        $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
+        $prep->execute();
+        $data = $prep->fetchAll(PDO::FETCH_ASSOC);
+
+        $searchedQuery = $keyword;
+    } else {
+
+        $sql = "SELECT * FROM historia_e_termineve WHERE numri_personal=:numri_personal" . $sort;
+        $prep = $con->prepare($sql);
+        $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+        $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
+        $prep->execute();
+        $data = $prep->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 
     if (!$data) {
         $empty = 'empty';
@@ -76,7 +156,65 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         $empty = '';
     }
     ?>
-    <main class="main mainRes">
+    <main class="main mainRes d-flex flex-column p-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="historiaTermineve(pacientit).php">
+                    <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
+                    <label for="entries" class="me-2">Shfaq</label>
+                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 58px" onchange="this.form.submit()">
+                        <option value="25" <?= $entry25 ?? '' ?>>25</option>
+                        <option value="50" <?= $entry50 ?? '' ?>>50</option>
+                        <option value="75" <?= $entry75 ?? '' ?>>75</option>
+                        <option value="100" <?= $entry100 ?? '' ?>>100</option>
+                    </select>
+                    <label for="entries" class="ms-2">rreshta</label>
+                </form>
+            </div>
+
+            <script>
+                $(document).ready(function() {
+                    $('#entries').change(function() {
+                        $('#entriesForm').submit();
+                    });
+                });
+            </script>
+
+
+            <div class="d-flex w-75 justify-content-end pe-2">
+                <div class="w-25">
+                    <form id="sortForm" method="GET" class="d-flex align-items-center" action="historiaTermineve(pacientit).php">
+                        <input type="hidden" name="entries" value="<?= $entries ?>">
+                        <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px" onchange="this.form.submit()">
+                            <option value="ASC" <?= $sortASC ?? "" ?>>Sipas renditjes A-Zh</option>
+                            <option value="DESC" <?= $sortDESC ?? "" ?>>Sipas renditjes Zh-A</option>
+                            <option value="date" <?= $sortDate ?? "" ?>>Sipas datës</option>
+                        </select>
+                    </form>
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        $('#sortBy').change(function() {
+                            $('#sortForm').submit();
+
+                        });
+                    });
+                </script>
+                <div class="w-50 ms-2 me-1">
+                    <form method="get" action="historiaTermineve(pacientit).php">
+                        <input type="hidden" name="entries" value="<?= $entries ?>">
+                        <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
+                        <div class="d-flex mb-1">
+                            <div class="form-floating w-75">
+                                <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">
+                                <label for="floatingInput">Kerko:</label>
+                            </div>
+                            <button class="btn btn-primary w-25 fs-5 ms-2" name="search">Kerko</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <?php if ($empty == '') : ?>
             <table class="table table-striped text-center mt-2 table_patient">
                 <thead>
@@ -104,11 +242,48 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             </table>
         <?php endif; ?>
 
-        <?php if ($empty == 'empty') : ?>
-            <article class="mt-5 dataNotfound">
-                <h1 class=" h1 fw-normal text-center mt-5">Nuk u gjeten te dhena ne databaze.</h1>
+        <?php if ($empty == 'empty') { ?>
+            <article class=" d-flex justify-content-center mt-5">
+                <h1 class=" h1 fw-normal text-center mt-5">Nuk keni ndonje termin te rezervuar.</h1>
             </article>
-        <?php endif; ?>
+        <?php } else { ?>
+            <div class="imagePagination justify-content-start ms-2">
+                <?php
+                $maxVisibleLinks = 5; // Maximum number of visible page links
+
+                $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
+                $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
+
+                $showEllipsisStart = ($startPage > 1);
+                $showEllipsisEnd = ($endPage < $totalPages);
+
+                if ($showEllipsisStart) {
+                    echo '<a href="?page=1" class="paginationLink">1</a>';
+                    echo '<span class="ellipsis">...</span>';
+                }
+
+                if ($currentPage > 1) {
+                    $previousPage = $currentPage - 1;
+                    echo '<a href="?page=' . $previousPage . '" class="paginationLink"><</a>';
+                }
+
+                for ($i = $startPage; $i <= $endPage; $i++) {
+                    $activePage = ($i == $currentPage) ? 'activePage' : '';
+                    echo '<a class="paginationLink ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a> ';
+                }
+
+                if ($showEllipsisEnd) {
+                    echo '<span class="ellipsis">...</span>';
+                    echo '<a href="?page=' . $totalPages . '" class="paginationLink">' . $totalPages . '</a>';
+                }
+
+                if ($currentPage < $totalPages) {
+                    $nextPage = $currentPage + 1;
+                    echo '<a href="?page=' . $nextPage . '" class="paginationLink">></a>';
+                }
+                ?>
+            </div>
+        <?php } ?>
 
     </main>
 
