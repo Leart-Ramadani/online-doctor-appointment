@@ -123,21 +123,105 @@ if (isset($_POST['anulo'])) {
 
 
     <?php
-    $pacienti_sql = "SELECT * FROM patient_table WHERE numri_personal=:numri_personal";
-    $pacienti_prep = $con->prepare($pacienti_sql);
-    $pacienti_prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
-    $pacienti_prep->execute();
-    $pacienti_fetch = $pacienti_prep->fetch();
-    $emri_pacientit = $pacienti_fetch['emri'];
-    $mbiemri_pacientit = $pacienti_fetch['mbiemri'];
+    $searchedQuery = "";
+    $showEntries;
+    $entries = isset($_GET['entries']) ? $_GET['entries'] : 25;
+    if (isset($_GET['entries'])) {
+        $showEntries = $_GET['entries'];
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+        if ($showEntries == 25) {
+            $entry25 = 'selected';
+        } else if ($showEntries == 50) {
+            $entry50 = 'selected';
+        } else if ($showEntries == 75) {
+            $entry75 = 'selected';
+        } else if ($showEntries == 100) {
+            $entry100 = 'selected';
+        }
+    }
 
 
-    $sql = "SELECT * FROM terminet_e_mia WHERE emri_pacientit=:emri_pacientit AND mbiemri_pacientit=:mbiemri_pacientit";
-    $prep = $con->prepare($sql);
-    $prep->bindParam(':emri_pacientit', $emri_pacientit);
-    $prep->bindParam(':mbiemri_pacientit', $mbiemri_pacientit);
-    $prep->execute();
-    $data = $prep->fetchAll();
+    $sortDefault = "default";
+
+    $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : $sortDefault;
+
+    $sort = "";
+
+
+    $countSql = "SELECT COUNT(*) as total FROM terminet_e_mia";
+    $countPrep = $con->prepare($countSql);
+    $countPrep->execute();
+    $totalRows = $countPrep->fetch();
+
+    $totalRows = $totalRows['total'];
+
+    $totalPages = ceil($totalRows / $entries);
+
+    $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    $startIndex = ($currentPage - 1) * $entries;
+
+
+    if ($sortBy == "default") {
+        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
+        $sortDate = 'selected';
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+    } else if ($sortBy == "ASC") {
+        $sort = " ORDER BY doktori ASC LIMIT :startIndex, $entries";
+        $sortASC = 'selected';
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+    } else if ($sortBy == "DESC") {
+        $sort = " ORDER BY doktori DESC LIMIT :startIndex, $entries";
+        $sortDESC = 'selected';
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+    } else if ($sortBy == "date") {
+        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
+        $sortDate = 'selected';
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+    }
+
+
+    $keywordPrep;
+    if (isset($_GET['search'])) {
+        $keyword = $_GET['keyword'];
+
+        $pacienti_sql = "SELECT * FROM patient_table WHERE numri_personal=:numri_personal";
+        $pacienti_prep = $con->prepare($pacienti_sql);
+        $pacienti_prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+        $pacienti_prep->execute();
+        $pacienti_fetch = $pacienti_prep->fetch();
+        $emri_pacientit = $pacienti_fetch['emri'];
+        $mbiemri_pacientit = $pacienti_fetch['mbiemri'];
+
+
+        $sort = "SELECT * FROM terminet_e_mia WHERE numri_personal=:numri_personal AND (doktori=:keyword OR departamenti=:keyword) " . $sort;
+        $sql = $sort;
+
+        $prep = $con->prepare($sql);
+        $prep->bindParam(':keyword', $keyword);
+        $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+        $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
+        $prep->execute();
+        $data = $prep->fetchAll(PDO::FETCH_ASSOC);
+
+        $searchedQuery = $keyword;
+    } else {
+        $pacienti_sql = "SELECT * FROM patient_table WHERE numri_personal=:numri_personal";
+        $pacienti_prep = $con->prepare($pacienti_sql);
+        $pacienti_prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+        $pacienti_prep->execute();
+        $pacienti_fetch = $pacienti_prep->fetch();
+        $emri_pacientit = $pacienti_fetch['emri'];
+        $mbiemri_pacientit = $pacienti_fetch['mbiemri'];
+
+        $sql = "SELECT * FROM terminet_e_mia WHERE numri_personal=:numri_personal" . $sort;
+        $prep = $con->prepare($sql);
+        $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+        $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
+        $prep->execute();
+        $data = $prep->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     if (!$data) {
         $empty = 'empty';
@@ -146,7 +230,65 @@ if (isset($_POST['anulo'])) {
     }
 
     ?>
-    <main class="main mainRes">
+    <main class="main mainRes d-flex flex-column p-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="terminet_e_mia.php">
+                    <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
+                    <label for="entries" class="me-2">Shfaq</label>
+                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 58px" onchange="this.form.submit()">
+                        <option value="25" <?= $entry25 ?? '' ?>>25</option>
+                        <option value="50" <?= $entry50 ?? '' ?>>50</option>
+                        <option value="75" <?= $entry75 ?? '' ?>>75</option>
+                        <option value="100" <?= $entry100 ?? '' ?>>100</option>
+                    </select>
+                    <label for="entries" class="ms-2">rreshta</label>
+                </form>
+            </div>
+
+            <script>
+                $(document).ready(function() {
+                    $('#entries').change(function() {
+                        $('#entriesForm').submit();
+                    });
+                });
+            </script>
+
+
+            <div class="d-flex w-75 justify-content-end pe-2">
+                <div class="w-25">
+                    <form id="sortForm" method="GET" class="d-flex align-items-center" action="terminet_e_mia.php">
+                        <input type="hidden" name="entries" value="<?= $entries ?>">
+                        <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px" onchange="this.form.submit()">
+                            <option value="ASC" <?= $sortASC ?? "" ?>>Sipas renditjes A-Zh</option>
+                            <option value="DESC" <?= $sortDESC ?? "" ?>>Sipas renditjes Zh-A</option>
+                            <option value="date" <?= $sortDate ?? "" ?>>Sipas datës</option>
+                        </select>
+                    </form>
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        $('#sortBy').change(function() {
+                            $('#sortForm').submit();
+
+                        });
+                    });
+                </script>
+                <div class="w-50 ms-2 me-1">
+                    <form method="get" action="terminet_e_mia.php">
+                        <input type="hidden" name="entries" value="<?= $entries ?>">
+                        <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
+                        <div class="d-flex mb-1">
+                            <div class="form-floating w-75">
+                                <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">
+                                <label for="floatingInput">Kerko:</label>
+                            </div>
+                            <button class="btn btn-primary w-25 fs-5 ms-2" name="search">Kerko</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <?php if ($empty == '') : ?>
             <table class="table table-striped text-center mt-2 table_patient">
                 <thead>
@@ -180,7 +322,7 @@ if (isset($_POST['anulo'])) {
 
 
         <?php if ($empty == 'empty') : ?>
-            <article style="margin-left: 200px; width: 100%;" class="mt-5">
+            <article class="mt-5 d-flex justify-content-center">
                 <h1 class=" h1 fw-normal text-center mt-5">Ju nuk keni ndonje termin te rezeruva.</h1>
             </article>
         <?php endif; ?>
