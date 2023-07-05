@@ -138,7 +138,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
             <div class="d-flex w-75 justify-content-end pe-2">
                 <div class="w-25">
-                    <form id="sortForm" method="GET" class="d-flex align-items-center w-25" action="rezervoTermin.php">
+                    <form id="sortForm" method="GET" class="d-flex align-items-center" action="rezervoTermin.php">
                         <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px">
                             <option value="ASC">Sipas renditjes A-Zh</option>
                             <option value="DESC">Sipas renditjes Zh-A</option>
