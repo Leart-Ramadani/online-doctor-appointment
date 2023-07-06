@@ -68,7 +68,7 @@ if (!isset($_SESSION['admin'])) {
     $sort = "";
 
 
-    $countSql = "SELECT COUNT(*) as total FROM historia_e_termineve";
+    $countSql = "SELECT COUNT(*) as total FROM ankesat";
     $countPrep = $con->prepare($countSql);
     $countPrep->execute();
     $totalRows = $countPrep->fetch();
