@@ -183,11 +183,12 @@ if (!isset($_SESSION['admin'])) {
     }
     ?>
 
-    <article class="table_wrapper d-flex flex-column align-items-center">
+    <article class="table_wrapper d-flex flex-column align-items-center p-2">
         <div class="d-flex justify-content-between w-100">
              <div>
                  <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="departamentet.php">
                      <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
+                     <input type="hidden" name="page" value="<?= $currentPage ?>">
                      <label for="entries" class="me-2">Shfaq</label>
                      <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 58px" onchange="this.form.submit()">
                          <option value="25" <?= $entry25 ?? '' ?>>25</option>
@@ -212,6 +213,7 @@ if (!isset($_SESSION['admin'])) {
                  <div class="w-25">
                      <form id="sortForm" method="GET" class="d-flex align-items-center" action="departamentet.php">
                          <input type="hidden" name="entries" value="<?= $entries ?>">
+                         <input type="hidden" name="page" value="<?= $currentPage ?>">
                          <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px" onchange="this.form.submit()">
                              <option value="ASC" <?= $sortASC ?? "" ?>>Sipas renditjes A-Zh</option>
                              <option value="DESC" <?= $sortDESC ?? "" ?>>Sipas renditjes Zh-A</option>
@@ -230,6 +232,7 @@ if (!isset($_SESSION['admin'])) {
                      <form method="get" action="departamentet.php">
                          <input type="hidden" name="entries" value="<?= $entries ?>">
                          <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
+                         <input type="hidden" name="page" value="<?= $currentPage ?>">
                          <div class="d-flex mb-1">
                              <div class="form-floating w-75">
                                  <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">

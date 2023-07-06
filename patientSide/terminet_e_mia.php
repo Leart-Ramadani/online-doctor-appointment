@@ -236,6 +236,7 @@ if (isset($_POST['anulo'])) {
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="terminet_e_mia.php">
                     <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
+                    <input type="hidden" name="page" value="<?= $currentPage ?>">
                     <label for="entries" class="me-2">Shfaq</label>
                     <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 58px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
@@ -260,6 +261,7 @@ if (isset($_POST['anulo'])) {
                 <div class="w-25">
                     <form id="sortForm" method="GET" class="d-flex align-items-center" action="terminet_e_mia.php">
                         <input type="hidden" name="entries" value="<?= $entries ?>">
+                        <input type="hidden" name="page" value="<?= $currentPage ?>">
                         <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px" onchange="this.form.submit()">
                             <option value="ASC" <?= $sortASC ?? "" ?>>Sipas renditjes A-Zh</option>
                             <option value="DESC" <?= $sortDESC ?? "" ?>>Sipas renditjes Zh-A</option>
@@ -279,6 +281,7 @@ if (isset($_POST['anulo'])) {
                     <form method="get" action="terminet_e_mia.php">
                         <input type="hidden" name="entries" value="<?= $entries ?>">
                         <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
+                        <input type="hidden" name="page" value="<?= $currentPage ?>">
                         <div class="d-flex mb-1">
                             <div class="form-floating w-75">
                                 <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">
