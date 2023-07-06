@@ -124,7 +124,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
 
     $keywordPrep;
-    if (isset($_GET['search'])) {
+    if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
         $sort = "SELECT * FROM historia_e_termineve WHERE numri_personal=:numri_personal AND (doktori=:keyword OR departamenti=:keyword) " . $sort;

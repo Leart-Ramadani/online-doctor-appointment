@@ -183,7 +183,7 @@ if (isset($_POST['anulo'])) {
 
 
     $keywordPrep;
-    if (isset($_GET['search'])) {
+    if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
         $pacienti_sql = "SELECT * FROM patient_table WHERE numri_personal=:numri_personal";
