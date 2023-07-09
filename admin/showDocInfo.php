@@ -22,8 +22,5 @@ if(isset($_POST['popShow']) && $_POST['popShow'] == true){
                 <p class='ms-4'>Username: {$data['username']}</p>
             </div>
         </div>
-        <div class='doc_pop_des'>
-            <p>{$data['biografia']}</p>
-        </div>
         ";
 }

@@ -31,12 +31,6 @@ if (isset($_POST['popDoc'])) {
             </div>
         </div>
 
-        <div class='second>
-            <div class='doc_bio'>
-                <p>{$doc_data['biografia']}</p>
-            </div>
-        </div>
-
         <div class='action>
             <button class='btn btn-warning text-white w-50 me-5 fs-5'>Edit</button>
             <button class='btn btn-danger text-white w-50 fs-5'>Delete</button>

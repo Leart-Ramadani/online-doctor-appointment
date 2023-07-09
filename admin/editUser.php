@@ -29,7 +29,7 @@ $depData = $dep_prep->fetchAll();
     <main>
 
         <?php
-        $fullNameErr = $departamentErr = $genderErr = $emailErr = $photoErr = $phoneErr = $bioErr  = $userErr = $passErr = "";
+        $fullNameErr = $departamentErr = $genderErr = $emailErr = $photoErr = $phoneErr = $userErr = $passErr = "";
 
         if (isset($_POST['update'])) {
 
@@ -135,13 +135,6 @@ $depData = $dep_prep->fetchAll();
             }
 
 
-            if (empty($_POST['docBio'])) {
-                $bioErr = '*Biografia duhet plotesuar.';
-                $invalid_bio = 'is-invalid';
-            } else {
-                $bio = testInput($_POST['docBio']);
-                $bioErr = '';
-            }
 
             if (empty($_POST['username'])) {
                 $userErr = '*Username duhet plotesuar.';
@@ -162,27 +155,26 @@ $depData = $dep_prep->fetchAll();
 
             if (
                 $fullNameErr == '' && $departamentErr == '' && $genderErr == '' && $emailErr == '' && $photoErr == ''
-                && $phoneErr == '' && $bioErr == '' && $userErr == '' && $passErr == ''
+                && $phoneErr == '' && $userErr == '' && $passErr == ''
             ) {
 
 
 
                 $sql = "UPDATE doctor_personal_info SET fullName=:fullName, departamenti=:departamenti, gjinia=:gjinia, email=:email, 
-                    biografia=:biografia, foto=:foto, telefoni=:telefoni, username=:username, password=:password WHERE id=:id";
+                    foto=:foto, telefoni=:telefoni, username=:username, password=:password WHERE id=:id";
                 $stm = $con->prepare($sql);
                 $stm->bindParam(':id', $id);
                 $stm->bindParam(':fullName', $fullName);
                 $stm->bindParam(':departamenti', $departamenti);
                 $stm->bindParam(':gjinia', $gjinia);
                 $stm->bindParam(':email', $email);
-                $stm->bindParam(':biografia', $bio);
                 $stm->bindParam(':foto', $new_img_name);
                 $stm->bindParam(':telefoni', $tel);
                 $stm->bindParam(':username', $username);
                 $stm->bindParam(':password', $encPass);
                 if ($stm->execute()) {
                     header("Location: doktoret.php");
-                    $name = $lastName = $personalNumber = $gender = $userEmail = $biografia = $phone = $user1 = "";
+                    $name = $lastName = $personalNumber = $gender = $userEmail = $phone = $user1 = "";
                 }
             }
         }
@@ -247,11 +239,6 @@ $depData = $dep_prep->fetchAll();
                             <label for="floatingInput">Numri i telefonit</label>
                             <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="biografia" class="form-label">Biografia</label>
-                        <textarea class="form-control <?= $invalid_bio ?? "" ?>" id="biografia" rows="4" maxlength="250" name="docBio"><?= $editData['biografia']; ?></textarea>
-                        <span class="text-danger fw-normal"><?php echo $bioErr; ?></span>
                     </div>
 
                     <div class="d-flex">

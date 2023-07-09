@@ -25,7 +25,6 @@ br
 ## Patient side
 - The patient can register an account;
 - To update his account data;
-- To see the biographies of doctors;
 - View the gallery;
 - Book an appointment online;
 - To see his terms;
