@@ -15,11 +15,11 @@ if(isset($_POST['popShow']) && $_POST['popShow'] == true){
     echo "<div class='doc_pop_img'>
             <img src='uploads/{$data['foto']}'>
             <div>
-                <h1 class='text-center'>{$data['fullName']}</h1>
-                <p class='ms-4'>Departament: {$data['departamenti']} </p>
-                <p class='ms-4'>Email: {$data['email']} </p>
-                <p class='ms-4'>Phone: {$data['telefoni']}</p>
-                <p class='ms-4'>Username: {$data['username']}</p>
+                <h1 class='text-center' style='font-size:28px;'>{$data['fullName']}</h1>
+                <p class='ms-2'>Departament: {$data['departamenti']} </p>
+                <p class='ms-2'>Email: {$data['email']} </p>
+                <p class='ms-2'>Phone: {$data['telefoni']}</p>
+                <p class='ms-2'>Username: {$data['username']}</p>
             </div>
         </div>
         ";

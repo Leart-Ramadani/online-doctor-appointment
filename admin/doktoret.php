@@ -270,8 +270,8 @@
                                  <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">
                                  <label for="floatingInput">Kerko:</label>
                              </div>
-                             <button class="btn btn-primary w-25 fs-5 ms-2" name="search">Kerko</button>
-                             <button class="btn btn-primary fs-3 ms-2 addDoc" type="button" title="Add Doctor">+</button>
+                             <button class="btn btn-primary fs-5 ms-2" name="search">Kerko</button>
+                             <button class="btn btn-primary ms-2 addDoc" type="button" title="Add Doctor">+</button>
                          </div>
                      </form>
                  </div>
@@ -284,7 +284,6 @@
                          <th scope="col" style="display: none;">ID</th>
                          <th scope="col">Doktori</th>
                          <th scope="col">Departamenti</th>
-                         <th scope="col">Emaili</th>
                          <th scope="col">Username</th>
                          <th scope="col">Aksioni</th>
                      </tr>
@@ -295,16 +294,15 @@
                              <td class="idShow" style="display: none;"><?= $data['id']; ?></td>
                              <td><?= $data['fullName'] ?></td>
                              <td><?= $data['departamenti'] ?></td>
-                             <td><?= $data['email'] ?></td>
                              <td><?= $data['username'] ?></td>
                              <td>
-                                 <a class="text-decoration-none w-25 text-white showPop">
+                                 <a class="text-decoration-none  text-white showPop">
                                      <button class="btn btn-primary  text-white " id="showPop">Shiko</button>
                                  </a>
-                                 <a href="editUser.php?id=<?= $data['id']  ?>" class="text-decoration-none w-25 text-white showEditPop">
+                                 <a href="editUser.php?id=<?= $data['id']  ?>" class="text-decoration-none  text-white showEditPop">
                                      <button class="btn btn-warning  text-white">Ndrysho</button>
                                  </a>
-                                 <a href="deleteUser.php?id=<?= $data['id']  ?>" class="text-decoration-none w-25 text-white">
+                                 <a href="deleteUser.php?id=<?= $data['id']  ?>" class="text-decoration-none  text-white">
                                      <button class="btn btn-danger text-white">Fshij</button>
                                  </a>
 

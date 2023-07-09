@@ -734,7 +734,6 @@ nav {
 }
 
 .doc_wrapper {
-  height: 500px;
   padding: 15px;
 }
 
@@ -751,11 +750,10 @@ nav {
 }
 
 .popDoc_info {
-  width: 750px;
-  height: 550px;
+  width: 320px;
   position: fixed;
   background-color: white;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: none;
@@ -765,9 +763,10 @@ nav {
 }
 
 .doc_pop_img img {
-  width: 220px;
-  height: 220px;
+  width: 200px;
+  height: 150px;
   object-fit: contain;
+  -webkit-user-select: none;
 }
 
 
@@ -790,6 +789,8 @@ nav {
 
 .doc_pop_img {
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .popWin {
@@ -897,6 +898,7 @@ nav {
 .addDoc{
   width: 65px;
   height: 58px;
+  font-size: 30px !important;
   border-radius: 50% !important;
 }
 
