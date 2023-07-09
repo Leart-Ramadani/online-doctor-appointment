@@ -237,7 +237,7 @@ if (!isset($_SESSION['doctor'])) {
                 <h1 class=" h1 fw-normal text-center mt-5">Te dhenat nuk u gjenden ne databaze.</h1>
             </article>
         <?php } else { ?>
-            <nav aria-label="Page navigation example" class="w-100 ps-2">
+            <nav aria-label="Page navigation example" class="w-100 ps-2" >
                 <ul class="pagination">
                  <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
@@ -249,7 +249,7 @@ if (!isset($_SESSION['doctor'])) {
                     $showEllipsisEnd = ($endPage < $totalPages);
 
                     if ($currentPage == 1) {
-                        echo '<li class="page-item disabled"><a href="#" class="page-link" tabindex="-1">Previous</a></li>';
+                        echo '<li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>';
                     }
 
                     if ($currentPage > 1) {
@@ -268,7 +268,7 @@ if (!isset($_SESSION['doctor'])) {
                         $nextPage = $currentPage + 1;
                         echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
                     } else{
-                        echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
+                        echo '<li class="page-item disabled"><a href="#" class="page-link" tabindex="-1">Next</a></li>';
                     }
                     ?>
                 </ul>
