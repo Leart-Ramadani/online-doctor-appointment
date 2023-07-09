@@ -766,7 +766,6 @@ nav {
   width: 200px;
   height: 150px;
   object-fit: contain;
-  -webkit-user-select: none;
 }
 
 
