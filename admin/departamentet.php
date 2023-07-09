@@ -274,7 +274,8 @@ if (!isset($_SESSION['admin'])) {
                  <h1 class=" h1 fw-normal text-center mt-5">Te dhenat nuk u gjenden ne databaze.</h1>
              </article>
          <?php } else { ?>
-             <div class="imagePagination  justify-content-start mb-2">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
                  <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
 
@@ -284,32 +285,31 @@ if (!isset($_SESSION['admin'])) {
                     $showEllipsisStart = ($startPage > 1);
                     $showEllipsisEnd = ($endPage < $totalPages);
 
-                    if ($showEllipsisStart) {
-                        echo '<a href="?page=1" class="paginationLink">1</a>';
-                        echo '<span class="ellipsis">...</span>';
+                    if ($currentPage == 1) {
+                        echo '<li class="page-item disabled"><a href="#" class="page-link" tabindex="-1">Previous</a></li>';
                     }
 
                     if ($currentPage > 1) {
                         $previousPage = $currentPage - 1;
-                        echo '<a href="?page=' . $previousPage . '" class="paginationLink"><</a>';
+                        echo '<li class"page-item"><a href="?page=' . $previousPage . '" class="page-link">Previous</a></li>';
                     }
 
                     for ($i = $startPage; $i <= $endPage; $i++) {
-                        $activePage = ($i == $currentPage) ? 'activePage' : '';
-                        echo '<a class="paginationLink ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a> ';
+                        $activePage = ($i == $currentPage) ? 'active' : '';
+                        echo '<li class="page-item"><a class="page-link ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a></li>';
                     }
 
-                    if ($showEllipsisEnd) {
-                        echo '<span class="ellipsis">...</span>';
-                        echo '<a href="?page=' . $totalPages . '" class="paginationLink">' . $totalPages . '</a>';
-                    }
+
 
                     if ($currentPage < $totalPages) {
                         $nextPage = $currentPage + 1;
-                        echo '<a href="?page=' . $nextPage . '" class="paginationLink">></a>';
+                        echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
+                    } else{
+                        echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
                     }
                     ?>
-             </div>
+                </ul>
+            </nav>
          <?php } ?>
     </article>
 
