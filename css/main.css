@@ -238,6 +238,7 @@ nav {
   display: none;
   background-color: black;
   opacity: .7;
+  z-index: 999;
 }
 
 
@@ -295,6 +296,7 @@ nav {
 
 .popWindow {
   display: block;
+  z-index: 999;
 }
 
 .close {
