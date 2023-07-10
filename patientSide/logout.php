@@ -1,8 +1,7 @@
 <?php
     include('../config.php');
 
-    unset($_SESSION['emri']);
-    unset($_SESSION['mbiemri']);
+    unset($_SERVER['fullName']);
     unset($_SESSION['username']);
     unset($_SESSION['numri_personal']);
 

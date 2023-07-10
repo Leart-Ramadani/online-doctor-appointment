@@ -73,9 +73,9 @@ if (isset($_POST['set']) && $_POST['id'] == 1) {
             if (strlen($perosnal_ID) != 10) {
                 $personalNrErr = '*Personal ID must be 10 characters!';
             } else {
-                $check_personal_id = "SELECT numri_personal FROM patient_table WHERE numri_personal=:numri_personal";
+                $check_personal_id = "SELECT personal_id FROM users WHERE personal_id=:personal_id";
                 $personal_id_prep = $con->prepare($check_personal_id);
-                $personal_id_prep->bindParam(':numri_personal', $perosnal_ID);
+                $personal_id_prep->bindParam(':personal_id', $perosnal_ID);
                 $personal_id_prep->execute();
                 $personal_id_data = $personal_id_prep->fetch();
 
@@ -121,7 +121,7 @@ if (isset($_POST['set']) && $_POST['id'] == 2) {
         if (!preg_match($pattern, $email)) {
             $emailErr = '*The given email is invalid!';
         } else {
-            $check_email = "SELECT email FROM patient_table WHERE email=:email";
+            $check_email = "SELECT email FROM users WHERE email=:email";
             $check_email_prep = $con->prepare($check_email);
             $check_email_prep->bindParam(':email', $email);
             $check_email_prep->execute();
@@ -160,9 +160,9 @@ if (isset($_POST['set']) && $_POST['id'] == 2) {
         if (!preg_match('/^[0-9]{9}+$/', $phone)) {
             $phoneErr = '*The given phone number is invalid!';
         } else {
-            $check_phone = "SELECT telefoni FROM patient_table WHERE telefoni=:telefoni";
+            $check_phone = "SELECT phone FROM users WHERE phone=:phone";
             $check_phone_prep = $con->prepare($check_phone);
-            $check_phone_prep->bindParam(':telefoni', $phone);
+            $check_phone_prep->bindParam(':phone', $phone);
             $check_phone_prep->execute();
             $check_phone_data = $check_phone_prep->fetch();
 
@@ -205,7 +205,7 @@ if (isset($_POST['set']) && $_POST['id'] == 3) {
     } else {
         $username = testInput($username);
 
-        $check_username = "SELECT username FROM patient_table WHERE username=:username";
+        $check_username = "SELECT username FROM users WHERE username=:username";
         $check_username_prep = $con->prepare($check_username);
         $check_username_prep->bindParam(':username', $username);
         $check_username_prep->execute();
@@ -250,6 +250,7 @@ if (isset($_POST['set']) && $_POST['id'] == 3) {
 if (isset($_POST['set']) && $_POST['id'] == 4) {
     $name = $_POST['name'];
     $lastName = $_POST['lastName'];
+    $fullName = $name + ' ' + $lastName;
     $perosnal_ID = $_POST['personal_ID'];
     $gender = $_POST['gender'];
     $email = $_POST['email'];
@@ -260,7 +261,7 @@ if (isset($_POST['set']) && $_POST['id'] == 4) {
     $password = $_POST['password'];
     $confirmPass = $_POST['confirmPass'];
     $encPass = password_hash($confirmPass, PASSWORD_DEFAULT);
-    //Create an instance; passing `true` enables exceptions
+    // Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
 
     try {
@@ -276,11 +277,13 @@ if (isset($_POST['set']) && $_POST['id'] == 4) {
 
         //Recipients
         $mail->setFrom('no@reply.com', 'terminet-online.com');
-        $mail->addAddress($email, $name . ' ' . $lastName);                           //Add a recipient
+        $mail->addAddress($email, $fullName);                           //Add a recipient
 
 
         //Content
         $mail->isHTML(true);                                        //Set email format to HTML
+
+
         $veri_code = rand(111111, 999999);
 
         $mail->Subject = 'Email verification';
@@ -294,18 +297,20 @@ if (isset($_POST['set']) && $_POST['id'] == 4) {
         $veri_date = date('Y-m-d');
         $veri_time = date('H:i:s');
         $verificated = false;
+        
+        $patientCode = 1;
 
-        $sql = "INSERT INTO patient_table(emri, mbiemri, numri_personal, gjinia, email, telefoni, ditlindja, adresa, username, password, veri_code, veri_date, veri_time, verificated)
-                            VALUES(:emri, :mbiemri, :numri_personal, :gjinia, :email, :telefoni, :ditlindja, :adresa, :username, :password, :veri_code, :veri_date, :veri_time, :verificated)";
+        $sql = "INSERT INTO users(userType, fullName, personal_id, gender, email, phone, birthday, adress, username, password, veri_code, veri_date, veri_time, verificated)
+                            VALUES(:userType, :fullName, :personal_id, :gender, :email, :phone, :birthday, :adress, :username, :password, :veri_code, :veri_date, :veri_time, :verificated)";
         $prep = $con->prepare($sql);
-        $prep->bindParam(':emri', $name);
-        $prep->bindParam(':mbiemri', $lastName);
-        $prep->bindParam(':numri_personal', $perosnal_ID);
-        $prep->bindParam(':gjinia', $gender);
+        $prep->bindParam(':userType', $patientCode);
+        $prep->bindParam(':fullName', $fullName);
+        $prep->bindParam(':personal_id', $perosnal_ID);
+        $prep->bindParam(':gender', $gender);
         $prep->bindParam(':email', $email);
-        $prep->bindParam(':telefoni', $phone);
-        $prep->bindParam(':ditlindja', $birthday);
-        $prep->bindParam(':adresa', $adress);
+        $prep->bindParam(':phone', $phone);
+        $prep->bindParam(':birthday', $birthday);
+        $prep->bindParam(':adress', $adress);
         $prep->bindParam(':username', $username);
         $prep->bindParam(':password', $encPass);
         $prep->bindParam(':veri_code', $veri_code);
@@ -318,6 +323,8 @@ if (isset($_POST['set']) && $_POST['id'] == 4) {
             $_SESSION['verify'] = $username;
             echo "Registerd";
         } 
+        
+        $_SESSION['verify'] = $username;
 
     } catch (Exception $e) {
         echo "Something went wrong";

@@ -17,17 +17,17 @@ if (!isset($_SESSION['verify'])) {
 }
 
 
-$sql = "SELECT * FROM patient_table WHERE username = :username";
+$sql = "SELECT * FROM users WHERE username = :username";
 $prep = $con->prepare($sql);
 $prep->bindParam(':username', $_SESSION['verify']);
 $prep->execute();
 $data = $prep->fetch();
 
 $email = $data['email'];
-$name = $data['emri'];
-$lastName = $data['mbiemri'];
+$name = $data['name'];
+$lastName = $data['lastName'];
 $username = $data['username'];
-$personal_id = $data['numri_personal'];
+$personal_id = $data['personal_id'];
 
 
 $otp = $_POST['otp'];
@@ -45,7 +45,7 @@ if ($otp === $veri_code) {
     if ($veri_date === date("Y-m-d") && $veri_time <= $time_format) {
         $verificated = true;
 
-        $ver_sql = "UPDATE patient_table SET verificated=:verificated WHERE username=:username";
+        $ver_sql = "UPDATE users SET verificated=:verificated WHERE username=:username";
         $ver_prep = $con->prepare($ver_sql);
         $ver_prep->bindParam(':username', $_SESSION['verify']);
         $ver_prep->bindParam(':verificated', $verificated);

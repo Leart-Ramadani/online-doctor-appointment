@@ -35,7 +35,7 @@
     if (isset($_POST['submit'])) {
         $email = $_POST['email'];
 
-        $sql = "SELECT * FROM patient_table WHERE email=:email";
+        $sql = "SELECT * FROM users WHERE email=:email";
         $prep = $con->prepare($sql);
         $prep->bindParam(':email', $email);
         $prep->execute();

@@ -1,7 +1,7 @@
 <?php
 include('../config.php');
 
-if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri']) && !isset($_SESSION['username'])) {
+if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
     header("Location: login.php");
 }
 ?>
@@ -37,7 +37,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri']) && !isset($_SESSIO
     <div class="flex-shrink-0 p-3 text-white bg-dark sidebar">
         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
         <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <span class=" sess_admin"><?php echo $_SESSION['emri'] . ' ' . $_SESSION['mbiemri'] ?></span>
+            <span class=" sess_admin"><?php echo  $_SESSION['fullName'] ?></span>
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
@@ -300,9 +300,9 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri']) && !isset($_SESSIO
 
 
 
-    $sql = "SELECT emri, mbiemri, numri_personal, email, telefoni FROM patient_table WHERE numri_personal=:numri_personal";
+    $sql = "SELECT  fullName, personal_id, email, phone FROM users WHERE personal_id=:personal_id";
     $prep = $con->prepare($sql);
-    $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+    $prep->bindParam(':personal_id', $_SESSION['numri_personal']);
     $prep->execute();
     $patient_data = $prep->fetch();
     ?>
@@ -322,15 +322,13 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri']) && !isset($_SESSIO
         <h4 class="det_pac_h4">Detajet e pacientit</h4>
 
         <div class="emri_pac">
-            <p>Emri: <span><?= $patient_data['emri'] ?></span></p>
-            <hr>
-            <p>Mbiemri: <span><?= $patient_data['mbiemri'] ?></span></p>
+            <p>Emri: <span><?= $patient_data['fullName'] ?></span></p>
             <hr>
             <p>Email: <span><?= $patient_data['email'] ?></span></p>
             <hr>
-            <p>Nr. personal: <span><?= $patient_data['numri_personal'] ?></span></p>
+            <p>Nr. personal: <span><?= $patient_data['personal_id'] ?></span></p>
             <hr>
-            <p>Nr. telefonit: <span><?= $patient_data['telefoni'] ?></span></p>
+            <p>Nr. telefonit: <span><?= $patient_data['phone'] ?></span></p>
             <hr>
         </div>
 
@@ -338,24 +336,24 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri']) && !isset($_SESSIO
 
         <div class="emri_pac doc_pac">
 
-            <p>Doktori: <span class="doc_name"></span></p>
+            <p>Doktori: <span class="doc_name"><?= $data['doktori'] ?></span></p>
             <hr>
             <p>Departamenti: <span class="doc_dep"><?= $data['departamenti'] ?> </span></p>
             <hr>
-            <p>Data e terminit: <span class="app_date"><?= $row['data'] ?></span></p>
+            <p>Data e terminit: <span class="app_date"><?= $data['data'] ?></span></p>
             <hr>
-            <p>Orari: <span class="app_time"><?= $row['nga_ora'] . ' - ' . $row['deri_oren'] ?><span></p>
+            <p>Orari: <span class="app_time"><?= $data['nga_ora'] . ' - ' . $data['deri_oren'] ?><span></p>
             <hr>
-            <p>Kohezgjatja: <span class="app_dur"><?= $row['kohezgjatja'] . 'min' ?></span></p>
+            <p>Kohezgjatja: <span class="app_dur"><?= $data['kohezgjatja'] . 'min' ?></span></p>
             <hr>
         </div>
 
         <form action="rezervo.php" method="POST" class="submit_rez">
             <button type="submit" name="rezervo" class="btn btn-success">Rezervo</button>
         </form>
-
-
-        <script>
+    </div>
+     
+    <script>
             $(document).ready(function() {
                 $('.popUpWindow').click(function(e) {
                     e.preventDefault();

@@ -236,10 +236,10 @@ INSERT INTO `orari` (`id`, `doktori`, `departamenti`, `data`, `nga_ora`, `deri_o
 -- --------------------------------------------------------
 
 --
--- Table structure for table `patient_table`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `patient_table` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `emri` varchar(100) NOT NULL,
   `mbiemri` varchar(100) NOT NULL,
@@ -258,10 +258,10 @@ CREATE TABLE `patient_table` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `patient_table`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `patient_table` (`id`, `emri`, `mbiemri`, `numri_personal`, `gjinia`, `email`, `telefoni`, `ditlindja`, `adresa`, `username`, `password`, `veri_code`, `veri_date`, `veri_time`, `verificated`) VALUES
+INSERT INTO `users` (`id`, `emri`, `mbiemri`, `numri_personal`, `gjinia`, `email`, `telefoni`, `ditlindja`, `adresa`, `username`, `password`, `veri_code`, `veri_date`, `veri_time`, `verificated`) VALUES
 (1, 'Leart', 'Ramadani', 1234567890, 'Mashkull', 'leart.ramadani06@gmail.com', '044123789', '2000-05-11', 'lorem ipsum', 'leartRamadani', '$2y$10$8lqeXHPI5kgSPSr36Ue38OcXJT0o35GrahIVJMZkNXaxm5cDUwY8a', 456086, '2023-05-25', '20:13:40', 1),
 (76, 'Guesst', 'Guesst', 1561353106, 'Mashkull', 'guesst2006@gmail.com', '044156566', '2000-01-01', 'lorem ipsum', 'guesst', '$2y$10$WrgCkUfgYOvBUZFNamYXBO7pwBVyhD11cbA4Gx15a5MZE53rmhuGC', 612949, '2023-07-03', '21:09:25', 1);
 
@@ -393,9 +393,9 @@ ALTER TABLE `orari`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `patient_table`
+-- Indexes for table `users`
 --
-ALTER TABLE `patient_table`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -469,9 +469,9 @@ ALTER TABLE `orari`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
--- AUTO_INCREMENT for table `patient_table`
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `patient_table`
+ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --

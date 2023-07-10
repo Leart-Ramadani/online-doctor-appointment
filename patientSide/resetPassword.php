@@ -45,7 +45,7 @@ $email = $_GET['email'];
                 $invalid_confirmPass = 'is-invalid';
             } else {
                 $encPass = password_hash($confirmPass, PASSWORD_DEFAULT);
-                $sql = "UPDATE patient_table SET password=:password WHERE email=:email";
+                $sql = "UPDATE users SET password=:password WHERE email=:email";
                 $prep = $con->prepare($sql);
                 $prep->bindParam(':email', $email);
                 $prep->bindParam(':password', $encPass);

@@ -206,7 +206,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
                 $PassErr = '';
 
-                $check_pass = "SELECT password FROM patient_table WHERE numri_personal=:numri_personal";
+                $check_pass = "SELECT password FROM users WHERE numri_personal=:numri_personal";
                 $check_pass_prep = $con->prepare($check_pass);
                 $check_pass_prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
                 $check_pass_prep->execute();
@@ -237,7 +237,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
                 $birthdayErr == '' && $adressErr == '' && $usernameErr == '' && $PassErr == '' && $newPass_err == '' && $confirmPass_err == ''
             ) {
 
-                $sql = "UPDATE patient_table  SET emri=:emri, mbiemri=:mbiemri, numri_personal=:numri_personal, gjinia=:gjinia, email=:email, 
+                $sql = "UPDATE users  SET emri=:emri, mbiemri=:mbiemri, numri_personal=:numri_personal, gjinia=:gjinia, email=:email, 
                     telefoni=:telefoni, ditlindja=:ditlindja, adresa=:adresa, username=:username, password=:password 
                     WHERE numri_personal=:data_numri_personal";
                 $prep = $con->prepare($sql);
@@ -268,7 +268,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             <h1 class="h3 mb-3 fw-normal">Perditeso llogarine</h1>
             <?php
 
-            $sql = "SELECT * FROM patient_table WHERE numri_personal=:numri_personal";
+            $sql = "SELECT * FROM users WHERE numri_personal=:numri_personal";
             $prep = $con->prepare($sql);
             $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
             $prep->execute();

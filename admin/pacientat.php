@@ -68,7 +68,7 @@ if (!isset($_SESSION['admin'])) {
     $sort = "";
 
 
-    $countSql = "SELECT COUNT(*) as total FROM patient_table";
+    $countSql = "SELECT COUNT(*) as total FROM users";
     $countPrep = $con->prepare($countSql);
     $countPrep->execute();
     $totalRows = $countPrep->fetch();
@@ -101,7 +101,7 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM patient_table WHERE emri=:keyword OR mbiemri=:keyword OR numri_personal=:keyword OR email=:keyword OR 
+        $sort = "SELECT * FROM users WHERE emri=:keyword OR mbiemri=:keyword OR numri_personal=:keyword OR email=:keyword OR 
         adresa=:keyword OR username=:keyword OR telefoni=:keyword OR gjinia=:keyword" . $sort;
         $sql = $sort;
 
@@ -114,7 +114,7 @@ if (!isset($_SESSION['admin'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM patient_table" . $sort;
+        $sql = "SELECT * FROM users" . $sort;
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();

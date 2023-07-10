@@ -290,6 +290,7 @@ const validate = () => {
                     confirmPass: confirmPass.value
                 },
                 success: function (response) {
+                    console.log(response);
                     response = JSON.parse(response);
                     let usernameValid = true;
                     let passwordValid = true;
@@ -388,7 +389,6 @@ const nextTab = () => {
                     confirmPass: confirmPass.value,
                 },
                 success: function (response) {  
-                    console.log(response);
                     if (response == "Registerd"){
                         window.location.replace('../patientSide/emailVerification.php');
                     } else if (response == "Something went wrong"){

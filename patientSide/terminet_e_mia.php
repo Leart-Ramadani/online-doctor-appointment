@@ -1,6 +1,6 @@
 <?php
 include('../config.php');
-if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
+if (!isset($_SESSION['fullName'])) {
     header("Location: login.php");
 }
 ?>
@@ -8,9 +8,9 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 <?php
 
 
-$d_sql = "SELECT * FROM patient_table WHERE numri_personal=:numri_personal";
+$d_sql = "SELECT * FROM users WHERE personal_id=:personal_id";
 $d_prep = $con->prepare($d_sql);
-$d_prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+$d_prep->bindParam(':personal_id', $_SESSION['numri_personal']);
 $d_prep->execute();
 $row = $d_prep->fetch();
 
@@ -24,11 +24,10 @@ $stm = $ter_prep->fetch();
 
 $msg = '';
 if (isset($_POST['anulo'])) {
-    $emri = $stm['emri_pacientit'];
-    $mbiemri = $stm['mbiemri_pacientit'];
-    $numri_personal = $row['numri_personal'];
+    $pacienti = $stm['pacienti'];
+    $numri_personal = $row['personal_id'];
     $email = $row['email'];
-    $telefoni = $row['telefoni'];
+    $telefoni = $row['phone'];
     $doktori = $stm['doktori'];
     $departamenti = $stm['departamenti'];
     $data = $stm['data'];
@@ -39,11 +38,10 @@ if (isset($_POST['anulo'])) {
         $msg = '*Shkruani arsyen se pse deshironi te anuloni terminin!';
         $njoftim = 'njoftim';
     } else {
-        $req_sql = "INSERT INTO kerkesatanulimit(emri_pacientit, mbiemri_pacientit, numri_personal, email, telefoni, doktori, departamenti, data, ora, arsyeja_anulimit)
-            VALUES(:emri, :mbiemri, :numri_personal, :email, :telefoni, :doktori, :departamenti, :data, :ora, :arysejaAnulimit)";
+        $req_sql = "INSERT INTO kerkesatanulimit(pacienti, numri_personal, email, telefoni, doktori, departamenti, data, ora, arsyeja_anulimit)
+            VALUES(:pacienti, :numri_personal, :email, :telefoni, :doktori, :departamenti, :data, :ora, :arysejaAnulimit)";
         $res_prep = $con->prepare($req_sql);
-        $res_prep->bindParam(':emri', $emri);
-        $res_prep->bindParam(':mbiemri', $mbiemri);
+        $res_prep->bindParam(':pacienti', $pacienti);
         $res_prep->bindParam(':numri_personal', $numri_personal);
         $res_prep->bindParam(':email', $email);
         $res_prep->bindParam(':telefoni', $telefoni);
@@ -94,7 +92,7 @@ if (isset($_POST['anulo'])) {
     <div class="flex-shrink-0 p-3 text-white bg-dark sidebar">
         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
         <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <span class=" sess_admin"><?php echo $_SESSION['emri'] . ' ' . $_SESSION['mbiemri'] ?></span>
+            <span class=" sess_admin"><?php echo $_SESSION['fullName'] ?></span>
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
@@ -186,13 +184,12 @@ if (isset($_POST['anulo'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $pacienti_sql = "SELECT * FROM patient_table WHERE numri_personal=:numri_personal";
+        $pacienti_sql = "SELECT * FROM users WHERE personal_id=:personal_id";
         $pacienti_prep = $con->prepare($pacienti_sql);
-        $pacienti_prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+        $pacienti_prep->bindParam(':personal_id', $_SESSION['numri_personal']);
         $pacienti_prep->execute();
         $pacienti_fetch = $pacienti_prep->fetch();
-        $emri_pacientit = $pacienti_fetch['emri'];
-        $mbiemri_pacientit = $pacienti_fetch['mbiemri'];
+        $pacienti = $pacienti_fetch['fullName'];
 
 
         $sort = "SELECT * FROM terminet_e_mia WHERE numri_personal=:numri_personal AND (doktori=:keyword OR departamenti=:keyword) " . $sort;
@@ -207,13 +204,12 @@ if (isset($_POST['anulo'])) {
 
         $searchedQuery = $keyword;
     } else {
-        $pacienti_sql = "SELECT * FROM patient_table WHERE numri_personal=:numri_personal";
+        $pacienti_sql = "SELECT * FROM users WHERE personal_id=:personal_id";
         $pacienti_prep = $con->prepare($pacienti_sql);
-        $pacienti_prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+        $pacienti_prep->bindParam(':personal_id', $_SESSION['numri_personal']);
         $pacienti_prep->execute();
         $pacienti_fetch = $pacienti_prep->fetch();
-        $emri_pacientit = $pacienti_fetch['emri'];
-        $mbiemri_pacientit = $pacienti_fetch['mbiemri'];
+        $pacienti = $pacienti_fetch['fullName'];
 
         $sql = "SELECT * FROM terminet_e_mia WHERE numri_personal=:numri_personal" . $sort;
         $prep = $con->prepare($sql);
@@ -314,7 +310,7 @@ if (isset($_POST['anulo'])) {
                             <td><?= $data['data'] ?></td>
                             <td><?= $data['ora'] ?></td>
                             <td class="text-center">
-                                <a class="text-decoration-none text-white anuloPop ">
+                                <a class="text-decoration-none text-white anuloPop">
                                     <button class="btn btn-warning w-100 p-1 text-white rez">Anulo</button>
                                 </a>
                             </td>
@@ -370,7 +366,7 @@ if (isset($_POST['anulo'])) {
         <?php } ?>
     </main>
 
-    <article id="popWrapper" class="popWrapper <?= $njoftim ?? '' ?>">
+    <article id="popWrapper" class="popWrapper <?= $njoftim ?? "" ?>">
 
     </article>
 
@@ -386,15 +382,13 @@ if (isset($_POST['anulo'])) {
         <h5 class="det_pac_h4">Detajet e pacientit</h5>
 
         <div class="emri_pac">
-            <p>Emri: <span><?= $pacienti_fetch['emri'] ?></span></p>
-            <hr>
-            <p>Mbiemri: <span><?= $pacienti_fetch['mbiemri'] ?></span></p>
+            <p>Pacienti: <span><?= $pacienti_fetch['fullName'] ?></span></p>
             <hr>
             <p>Email: <span><?= $pacienti_fetch['email'] ?></span></p>
             <hr>
-            <p>Nr. personal: <span><?= $pacienti_fetch['numri_personal'] ?></span></p>
+            <p>Nr. personal: <span><?= $pacienti_fetch['personal_id'] ?></span></p>
             <hr>
-            <p>Nr. telefonit: <span><?= $pacienti_fetch['telefoni'] ?></span></p>
+            <p>Nr. telefonit: <span><?= $pacienti_fetch['phone'] ?></span></p>
             <hr>
         </div>
 

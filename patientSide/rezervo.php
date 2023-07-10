@@ -1,13 +1,13 @@
 <?php
 include('../config.php');
 require_once('../emailData.php');
-if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
+if (!isset($_SESSION['fullName'])) {
     header("Location: login.php");
 }
 
-$sql = "SELECT emri, mbiemri, numri_personal, email, telefoni FROM patient_table WHERE numri_personal=:numri_personal";
+$sql = "SELECT fullName, personal_id, email, phone FROM users WHERE personal_id=:personal_id";
 $prep = $con->prepare($sql);
-$prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+$prep->bindParam(':personal_id', $_SESSION['numri_personal']);
 $prep->execute();
 $patient_data = $prep->fetch();
 
@@ -79,7 +79,6 @@ $data = $stm->fetch();
     }
 
 
-
     if (isset($_POST['rezervo'])) {
 
         $id = $_SESSION['id_ofApp']; 
@@ -100,27 +99,26 @@ $data = $stm->fetch();
         $dep = $data['departamenti'];
 
         $doktori = $data['fullName'];
-        $emri_pacientit = $patient_data['emri'];
-        $mbiemri_pacientit = $patient_data['mbiemri'];
-        $numri_personal = $patient_data['numri_personal'];
+        $pacienti = $patient_data['fullName'];
+        $numri_personal = $patient_data['personal_id'];
         $email_pacientit = $patient_data['email'];
         $data = $row['data'];
         $zene_deri = $row['zene_deri'];
 
-        $sql = "SELECT emri, mbiemri, numri_personal, email, telefoni FROM patient_table WHERE numri_personal=:numri_personal";
+        $sql = "SELECT  fullName, personal_id, email, phone FROM users WHERE personal_id=:personal_id";
         $prep = $con->prepare($sql);
-        $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+        $prep->bindParam(':personal_id', $_SESSION['numri_personal']);
         $prep->execute();
         $patient_data = $prep->fetch();
 
 
-        $gender_sql = "SELECT gjinia FROM patient_table WHERE numri_personal=:numri_personal";
+        $gender_sql = "SELECT gender FROM users WHERE personal_id=:personal_id";
         $gender_prep = $con->prepare($gender_sql);
-        $gender_prep->bindParam(':numri_personal', $patient_data['numri_personal']);
+        $gender_prep->bindParam(':personal_id', $_SESSION['numri_personal']);
         $gender_prep->execute();
         $gender_data = $gender_prep->fetch();
 
-        if ($gender_data['gjinia'] == 'Mashkull') {
+        if ($gender_data['gender'] == 'Mashkull') {
             $gjinia = 'I nderuar z.';
         } else {
             $gjinia = 'E nderuar znj.';
@@ -143,12 +141,11 @@ $data = $stm->fetch();
         } else {
             if ($row['zene_deri'] < $row['deri_oren']) {
 
-                $terminet_sql = "INSERT INTO terminet(doktori, emri_pacientit, mbiemri_pacientit, numri_personal, email_pacientit, data, ora)
-                        VALUES(:doktori, :emri_pacientit, :mbiemri_pacientit, :numri_personal, :email_pacientit, :data, :ora)";
+                $terminet_sql = "INSERT INTO terminet(doktori, pacienti, numri_personal, email_pacientit, data, ora)
+                        VALUES(:doktori, :pacienti, :numri_personal, :email_pacientit, :data, :ora)";
                 $terminet_prep = $con->prepare($terminet_sql);
                 $terminet_prep->bindParam(':doktori', $doktori);
-                $terminet_prep->bindParam(':emri_pacientit', $emri_pacientit);
-                $terminet_prep->bindParam(':mbiemri_pacientit', $mbiemri_pacientit);
+                $terminet_prep->bindParam(':pacienti', $pacienti);
                 $terminet_prep->bindParam(':numri_personal', $numri_personal);
                 $terminet_prep->bindParam(':email_pacientit', $email_pacientit);
                 $terminet_prep->bindParam(':data', $data);
@@ -168,11 +165,10 @@ $data = $stm->fetch();
                     $update_prep->bindParam(':zene_deri', $date_format);
                     $update_prep->execute();
 
-                    $ter_sql = "INSERT INTO terminet_e_mia(emri_pacientit, mbiemri_pacientit, numri_personal, doktori, departamenti, data, ora)
-                    VALUES(:emri_pacientit, :mbiemri_pacientit, :numri_personal, :dok, :dep, :date, :ora)";
+                    $ter_sql = "INSERT INTO terminet_e_mia(pacienti, numri_personal, doktori, departamenti, data, ora)
+                    VALUES(:pacienti, :numri_personal, :dok, :dep, :date, :ora)";
                     $ter_prep = $con->prepare($ter_sql);
-                    $ter_prep->bindParam(':emri_pacientit', $emri_pacientit);
-                    $ter_prep->bindParam(':mbiemri_pacientit', $mbiemri_pacientit);
+                    $ter_prep->bindParam(':pacienti', $pacienti);
                     $ter_prep->bindParam(':numri_personal', $numri_personal);
                     $ter_prep->bindParam(':dok', $doktori);
                     $ter_prep->bindParam(':dep', $dep);
@@ -196,7 +192,7 @@ $data = $stm->fetch();
 
                             //Recipients
                             $mail->setFrom('terminet.online@gmail.com', 'terminet-online.com');
-                            $mail->addAddress($email_pacientit, $emri_pacientit . ' ' . $mbiemri_pacientit);                           //Add a recipient
+                            $mail->addAddress($email_pacientit, $pacienti);                           //Add a recipient
 
 
                             //Content
@@ -205,7 +201,7 @@ $data = $stm->fetch();
 
                             $mail->Subject = 'Termini eshte rezervuar';
                             $mail->Body    =   "<p style='font-size: 16px; color: black;'>
-                                            $gjinia{$mbiemri_pacientit},
+                                            $gjinia{$pacienti},
                                             <br> <br>
                                             Termini juaj me date:$data, ne ora:$zene_deri, 
                                             eshte rezervuar me sukses.

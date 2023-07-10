@@ -1,6 +1,6 @@
 <?php
 include('../config.php');
-if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
+if (!isset($_SESSION['fullName'])) {
     header("Location: login.php");
 }
 ?>
@@ -37,7 +37,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     <div class="flex-shrink-0 p-3 text-white bg-dark sidebar">
         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
         <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <span class=" sess_admin"><?php echo $_SESSION['emri'] . ' ' . $_SESSION['mbiemri'] ?></span>
+            <span class=" sess_admin"><?php echo $_SESSION['fullName']  ?></span>
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
@@ -65,9 +65,9 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
 
     <?php
-    $sql = "SELECT email FROM patient_table WHERE numri_personal=:numri_personal";
+    $sql = "SELECT email FROM users WHERE personal_id=:personal_id";
     $prep = $con->prepare($sql);
-    $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+    $prep->bindParam(':personal_id', $_SESSION['numri_personal']);
     $prep->execute();
     $data = $prep->fetch();
     ?>
@@ -75,8 +75,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
         <?php
         $error_msg = '';
         if (isset($_POST['ankohu'])) {
-            $name = $_SESSION['emri'];
-            $surname = $_SESSION['mbiemri'];
+            $pacienti = $_SESSION['fullName'];
             $personal_id = $_SESSION['numri_personal'];
             $email = $data['email'];
             $ankesa = $_POST['ankesa'];
@@ -86,11 +85,10 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
                 $invalid_msg = 'is-invalid';
             } else {
                 $error_msg = '';
-                $ankesa_sql = "INSERT INTO ankesat(emri, mbiemri, numri_personal, email, ankesa)
-                    VALUES(:emri, :mbiemri, :numri_personal, :email, :ankesa)";
+                $ankesa_sql = "INSERT INTO ankesat(pacienti, numri_personal, email, ankesa)
+                    VALUES(:pacienti, :numri_personal, :email, :ankesa)";
                 $ankesa_prep = $con->prepare($ankesa_sql);
-                $ankesa_prep->bindParam(':emri', $name);
-                $ankesa_prep->bindParam(':mbiemri', $surname);
+                $ankesa_prep->bindParam(':pacienti', $pacienti);
                 $ankesa_prep->bindParam(':numri_personal', $personal_id);
                 $ankesa_prep->bindParam(':email', $email);
                 $ankesa_prep->bindParam(':ankesa', $ankesa);
@@ -102,14 +100,10 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             <h1 class="h3 mb-3 fw-normal text-center">Ankesat</h1>
 
             <div class="form-floating">
-                <input type="text" class="form-control mb-2" readonly id="floatingInput" name="name" placeholder="Emri" value="<?= $_SESSION['emri'] ?>">
+                <input type="text" class="form-control mb-2" readonly id="floatingInput" name="name" placeholder="Emri" value="<?= $_SESSION['fullName'] ?>">
                 <label for="floatingInput">Emri</label>
             </div>
 
-            <div class="form-floating">
-                <input type="text" class="form-control mb-2" readonly id="floatingInput" name="surname" placeholder="Mbiemri" value="<?= $_SESSION['mbiemri'] ?>">
-                <label for="floatingInput">Mbiemri</label>
-            </div>
 
             <div class="form-floating">
                 <input type="text" class="form-control mb-2" readonly id="floatingInput" name="personal_id" placeholder="Numri personal" value="<?= $_SESSION['numri_personal'] ?>">

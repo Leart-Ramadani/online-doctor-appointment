@@ -10,7 +10,7 @@ $recepti = $_GET['recepti'];
 $ora = $_GET['ora'];
 $id = $_GET['id'];
 
-$sql = "SELECT * FROM patient_table WHERE numri_personal=:numri_personal";
+$sql = "SELECT * FROM users WHERE numri_personal=:numri_personal";
 $prep = $con->prepare($sql);
 $prep->bindParam(':numri_personal', $numri_personal);
 $prep->execute();
@@ -77,7 +77,7 @@ $doc_data = $doc_prep->fetch();
 
 
 
-        $gender_sql = "SELECT gjinia FROM patient_table WHERE numri_personal=:numri_personal";
+        $gender_sql = "SELECT gjinia FROM users WHERE numri_personal=:numri_personal";
         $gender_prep = $con->prepare($gender_sql);
         $gender_prep->bindParam(':numri_personal', $numri_personal);
         $gender_prep->execute();

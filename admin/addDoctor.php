@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['set'])) {
         && $phoneErr == '' && $userErr == '' && $passErr == ''
     ) {
         try{
-            $sql = "INSERT INTO doctor_personal_info(fullName, departamenti, gjinia, email, foto, telefoni, username, password)
+            $sql = "INSERT INTO users(fullName, departamenti, gjinia, email, foto, telefoni, username, password)
             VALUES(:fullName, :departamenti, :gjinia, :email, :foto, :telefoni, :username, :password)";
             $stm = $con->prepare($sql);
             $stm->bindParam(':fullName', $name);

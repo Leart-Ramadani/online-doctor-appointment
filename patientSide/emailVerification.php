@@ -5,7 +5,7 @@ if(!isset($_SESSION['verify'])){
     header("Location: signup.php");
 }
 
-$sql = "SELECT verificated FROM patient_table WHERE username = :username";
+$sql = "SELECT verificated FROM users WHERE username = :username";
 $prep = $con->prepare($sql);
 $prep->bindParam(':username', $_SESSION['verify']);
 $prep->execute();

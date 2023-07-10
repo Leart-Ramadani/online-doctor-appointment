@@ -1,6 +1,6 @@
 <?php
 include('../config.php');
-if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
+if (!isset($_SESSION['fullName'])) {
     header("Location: login.php");
 }
 ?>
@@ -37,7 +37,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     <div class="flex-shrink-0 p-3 text-white bg-dark sidebar">
         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
         <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <span class=" sess_admin"><?php echo $_SESSION['emri'] . ' ' . $_SESSION['mbiemri'] ?></span>
+            <span class=" sess_admin"><?php echo $_SESSION['fullName'] ?></span>
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">

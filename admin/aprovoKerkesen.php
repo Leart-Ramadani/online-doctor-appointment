@@ -10,7 +10,7 @@
     $stm->execute();
     $data = $stm->fetch();
 
-    $gender_sql = "SELECT gjinia FROM patient_table WHERE numri_personal=:numri_personal";
+    $gender_sql = "SELECT gjinia FROM users WHERE numri_personal=:numri_personal";
     $gender_prep = $con->prepare($gender_sql);
     $gender_prep->bindParam(':numri_personal', $data['numri_personal']);
     $gender_prep->execute();

@@ -13,7 +13,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-$query = "SELECT * FROM patient_table WHERE username=:username";
+$query = "SELECT * FROM users WHERE username=:username";
 $query_prep = $con->prepare($query);
 $query_prep->bindParam(':username', $_SESSION['verify']);
 $query_prep->execute();
@@ -57,7 +57,7 @@ try {
 
     $mail->send();
 
-    $sql = "UPDATE patient_table SET veri_code=:veri_code, veri_date=:veri_date, veri_time=:veri_time WHERE username=:username";
+    $sql = "UPDATE users SET veri_code=:veri_code, veri_date=:veri_date, veri_time=:veri_time WHERE username=:username";
     $prep = $con->prepare($sql);
     $prep->bindParam(':username', $_SESSION['verify']);
     $prep->bindParam(':veri_code', $veri_code);

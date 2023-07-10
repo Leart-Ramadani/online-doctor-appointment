@@ -71,7 +71,7 @@ if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT username, password, emri, mbiemri, numri_personal, email FROM patient_table where username = :Username or email=:Username";
+        $sql = "SELECT username, password, fullName, personal_id, email FROM users where username = :Username or email=:Username";
         $stm = $con->prepare($sql);
         $stm->bindParam(":Username", $username);
         $stm->execute();
@@ -82,7 +82,7 @@ if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
             $invalid_user = 'is-invalid';
         } else if (password_verify($password, $data['password'])) {
 
-            $check_sql = "SELECT verificated FROM patient_table WHERE username=:username or email=:username";
+            $check_sql = "SELECT verificated FROM users WHERE username=:username or email=:username";
             $check_prep = $con->prepare($check_sql);
             $check_prep->bindParam(':username', $username);
             $check_prep->execute();
@@ -96,9 +96,8 @@ if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
                     </script>";
             } else {
                 $_SESSION['username'] = $data['username'];
-                $_SESSION['emri'] = $data['emri'];
-                $_SESSION['mbiemri'] = $data['mbiemri'];
-                $_SESSION['numri_personal'] = $data['numri_personal'];
+                $_SESSION['fullName'] = $data['fullName'];
+                $_SESSION['numri_personal'] = $data['personal_id'];
                 header("Location: ./rezervoTermin.php");
             }
         } else {

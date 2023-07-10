@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	$host = 'localhost';
-	$db_name = 'finalproject';
+	$db_name = 'online-appointment_v.2.0';
 	$user = "root";
 	$pass = "";
 

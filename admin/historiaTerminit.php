@@ -197,7 +197,7 @@ if (!isset($_SESSION['admin'])) {
         </div>
         <?php if ($empty == '') : ?>
 
-            <table class="table table-striped text-center mt-2 patient_table">
+            <table class="table table-striped text-center mt-2 users">
                 <thead>
                     <tr>
                         <th scope="col">Doktori</th>

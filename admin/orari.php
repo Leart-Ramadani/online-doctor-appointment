@@ -246,7 +246,7 @@ if (!isset($_SESSION['admin'])) {
                             $del_terminet_dyta_prep->bindParam(':data', $data10);
                             if ($del_terminet_dyta_prep->execute()) {
 
-                                $gender_sql = "SELECT gjinia FROM patient_table WHERE numri_personal=:numri_personal";
+                                $gender_sql = "SELECT gjinia FROM users WHERE numri_personal=:numri_personal";
                                 $gender_prep = $con->prepare($gender_sql);
                                 $gender_prep->bindParam(':numri_personal', $numriPersonal10);
                                 $gender_prep->execute();

@@ -711,6 +711,7 @@ nav {
 
 .njoftim {
   display: block;
+  z-index: 999;
 }
 
 
