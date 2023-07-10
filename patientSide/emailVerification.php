@@ -14,7 +14,7 @@ $data = $prep->fetch();
 if($data['verificated'] == true){
     echo "<script>
         alert('Llogaria juaj eshte verifikuar!');
-        window.location.replace('../index.php');
+        window.location.replace('../patientSide/rezervoTermin.php');
         </script>";
 }
 ?>

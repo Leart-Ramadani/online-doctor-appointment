@@ -1,7 +1,7 @@
 <?php
 include('../config.php');
 
-if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
+if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri']) && !isset($_SESSION['username'])) {
     header("Location: login.php");
 }
 ?>

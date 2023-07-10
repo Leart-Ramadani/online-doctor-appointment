@@ -27,6 +27,7 @@ $email = $data['email'];
 $name = $data['emri'];
 $lastName = $data['mbiemri'];
 $username = $data['username'];
+$personal_id = $data['numri_personal'];
 
 
 $otp = $_POST['otp'];
@@ -84,8 +85,14 @@ if ($otp === $veri_code) {
 
 
             $mail->send();
-
+            
+            $_SESSION['username'] = $data['username'];
+            $_SESSION['emri'] = $data['emri'];
+            $_SESSION['mbiemri'] = $data['mbiemri'];
+            $_SESSION['numri_personal'] = $data['numri_personal'];
+            
             echo "Your account has been successfully verified";
+            
 
 
 

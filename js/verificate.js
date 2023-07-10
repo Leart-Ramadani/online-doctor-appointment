@@ -48,7 +48,7 @@ $(document).ready(function () {
         success: function (data) {
           alert(data);
           if (data !== "Ky kod nuk eshte i sakte! Ju lutemi provojeni perseri." && data !== "Ky kod ka skaduar!") {
-            window.location.replace('../index.php');
+            window.location.replace('../patientSide/rezervoTermin.php');
           }
         }
       });
