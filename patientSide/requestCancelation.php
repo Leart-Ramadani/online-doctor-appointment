@@ -6,7 +6,7 @@ if (isset($_POST['popAnulo'])) {
     $_SESSION['idAnulo'] = $_POST['idAnulo'];
     $id = $_SESSION['idAnulo'];
 
-    $sql = "SELECT * FROM terminet_e_mia WHERE id=:id";
+    $sql = "SELECT * FROM terminet WHERE id=:id";
     $prep = $con->prepare($sql);
     $prep->bindParam(':id', $id);
     $prep->execute();

@@ -105,8 +105,10 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM kerkesatanulimit WHERE doktori=:keyword OR departamenti=:keyword  OR numri_personal=:keyword OR 
-             emri_pacientit=:keyword OR mbiemri_pacientit=:keyword OR data=:keyword OR ora=:keyword" . $sort;
+        $sort = "SELECT k.id, k.pacienti, k.numri_personal, k.email, k.telefoni, k.doktori, k.departamenti, k.data, k.ora, k.arsyeja_anulimit, 
+            d.name as 'dep_name' FROM kerkesatanulimit AS k INNER JOIN departamentet AS d ON k.departamenti = d.id 
+            WHERE doktori=:keyword OR departamenti=:keyword  OR numri_personal=:keyword OR 
+            pacienti=:keyword OR data=:keyword OR ora=:keyword" . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -118,7 +120,8 @@ if (!isset($_SESSION['admin'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM kerkesatanulimit" . $sort;
+        $sql = "SELECT k.id, k.pacienti, k.numri_personal, k.email, k.telefoni, k.doktori, k.departamenti, k.data, k.ora, k.arsyeja_anulimit, 
+        d.name as 'dep_name' FROM kerkesatanulimit AS k INNER JOIN departamentet AS d ON k.departamenti = d.id " . $sort;
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
@@ -202,8 +205,7 @@ if (!isset($_SESSION['admin'])) {
                     <tr>
                         <th scope="col">Doktori</th>
                         <th scope="col">Departamenti</th>
-                        <th scope="col">Emri</th>
-                        <th scope="col">Mbiemri</th>
+                        <th scope="col">Pacienti</th>
                         <th scope="col">Numri personal</th>
                         <th scope="col">Aksioni</th>
                     </tr>
@@ -212,9 +214,8 @@ if (!isset($_SESSION['admin'])) {
                     <?php foreach ($data as $data) : ?>
                         <tr>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['departamenti'] ?></td>
-                            <td><?= $data['emri_pacientit'] ?></td>
-                            <td><?= $data['mbiemri_pacientit'] ?></td>
+                            <td><?= $data['dep_name'] ?></td>
+                            <td><?= $data['pacienti'] ?></td>
                             <td><?= $data['numri_personal'] ?></td>
                             <td>
                                 <a class="text-decoration-none text-white" href="tedhenatKerkesave.php?id=<?= $data['id']  ?>">

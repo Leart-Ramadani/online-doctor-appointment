@@ -14,7 +14,7 @@ $d_prep->bindParam(':personal_id', $_SESSION['numri_personal']);
 $d_prep->execute();
 $row = $d_prep->fetch();
 
-$ter_sql = "SELECT * FROM terminet_e_mia WHERE id=:id";
+$ter_sql = "SELECT * FROM terminet WHERE id=:id";
 $ter_prep = $con->prepare($ter_sql);
 $ter_prep->bindParam(':id', $_SESSION['idAnulo']);
 $ter_prep->execute();
@@ -192,7 +192,7 @@ if (isset($_POST['anulo'])) {
         $pacienti = $pacienti_fetch['fullName'];
 
 
-        $sort = "SELECT * FROM terminet_e_mia WHERE numri_personal=:numri_personal AND (doktori=:keyword OR departamenti=:keyword) " . $sort;
+        $sort = "SELECT * FROM terminet WHERE numri_personal=:numri_personal AND (doktori=:keyword OR departamenti=:keyword) " . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -211,7 +211,9 @@ if (isset($_POST['anulo'])) {
         $pacienti_fetch = $pacienti_prep->fetch();
         $pacienti = $pacienti_fetch['fullName'];
 
-        $sql = "SELECT * FROM terminet_e_mia WHERE numri_personal=:numri_personal" . $sort;
+        $sql = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, d.name AS 'dep_name' 
+            FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id
+            WHERE numri_personal=:numri_personal " . $sort;
         $prep = $con->prepare($sql);
         $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
@@ -306,7 +308,7 @@ if (isset($_POST['anulo'])) {
                         <tr>
                             <td class="idAnulo" style="display: none;"><?= $data['id'] ?></td>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['departamenti'] ?></td>
+                            <td><?= $data['dep_name'] ?></td>
                             <td><?= $data['data'] ?></td>
                             <td><?= $data['ora'] ?></td>
                             <td class="text-center">

@@ -129,7 +129,8 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM orari WHERE doktori=:keyword OR departamenti=:keyword " . $sort;
+        $sort = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id  WHERE doktori=:keyword OR departamenti=:keyword " . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -140,7 +141,8 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
         $searchedQuery = $keyword;
     } else {
-        $sql = "SELECT * FROM orari" . $sort;
+        $sql = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id " . $sort;
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
@@ -235,7 +237,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                         <tr>
                             <td class="id" style="display: none;"><?= $data['id'] ?></td>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['departamenti'] ?></td>
+                            <td><?= $data['dep_name'] ?></td>
                             <td><?= $data['data']; ?></td>
                             <td><?= $data['nga_ora'] . '-' . $data['deri_oren'] ?></td>
                             <td><?= $data['kohezgjatja'] . 'min'  ?></td>
@@ -338,7 +340,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
             <p>Doktori: <span class="doc_name"><?= $data['doktori'] ?></span></p>
             <hr>
-            <p>Departamenti: <span class="doc_dep"><?= $data['departamenti'] ?> </span></p>
+            <p>Departamenti: <span class="doc_dep"><?= $data['dep_name'] ?> </span></p>
             <hr>
             <p>Data e terminit: <span class="app_date"><?= $data['data'] ?></span></p>
             <hr>

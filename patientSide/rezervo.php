@@ -1,11 +1,13 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include('../config.php');
 require_once('../emailData.php');
 if (!isset($_SESSION['fullName'])) {
     header("Location: login.php");
 }
 
-$sql = "SELECT fullName, personal_id, email, phone FROM users WHERE personal_id=:personal_id";
+$sql = "SELECT fullName, personal_id, email, phone FROM users WHERE userType=1 AND personal_id=:personal_id";
 $prep = $con->prepare($sql);
 $prep->bindParam(':personal_id', $_SESSION['numri_personal']);
 $prep->execute();
@@ -25,7 +27,7 @@ $doc_prep->execute();
 $row = $doc_prep->fetch();
 
 
-$sql_doc = "SELECT fullName, departamenti FROM doctor_personal_info WHERE fullName=:doktori";
+$sql_doc = "SELECT fullName, departament FROM users WHERE userType=2 AND fullName=:doktori";
 $stm = $con->prepare($sql_doc);
 $stm->bindParam(':doktori', $row['doktori']);
 $stm->execute();
@@ -51,24 +53,19 @@ $data = $stm->fetch();
 
         $_SESSION['id_ofApp'] = $_POST['id'];
 
-        $sql = "SELECT * FROM orari WHERE id=:id";
+        $sql = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id WHERE o.id=:id";
         $doc_prep = $con->prepare($sql);
         $doc_prep->bindParam(':id', $_SESSION['id_ofApp']);
         $doc_prep->execute();
         $row = $doc_prep->fetch();
         $doc = $row['doktori'];
 
-        $sql_doc = "SELECT fullName, departamenti FROM doctor_personal_info WHERE fullName=:doktori";
-        $stm = $con->prepare($sql_doc);
-        $stm->bindParam(':doktori', $doc);
-        $stm->execute();
-        $data = $stm->fetch();
-
 
         echo $return = "
-            <p>Doktori: <span class='doc_name'>{$data['fullName']}</span></p> 
+            <p>Doktori: <span class='doc_name'>{$row['doktori']}</span></p> 
             <hr>
-            <p>Departamenti: <span class='doc_dep'>{$data['departamenti']}</span></p> 
+            <p>Departamenti: <span class='doc_dep'>{$row['dep_name']}</span></p> 
             <hr>
             <p>Data e terminit: <span class='app_date'>{$row['data']}</span></p> 
             <hr>
@@ -80,7 +77,6 @@ $data = $stm->fetch();
 
 
     if (isset($_POST['rezervo'])) {
-
         $id = $_SESSION['id_ofApp']; 
         
         $sql = "SELECT * FROM orari WHERE id=:id";
@@ -90,29 +86,29 @@ $data = $stm->fetch();
         $row = $doc_prep->fetch();
         $doc = $row['doktori'];
 
-        $sql_doc = "SELECT fullName, departamenti FROM doctor_personal_info WHERE fullName=:doktori";
+        $sql_doc = "SELECT u.fullName, u.departament, d.name AS 'dep_name' FROM users AS u INNER JOIN departamentet AS d ON u.departament = d.id
+        WHERE userType=2 AND fullName=:doktori";
         $stm = $con->prepare($sql_doc);
         $stm->bindParam(':doktori', $doc);
         $stm->execute();
-        $data = $stm->fetch();
+        $docInfo = $stm->fetch();
+        
+        $doktori = $docInfo['fullName'];
+        $dep = $docInfo['dep_name'];
 
-        $dep = $data['departamenti'];
-
-        $doktori = $data['fullName'];
-        $pacienti = $patient_data['fullName'];
-        $numri_personal = $patient_data['personal_id'];
-        $email_pacientit = $patient_data['email'];
-        $data = $row['data'];
-        $zene_deri = $row['zene_deri'];
-
-        $sql = "SELECT  fullName, personal_id, email, phone FROM users WHERE personal_id=:personal_id";
+        
+        $sql = "SELECT fullName, personal_id, email, phone FROM users WHERE userType=1 AND personal_id=:personal_id";
         $prep = $con->prepare($sql);
         $prep->bindParam(':personal_id', $_SESSION['numri_personal']);
         $prep->execute();
         $patient_data = $prep->fetch();
 
+        $pacienti = $patient_data['fullName'];
+        $numri_personal = $patient_data['personal_id'];
+        $email_pacientit = $patient_data['email'];
 
-        $gender_sql = "SELECT gender FROM users WHERE personal_id=:personal_id";
+
+        $gender_sql = "SELECT gender FROM users WHERE userType=1 AND personal_id=:personal_id";
         $gender_prep = $con->prepare($gender_sql);
         $gender_prep->bindParam(':personal_id', $_SESSION['numri_personal']);
         $gender_prep->execute();
@@ -125,11 +121,11 @@ $data = $stm->fetch();
         }
 
 
-        $check_sql = "SELECT * FROM terminet_e_mia WHERE doktori=:doktori AND numri_personal=:numri_personal AND data=:data";
+        $check_sql = "SELECT * FROM terminet WHERE doktori=:doktori AND numri_personal=:numri_personal AND data=:data";
         $check_prep = $con->prepare($check_sql);
         $check_prep->bindParam(':doktori', $doktori);
         $check_prep->bindParam(':numri_personal', $numri_personal);
-        $check_prep->bindParam(':data', $data);
+        $check_prep->bindParam(':data', $row['data']);
         $check_prep->execute();
         $check_data = $check_prep->fetch();
 
@@ -141,15 +137,16 @@ $data = $stm->fetch();
         } else {
             if ($row['zene_deri'] < $row['deri_oren']) {
 
-                $terminet_sql = "INSERT INTO terminet(doktori, pacienti, numri_personal, email_pacientit, data, ora)
-                        VALUES(:doktori, :pacienti, :numri_personal, :email_pacientit, :data, :ora)";
+                $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora)
+                        VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora)";
                 $terminet_prep = $con->prepare($terminet_sql);
                 $terminet_prep->bindParam(':doktori', $doktori);
+                $terminet_prep->bindParam(':departamenti', $docInfo['departament']);
                 $terminet_prep->bindParam(':pacienti', $pacienti);
                 $terminet_prep->bindParam(':numri_personal', $numri_personal);
                 $terminet_prep->bindParam(':email_pacientit', $email_pacientit);
-                $terminet_prep->bindParam(':data', $data);
-                $terminet_prep->bindParam(':ora', $zene_deri);
+                $terminet_prep->bindParam(':data', $row['data']);
+                $terminet_prep->bindParam(':ora', $row['zene_deri']);
 
                 if ($terminet_prep->execute()) {
                     $time1 = $row['zene_deri'];
@@ -165,16 +162,8 @@ $data = $stm->fetch();
                     $update_prep->bindParam(':zene_deri', $date_format);
                     $update_prep->execute();
 
-                    $ter_sql = "INSERT INTO terminet_e_mia(pacienti, numri_personal, doktori, departamenti, data, ora)
-                    VALUES(:pacienti, :numri_personal, :dok, :dep, :date, :ora)";
-                    $ter_prep = $con->prepare($ter_sql);
-                    $ter_prep->bindParam(':pacienti', $pacienti);
-                    $ter_prep->bindParam(':numri_personal', $numri_personal);
-                    $ter_prep->bindParam(':dok', $doktori);
-                    $ter_prep->bindParam(':dep', $dep);
-                    $ter_prep->bindParam(':date', $data);
-                    $ter_prep->bindParam(':ora', $zene_deri);
-                    if ($ter_prep->execute()) {
+                
+                    if ($update_prep->execute()) {
 
                         $mail = new PHPMailer(true);
 
@@ -203,7 +192,7 @@ $data = $stm->fetch();
                             $mail->Body    =   "<p style='font-size: 16px; color: black;'>
                                             $gjinia{$pacienti},
                                             <br> <br>
-                                            Termini juaj me date:$data, ne ora:$zene_deri, 
+                                            Termini juaj me date:$data, ne ora:{$row['zene_deri']}, 
                                             eshte rezervuar me sukses.
                                             <br><br>
                                             Me respekt, <br>
@@ -214,7 +203,7 @@ $data = $stm->fetch();
 
                             echo "<script>
                                 alert('Termini juaj eshte rezervuar me sukses.');
-                                window.location.replace('terminet_e_mia.php');
+                                // window.location.replace('terminet_e_mia.php');
                             </script>";
                             unset($_SESSION['id_ofApp']);
                         } catch (Exception $e) {

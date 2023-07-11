@@ -60,7 +60,7 @@ if (!isset($_SESSION['admin'])) {
                 $depErr = '*Nuk lejohen karaktere tjera perveq shkronjave.';
                 $invalid_dep = 'is-invalid';
             } else {
-                $sql = "SELECT * FROM departamentet WHERE departamenti=:departamenti";
+                $sql = "SELECT * FROM departamentet WHERE name=:departamenti";
                 $stm = $con->prepare($sql);
                 $stm->bindParam(':departamenti', $departament);
                 $stm->execute();
@@ -139,15 +139,15 @@ if (!isset($_SESSION['admin'])) {
 
 
     if ($sortBy == "default") {
-        $sort = " ORDER BY departamenti ASC LIMIT :startIndex, $entries";
+        $sort = " ORDER BY name ASC LIMIT :startIndex, $entries";
         $sortASC = 'selected';
         $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "ASC") {
-        $sort = " ORDER BY departamenti ASC LIMIT :startIndex, $entries";
+    } else if ($sortBy == "ASC") {  
+        $sort = " ORDER BY name ASC LIMIT :startIndex, $entries";
         $sortASC = 'selected';
         $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
     } else if ($sortBy == "DESC") {
-        $sort = " ORDER BY departamenti DESC LIMIT :startIndex, $entries";
+        $sort = " ORDER BY name DESC LIMIT :startIndex, $entries";
         $sortDESC = 'selected';
         $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
     }
@@ -157,7 +157,7 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM departamentet WHERE departamenti=:keyword " . $sort;
+        $sort = "SELECT * FROM departamentet WHERE name=:keyword " . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -257,7 +257,7 @@ if (!isset($_SESSION['admin'])) {
                     <?php foreach ($data as $data) : ?>
                         <tr>
                             <th scope="row" class="text-center"><?= $data['id'] ?></th>
-                            <td><?= $data['departamenti'] ?></td>
+                            <td><?= $data['name'] ?></td>
                             <td>
                                 <a class="text-decoration-none text-white" href="deleteDepartament.php?id=<?= $data['id']  ?>">
                                     <button class="btn btn-danger w-100 p-1 text-white">Delete</button>

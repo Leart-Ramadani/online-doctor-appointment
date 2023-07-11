@@ -45,7 +45,7 @@ if (!isset($_SESSION['admin'])) {
     </div>
 
     <?php
-    $doc_sql = "SELECT fullName FROM doctor_personal_info";
+    $doc_sql = "SELECT fullName FROM users WHERE userType=2";
     $doc_prep = $con->prepare($doc_sql);
     $doc_prep->execute();
     $doc_data = $doc_prep->fetchAll();
@@ -151,13 +151,13 @@ if (!isset($_SESSION['admin'])) {
 
 
             if ($doktorErr == '' && $dateErr == '' && $from_time_err == '' && $to_time_err == '' && $durationErr == '') {
-                $dep_sql = "SELECT departamenti FROM doctor_personal_info WHERE fullName=:fullName";
+                $dep_sql = "SELECT fullName, departament FROM users WHERE userType=2 AND fullName=:fullName";
                 $prep = $con->prepare($dep_sql);
                 $prep->bindParam(':fullName', $doktori);
                 $prep->execute();
                 $dep_fetch = $prep->fetch();
 
-                $departamenti = $dep_fetch['departamenti'];
+                $departamenti = $dep_fetch['departament'];
 
                 $sql = "INSERT INTO orari(doktori, departamenti, data, nga_ora, deri_oren, kohezgjatja, zene_deri) 
                 VALUES(:doktori, :departamenti, :data, :nga_ora, :deri_oren, :kohezgjatja, :zene_deri)";
@@ -199,12 +199,11 @@ if (!isset($_SESSION['admin'])) {
                             $zene_deri = $orari_data['zene_deri'];
 
 
-                            $terminet_sql = "INSERT INTO terminet(doktori, emri_pacientit, mbiemri_pacientit, numri_personal, email_pacientit, data, ora)
-                                            VALUES(:doktori, :emri_pacientit, :mbiemri_pacientit, :numri_personal, :email_pacientit, :data, :ora)";
+                            $terminet_sql = "INSERT INTO terminet(doktori, fullName, numri_personal, email_pacientit, data, ora)
+                                            VALUES(:doktori, :fullName :numri_personal, :email_pacientit, :data, :ora)";
                             $terminet_prep = $con->prepare($terminet_sql);
                             $terminet_prep->bindParam(':doktori', $doktori10);
-                            $terminet_prep->bindParam(':emri_pacientit', $emriPacientit10);
-                            $terminet_prep->bindParam(':mbiemri_pacientit', $mbiemriPacientit10);
+                            $terminet_prep->bindParam(':fullName', $emriPacientit10);
                             $terminet_prep->bindParam(':numri_personal', $numriPersonal10);
                             $terminet_prep->bindParam(':email_pacientit', $emailPacientit10);
                             $terminet_prep->bindParam(':data', $data10);
@@ -246,9 +245,9 @@ if (!isset($_SESSION['admin'])) {
                             $del_terminet_dyta_prep->bindParam(':data', $data10);
                             if ($del_terminet_dyta_prep->execute()) {
 
-                                $gender_sql = "SELECT gjinia FROM users WHERE numri_personal=:numri_personal";
+                                $gender_sql = "SELECT gjinia FROM users WHERE userType=2 AND personal_id=:personal_id";
                                 $gender_prep = $con->prepare($gender_sql);
-                                $gender_prep->bindParam(':numri_personal', $numriPersonal10);
+                                $gender_prep->bindParam(':personal_id', $numriPersonal10);
                                 $gender_prep->execute();
                                 $gender_data = $gender_prep->fetch();
 
@@ -423,7 +422,8 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM orari WHERE doktori=:keyword OR departamenti=:keyword " . $sort;
+        $sort = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id WHERE (doktori=:keyword OR departamenti=:keyword) " . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -435,7 +435,8 @@ if (!isset($_SESSION['admin'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM orari" . $sort;
+        $sql = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id " . $sort;
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
@@ -543,7 +544,7 @@ if (!isset($_SESSION['admin'])) {
                     <?php foreach ($data as $data) : ?>
                         <tr>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['departamenti'] ?></td>
+                            <td><?= $data['dep_name'] ?></td>
                             <td><?= $data['data'] ?></td>
                             <td><?= $data['nga_ora'] . '-' . $data['deri_oren'] ?></td>
                             <td><?= $data['kohezgjatja'] . 'min' ?> </td>

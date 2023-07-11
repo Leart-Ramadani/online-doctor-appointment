@@ -136,21 +136,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['set'])) {
 
 
     $response = [$nameErr, $departamentErr, $genderErr, $emailErr, $photoErr, $phoneErr, $userErr, $passErr];
-    
+
+
     if (
         $nameErr == '' && $departamentErr == '' && $genderErr == '' && $emailErr == '' && $photoErr == ''
         && $phoneErr == '' && $userErr == '' && $passErr == ''
     ) {
+        $doctorCode = 2;
         try{
-            $sql = "INSERT INTO users(fullName, departamenti, gjinia, email, foto, telefoni, username, password)
-            VALUES(:fullName, :departamenti, :gjinia, :email, :foto, :telefoni, :username, :password)";
+            $depQuery = "SELECT id FROM departamentet WHERE name = :nameDep";
+            $depPrep = $con->prepare($depQuery);
+            $depPrep->bindParam(':nameDep', $departament);
+            $depPrep->execute();
+            $depFetch = $depPrep->fetch();
+
+
+            $sql = "INSERT INTO users(userType, fullName, departament, gender, email, photo, phone, username, password)
+            VALUES(:userType, :fullName, :departament, :gender, :email, :photo, :phone, :username, :password)";
             $stm = $con->prepare($sql);
+            $stm->bindParam(':userType', $doctorCode);
             $stm->bindParam(':fullName', $name);
-            $stm->bindParam(':departamenti', $departament);
-            $stm->bindParam(':gjinia', $gender);
+            $stm->bindParam(':departament', $depFetch['id']);
+            $stm->bindParam(':gender', $gender);
             $stm->bindParam(':email', $email);
-            $stm->bindParam(':foto', $new_img_name);
-            $stm->bindParam(':telefoni', $phone);
+            $stm->bindParam(':photo', $new_img_name);
+            $stm->bindParam(':phone', $phone);
             $stm->bindParam(':username', $username);
             $stm->bindParam(':password', $encPass);
 

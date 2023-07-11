@@ -71,7 +71,7 @@ if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT username, password, fullName, personal_id, email FROM users where username = :Username or email=:Username";
+        $sql = "SELECT username, password, fullName, personal_id, email FROM users WHERE userType=1 AND (username = :Username or email=:Username)";
         $stm = $con->prepare($sql);
         $stm->bindParam(":Username", $username);
         $stm->execute();
@@ -82,7 +82,7 @@ if (isset($_SESSION['emri']) && isset($_SESSION['mbiemri'])) {
             $invalid_user = 'is-invalid';
         } else if (password_verify($password, $data['password'])) {
 
-            $check_sql = "SELECT verificated FROM users WHERE username=:username or email=:username";
+            $check_sql = "SELECT verificated FROM users WHERE userType=1 AND (username=:username or email=:username)";
             $check_prep = $con->prepare($check_sql);
             $check_prep->bindParam(':username', $username);
             $check_prep->execute();

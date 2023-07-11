@@ -83,15 +83,15 @@ if (!isset($_SESSION['admin'])) {
 
 
     if ($sortBy == "default") {
-        $sort = " ORDER BY emri ASC LIMIT :startIndex, $entries";
+        $sort = " ORDER BY pacienti ASC LIMIT :startIndex, $entries";
         $sortASC = 'selected';
         $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
     } else if ($sortBy == "ASC") {
-        $sort = " ORDER BY emri ASC LIMIT :startIndex, $entries";
+        $sort = " ORDER BY pacienti ASC LIMIT :startIndex, $entries";
         $sortASC = 'selected';
         $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
     } else if ($sortBy == "DESC") {
-        $sort = " ORDER BY emri DESC LIMIT :startIndex, $entries";
+        $sort = " ORDER BY pacienti DESC LIMIT :startIndex, $entries";
         $sortDESC = 'selected';
         $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
     }
@@ -100,7 +100,7 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM ankesat WHERE emri=:keyword OR mbiemri=:keyword OR numri_personal=:keyword OR 
+        $sort = "SELECT * FROM ankesat WHERE pacienti=:keyword OR numri_personal=:keyword OR 
                 email=:keyword OR ankesa=:keyword" . $sort;
         $sql = $sort;
 
@@ -192,8 +192,7 @@ if (!isset($_SESSION['admin'])) {
             <table class="table table-striped table-borderd mt-2 table_patient">
                 <thead>
                     <tr>
-                        <th scope="col">Emri</th>
-                        <th scope="col">Mbiemri</th>
+                        <th scope="col">Pacienti</th>
                         <th scope="col">Numri personal</th>
                         <th scope="col">Email</th>
                         <th scope="col">Ankesa</th>
@@ -203,8 +202,7 @@ if (!isset($_SESSION['admin'])) {
                 <tbody>
                     <?php foreach ($data as $data) : ?>
                         <tr>
-                            <td scope="row"><?= $data['emri'] ?></td>
-                            <td scope="row"><?= $data['mbiemri'] ?></td>
+                            <td scope="row"><?= $data['pacienti'] ?></td>
                             <td scope="row"><?= $data['numri_personal'] ?></td>
                             <td scope="row"><?= $data['email'] ?></td>
                             <td scope="row"><?= $data['ankesa'] ?></td>

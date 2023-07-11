@@ -3,7 +3,8 @@ include('../config.php');
 
 $id = $_GET['id'];
 
-$sql = "SELECT * FROM kerkesatanulimit WHERE id=:id";
+$sql = "SELECT k.id, k.pacienti, k.numri_personal, k.email, k.telefoni, k.doktori, k.departamenti, k.data, k.ora, k.arsyeja_anulimit, 
+    d.name as 'dep_name' FROM kerkesatanulimit AS k INNER JOIN departamentet AS d ON k.departamenti = d.id  WHERE k.id=:id";
 $prep = $con->prepare($sql);
 $prep->bindParam(':id', $id);
 $prep->execute();
@@ -29,7 +30,7 @@ $data = $prep->fetch();
                 <div class="firstPartKerkesa">
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Emri dhe mbiemri"
-                            value="<?= $data['emri_pacientit']. ' ' . $data['mbiemri_pacientit'] ?>">
+                            value="<?= $data['pacienti'] ?>">
                         <label for="floatingInput">Emri dhe mbiemri</label>
                     </div>
                     <div class="form-floating mb-2">
@@ -57,7 +58,7 @@ $data = $prep->fetch();
                     </div>
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Departamenti"
-                            value="<?= $data['departamenti'] ?>">
+                            value="<?= $data['dep_name'] ?>">
                         <label for="floatingInput">Departamenti</label>
                     </div>
                     <div class="form-floating mb-2">

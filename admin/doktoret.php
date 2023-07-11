@@ -68,7 +68,7 @@
                              <select class="form-select departament" aria-label="Default select example" name="departament">
                                  <option selected value="">Zgjidhni departamentin</option>
                                  <?php foreach ($data as $data) : ?>
-                                     <option value="<?= $data['departamenti']; ?>"><?= $data['departamenti']; ?></option>
+                                     <option value="<?= $data['name']; ?>"><?= $data['name']; ?></option>
                                  <?php endforeach; ?>
                              </select>
                              <span class="text-danger fw-normal departamentError"></span>
@@ -187,8 +187,10 @@
         if (isset($_GET['search']) && !empty($_GET['keyword'])) {
             $keyword = $_GET['keyword'];
 
-            $sort = "SELECT * FROM doctor_personal_info WHERE fullName=:keyword OR departamenti=:keyword OR 
-                username=:keyword OR email=:keyword OR telefoni=:keyword " . $sort;
+            $sort = "SELECT u.id, u.fullName, u.gender, u.email, u.photo, u.username, u.password, d.name AS
+            'dep_name' FROM users AS u INNER JOIN departamentet AS d ON u.departament = d.id 
+            WHERE userType=2 AND (fullName=:keyword OR departament=:keyword OR 
+                username=:keyword OR email=:keyword OR phone=:keyword) " . $sort;
             $sql = $sort;
 
             $prep = $con->prepare($sql);
@@ -199,7 +201,9 @@
 
             $searchedQuery = $keyword;
         } else {
-            $sql = "SELECT * FROM doctor_personal_info" . $sort;
+            $sql = "SELECT u.id, u.fullName, u.gender, u.email, u.photo, u.username, u.password, d.name AS
+            'dep_name' FROM users AS u INNER JOIN departamentet AS d ON u.departament = d.id 
+            WHERE userType=2" . $sort;
             $prep = $con->prepare($sql);
             $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
             $prep->execute();
@@ -293,7 +297,7 @@
                          <tr>
                              <td class="idShow" style="display: none;"><?= $data['id']; ?></td>
                              <td><?= $data['fullName'] ?></td>
-                             <td><?= $data['departamenti'] ?></td>
+                             <td><?= $data['dep_name'] ?></td>
                              <td><?= $data['username'] ?></td>
                              <td>
                                  <a class="text-decoration-none text-white showPop">

@@ -68,7 +68,7 @@ if (!isset($_SESSION['admin'])) {
     $sort = "";
 
 
-    $countSql = "SELECT COUNT(*) as total FROM users";
+    $countSql = "SELECT COUNT(*) as total FROM users WHERE userType=1";
     $countPrep = $con->prepare($countSql);
     $countPrep->execute();
     $totalRows = $countPrep->fetch();
@@ -83,15 +83,15 @@ if (!isset($_SESSION['admin'])) {
 
 
     if ($sortBy == "default") {
-        $sort = " ORDER BY emri ASC LIMIT :startIndex, $entries";
+        $sort = " ORDER BY fullName ASC LIMIT :startIndex, $entries";
         $sortASC = 'selected';
         $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
     } else if ($sortBy == "ASC") {
-        $sort = " ORDER BY emri ASC LIMIT :startIndex, $entries";
+        $sort = " ORDER BY fullName ASC LIMIT :startIndex, $entries";
         $sortASC = 'selected';
         $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
     } else if ($sortBy == "DESC") {
-        $sort = " ORDER BY emri DESC LIMIT :startIndex, $entries";
+        $sort = " ORDER BY fullName DESC LIMIT :startIndex, $entries";
         $sortDESC = 'selected';
         $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
     }
@@ -101,8 +101,8 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM users WHERE emri=:keyword OR mbiemri=:keyword OR numri_personal=:keyword OR email=:keyword OR 
-        adresa=:keyword OR username=:keyword OR telefoni=:keyword OR gjinia=:keyword" . $sort;
+        $sort = "SELECT * FROM users WHERE userType=1 AND (fullName=:keyword OR personal_id=:keyword OR email=:keyword OR 
+        adress=:keyword OR username=:keyword OR phone=:keyword OR gender=:keyword)" . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -114,7 +114,7 @@ if (!isset($_SESSION['admin'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM users" . $sort;
+        $sql = "SELECT * FROM users WHERE userType=1" . $sort;
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
@@ -211,13 +211,13 @@ if (!isset($_SESSION['admin'])) {
                 <tbody>
                     <?php foreach ($data as $data) : ?>
                         <tr>
-                            <td><?= $data['emri'] . ' ' . $data['mbiemri'] ?></td>
-                            <td><?= $data['numri_personal'] ?></td>
-                            <td><?= $data['gjinia'] ?></td>
+                            <td><?= $data['fullName'] ?></td>
+                            <td><?= $data['personal_id'] ?></td>
+                            <td><?= $data['gender'] ?></td>
                             <td><?= $data['email'] ?></td>
-                            <td class="p-2"><?= $data['telefoni'] ?></td>
-                            <td class="p-2"><?= $data['ditlindja'] ?></td>
-                            <td><?= $data['adresa'] ?></td>
+                            <td class="p-2"><?= $data['phone'] ?></td>
+                            <td class="p-2"><?= $data['birthday'] ?></td>
+                            <td><?= $data['adress'] ?></td>
                             <td><?= $data['username'] ?></td>
                             <td>
                                 <a class="text-decoration-none text-white" href="deletePatient.php?id=<?= $data['id']  ?>"><button class="btn btn-danger w-100 p-0 text-white">Delete</button></a>

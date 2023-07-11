@@ -106,7 +106,7 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM terminet WHERE doktori=:keyword OR emri_pacientit=:keyword OR mbiemri_pacientit=:keyword OR numri_personal=:keyword OR email_pacientit=:keyword" . $sort;
+        $sort = "SELECT * FROM terminet WHERE doktori=:keyword OR fullName=:keyword OR numri_personal=:keyword OR email_pacientit=:keyword" . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -118,7 +118,7 @@ if (!isset($_SESSION['admin'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM terminet" . $sort;
+        $sql = "SELECT * FROM terminet  " . $sort;
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
@@ -213,7 +213,7 @@ if (!isset($_SESSION['admin'])) {
                     <?php foreach ($data as $data) : ?>
                         <tr>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['emri_pacientit'] . ' ' . $data['mbiemri_pacientit'] ?></td>
+                            <td><?= $data['pacienti'] ?></td>
                             <td><?= $data['numri_personal'] ?></td>
                             <td><?= $data['email_pacientit'] ?></td>
                             <td><?= $data['data'] ?></td>

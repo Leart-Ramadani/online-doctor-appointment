@@ -78,7 +78,7 @@ if (isset($_SESSION['admin'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT username, password from admin_table WHERE username=:username";
+        $sql = "SELECT username, password from users WHERE userType=3 AND username=:username";
         $stm = $con->prepare($sql);
         $stm->bindParam(':username', $username);
         $stm->execute();
@@ -87,7 +87,7 @@ if (isset($_SESSION['admin'])) {
         if ($data === false) {
             $usernameErr = "*This username doesn't exists!";
             $invalidUser = 'is-invalid';
-        } elseif (password_verify($password, $data['password'])) {
+        } else if (password_verify($password, $data['password'])) {
             $_SESSION['admin'] = $data['username'];
             header("Location: doktoret.php");
             $usernameErr = $passErr = '';
