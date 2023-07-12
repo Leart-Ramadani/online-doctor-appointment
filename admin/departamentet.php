@@ -76,7 +76,7 @@ if (!isset($_SESSION['admin'])) {
         }
 
         if ($depErr == '') {
-            $sql = "INSERT INTO departamentet(departamenti) VALUES(:departamenti)";
+            $sql = "INSERT INTO departamentet(name) VALUES(:departamenti)";
             $prep = $con->prepare($sql);
             $prep->bindParam(":departamenti", $departament);
             $prep->execute();

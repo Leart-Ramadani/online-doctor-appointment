@@ -203,7 +203,7 @@ $data = $stm->fetch();
 
                             echo "<script>
                                 alert('Termini juaj eshte rezervuar me sukses.');
-                                // window.location.replace('terminet_e_mia.php');
+                                window.location.replace('terminet_e_mia.php');
                             </script>";
                             unset($_SESSION['id_ofApp']);
                         } catch (Exception $e) {
@@ -223,7 +223,7 @@ $data = $stm->fetch();
                 $delete_prep->execute();
                 echo "<script>
                     alert('Na vjen keq mirepo nuk ka termine te lira.');
-                    // window.location.replace('rezervoTermin.php');
+                    window.location.replace('rezervoTermin.php');
                 </script>";
             }
         }

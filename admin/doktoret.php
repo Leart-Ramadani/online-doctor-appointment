@@ -186,14 +186,26 @@
         $keywordPrep;
         if (isset($_GET['search']) && !empty($_GET['keyword'])) {
             $keyword = $_GET['keyword'];
+            
+            $depQuery = "SELECT id FROM departamentet WHERE name = :nameDep";
+            $depPrep = $con->prepare($depQuery);
+            $depPrep->bindParam(':nameDep', $keyword);
+            $depPrep->execute();
+            $depFetch = $depPrep->fetch();
+            if($depFetch){
+                $dep = $depFetch['id'];
+            } else{
+                $dep = '';
+            }
 
             $sort = "SELECT u.id, u.fullName, u.gender, u.email, u.photo, u.username, u.password, d.name AS
             'dep_name' FROM users AS u INNER JOIN departamentet AS d ON u.departament = d.id 
-            WHERE userType=2 AND (fullName=:keyword OR departament=:keyword OR 
+            WHERE userType=2 AND (fullName=:keyword OR d.id='$dep' OR 
                 username=:keyword OR email=:keyword OR phone=:keyword) " . $sort;
             $sql = $sort;
 
             $prep = $con->prepare($sql);
+            $prep->bindParam(':keyword', $keyword);
             $prep->bindParam(':keyword', $keyword);
             $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
             $prep->execute();

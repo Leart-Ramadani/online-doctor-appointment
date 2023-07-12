@@ -150,7 +150,8 @@ padding: 5px !important;
     </nav>
 
     <?php
-    $sql = "SELECT * FROM doctor_personal_info";
+    $sql = "SELECT u.fullName, u.photo, u.departament, d.name AS 'dep_name' FROM users AS u 
+        INNER JOIN departamentet AS d ON u.departament=d.id WHERE userType=2";
     $prep = $con->prepare($sql);
     $prep->execute();
     $data = $prep->fetchAll();
@@ -182,11 +183,11 @@ padding: 5px !important;
             <?php foreach ($data as $data) : ?>
                 <div class="height-100 position-relative shadow-sm bg-white rounded-2" style="width:270px;height:250px;">
                    <div class="overflow-hidden rounded-2" style="width:270px;height:250px;">
-                    <img class="object-fit-cover" style="width: 270px;" src="./admin/uploads/<?= $data['foto'] ?>" alt="">
+                    <img class="object-fit-cover" style="width: 270px;" src="./admin/uploads/<?= $data['photo'] ?>" alt="">
                 </div> 
                     <div class="doc_des p-3 position-absolute bottom-0">
                         <h1 class="fs-5 text-dark fw-medium"><?= $data['fullName'] ?></h1>
-                        <p class="text-secondary fw-lighter"><?= $data['departamenti'] ?></p>
+                        <p class="text-secondary fw-lighter"><?= $data['dep_name'] ?></p>
                     </div>
                 </div>
             <?php endforeach; ?>

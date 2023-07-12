@@ -184,6 +184,17 @@ if (isset($_POST['anulo'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
+        $depQuery = "SELECT id FROM departamentet WHERE name = :nameDep";
+        $depPrep = $con->prepare($depQuery);
+        $depPrep->bindParam(':nameDep', $keyword);
+        $depPrep->execute();
+        $depFetch = $depPrep->fetch();
+        if($depFetch){
+            $dep = $depFetch['id'];
+        } else{
+            $dep = '';
+        }
+
         $pacienti_sql = "SELECT * FROM users WHERE personal_id=:personal_id";
         $pacienti_prep = $con->prepare($pacienti_sql);
         $pacienti_prep->bindParam(':personal_id', $_SESSION['numri_personal']);
@@ -192,7 +203,9 @@ if (isset($_POST['anulo'])) {
         $pacienti = $pacienti_fetch['fullName'];
 
 
-        $sort = "SELECT * FROM terminet WHERE numri_personal=:numri_personal AND (doktori=:keyword OR departamenti=:keyword) " . $sort;
+        $sort = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, d.name AS 'dep_name' 
+        FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id
+        WHERE numri_personal=:numri_personal  AND (doktori=:keyword OR d.id='$dep' OR data=:keyword OR ora=:keyword) " . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);

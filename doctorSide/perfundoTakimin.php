@@ -43,16 +43,16 @@ $ora = $row['ora'];
     if (isset($_POST['perfundo'])) {
         $doktori = $row['doktori'];
 
-        $sql_doc = "SELECT fullName, departamenti FROM doctor_personal_info WHERE fullName=:fullName";
+        $sql_doc = "SELECT fullName, departament FROM users WHERE userType=2 AND fullName=:fullName";
         $doc_prep = $con->prepare($sql_doc);
         $doc_prep->bindParam(':fullName', $doktori);
         $doc_prep->execute();
         $doc_data = $doc_prep->fetch();
 
-        $departamenti = $doc_data['departamenti'];
+        $departamenti = $doc_data['departament'];
 
 
-        $pacienti = $row['emri_pacientit'] . ' ' . $row['mbiemri_pacientit'];
+        $pacienti = $row['pacienti'];
         $numri_personal = $row['numri_personal'];
         $email_pacientit = $row['email_pacientit'];
         $data = $row['data'];
@@ -149,7 +149,7 @@ $ora = $row['ora'];
             </div>
             <div>
                 <label>Pacienti:</label>
-                <p class="appointment_p"><?= $row['emri_pacientit'] . ' ' . $row['mbiemri_pacientit'] ?></p>
+                <p class="appointment_p"><?= $row['pacienti'] ?></p>
             </div>
             <div>
                 <label>Numri personal:</label>

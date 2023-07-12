@@ -127,7 +127,20 @@ if (!isset($_SESSION['fullName'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM historia_e_termineve WHERE numri_personal=:numri_personal AND (doktori=:keyword OR departamenti=:keyword) " . $sort;
+        $depQuery = "SELECT id FROM departamentet WHERE name = :nameDep";
+        $depPrep = $con->prepare($depQuery);
+        $depPrep->bindParam(':nameDep', $keyword);
+        $depPrep->execute();
+        $depFetch = $depPrep->fetch();
+        if($depFetch){
+            $dep = $depFetch['id'];
+        } else{
+            $dep = '';
+        }
+
+        $sort = "SELECT h.id, h.doktori, h.departamenti, h.pacienti, h.numri_personal, h.email_pacientit, h.data, h.ora, h.diagnoza, h.recepti, 
+            d.name AS 'dep_name' FROM historia_e_termineve AS h INNER JOIN departamentet AS d ON h.departamenti = d.id 
+            WHERE numri_personal=:numri_personal AND (doktori=:keyword OR d.id='$dep' OR ora=:keyword OR diagnoza=:keyword OR recepti=:keyword) " . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -140,7 +153,9 @@ if (!isset($_SESSION['fullName'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM historia_e_termineve WHERE numri_personal=:numri_personal" . $sort;
+        $sql = "SELECT h.id, h.doktori, h.departamenti, h.pacienti, h.numri_personal, h.email_pacientit, h.data, h.ora, h.diagnoza, h.recepti, 
+            d.name AS 'dep_name' FROM historia_e_termineve AS h INNER JOIN departamentet AS d ON h.departamenti = d.id 
+            WHERE numri_personal=:numri_personal" . $sort;
         $prep = $con->prepare($sql);
         $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
@@ -234,7 +249,7 @@ if (!isset($_SESSION['fullName'])) {
                     <?php foreach ($data as $data) : ?>
                         <tr>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['departamenti'] ?></td>
+                            <td><?= $data['dep_name'] ?></td>
                             <td><?= $data['data'] ?></td>
                             <td><?= $data['ora'] ?> </td>
                             <td><?= $data['diagnoza'] ?></td>

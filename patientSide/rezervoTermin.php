@@ -129,8 +129,20 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
+        $depQuery = "SELECT id FROM departamentet WHERE name = :nameDep";
+        $depPrep = $con->prepare($depQuery);
+        $depPrep->bindParam(':nameDep', $keyword);
+        $depPrep->execute();
+        $depFetch = $depPrep->fetch();
+        if($depFetch){
+            $dep = $depFetch['id'];
+        } else{
+            $dep = '';
+        }
+
+
         $sort = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
-        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id  WHERE doktori=:keyword OR departamenti=:keyword " . $sort;
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id  WHERE doktori=:keyword OR d.id='$dep' OR data=:keyword " . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);

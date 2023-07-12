@@ -11,13 +11,13 @@
     $data = $stm->fetch();
 
 
-    $gender_sql = "SELECT gjinia FROM users WHERE numri_personal=:numri_personal";
+    $gender_sql = "SELECT gender FROM users WHERE userType=1 AND personal_id=:personal_id";
     $gender_prep = $con->prepare($gender_sql);
-    $gender_prep->bindParam(':numri_personal', $data['numri_personal']);
+    $gender_prep->bindParam(':personal_id', $data['numri_personal']);
     $gender_prep->execute();
     $gender_data = $gender_prep->fetch();
 
-    if($gender_data['gjinia'] == 'Mashkull'){
+    if($gender_data['gender'] == 'Mashkull'){
         $gjinia = 'I nderuar z.';
     } else{
         $gjinia = 'E nderuar znj.';
@@ -48,8 +48,8 @@
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom('terminet.online@gmail.com', 'terminet-online.com');
-        $mail->addAddress($data['email'], $data['emri_pacientit'].' '.$data['mbiemri_pacientit']);                           //Add a recipient
+        $mail->setFrom('no@reply.com', 'terminet-online.com');
+        $mail->addAddress($data['email'], $data['pacienti']);                           //Add a recipient
 
 
         //Content
@@ -58,7 +58,7 @@
 
         $mail->Subject = 'Kerkesa per anulimin e terminit';
         $mail->Body    = "<p>
-                    $gjinia{$data['mbiemri_pacientit']},
+                    $gjinia{$data['pacienti']},
                     <br>
                     Kërkesa juaj për anulimin e terminit me datë:{$data['data']}, në orën:{$data['ora']}, 
                     për arsyen se: '{$data['arsyeja_anulimit']}' nuk është aprovuar.

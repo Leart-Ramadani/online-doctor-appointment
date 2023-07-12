@@ -112,7 +112,7 @@ if (!isset($_SESSION['doctor'])) {
         $keyword = $_GET['keyword'];
 
         $sort = "SELECT * FROM terminet WHERE doktori=:doktori AND (numri_personal=:keyword OR 
-                 emri_pacientit=:keyword OR mbiemri_pacientit=:keyword OR data=:keyword OR ora=:keyword)" . $sort;
+                 pacienti=:keyword OR data=:keyword OR ora=:keyword)" . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -219,7 +219,7 @@ if (!isset($_SESSION['doctor'])) {
                 <tbody>
                     <?php foreach ($data as $data) : ?>
                         <tr>
-                            <td><?= $data['emri_pacientit'] . ' ' . $data['mbiemri_pacientit']  ?></td>
+                            <td><?= $data['pacienti']  ?></td>
                             <td><?= $data['numri_personal'] ?></td>
                             <td><?= $data['email_pacientit'] ?></td>
                             <td><?= $data['data'] ?></td>
@@ -238,7 +238,7 @@ if (!isset($_SESSION['doctor'])) {
                 <h1 class=" h1 fw-normal text-center mt-5">Te dhenat nuk u gjenden ne databaze.</h1>
             </article>
         <?php } else { ?>
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation example" class="d-flex justify-content-start w-100 ps-2">
                 <ul class="pagination">
                  <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links

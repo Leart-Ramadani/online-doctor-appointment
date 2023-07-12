@@ -26,7 +26,7 @@ if (!isset($_SESSION['admin'])) {
             <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
             <li><a href="historiaTerminit.php" class="nav-link text-white">Historia termineve</a></li>
             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>
-            <li><a href="ankesat" class="nav-link text-white active" aria-current="page">Ankesat</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white active" aria-current="page">Ankesat</a></li>
             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat per anulim</a></li>
         </ul>
         <hr>

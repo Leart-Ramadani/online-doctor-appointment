@@ -106,7 +106,7 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM terminet WHERE doktori=:keyword OR fullName=:keyword OR numri_personal=:keyword OR email_pacientit=:keyword" . $sort;
+        $sort = "SELECT * FROM terminet WHERE doktori=:keyword OR pacienti=:keyword OR numri_personal=:keyword OR email_pacientit=:keyword" . $sort;
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -231,7 +231,7 @@ if (!isset($_SESSION['admin'])) {
         <?php endif; ?>
 
         <?php if ($empty == 'empty') { ?>
-            <article class=" d-flex justify-content-center mt-5">
+            <article class=" d-flex justify-content-center">
                 <h1 class=" h1 fw-normal text-center mt-5">Te dhenat nuk u gjenden ne databaze.</h1>
             </article>
         <?php } else { ?>

@@ -105,9 +105,22 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
+
+        $depQuery = "SELECT id FROM departamentet WHERE name = :nameDep";
+        $depPrep = $con->prepare($depQuery);
+        $depPrep->bindParam(':nameDep', $keyword);
+        $depPrep->execute();
+        $depFetch = $depPrep->fetch();
+        if($depFetch){
+            $dep = $depFetch['id'];
+        } else{
+            $dep = '';
+        }
+
+
         $sort = "SELECT k.id, k.pacienti, k.numri_personal, k.email, k.telefoni, k.doktori, k.departamenti, k.data, k.ora, k.arsyeja_anulimit, 
             d.name as 'dep_name' FROM kerkesatanulimit AS k INNER JOIN departamentet AS d ON k.departamenti = d.id 
-            WHERE doktori=:keyword OR departamenti=:keyword  OR numri_personal=:keyword OR 
+            WHERE doktori=:keyword OR d.id='$dep'  OR numri_personal=:keyword OR 
             pacienti=:keyword OR data=:keyword OR ora=:keyword" . $sort;
         $sql = $sort;
 

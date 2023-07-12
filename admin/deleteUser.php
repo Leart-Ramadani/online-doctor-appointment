@@ -4,7 +4,7 @@
 
 	$id = $_GET['id'];
 
-	$sql = "DELETE FROM doctor_personal_info WHERE id=:id";
+	$sql = "DELETE FROM users WHERE userType=2 AND id=:id";
 	$prep = $con->prepare($sql);
 
 	$prep->bindParam(':id', $id);

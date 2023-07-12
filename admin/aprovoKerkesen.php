@@ -10,13 +10,13 @@
     $stm->execute();
     $data = $stm->fetch();
 
-    $gender_sql = "SELECT gjinia FROM users WHERE numri_personal=:numri_personal";
+    $gender_sql = "SELECT gender FROM users WHERE userType=1 AND personal_id=:personal_id";
     $gender_prep = $con->prepare($gender_sql);
-    $gender_prep->bindParam(':numri_personal', $data['numri_personal']);
+    $gender_prep->bindParam(':personal_id', $data['numri_personal']);
     $gender_prep->execute();
     $gender_data = $gender_prep->fetch();
 
-    if($gender_data['gjinia'] == 'Mashkull'){
+    if($gender_data['gender'] == 'Mashkull'){
         $gjinia = 'I nderuar z.';
     } else{
         $gjinia = 'E nderuar znj.';
@@ -48,8 +48,8 @@
         $mail->Port       = 587;         
 
 
-        $mail->setFrom('terminet.online@gmail.com', 'sistemi-termineve-online.com');
-        $mail->addAddress($data['email'], $data['emri_pacientit'].' '.$data['mbiemri_pacientit']); 
+        $mail->setFrom('no@reply.com', 'sistemi-termineve-online.com');
+        $mail->addAddress($data['email'], $data['pacienti']); 
 
 
         //Content
@@ -58,7 +58,7 @@
 
         $mail->Subject = 'Anulimi i terminit';
         $mail->Body    = "<p style='font-size: 16px; color: black;'>
-                    $gjinia{$data['mbiemri_pacientit']},
+                    $gjinia{$data['pacienti']},
                     <br> <br>
                     Kërkesa juaj për anulimin e terminit me datë:{$data['data']}, në orën:{$data['ora']}, 
                     për arsyen se: '{$data['arsyeja_anulimit']}' është aprovuar.
@@ -70,14 +70,12 @@
         $mail->send();
 
         $del_sql = "DELETE FROM terminet WHERE doktori=:doktori AND 
-            emri_pacientit=:emri_pacientit AND 
-            mbiemri_pacientit=:mbiemri_pacientit AND 
+            pacienti=:pacienti AND 
             numri_personal=:numri_personal AND
             data=:data AND ora=:ora";
         $del_prep = $con->prepare($del_sql);
         $del_prep->bindParam(':doktori', $data['doktori']);
-        $del_prep->bindParam(':emri_pacientit', $data['emri_pacientit']);
-        $del_prep->bindParam(':mbiemri_pacientit', $data['mbiemri_pacientit']);
+        $del_prep->bindParam(':pacienti', $data['pacienti']);
         $del_prep->bindParam(':numri_personal', $data['numri_personal']);
         $del_prep->bindParam(':data', $data['data']);
         $del_prep->bindParam(':ora', $data['ora']);
@@ -91,19 +89,6 @@
             $z_prep->execute();
             $row = $z_prep->fetch();
         
-        
-
-            $del_ter_sql = "DELETE FROM terminet_e_mia WHERE doktori=:doktori AND 
-                emri_pacientit=:emri_pacientit AND 
-                mbiemri_pacientit=:mbiemri_pacientit AND 
-                data=:data AND ora=:ora";
-            $del_ter_prep = $con->prepare($del_ter_sql);
-            $del_ter_prep->bindParam(':doktori', $data['doktori']);
-            $del_ter_prep->bindParam(':emri_pacientit', $data['emri_pacientit']);
-            $del_ter_prep->bindParam(':mbiemri_pacientit', $data['mbiemri_pacientit']);
-            $del_ter_prep->bindParam(':data', $data['data']);
-            $del_ter_prep->bindParam(':ora', $data['ora']);
-            $del_ter_prep->execute();
 
 
             $del_kerkesa_sql = "DELETE FROM kerkesatanulimit WHERE id=:id";

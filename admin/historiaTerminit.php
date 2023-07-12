@@ -105,7 +105,20 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM historia_e_termineve WHERE doktori=:keyword OR departamenti=:keyword OR pacienti=:keyword OR numri_personal=:keyword OR 
+        $depQuery = "SELECT id FROM departamentet WHERE name = :nameDep";
+        $depPrep = $con->prepare($depQuery);
+        $depPrep->bindParam(':nameDep', $keyword);
+        $depPrep->execute();
+        $depFetch = $depPrep->fetch();
+        if($depFetch){
+            $dep = $depFetch['id'];
+        } else{
+            $dep = '';
+        }
+
+        $sort = "SELECT h.id, h.doktori, h.departamenti, h.pacienti, h.numri_personal, h.email_pacientit, h.data, h.ora, h.diagnoza, h.recepti, 
+            d.name AS 'dep_name' FROM historia_e_termineve AS h INNER JOIN departamentet AS d ON h.departamenti = d.id
+            WHERE doktori=:keyword OR d.id='$dep' OR pacienti=:keyword OR numri_personal=:keyword OR 
             email_pacientit=:keyword OR data=:keyword OR ora=:keyword OR diagnoza=:keyword OR recepti=:keyword" . $sort;
         $sql = $sort;
 
@@ -118,7 +131,8 @@ if (!isset($_SESSION['admin'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM historia_e_termineve" . $sort;
+        $sql = "SELECT h.id, h.doktori, h.departamenti, h.pacienti, h.numri_personal, h.email_pacientit, h.data, h.ora, h.diagnoza, h.recepti, 
+        d.name AS 'dep_name' FROM historia_e_termineve AS h INNER JOIN departamentet AS d ON h.departamenti = d.id " . $sort;
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
@@ -216,7 +230,7 @@ if (!isset($_SESSION['admin'])) {
                     <?php foreach ($data as $data) : ?>
                         <tr>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['departamenti'] ?></td>
+                            <td><?= $data['dep_name'] ?></td>
                             <td><?= $data['pacienti'] ?></td>
                             <td><?= $data['numri_personal'] ?></td>
                             <td><?= $data['email_pacientit'] ?></td>

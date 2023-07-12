@@ -10,13 +10,13 @@ $recepti = $_GET['recepti'];
 $ora = $_GET['ora'];
 $id = $_GET['id'];
 
-$sql = "SELECT * FROM users WHERE numri_personal=:numri_personal";
+$sql = "SELECT * FROM users WHERE userType=1 AND personal_id=:personal_id";
 $prep = $con->prepare($sql);
-$prep->bindParam(':numri_personal', $numri_personal);
+$prep->bindParam(':personal_id', $numri_personal);
 $prep->execute();
 $row = $prep->fetch();
 
-$doc_sql = "SELECT * FROM doctor_personal_info WHERE fullName=:fullName";
+$doc_sql = "SELECT * FROM users WHERE userType=2 AND fullName=:fullName";
 $doc_prep = $con->prepare($doc_sql);
 $doc_prep->bindParam(':fullName', $_SESSION['doctor']);
 $doc_prep->execute();
@@ -69,21 +69,20 @@ $doc_data = $doc_prep->fetch();
 
 
         $doktori = $doc_data['fullName'];
-        $dep = $doc_data['departamenti'];
-        $emri_pacientit = $row['emri'];
-        $mbiemri_pacientit = $row['mbiemri'];
-        $numri_personal = $row['numri_personal'];
+        $dep = $doc_data['departament'];
+        $pacienti = $row['fullName'];
+        $numri_personal = $row['personal_id'];
         $email_pacientit = $row['email'];
 
 
 
-        $gender_sql = "SELECT gjinia FROM users WHERE numri_personal=:numri_personal";
+        $gender_sql = "SELECT gender FROM users WHERE userType=1 AND personal_id=:personal_id";
         $gender_prep = $con->prepare($gender_sql);
-        $gender_prep->bindParam(':numri_personal', $numri_personal);
+        $gender_prep->bindParam(':personal_id', $numri_personal);
         $gender_prep->execute();
         $gender_data = $gender_prep->fetch();
 
-        if ($gender_data['gjinia'] == 'Mashkull') {
+        if ($gender_data['gender'] == 'Mashkull') {
             $gjinia = 'I nderuar z.';
         } else {
             $gjinia = 'E nderuar znj.';
@@ -101,12 +100,12 @@ $doc_data = $doc_prep->fetch();
             $zene_deri = $check_data['zene_deri'];
             if ($zene_deri < $check_data['deri_oren']) {
 
-                $terminet_sql = "INSERT INTO terminet(doktori, emri_pacientit, mbiemri_pacientit, numri_personal, email_pacientit, data, ora)
-                        VALUES(:doktori, :emri_pacientit, :mbiemri_pacientit, :numri_personal, :email_pacientit, :data, :ora)";
+                $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora)
+                        VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora)";
                 $terminet_prep = $con->prepare($terminet_sql);
                 $terminet_prep->bindParam(':doktori', $doktori);
-                $terminet_prep->bindParam(':emri_pacientit', $emri_pacientit);
-                $terminet_prep->bindParam(':mbiemri_pacientit', $mbiemri_pacientit);
+                $terminet_prep->bindParam(':departamenti', $dep);
+                $terminet_prep->bindParam(':emri_pacientit', $pacienti);
                 $terminet_prep->bindParam(':numri_personal', $numri_personal);
                 $terminet_prep->bindParam(':email_pacientit', $email_pacientit);
                 $terminet_prep->bindParam(':data', $final_date);
@@ -125,23 +124,11 @@ $doc_data = $doc_prep->fetch();
                     $update_prep->bindParam(':doktori', $doktori);
                     $update_prep->bindParam(':data', $final_date);
                     $update_prep->bindParam(':zene_deri', $date_format);
-                    $update_prep->execute();
-
-                    $ter_sql = "INSERT INTO terminet_e_mia(emri_pacientit, mbiemri_pacientit, numri_personal, doktori, departamenti, data, ora)
-                    VALUES(:emri_pacientit, :mbiemri_pacientit, :numri_personal, :dok, :dep, :date, :ora)";
-                    $ter_prep = $con->prepare($ter_sql);
-                    $ter_prep->bindParam(':emri_pacientit', $emri_pacientit);
-                    $ter_prep->bindParam(':mbiemri_pacientit', $mbiemri_pacientit);
-                    $ter_prep->bindParam(':numri_personal', $numri_personal);
-                    $ter_prep->bindParam(':dok', $doktori);
-                    $ter_prep->bindParam(':dep', $dep);
-                    $ter_prep->bindParam(':date', $final_date);
-                    $ter_prep->bindParam(':ora', $zene_deri);
-                    if ($ter_prep->execute()) {
+                
+                    if ($update_prep->execute()) {
                         $ins_sql = "INSERT INTO historia_e_termineve(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora, diagnoza, recepti)
                         VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora, :diagnoza, :recepti)";
 
-                        $pacienti = $emri_pacientit.' '.$mbiemri_pacientit;
                         $ins_prep = $con->prepare($ins_sql);
                         $ins_prep->bindParam(':doktori', $doktori);
                         $ins_prep->bindParam(':departamenti', $dep);
@@ -159,19 +146,12 @@ $doc_data = $doc_prep->fetch();
                             $del_prep->bindParam(':id', $id);
                             $del_prep->execute();
 
-                            $terminetMia_sql = "DELETE FROM terminet_e_mia WHERE numri_personal=:numri_personal AND data=:data AND ora=:ora";
-                            $terminetMia_prep = $con->prepare($terminetMia_sql);
-                            $terminetMia_prep->bindParam(':numri_personal', $numri_personal);
-                            $terminetMia_prep->bindParam(':data', $data);
-                            $terminetMia_prep->bindParam(':ora', $ora);
-                            $terminetMia_prep->execute();
 
                         }
 
 
                         $mail = new PHPMailer(true);
 
-                        include("./gitginore/gitignore.php");
                         try {
                             //Server settings
                             $mail->SMTPDebug = 0;                                       //Enable verbose debug output
@@ -184,8 +164,8 @@ $doc_data = $doc_prep->fetch();
                             $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                             //Recipients
-                            $mail->setFrom('terminet.online@gmail.com', 'terminet-online.com');
-                            $mail->addAddress($email_pacientit, $emri_pacientit . ' ' . $mbiemri_pacientit);                           //Add a recipient
+                            $mail->setFrom('no@reply.com', 'terminet-online.com');
+                            $mail->addAddress($email_pacientit, $pacienti);                           //Add a recipient
 
 
                             //Content
@@ -194,7 +174,7 @@ $doc_data = $doc_prep->fetch();
 
                             $mail->Subject = 'Termini u rezeruva';
                             $mail->Body    =   "<p style='font-size: 16px; color: black;'>
-                                            $gjinia{$mbiemri_pacientit},
+                                            $gjinia{$pacienti},
                                             <br> <br>
                                             Termini juaj i dytë me datë:$final_date, në orën:$zene_deri, 
                                             është rezervuar me sukses.
@@ -231,12 +211,12 @@ $doc_data = $doc_prep->fetch();
                 </script>";
             }
         } else {
-            $next_appointment_sql = "INSERT INTO terminet_e_dyta(doktori, emri_pacientit, mbiemri_pacientit, numri_personal, email_pacientit, data)
-            VALUES(:doktori, :emri_pacientit, :mbiemri_pacientit, :numri_personal, :email_pacientit, :data)";
+            $next_appointment_sql = "INSERT INTO terminet_e_dyta(doktori, departament, pacienti, numri_personal, email_pacientit, data)
+            VALUES(:doktori, :departament, :pacienti, :numri_personal, :email_pacientit, :data)";
             $next_appointment_prep = $con->prepare($next_appointment_sql);
             $next_appointment_prep->bindParam(':doktori', $doktori);
-            $next_appointment_prep->bindParam(':emri_pacientit', $emri_pacientit);
-            $next_appointment_prep->bindParam(':mbiemri_pacientit', $mbiemri_pacientit);
+            $next_appointment_prep->bindParam(':departament', $dep);
+            $next_appointment_prep->bindParam(':pacienti', $pacienti);
             $next_appointment_prep->bindParam(':numri_personal', $numri_personal);
             $next_appointment_prep->bindParam(':email_pacientit', $email_pacientit);
             $next_appointment_prep->bindParam(':data', $final_date);
@@ -269,12 +249,12 @@ $doc_data = $doc_prep->fetch();
         </div>
 
         <div class="form-floating">
-            <input type="text" class="form-control mb-2" readonly id="floatingInput" name="pacienti" placeholder="Pacienti" value="<?= $row['emri'] . ' ' . $row['mbiemri'] ?> ">
+            <input type="text" class="form-control mb-2" readonly id="floatingInput" name="pacienti" placeholder="Pacienti" value="<?= $row['fullName'] ?> ">
             <label for="floatingInput">Pacienti:</label>
         </div>
 
         <div class="form-floating">
-            <input type="text" class="form-control mb-2" readonly id="floatingInput" name="pacienti" placeholder="Numri personal" value="<?= $row['numri_personal'] ?>">
+            <input type="text" class="form-control mb-2" readonly id="floatingInput" name="pacienti" placeholder="Numri personal" value="<?= $row['personal_id'] ?>">
             <label for="floatingInput">Numri personal:</label>
         </div>
 

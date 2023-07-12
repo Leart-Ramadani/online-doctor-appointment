@@ -79,7 +79,7 @@ if (isset($_SESSION['doctor'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT username, password, fullName FROM doctor_personal_info WHERE username=:username";
+        $sql = "SELECT username, password, fullName FROM users WHERE userType=2 AND username=:username";
         $prep = $con->prepare($sql);
         $prep->bindParam(':username', $username);
         $prep->execute();
