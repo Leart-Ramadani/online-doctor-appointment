@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 11, 2023 at 11:18 PM
+-- Generation Time: Jul 12, 2023 at 03:45 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -59,10 +59,7 @@ CREATE TABLE `ankesat` (
 --
 
 INSERT INTO `ankesat` (`id`, `pacienti`, `numri_personal`, `email`, `ankesa`) VALUES
-(23, 'Leart', 1234567890, 'leart.ramadani06@gmail.com', 'palidhej'),
-(24, 'testte', 1234125678, 'guesst2006@gmail.com', 'dasdasd'),
-(25, 'testte', 1234125678, 'guesst2006@gmail.com', 'asd'),
-(26, 'testte', 1234125678, 'guesst2006@gmail.com', 'asdasd');
+(27, 'testte', 1234125678, 'guesst2006@gmail.com', 'Sjellje joprofesionale');
 
 -- --------------------------------------------------------
 
@@ -86,7 +83,6 @@ INSERT INTO `departamentet` (`id`, `name`) VALUES
 (4, 'Kardiologji'),
 (7, 'Infermieri'),
 (8, 'Pediatri'),
-(11, 'Pulmologji'),
 (13, 'Dermatologji');
 
 -- --------------------------------------------------------
@@ -156,7 +152,7 @@ INSERT INTO `galeria` (`id`, `foto_src`) VALUES
 CREATE TABLE `historia_e_termineve` (
   `id` int(11) NOT NULL,
   `doktori` varchar(100) NOT NULL,
-  `departamenti` varchar(100) NOT NULL,
+  `departamenti` int(11) NOT NULL,
   `pacienti` varchar(100) NOT NULL,
   `numri_personal` varchar(10) NOT NULL,
   `email_pacientit` varchar(100) NOT NULL,
@@ -171,10 +167,7 @@ CREATE TABLE `historia_e_termineve` (
 --
 
 INSERT INTO `historia_e_termineve` (`id`, `doktori`, `departamenti`, `pacienti`, `numri_personal`, `email_pacientit`, `data`, `ora`, `diagnoza`, `recepti`) VALUES
-(65, 'Adnan Rrustemi', 'Kardiologji', 'Leart Ramadani', '1466408468', 'leart.ramadani06@gmail.com', '2023-03-09', '08:00:00', 'Ftohje e lehte', 'Paracetamol'),
-(67, 'Nora Bajrami', 'Pediatri', 'Leart Ramadani', '1234567890', 'leart.ramadani06@gmail.com', '2023-07-06', '09:00:00', 'Ftohje', 'Paracetamol'),
-(68, 'Adnan Rrustemi', 'Kardiologji', 'Guesst Guesst', '1561353106', 'guesst2006@gmail.com', '2023-07-20', '10:00:00', 'lorem ipsum', 'dolor'),
-(69, 'Nora Bajrami', 'Pediatri', 'Guesst Guesst', '1561353106', 'guesst2006@gmail.com', '2023-07-06', '09:40:00', 'asdas', 'dasdasd');
+(70, 'Olivia Michaels', 1, 'testte', '1234125678', 'guesst2006@gmail.com', '2023-07-24', '08:00:00', 'asd', 'asd');
 
 -- --------------------------------------------------------
 
@@ -200,8 +193,7 @@ CREATE TABLE `kerkesatanulimit` (
 --
 
 INSERT INTO `kerkesatanulimit` (`id`, `pacienti`, `numri_personal`, `email`, `telefoni`, `doktori`, `departamenti`, `data`, `ora`, `arsyeja_anulimit`) VALUES
-(87, 'testte', 1234125678, 'guesst2006@gmail.com', '045122558', 'TS S', 3, '2220-01-20', '08:00:00', 'asdasd'),
-(88, 'testte', 1234125678, 'guesst2006@gmail.com', '045122558', 'TS S', 3, '2220-01-20', '10:20:00', 'personale');
+(94, 'testte', 1234125678, 'guesst2006@gmail.com', '045122558', 'Jonathan Reed', 4, '2023-07-24', '10:00:00', 'Arsyeje personale!');
 
 -- --------------------------------------------------------
 
@@ -225,8 +217,13 @@ CREATE TABLE `orari` (
 --
 
 INSERT INTO `orari` (`id`, `doktori`, `departamenti`, `data`, `nga_ora`, `deri_oren`, `kohezgjatja`, `zene_deri`) VALUES
-(188, 'TS S', 3, '2220-01-20', '08:00:00', '18:00:00', 20, '10:40:00'),
-(190, 'test test', 1, '2222-01-01', '11:12:00', '15:15:00', 20, '12:12:00');
+(191, 'Olivia Michaels', 1, '2023-07-24', '08:00:00', '16:00:00', 20, '08:20:00'),
+(192, 'Benjamin Sullivan', 2, '2023-07-24', '10:00:00', '18:00:00', 20, '10:20:00'),
+(193, 'Maya Patel', 3, '2023-07-24', '08:00:00', '16:00:00', 30, '08:30:00'),
+(194, 'Jonathan Reed', 4, '2023-07-24', '10:00:00', '16:00:00', 20, '10:20:00'),
+(195, 'Grace Anderson', 7, '2023-07-24', '08:00:00', '16:00:00', 15, '08:15:00'),
+(196, 'Liam Smith', 8, '2023-07-24', '12:00:00', '18:00:00', 30, '12:30:00'),
+(197, 'Sophia Ramirez', 13, '2023-07-24', '08:00:00', '16:00:00', 20, '08:20:00');
 
 -- --------------------------------------------------------
 
@@ -281,8 +278,11 @@ CREATE TABLE `terminet` (
 --
 
 INSERT INTO `terminet` (`id`, `doktori`, `departamenti`, `pacienti`, `numri_personal`, `email_pacientit`, `data`, `ora`) VALUES
-(535, 'test test', 1, 'testte', 1234125678, 'guesst2006@gmail.com', '2222-01-01', '11:52:00'),
-(544, 'TS S', 3, 'testte', 1234125678, 'guesst2006@gmail.com', '2220-01-20', '10:20:00');
+(547, 'Benjamin Sullivan', 2, 'testte', 1234125678, 'guesst2006@gmail.com', '2023-07-24', '10:00:00'),
+(548, 'Maya Patel', 3, 'testte', 1234125678, 'guesst2006@gmail.com', '2023-07-24', '08:00:00'),
+(549, 'Jonathan Reed', 4, 'testte', 1234125678, 'guesst2006@gmail.com', '2023-07-24', '10:00:00'),
+(550, 'Grace Anderson', 7, 'testte', 1234125678, 'guesst2006@gmail.com', '2023-07-24', '08:00:00'),
+(552, 'Sophia Ramirez', 13, 'testte', 1234125678, 'guesst2006@gmail.com', '2023-07-24', '08:00:00');
 
 -- --------------------------------------------------------
 
@@ -293,8 +293,8 @@ INSERT INTO `terminet` (`id`, `doktori`, `departamenti`, `pacienti`, `numri_pers
 CREATE TABLE `terminet_e_dyta` (
   `id` int(11) NOT NULL,
   `doktori` varchar(100) NOT NULL,
-  `emri_pacientit` varchar(100) NOT NULL,
-  `mbiemri_pacientit` varchar(100) NOT NULL,
+  `departament` int(11) NOT NULL,
+  `pacienti` varchar(100) NOT NULL,
   `numri_personal` int(10) NOT NULL,
   `email_pacientit` varchar(100) NOT NULL,
   `data` date NOT NULL
@@ -304,8 +304,9 @@ CREATE TABLE `terminet_e_dyta` (
 -- Dumping data for table `terminet_e_dyta`
 --
 
-INSERT INTO `terminet_e_dyta` (`id`, `doktori`, `emri_pacientit`, `mbiemri_pacientit`, `numri_personal`, `email_pacientit`, `data`) VALUES
-(72, 'Nora Bajrami', 'Guesst', 'Guesst', 1561353106, 'guesst2006@gmail.com', '2023-07-13');
+INSERT INTO `terminet_e_dyta` (`id`, `doktori`, `departament`, `pacienti`, `numri_personal`, `email_pacientit`, `data`) VALUES
+(72, 'Nora Bajrami', 1, 'Guesst', 1561353106, 'guesst2006@gmail.com', '2023-07-13'),
+(73, 'Liam Smith', 8, 'testte', 1234125678, 'guesst2006@gmail.com', '2023-07-31');
 
 -- --------------------------------------------------------
 
@@ -362,10 +363,14 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `userType`, `fullName`, `personal_id`, `departament`, `gender`, `email`, `phone`, `photo`, `birthday`, `adress`, `username`, `password`, `veri_code`, `veri_date`, `veri_time`, `verificated`) VALUES
 (3, 1, 'testte', 1234125678, 1, 'Mashkull', 'guesst2006@gmail.com', '045122558', '', '2000-01-01', 'dasdasad', 'test', '$2y$10$oZSDRhxxmNstWMLhOGxXT.cyW67fJz0SLuKyKuStZ/cd3FFUfBzPa', 315334, '2023-07-10', '15:46:57', 1),
-(4, 2, 'TS S', 0, 3, 'Mashkull', 'asdasd@gmail.com', '123123123', 'IMG-64ac3dc4f39ee0.46431608.png', '0000-00-00', '', 'asdas', '$2y$10$sINODdfBBnAmv4GRctFpmeZQPeWyhRpK7IPq57RLferu0zBVlzjfm', 0, '0000-00-00', '00:00:00', 0),
-(5, 2, 'test test', 0, 1, 'Femer', 'teasd@gmail.com', '045123545', 'IMG-64ac3f47b54de8.13802589.jpg', '0000-00-00', '', 'reas', '$2y$10$KS7GQeB6FGxx1uxX16ryKObz.uVmRw1VfDUuu4h0MDo69Y1GFDhOa', 0, '0000-00-00', '00:00:00', 0),
 (6, 3, '', 0, 1, '', '', '', '', '0000-00-00', '', 'admin', '$2y$10$QRDfMM8OZY3Vf.crq2KVP.L3lJrh7Zq5xMXLJEwOCXCsEzwyIes6a', 0, '0000-00-00', '00:00:00', 0),
-(8, 2, 'esdfsd', 0, 2, 'Femer', 'sdfsdf@gmail.com', '047858855', 'IMG-64ad8327f41569.96156695.webp', '0000-00-00', '', 'assdasd', '$2y$10$yJcblj6lLkitc1FvrY7dkutUdlOqyr55mVNwcfnZAGq1qNXN.24b2', 0, '0000-00-00', '00:00:00', 0);
+(9, 2, 'Olivia Michaels', 0, 1, 'Femer', 'oliviaMichaels@gmail.com', '045123789', 'IMG-64ae8d9b44aaa4.82457204.webp', '0000-00-00', '', 'oliviaMichaels', '$2y$10$dADfq4upOFT0v2OYr8FtNuvVuwMfI/j.OaajOILF/fPHQFTTpVAWG', 0, '0000-00-00', '00:00:00', 0),
+(10, 2, 'Benjamin Sullivan', 0, 2, 'Mashkull', 'benjaminSullivan@gmail.com', '045151121', 'IMG-64ae8df6434678.89671794.jpg', '0000-00-00', '', 'benjaminSullivan', '$2y$10$Jle0I6zoWHobuKPZScOkoOnKE/T198T1VStbiX5nXCTN76Iz7j3BS', 0, '0000-00-00', '00:00:00', 0),
+(11, 2, 'Maya Patel', 0, 3, 'Femer', 'mayaPatel@gmail.com', '049125111', 'IMG-64ae8e26a0ca90.09146637.webp', '0000-00-00', '', 'mayaPatel', '$2y$10$TBJEDpwJ6Yo5uaDTWL1.p.H3lzTbT90iWjQbJsBa1rNVCEahP4Fhu', 0, '0000-00-00', '00:00:00', 0),
+(12, 2, 'Jonathan Reed', 0, 4, 'Mashkull', 'jonathanReed@gmail.com', '045675142', 'IMG-64ae8e4bbcd757.78182653.webp', '0000-00-00', '', 'jonathanReed', '$2y$10$q.m9dFLjIa89Yw9nl8ckQ.vOtDhB7WcjS2/pDK89n8NE..mUcL6pm', 0, '0000-00-00', '00:00:00', 0),
+(13, 2, 'Grace Anderson', 0, 7, 'Femer', 'graceAnderson@gmail.com', '045125111', 'IMG-64ae8e991c5651.34480751.png', '0000-00-00', '', 'graceAnderson', '$2y$10$AAt0aB./4dYqDTlNAqatYOEoxSc9JGuVF5P/7Ktk79.g2Gp5wRtTy', 0, '0000-00-00', '00:00:00', 0),
+(14, 2, 'Liam Smith', 0, 8, 'Mashkull', 'liamSmith@gmail.com', '045788555', 'IMG-64ae8ee66e0ff2.23642687.webp', '0000-00-00', '', 'liamSmith', '$2y$10$G16goJdJ5MBPQUNSNWJT5.M6VXY2tYjrlFPNyC8nCFoB4Rvm8bOJG', 0, '0000-00-00', '00:00:00', 0),
+(15, 2, 'Sophia Ramirez', 0, 13, 'Femer', 'sophiaRamirez@gmail.com', '045148654', 'IMG-64ae8f113690c2.79129875.jpg', '0000-00-00', '', 'sophiaRamirez', '$2y$10$WWuB3Qg6JZTDfzx.ahuWtecQUutD7lm/EV7TNtbsomRbNpkkZo5vG', 0, '0000-00-00', '00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -425,7 +430,8 @@ ALTER TABLE `galeria`
 -- Indexes for table `historia_e_termineve`
 --
 ALTER TABLE `historia_e_termineve`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `departamenti` (`departamenti`);
 
 --
 -- Indexes for table `kerkesatanulimit`
@@ -458,7 +464,8 @@ ALTER TABLE `terminet`
 -- Indexes for table `terminet_e_dyta`
 --
 ALTER TABLE `terminet_e_dyta`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `departament` (`departament`);
 
 --
 -- Indexes for table `terminet_e_mia`
@@ -494,13 +501,13 @@ ALTER TABLE `admin_table`
 -- AUTO_INCREMENT for table `ankesat`
 --
 ALTER TABLE `ankesat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `departamentet`
 --
 ALTER TABLE `departamentet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `doctor_personal_info`
@@ -518,19 +525,19 @@ ALTER TABLE `galeria`
 -- AUTO_INCREMENT for table `historia_e_termineve`
 --
 ALTER TABLE `historia_e_termineve`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `kerkesatanulimit`
 --
 ALTER TABLE `kerkesatanulimit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `orari`
 --
 ALTER TABLE `orari`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
 
 --
 -- AUTO_INCREMENT for table `patient_table`
@@ -542,13 +549,13 @@ ALTER TABLE `patient_table`
 -- AUTO_INCREMENT for table `terminet`
 --
 ALTER TABLE `terminet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=545;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=553;
 
 --
 -- AUTO_INCREMENT for table `terminet_e_dyta`
 --
 ALTER TABLE `terminet_e_dyta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `terminet_e_mia`
@@ -560,7 +567,7 @@ ALTER TABLE `terminet_e_mia`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `usertypes`
@@ -571,6 +578,12 @@ ALTER TABLE `usertypes`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `historia_e_termineve`
+--
+ALTER TABLE `historia_e_termineve`
+  ADD CONSTRAINT `historia_e_termineve_ibfk_1` FOREIGN KEY (`departamenti`) REFERENCES `departamentet` (`id`);
 
 --
 -- Constraints for table `kerkesatanulimit`
@@ -589,6 +602,12 @@ ALTER TABLE `orari`
 --
 ALTER TABLE `terminet`
   ADD CONSTRAINT `terminet_ibfk_1` FOREIGN KEY (`departamenti`) REFERENCES `departamentet` (`id`);
+
+--
+-- Constraints for table `terminet_e_dyta`
+--
+ALTER TABLE `terminet_e_dyta`
+  ADD CONSTRAINT `terminet_e_dyta_ibfk_1` FOREIGN KEY (`departament`) REFERENCES `departamentet` (`id`);
 
 --
 -- Constraints for table `users`
