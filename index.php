@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ballina</title>
+    <title>Homepage</title>
    
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="shortcut icon" href="./photos/icon-hospital.png">
@@ -107,21 +107,21 @@ padding: 5px !important;
             <div class="collapse navbar-collapse" id="navbarsExample04">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a href="index.php" class="nav-link active pt-0 pb-0" style="border-right: 1px solid white;color:#ADE8FF" aria-current="page">Ballina</a>
+                        <a href="index.php" class="nav-link active pt-0 pb-0" style="border-right: 1px solid white;color:#ADE8FF" aria-current="page">Homepage</a>
                     </li>
                     <li class="nav-item">
-                        <a href="galeria.php" class="nav-link text-white pt-0 pb-0" style="border-right: 1px solid white">Galeria</a>
+                        <a href="galeria.php" class="nav-link text-white pt-0 pb-0" style="border-right: 1px solid white">Gallery</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./patientSide/rezervoTermin.php" class="nav-link text-white pt-0 pb-0" style="border-right: 1px solid white">Terminet</a>
+                        <a href="./patientSide/rezervoTermin.php" class="nav-link text-white pt-0 pb-0" style="border-right: 1px solid white">Appointments</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./patientSide/ankesat.php" class="nav-link text-white pt-0 pb-0">Ankesat</a>
+                        <a href="./patientSide/ankesat.php" class="nav-link text-white pt-0 pb-0">Complaints</a>
                     </li>
                 </ul>
             </div>
             <div class="loginBtn d-flex justify-content-center align-items-center">
-                <?php if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) { ?>
+                <?php if (!isset($_SESSION['fullName'])) { ?>
                     <a href="./patientSide/login.php"><button type="button" class="login btn btn-outline-light me-2"><i class="fa-solid fa-arrow-right-to-bracket pe-1"></i> Login</button></a>
                 <?php } else { ?>
                     <a href="./patientSide/logout.php"><button type="button" class="btn btn-outline-warning me-2"><i class="fa-solid fa-arrow-right-to-bracket pe-1"></i> Log out</button></a>
@@ -161,16 +161,16 @@ padding: 5px !important;
             <img class="img" src="photos/Doctors/landing1.jpg">
             <div class="blog_des">
             <i class="fa-solid fa-truck-medical pb-3 hospital" style="font-size:50px;color:#17a2b8;"></i>
-                <h1 class="fw-bold">Ne kujdesemi per <span >shendetin</span> tuaj</h1>
+                <h1 class="fw-bold">We care for your <span >health</span></h1>
                 <p class="fs-6">Lorem ipsum dolor sit amet, consectetur</p>
                 <a href="./patientSide/rezervoTermin.php">
-                    <button style="color:#17a2b8;border-color:#17a2b8" class="btn btn-outline-light btn_doc">Terminet</button>
+                    <button style="color:#17a2b8;border-color:#17a2b8" class="btn btn-outline-light btn_doc">Appointments</button>
                 </a>
             </div>
         </article>
 
         <article id="doctors_art">
-            <h1 class="personeli_h1">Doktoret tane ekspert</h1>
+            <h1 class="personeli_h1">Our specialist doctors</h1>
             <hr>
         </article>
 
@@ -200,7 +200,7 @@ padding: 5px !important;
 
 
         <article id="doctors_art">
-            <h1 class="personeli_h1">Lokacioni</h1>
+            <h1 class="personeli_h1">Location</h1>
             <hr>
         </article>
         <div class="mapWrapper shadow-lg p-3 bg-white rounded-4 w-75" width="900px">

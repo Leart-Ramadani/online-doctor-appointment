@@ -12,7 +12,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rezervo termin</title>
+    <title>Book Appointment</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/responsive.css">
@@ -41,11 +41,11 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link active" aria-current="page">Terminet</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">Terminet e mia</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Historia e termineve</a></li>
+            <li><a href="../index.php" class="nav-link text-white">Homepage</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link active" aria-current="page">Appointment</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appointments</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Appointments history</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -54,7 +54,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                 <strong class="useri"><?php echo $_SESSION['username'] ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="profili.php">Profili</a></li>
+                <li><a class="dropdown-item" href="profili.php">Profile</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
@@ -85,12 +85,6 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
     }
 
 
-    $sortDefault = "default";
-
-    $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : $sortDefault;
-
-    $sort = "";
-
 
     $countSql = "SELECT COUNT(*) as total FROM orari";
     $countPrep = $con->prepare($countSql);
@@ -104,25 +98,6 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
     $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
 
     $startIndex = ($currentPage - 1) * $entries;
-
-
-    if ($sortBy == "default") {
-        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
-        $sortDate = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "ASC") {
-        $sort = " ORDER BY doktori ASC LIMIT :startIndex, $entries";
-        $sortASC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "DESC") {
-        $sort = " ORDER BY doktori DESC LIMIT :startIndex, $entries";
-        $sortDESC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "date") {
-        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
-        $sortDate = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    }
 
 
     $keywordPrep;
@@ -142,7 +117,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
 
         $sort = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
-        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id  WHERE doktori=:keyword OR d.id='$dep' OR data=:keyword " . $sort;
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id  WHERE doktori=:keyword OR d.id='$dep' OR data=:keyword LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -154,7 +129,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         $searchedQuery = $keyword;
     } else {
         $sql = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
-        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id " . $sort;
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id  LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
@@ -169,20 +144,19 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         $empty = '';
     }
     ?>
-    <main class="main mainRes d-flex flex-column  p-2">
-        <div class="d-flex justify-content-between">
+    <main class="main mainRes d-flex flex-column p-2">
+        <div class="d-flex justify-content-between pt-2">
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="rezervoTermin.php">
-                    <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
-                    <label for="entries" class="me-2">Shfaq</label>
-                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 58px" onchange="this.form.submit()">
+                    <label for="entries" class="me-2">Show</label>
+                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
                         <option value="100" <?= $entry100 ?? '' ?>>100</option>
                     </select>
-                    <label for="entries" class="ms-2">rreshta</label>
+                    <label for="entries" class="ms-2">entries</label>
                 </form>
             </div>
 
@@ -195,53 +169,32 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
             </script>
 
 
-            <div class="d-flex w-75 justify-content-end pe-2">
-                <div class="w-25">
-                    <form id="sortForm" method="GET" class="d-flex align-items-center" action="rezervoTermin.php">
-                        <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="page" value="<?= $currentPage ?>">
-                        <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px" onchange="this.form.submit()">
-                            <option value="ASC" <?= $sortASC ?? "" ?>>Sipas renditjes A-Zh</option>
-                            <option value="DESC" <?= $sortDESC ?? "" ?>>Sipas renditjes Zh-A</option>
-                            <option value="date" <?= $sortDate ?? "" ?>>Sipas datës</option>
-                        </select>
-                    </form>
-                </div>
-                <script>
-                    $(document).ready(function() {
-                        $('#sortBy').change(function() {
-                            $('#sortForm').submit();
-
-                        });
-                    });
-                </script>
+            
                 <div class="w-50 ms-2 me-1">
                     <form method="get" action="rezervoTermin.php">
                         <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
                         <input type="hidden" name="page" value="<?= $currentPage ?>">
                         <div class="d-flex mb-1">
-                            <div class="form-floating w-75">
-                                <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">
-                                <label for="floatingInput">Kerko:</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                                <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
-                            <button class="btn btn-primary w-25 fs-5 ms-2" name="search">Kerko</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
+
         <?php if ($empty == '') : ?>
-            <table class="table table-striped text-center mt-2 table_patient">
+            <table class="table table-striped text-center table_patient">
                 <thead>
                     <tr>
                         <th scope="col" style="display: none;">ID</th>
-                        <th scope="col">Doktori</th>
-                        <th scope="col">Departamenti</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Ne dizpozicon</th>
-                        <th scope="col">Kohezgjatja</th>
-                        <th scope="col">Aksioni</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Departament</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Available</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -255,8 +208,8 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                             <td><?= $data['kohezgjatja'] . 'min'  ?></td>
                             <td class="text-center">
                                 <!-- href="rezervo.php?id=<?= $data['id'] ?>" -->
-                                <a class="text-decoration-none text-white popUpWindow">
-                                    <button class="btn btn-primary w-100 p-1 text-white rez">Rezervo</button>
+                                <a class="text-decoration-none text-white popUpWindow" title="Book Appointment">
+                                    <button class="btn btn-primary w-50 text-white rez"><i class="fa-solid fa-calendar-plus"></i></button>
                                 </a>
                             </td>
                         </tr>
@@ -268,7 +221,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
         <?php if ($empty == 'empty') { ?>
             <article class=" d-flex justify-content-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Nuk u gjenden te dhena ne databaze.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
             </article>
         <?php } else { ?>
             <nav aria-label="Page navigation example">
@@ -327,43 +280,33 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
     <div id="popWindow" class="popUp">
         <div class="pac_det">
-            <h4>Termini</h4>
+            <h4>Appointment</h4>
             <button id="close" class="close">
                 <i class="fa-solid fa-close rezervoClose"></i>
             </button>
         </div>
 
-        <h4 class="det_pac_h4">Detajet e pacientit</h4>
+        <h4 class="det_pac_h4">Patient Details</h4>
 
         <div class="emri_pac">
-            <p>Emri: <span><?= $patient_data['fullName'] ?></span></p>
+            <p>Name: <span><?= $patient_data['fullName'] ?></span></p>
             <hr>
             <p>Email: <span><?= $patient_data['email'] ?></span></p>
             <hr>
-            <p>Nr. personal: <span><?= $patient_data['personal_id'] ?></span></p>
+            <p>Personal ID: <span><?= $patient_data['personal_id'] ?></span></p>
             <hr>
-            <p>Nr. telefonit: <span><?= $patient_data['phone'] ?></span></p>
+            <p>Phone number: <span><?= $patient_data['phone'] ?></span></p>
             <hr>
         </div>
 
-        <h4 class="det_pac_h4">Detajet e terminit</h4>
+        <h4 class="det_pac_h4">Appointment Details</h4>
 
         <div class="emri_pac doc_pac">
 
-            <p>Doktori: <span class="doc_name"><?= $data['doktori'] ?></span></p>
-            <hr>
-            <p>Departamenti: <span class="doc_dep"><?= $data['dep_name'] ?> </span></p>
-            <hr>
-            <p>Data e terminit: <span class="app_date"><?= $data['data'] ?></span></p>
-            <hr>
-            <p>Orari: <span class="app_time"><?= $data['nga_ora'] . ' - ' . $data['deri_oren'] ?><span></p>
-            <hr>
-            <p>Kohezgjatja: <span class="app_dur"><?= $data['kohezgjatja'] . 'min' ?></span></p>
-            <hr>
         </div>
 
         <form action="rezervo.php" method="POST" class="submit_rez">
-            <button type="submit" name="rezervo" class="btn btn-success">Rezervo</button>
+            <button type="submit" name="rezervo" class="btn btn-success"><i class="fa-solid fa-calendar-plus"></i> Book</button>
         </form>
     </div>
      

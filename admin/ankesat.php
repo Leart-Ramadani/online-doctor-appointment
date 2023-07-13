@@ -60,14 +60,6 @@ if (!isset($_SESSION['admin'])) {
         }
     }
 
-
-    $sortDefault = "default";
-
-    $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : $sortDefault;
-
-    $sort = "";
-
-
     $countSql = "SELECT COUNT(*) as total FROM ankesat";
     $countPrep = $con->prepare($countSql);
     $countPrep->execute();
@@ -82,26 +74,14 @@ if (!isset($_SESSION['admin'])) {
     $startIndex = ($currentPage - 1) * $entries;
 
 
-    if ($sortBy == "default") {
-        $sort = " ORDER BY pacienti ASC LIMIT :startIndex, $entries";
-        $sortASC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "ASC") {
-        $sort = " ORDER BY pacienti ASC LIMIT :startIndex, $entries";
-        $sortASC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "DESC") {
-        $sort = " ORDER BY pacienti DESC LIMIT :startIndex, $entries";
-        $sortDESC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    }
+
 
     $keywordPrep;
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
         $sort = "SELECT * FROM ankesat WHERE pacienti=:keyword OR numri_personal=:keyword OR 
-                email=:keyword OR ankesa=:keyword" . $sort;
+                email=:keyword OR ankesa=:keyword LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -113,7 +93,7 @@ if (!isset($_SESSION['admin'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM ankesat" . $sort;
+        $sql = "SELECT * FROM ankesat LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
@@ -127,14 +107,13 @@ if (!isset($_SESSION['admin'])) {
         $empty = '';
     }
     ?>
-    <main class="main mainRes d-flex flex-column align-items-center">
-        <div class="d-flex justify-content-between w-100 p-2 ">
+    <main class="main mainRes d-flex flex-column align-items-center p-2">
+        <div class="d-flex justify-content-between w-100 pt-2 ">
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="">
-                    <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
                     <label for="entries" class="me-2">Shfaq</label>
-                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 58px" onchange="this.form.submit()">
+                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
@@ -153,39 +132,17 @@ if (!isset($_SESSION['admin'])) {
             </script>
 
 
-            <div class="d-flex w-75 justify-content-end pe-2">
-                <div class="w-25">
-                    <form id="sortForm" method="GET" class="d-flex align-items-center" action="">
-                        <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="page" value="<?= $currentPage ?>">
-                        <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px" onchange="this.form.submit()">
-                            <option value="ASC" <?= $sortASC ?? "" ?>>Sipas renditjes A-Zh</option>
-                            <option value="DESC" <?= $sortDESC ?? "" ?>>Sipas renditjes Zh-A</option>
-                        </select>
-                    </form>
-                </div>
-                <script>
-                    $(document).ready(function() {
-                        $('#sortBy').change(function() {
-                            $('#sortForm').submit();
-
-                        });
-                    });
-                </script>
-                <div class="w-50 ms-2 me-1">
-                    <form method="get" action="">
-                        <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
-                        <input type="hidden" name="page" value="<?= $currentPage ?>">
-                        <div class="d-flex mb-1">
-                            <div class="form-floating w-75">
-                                <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">
-                                <label for="floatingInput">Kerko:</label>
-                            </div>
-                            <button class="btn btn-primary w-25 fs-5 ms-2" name="search">Kerko</button>
+            <div class="w-50 ms-2 me-1">
+                <form method="get" action="">
+                    <input type="hidden" name="entries" value="<?= $entries ?>">
+                    <input type="hidden" name="page" value="<?= $currentPage ?>">
+                    <div class="d-flex mb-1">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                            <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
         <?php if ($empty == '') : ?>
@@ -224,7 +181,7 @@ if (!isset($_SESSION['admin'])) {
         <?php } else { ?>
             <nav aria-label="Page navigation example" class="w-100 ps-2">
                 <ul class="pagination">
-                 <?php
+                    <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
 
                     $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
@@ -252,7 +209,7 @@ if (!isset($_SESSION['admin'])) {
                     if ($currentPage < $totalPages) {
                         $nextPage = $currentPage + 1;
                         echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
-                    } else{
+                    } else {
                         echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
                     }
                     ?>

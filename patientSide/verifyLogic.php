@@ -24,8 +24,7 @@ $prep->execute();
 $data = $prep->fetch();
 
 $email = $data['email'];
-$name = $data['name'];
-$lastName = $data['lastName'];
+$fullName = $data['fullName'];
 $username = $data['username'];
 $personal_id = $data['personal_id'];
 
@@ -68,7 +67,7 @@ if ($otp === $veri_code) {
 
             //Recipients
             $mail->setFrom('no@reply.com', 'terminet-online.com');
-            $mail->addAddress($email, $name . ' ' . $lastName);                           //Add a recipient
+            $mail->addAddress($email, $fullName);                           //Add a recipient
 
 
             //Content
@@ -87,9 +86,8 @@ if ($otp === $veri_code) {
             $mail->send();
             
             $_SESSION['username'] = $data['username'];
-            $_SESSION['emri'] = $data['emri'];
-            $_SESSION['mbiemri'] = $data['mbiemri'];
-            $_SESSION['numri_personal'] = $data['numri_personal'];
+            $_SESSION['fullName'] = $fullName;
+            $_SESSION['numri_personal'] = $data['personal_id'];
             
             echo "Your account has been successfully verified";
             

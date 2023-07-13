@@ -147,14 +147,7 @@
         }
 
 
-        $sortDefault = "default";
-
-        $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : $sortDefault;
-
-        $sort = "";
-
-
-        $countSql = "SELECT COUNT(*) as total FROM doctor_personal_info";
+        $countSql = "SELECT COUNT(*) as total FROM users WHERE userType=2";
         $countPrep = $con->prepare($countSql);
         $countPrep->execute();
         $totalRows = $countPrep->fetch();
@@ -168,40 +161,25 @@
         $startIndex = ($currentPage - 1) * $entries;
 
 
-        if ($sortBy == "default") {
-            $sort = " ORDER BY fullName ASC LIMIT :startIndex, $entries";
-            $sortASC = 'selected';
-            $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-        } else if ($sortBy == "ASC") {
-            $sort = " ORDER BY fullName ASC LIMIT :startIndex, $entries";
-            $sortASC = 'selected';
-            $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-        } else if ($sortBy == "DESC") {
-            $sort = " ORDER BY fullName DESC LIMIT :startIndex, $entries";
-            $sortDESC = 'selected';
-            $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-        }
-
-
         $keywordPrep;
         if (isset($_GET['search']) && !empty($_GET['keyword'])) {
             $keyword = $_GET['keyword'];
-            
+
             $depQuery = "SELECT id FROM departamentet WHERE name = :nameDep";
             $depPrep = $con->prepare($depQuery);
             $depPrep->bindParam(':nameDep', $keyword);
             $depPrep->execute();
             $depFetch = $depPrep->fetch();
-            if($depFetch){
+            if ($depFetch) {
                 $dep = $depFetch['id'];
-            } else{
+            } else {
                 $dep = '';
             }
 
             $sort = "SELECT u.id, u.fullName, u.gender, u.email, u.photo, u.username, u.password, d.name AS
-            'dep_name' FROM users AS u INNER JOIN departamentet AS d ON u.departament = d.id 
-            WHERE userType=2 AND (fullName=:keyword OR d.id='$dep' OR 
-                username=:keyword OR email=:keyword OR phone=:keyword) " . $sort;
+                'dep_name' FROM users AS u INNER JOIN departamentet AS d ON u.departament = d.id 
+                WHERE userType=2 AND (fullName=:keyword OR d.id='$dep' OR 
+                username=:keyword OR email=:keyword OR phone=:keyword) LIMIT :startIndex, $entries";
             $sql = $sort;
 
             $prep = $con->prepare($sql);
@@ -215,7 +193,7 @@
         } else {
             $sql = "SELECT u.id, u.fullName, u.gender, u.email, u.photo, u.username, u.password, d.name AS
             'dep_name' FROM users AS u INNER JOIN departamentet AS d ON u.departament = d.id 
-            WHERE userType=2" . $sort;
+            WHERE userType=2 LIMIT :startIndex, $entries";
             $prep = $con->prepare($sql);
             $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
             $prep->execute();
@@ -232,13 +210,12 @@
 
 
      <article class="main d-flex flex-column p-2">
-         <div class="d-flex justify-content-between">
+         <div class="d-flex justify-content-between pt-2">
              <div>
                  <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="doktoret.php">
-                     <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
                      <input type="hidden" name="page" value="<?= $currentPage ?>">
                      <label for="entries" class="me-2">Shfaq</label>
-                     <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 58px" onchange="this.form.submit()">
+                     <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                          <option value="25" <?= $entry25 ?? '' ?>>25</option>
                          <option value="50" <?= $entry50 ?? '' ?>>50</option>
                          <option value="75" <?= $entry75 ?? '' ?>>75</option>
@@ -257,40 +234,19 @@
              </script>
 
 
-             <div class="d-flex w-75 justify-content-end pe-2">
-                 <div class="w-25">
-                     <form id="sortForm" method="GET" class="d-flex align-items-center" action="doktoret.php">
-                         <input type="hidden" name="entries" value="<?= $entries ?>">
-                         <input type="hidden" name="page" value="<?= $currentPage ?>">
-                         <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px" onchange="this.form.submit()">
-                             <option value="ASC" <?= $sortASC ?? "" ?>>Sipas renditjes A-Zh</option>
-                             <option value="DESC" <?= $sortDESC ?? "" ?>>Sipas renditjes Zh-A</option>
-                         </select>
-                     </form>
-                 </div>
-                 <script>
-                     $(document).ready(function() {
-                         $('#sortBy').change(function() {
-                             $('#sortForm').submit();
 
-                         });
-                     });
-                 </script>
-                 <div class="w-50 ms-2 me-1">
-                     <form method="get" action="doktoret.php">
-                         <input type="hidden" name="entries" value="<?= $entries ?>">
-                         <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
-                         <input type="hidden" name="page" value="<?= $currentPage ?>">
-                         <div class="d-flex mb-1">
-                             <div class="form-floating w-75">
-                                 <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">
-                                 <label for="floatingInput">Kerko:</label>
-                             </div>
-                             <button class="btn btn-primary fs-5 ms-2" name="search">Kerko</button>
-                             <button class="btn btn-primary ms-2 addDoc" type="button" title="Add Doctor">+</button>
+             <div class="w-50 ms-2 me-1">
+                 <form method="get" action="doktoret.php">
+                     <input type="hidden" name="entries" value="<?= $entries ?>">
+                     <input type="hidden" name="page" value="<?= $currentPage ?>">
+                     <div class="d-flex mb-1">
+                         <div class="input-group mb-3">
+                             <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                             <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                          </div>
-                     </form>
-                 </div>
+                         <section class="bg-primary ms-2 addDoc" type="button" title="Add Doctor">+</section>
+                     </div>
+                 </form>
              </div>
          </div>
          <?php if ($empty == '') : ?>
@@ -327,42 +283,42 @@
                  <h1 class=" h1 fw-normal text-center mt-5">Te dhenat nuk u gjenden ne databaze.</h1>
              </article>
          <?php } else { ?>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                 <?php
-                    $maxVisibleLinks = 5; // Maximum number of visible page links
+             <nav aria-label="Page navigation example">
+                 <ul class="pagination">
+                     <?php
+                        $maxVisibleLinks = 5; // Maximum number of visible page links
 
-                    $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
-                    $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
+                        $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
+                        $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
 
-                    $showEllipsisStart = ($startPage > 1);
-                    $showEllipsisEnd = ($endPage < $totalPages);
+                        $showEllipsisStart = ($startPage > 1);
+                        $showEllipsisEnd = ($endPage < $totalPages);
 
-                    if ($currentPage == 1) {
-                        echo '<li class="page-item disabled"><a href="#" class="page-link" tabindex="-1">Previous</a></li>';
-                    }
+                        if ($currentPage == 1) {
+                            echo '<li class="page-item disabled"><a href="#" class="page-link" tabindex="-1">Previous</a></li>';
+                        }
 
-                    if ($currentPage > 1) {
-                        $previousPage = $currentPage - 1;
-                        echo '<li class"page-item"><a href="?page=' . $previousPage . '" class="page-link">Previous</a></li>';
-                    }
+                        if ($currentPage > 1) {
+                            $previousPage = $currentPage - 1;
+                            echo '<li class"page-item"><a href="?page=' . $previousPage . '" class="page-link">Previous</a></li>';
+                        }
 
-                    for ($i = $startPage; $i <= $endPage; $i++) {
-                        $activePage = ($i == $currentPage) ? 'active' : '';
-                        echo '<li class="page-item"><a class="page-link ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a></li>';
-                    }
+                        for ($i = $startPage; $i <= $endPage; $i++) {
+                            $activePage = ($i == $currentPage) ? 'active' : '';
+                            echo '<li class="page-item"><a class="page-link ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a></li>';
+                        }
 
 
 
-                    if ($currentPage < $totalPages) {
-                        $nextPage = $currentPage + 1;
-                        echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
-                    } else{
-                        echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
-                    }
-                    ?>
-                </ul>
-            </nav>
+                        if ($currentPage < $totalPages) {
+                            $nextPage = $currentPage + 1;
+                            echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
+                        } else {
+                            echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
+                        }
+                        ?>
+                 </ul>
+             </nav>
          <?php } ?>
      </article>
 

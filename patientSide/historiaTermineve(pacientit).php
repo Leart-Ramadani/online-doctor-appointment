@@ -81,15 +81,7 @@ if (!isset($_SESSION['fullName'])) {
         }
     }
 
-
-    $sortDefault = "default";
-
-    $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : $sortDefault;
-
-    $sort = "";
-
-
-    $countSql = "SELECT COUNT(*) as total FROM historia_e_termineve WHERE numri_personal=:numri_personal";
+    $countSql = "SELECT COUNT(*) as total FROM terminet WHERE numri_personal=:numri_personal AND statusi='Completed'";
     $countPrep = $con->prepare($countSql);
     $countPrep->bindParam(':numri_personal', $_SESSION['numri_personal']);
     $countPrep->execute();
@@ -103,24 +95,6 @@ if (!isset($_SESSION['fullName'])) {
 
     $startIndex = ($currentPage - 1) * $entries;
 
-
-    if ($sortBy == "default") {
-        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
-        $sortDate = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "ASC") {
-        $sort = " ORDER BY doktori ASC LIMIT :startIndex, $entries";
-        $sortASC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "DESC") {
-        $sort = " ORDER BY doktori DESC LIMIT :startIndex, $entries";
-        $sortDESC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "date") {
-        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
-        $sortDate = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    }
 
 
     $keywordPrep;
@@ -139,8 +113,9 @@ if (!isset($_SESSION['fullName'])) {
         }
 
         $sort = "SELECT h.id, h.doktori, h.departamenti, h.pacienti, h.numri_personal, h.email_pacientit, h.data, h.ora, h.diagnoza, h.recepti, 
-            d.name AS 'dep_name' FROM historia_e_termineve AS h INNER JOIN departamentet AS d ON h.departamenti = d.id 
-            WHERE numri_personal=:numri_personal AND (doktori=:keyword OR d.id='$dep' OR ora=:keyword OR diagnoza=:keyword OR recepti=:keyword) " . $sort;
+            d.name AS 'dep_name' FROM terminet AS h INNER JOIN departamentet AS d ON h.departamenti = d.id 
+            WHERE numri_personal=:numri_personal  AND statusi='Completed' AND 
+            (doktori=:keyword OR d.id='$dep' OR ora=:keyword OR diagnoza=:keyword OR recepti=:keyword) LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -154,8 +129,8 @@ if (!isset($_SESSION['fullName'])) {
     } else {
 
         $sql = "SELECT h.id, h.doktori, h.departamenti, h.pacienti, h.numri_personal, h.email_pacientit, h.data, h.ora, h.diagnoza, h.recepti, 
-            d.name AS 'dep_name' FROM historia_e_termineve AS h INNER JOIN departamentet AS d ON h.departamenti = d.id 
-            WHERE numri_personal=:numri_personal" . $sort;
+            d.name AS 'dep_name' FROM terminet AS h INNER JOIN departamentet AS d ON h.departamenti = d.id 
+            WHERE numri_personal=:numri_personal AND statusi='Completed' LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
@@ -172,13 +147,12 @@ if (!isset($_SESSION['fullName'])) {
     }
     ?>
     <main class="main mainRes d-flex flex-column p-2">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between pt-2">
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="historiaTermineve(pacientit).php">
-                    <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
                     <label for="entries" class="me-2">Shfaq</label>
-                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 58px" onchange="this.form.submit()">
+                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
@@ -196,43 +170,19 @@ if (!isset($_SESSION['fullName'])) {
                 });
             </script>
 
-
-            <div class="d-flex w-75 justify-content-end pe-2">
-                <div class="w-25">
-                    <form id="sortForm" method="GET" class="d-flex align-items-center" action="historiaTermineve(pacientit).php">
-                        <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="page" value="<?= $currentPage ?>">
-                        <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px" onchange="this.form.submit()">
-                            <option value="ASC" <?= $sortASC ?? "" ?>>Sipas renditjes A-Zh</option>
-                            <option value="DESC" <?= $sortDESC ?? "" ?>>Sipas renditjes Zh-A</option>
-                            <option value="date" <?= $sortDate ?? "" ?>>Sipas datës</option>
-                        </select>
-                    </form>
-                </div>
-                <script>
-                    $(document).ready(function() {
-                        $('#sortBy').change(function() {
-                            $('#sortForm').submit();
-
-                        });
-                    });
-                </script>
                 <div class="w-50 ms-2 me-1">
                     <form method="get" action="historiaTermineve(pacientit).php">
                         <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
                         <input type="hidden" name="page" value="<?= $currentPage ?>">
                         <div class="d-flex mb-1">
-                            <div class="form-floating w-75">
-                                <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">
-                                <label for="floatingInput">Kerko:</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                                <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
-                            <button class="btn btn-primary w-25 fs-5 ms-2" name="search">Kerko</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
         <?php if ($empty == '') : ?>
             <table class="table table-striped text-center mt-2 table_patient">
                 <thead>
@@ -262,7 +212,7 @@ if (!isset($_SESSION['fullName'])) {
 
         <?php if ($empty == 'empty') { ?>
             <article class=" d-flex justify-content-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Nuk keni ndonje termin te rezervuar.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Nuk u gjenden te dhena ne databaze.</h1>
             </article>
         <?php } else { ?>
             <nav aria-label="Page navigation example">

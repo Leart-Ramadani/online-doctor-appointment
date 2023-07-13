@@ -139,14 +139,7 @@ if (isset($_POST['anulo'])) {
     }
 
 
-    $sortDefault = "default";
-
-    $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : $sortDefault;
-
-    $sort = "";
-
-
-    $countSql = "SELECT COUNT(*) as total FROM terminet_e_mia WHERE numri_personal=:numri_personal";
+    $countSql = "SELECT COUNT(*) as total FROM terminet WHERE numri_personal=:numri_personal AND NOT statusi='Completed'";
     $countPrep = $con->prepare($countSql);
     $countPrep->bindParam(':numri_personal', $_SESSION['numri_personal']);
     $countPrep->execute();
@@ -159,25 +152,6 @@ if (isset($_POST['anulo'])) {
     $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
 
     $startIndex = ($currentPage - 1) * $entries;
-
-
-    if ($sortBy == "default") {
-        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
-        $sortDate = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "ASC") {
-        $sort = " ORDER BY doktori ASC LIMIT :startIndex, $entries";
-        $sortASC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "DESC") {
-        $sort = " ORDER BY doktori DESC LIMIT :startIndex, $entries";
-        $sortDESC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "date") {
-        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
-        $sortDate = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    }
 
 
     $keywordPrep;
@@ -195,7 +169,7 @@ if (isset($_POST['anulo'])) {
             $dep = '';
         }
 
-        $pacienti_sql = "SELECT * FROM users WHERE personal_id=:personal_id";
+        $pacienti_sql = "SELECT * FROM users WHERE userType=1 AND personal_id=:personal_id";
         $pacienti_prep = $con->prepare($pacienti_sql);
         $pacienti_prep->bindParam(':personal_id', $_SESSION['numri_personal']);
         $pacienti_prep->execute();
@@ -204,8 +178,9 @@ if (isset($_POST['anulo'])) {
 
 
         $sort = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, d.name AS 'dep_name' 
-        FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id
-        WHERE numri_personal=:numri_personal  AND (doktori=:keyword OR d.id='$dep' OR data=:keyword OR ora=:keyword) " . $sort;
+            FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id
+            WHERE numri_personal=:numri_personal AND NOT statusi='completed'  AND (doktori=:keyword OR d.id='$dep' OR data=:keyword OR ora=:keyword) 
+            LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -217,16 +192,17 @@ if (isset($_POST['anulo'])) {
 
         $searchedQuery = $keyword;
     } else {
-        $pacienti_sql = "SELECT * FROM users WHERE personal_id=:personal_id";
+        $pacienti_sql = "SELECT * FROM users WHERE userType=1 AND personal_id=:personal_id";
         $pacienti_prep = $con->prepare($pacienti_sql);
         $pacienti_prep->bindParam(':personal_id', $_SESSION['numri_personal']);
         $pacienti_prep->execute();
         $pacienti_fetch = $pacienti_prep->fetch();
         $pacienti = $pacienti_fetch['fullName'];
 
+
         $sql = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, d.name AS 'dep_name' 
             FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id
-            WHERE numri_personal=:numri_personal " . $sort;
+            WHERE numri_personal=:numri_personal AND NOT statusi='completed' LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
@@ -243,13 +219,12 @@ if (isset($_POST['anulo'])) {
 
     ?>
     <main class="main mainRes d-flex flex-column p-2">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between pt-2">
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="terminet_e_mia.php">
-                    <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
                     <label for="entries" class="me-2">Shfaq</label>
-                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 58px" onchange="this.form.submit()">
+                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
@@ -268,42 +243,20 @@ if (isset($_POST['anulo'])) {
             </script>
 
 
-            <div class="d-flex w-75 justify-content-end pe-2">
-                <div class="w-25">
-                    <form id="sortForm" method="GET" class="d-flex align-items-center" action="terminet_e_mia.php">
-                        <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="page" value="<?= $currentPage ?>">
-                        <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px" onchange="this.form.submit()">
-                            <option value="ASC" <?= $sortASC ?? "" ?>>Sipas renditjes A-Zh</option>
-                            <option value="DESC" <?= $sortDESC ?? "" ?>>Sipas renditjes Zh-A</option>
-                            <option value="date" <?= $sortDate ?? "" ?>>Sipas datës</option>
-                        </select>
-                    </form>
-                </div>
-                <script>
-                    $(document).ready(function() {
-                        $('#sortBy').change(function() {
-                            $('#sortForm').submit();
 
-                        });
-                    });
-                </script>
                 <div class="w-50 ms-2 me-1">
                     <form method="get" action="terminet_e_mia.php">
                         <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
                         <input type="hidden" name="page" value="<?= $currentPage ?>">
                         <div class="d-flex mb-1">
-                            <div class="form-floating w-75">
-                                <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">
-                                <label for="floatingInput">Kerko:</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                                <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
-                            <button class="btn btn-primary w-25 fs-5 ms-2" name="search">Kerko</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
         <?php if ($empty == '') : ?>
             <table class="table table-striped text-center mt-2 table_patient">
                 <thead>

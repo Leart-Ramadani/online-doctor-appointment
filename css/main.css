@@ -898,10 +898,13 @@ nav {
   display: none;
 }
 .addDoc{
-  width: 65px;
-  height: 58px;
+  display: grid;
+  place-content: center;
+  width: 40px;
+  height: 38px;
   font-size: 30px !important;
   border-radius: 50% !important;
+  color: white;
 }
 
 .closePopAdd{
@@ -935,7 +938,7 @@ nav {
 }
 
 .editForm select {
-  height: 58px;
+  height: 38px;
 }
 
 .editForm textarea {

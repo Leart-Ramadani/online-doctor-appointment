@@ -3,7 +3,7 @@
 
 	$id = $_GET['id'];
 
-	$sql = "DELETE FROM historia_e_termineve WHERE id=:id";
+	$sql = "DELETE FROM terminet WHERE id=:id AND statusi='Completed'";
 	$prep = $con->prepare($sql);
 
 	$prep->bindParam(':id', $id);

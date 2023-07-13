@@ -4,6 +4,10 @@ include('../config.php');
 
 $id = $_GET['id'];
 
+$updateStatus = "UPDATE terminet SET statusi='In progres' WHERE id='$id'";
+$updatePrep = $con->prepare($updateStatus);
+$updatePrep->execute();
+
 $sql = "SELECT * FROM terminet WHERE id=:id";
 $prep = $con->prepare($sql);
 $prep->bindParam(':id', $id);
@@ -79,33 +83,12 @@ $ora = $row['ora'];
         }
 
         if ($diagnoza_err == '' && $recepti_err == '') {
-            $ins_sql = "INSERT INTO historia_e_termineve(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora, diagnoza, recepti)
-                VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora, :diagnoza, :recepti)";
-
+            $ins_sql = "UPDATE terminet SET statusi='Completed', diagnoza=:diagnoza, recepti=:recepti WHERE id='$id'";
             $ins_prep = $con->prepare($ins_sql);
-            $ins_prep->bindParam(':doktori', $doktori);
-            $ins_prep->bindParam(':departamenti', $departamenti);
-            $ins_prep->bindParam(':pacienti', $pacienti);
-            $ins_prep->bindParam(':numri_personal', $numri_personal);
-            $ins_prep->bindParam(':email_pacientit', $email_pacientit);
-            $ins_prep->bindParam(':data', $data);
-            $ins_prep->bindParam(':ora', $ora);
             $ins_prep->bindParam(':diagnoza', $diagnoza);
             $ins_prep->bindParam(':recepti', $recepti);
-
+            
             if ($ins_prep->execute()) {
-                $del_sql = "DELETE FROM terminet WHERE id=:id";
-                $del_prep = $con->prepare($del_sql);
-                $del_prep->bindParam(':id', $id);
-                $del_prep->execute();
-
-                $terminetMia_sql = "DELETE FROM terminet_e_mia WHERE numri_personal=:numri_personal AND data=:data AND ora=:ora";
-                $terminetMia_prep = $con->prepare($terminetMia_sql);
-                $terminetMia_prep->bindParam(':numri_personal', $numri_personal);
-                $terminetMia_prep->bindParam(':data', $data);
-                $terminetMia_prep->bindParam(':ora', $ora);
-                $terminetMia_prep->execute();
-
                 header("Location: terminet.php");
             }
         }

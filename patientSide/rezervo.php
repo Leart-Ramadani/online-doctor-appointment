@@ -63,15 +63,15 @@ $data = $stm->fetch();
 
 
         echo $return = "
-            <p>Doktori: <span class='doc_name'>{$row['doktori']}</span></p> 
+            <p>Doctor: <span class='doc_name'>{$row['doktori']}</span></p> 
             <hr>
-            <p>Departamenti: <span class='doc_dep'>{$row['dep_name']}</span></p> 
+            <p>Departament: <span class='doc_dep'>{$row['dep_name']}</span></p> 
             <hr>
-            <p>Data e terminit: <span class='app_date'>{$row['data']}</span></p> 
+            <p>Appointment Date: <span class='app_date'>{$row['data']}</span></p> 
             <hr>
-            <p>Orari: <span class='app_time'> {$row['nga_ora']} - {$row['deri_oren']}<span></p>
+            <p>Schedule: <span class='app_time'> {$row['nga_ora']} - {$row['deri_oren']}<span></p>
             <hr>
-            <p>Kohezgjatja: <span class='app_dur'>{$row['kohezgjatja']}min</span></p>
+            <p>Duration: <span class='app_dur'>{$row['kohezgjatja']}min</span></p>
             <hr>";
     }
 
@@ -115,9 +115,9 @@ $data = $stm->fetch();
         $gender_data = $gender_prep->fetch();
 
         if ($gender_data['gender'] == 'Mashkull') {
-            $gjinia = 'I nderuar z.';
+            $gjinia = 'Dear Mr.';
         } else {
-            $gjinia = 'E nderuar znj.';
+            $gjinia = 'Dear Mrs..';
         }
 
 
@@ -131,14 +131,14 @@ $data = $stm->fetch();
 
         if ($check_data) {
             echo "<script>
-                    alert('Ti ke nje termin te rezervuar te dr.{$check_data['doktori']}.');
+                    alert('You have an appointment booked at Dr.{$check_data['doktori']}.');
                     window.location.replace('rezervoTermin.php');
                 </script>";
         } else {
             if ($row['zene_deri'] < $row['deri_oren']) {
 
-                $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora)
-                        VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora)";
+                $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora, statusi)
+                        VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora, 'Booked')";
                 $terminet_prep = $con->prepare($terminet_sql);
                 $terminet_prep->bindParam(':doktori', $doktori);
                 $terminet_prep->bindParam(':departamenti', $docInfo['departament']);
@@ -180,7 +180,7 @@ $data = $stm->fetch();
                             $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                             //Recipients
-                            $mail->setFrom('terminet.online@gmail.com', 'terminet-online.com');
+                            $mail->setFrom('no@reply.com', 'terminet-online.com');
                             $mail->addAddress($email_pacientit, $pacienti);                           //Add a recipient
 
 
@@ -188,27 +188,28 @@ $data = $stm->fetch();
                             $mail->isHTML(true);                                        //Set email format to HTML
 
 
-                            $mail->Subject = 'Termini eshte rezervuar';
+                            $mail->Subject = 'Appointment Details';
                             $mail->Body    =   "<p style='font-size: 16px; color: black;'>
                                             $gjinia{$pacienti},
                                             <br> <br>
-                                            Termini juaj me date:$data, ne ora:{$row['zene_deri']}, 
-                                            eshte rezervuar me sukses.
+                                            Your appointment in date:$data, on time:{$row['zene_deri']}, 
+                                            at dr.{$check_data['doktori']}
+                                            has been successfully booked
                                             <br><br>
-                                            Me respekt, <br>
+                                            Sincierly, <br>
                                             sistemi-termineve-online.com
                                             </p>";
 
                             $mail->send();
 
                             echo "<script>
-                                alert('Termini juaj eshte rezervuar me sukses.');
+                                alert('Your appointment has been successfully booked.');
                                 window.location.replace('terminet_e_mia.php');
                             </script>";
                             unset($_SESSION['id_ofApp']);
                         } catch (Exception $e) {
-                            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                             echo "<script>
+                                alert('Problems with server or internet')
                                 window.location.replace('rezervoTermin.php');
                             </script>";
                         }
@@ -222,7 +223,7 @@ $data = $stm->fetch();
                 $delete_prep->bindParam(':id', $id);
                 $delete_prep->execute();
                 echo "<script>
-                    alert('Na vjen keq mirepo nuk ka termine te lira.');
+                    alert('We are sorry but all appointments has been booked.');
                     window.location.replace('rezervoTermin.php');
                 </script>";
             }

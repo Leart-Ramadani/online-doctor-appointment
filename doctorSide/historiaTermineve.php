@@ -18,6 +18,8 @@ if (!isset($_SESSION['doctor'])) {
     <link rel="stylesheet" href="../bootstrap-5.1.3-examples/sidebars/sidebars.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js" defer></script>
+     <!-- Font-awesome script -->
+     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous" defer></script>
 
     <style>
         .form-control {
@@ -68,14 +70,10 @@ if (!isset($_SESSION['doctor'])) {
     }
 
 
-    $sortDefault = "default";
-
-    $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : $sortDefault;
-
-    $sort = "";
+   
 
 
-    $countSql = "SELECT COUNT(*) as total FROM historia_e_termineve WHERE doktori=:doktori";
+    $countSql = "SELECT COUNT(*) as total FROM terminet WHERE doktori=:doktori AND statusi='Completed'";
     $countPrep = $con->prepare($countSql);
     $countPrep->bindParam(':doktori', $_SESSION['doctor']);
     $countPrep->execute();
@@ -90,31 +88,13 @@ if (!isset($_SESSION['doctor'])) {
     $startIndex = ($currentPage - 1) * $entries;
 
 
-    if ($sortBy == "default") {
-        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
-        $sortDate = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "ASC") {
-        $sort = " ORDER BY pacienti ASC LIMIT :startIndex, $entries";
-        $sortASC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "DESC") {
-        $sort = " ORDER BY pacienti DESC LIMIT :startIndex, $entries";
-        $sortDESC = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    } else if ($sortBy == "date") {
-        $sort = " ORDER BY DATE(data) LIMIT :startIndex, $entries";
-        $sortDate = 'selected';
-        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
-    }
-
-
     $keywordPrep;
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM historia_e_termineve WHERE doktori=:doktori AND (pacienti=:keyword OR departamenti=:keyword OR
-        data=:keyword OR ora=:keyword OR diagnoza=:keyword OR recepti=:keyword) " . $sort;
+        $sort = "SELECT * FROM terminet WHERE doktori=:doktori AND statusi='Completed' AND (pacienti=:keyword  OR
+        data=:keyword OR ora=:keyword OR numri_personal=:keyword OR diagnoza=:keyword OR recepti=:keyword)
+         LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -127,7 +107,7 @@ if (!isset($_SESSION['doctor'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM historia_e_termineve WHERE doktori=:doktori" . $sort;
+        $sql = "SELECT * FROM terminet WHERE doktori=:doktori AND statusi='Completed' LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindParam(':doktori', $_SESSION['doctor']);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
@@ -143,14 +123,13 @@ if (!isset($_SESSION['doctor'])) {
         $empty = '';
     }
     ?>
-    <main class="main d-flex flex-column align-items-center">
-        <div class="d-flex justify-content-between w-100 p-2 ">
+    <main class="main d-flex flex-column align-items-center p-2">
+        <div class="d-flex justify-content-between w-100  pt-2">
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="">
-                    <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
                     <label for="entries" class="me-2">Shfaq</label>
-                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 58px" onchange="this.form.submit()">
+                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
@@ -168,45 +147,22 @@ if (!isset($_SESSION['doctor'])) {
                 });
             </script>
 
-
-            <div class="d-flex w-75 justify-content-end pe-2">
-                <div class="w-25">
-                    <form id="sortForm" method="GET" class="d-flex align-items-center" action="">
-                        <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="page" value="<?= $currentPage ?>">
-                        <select class="form-select" id="sortBy" name="sortBy" aria-label="Default select example" style="height: 58px" onchange="this.form.submit()">
-                            <option value="ASC" <?= $sortASC ?? "" ?>>Sipas renditjes A-Zh</option>
-                            <option value="DESC" <?= $sortDESC ?? "" ?>>Sipas renditjes Zh-A</option>
-                            <option value="date" <?= $sortDate ?? "" ?>>Sipas dates</option>
-                        </select>
-                    </form>
-                </div>
-                <script>
-                    $(document).ready(function() {
-                        $('#sortBy').change(function() {
-                            $('#sortForm').submit();
-
-                        });
-                    });
-                </script>
                 <div class="w-50 ms-2 me-1">
                     <form method="get" action="">
                         <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
                         <input type="hidden" name="page" value="<?= $currentPage ?>">
                         <div class="d-flex mb-1">
-                            <div class="form-floating w-75">
-                                <input type="text" class="form-control lastName" id="floatingInput" name="keyword" placeholder="Kerkro:" value="<?= $searchedQuery ?>">
-                                <label for="floatingInput">Kerko:</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                                <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
-                            <button class="btn btn-primary w-25 fs-5 ms-2" name="search">Kerko</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
         <?php if ($empty == '') : ?>
-            <table class="table table-striped text-center mt-2">
+            <table class="table table-striped text-center">
                 <thead>
                     <tr>
                         <th scope="col">Pacienti</th>

@@ -250,7 +250,7 @@ if (isset($_POST['set']) && $_POST['id'] == 3) {
 if (isset($_POST['set']) && $_POST['id'] == 4) {
     $name = $_POST['name'];
     $lastName = $_POST['lastName'];
-    $fullName = $name + ' ' + $lastName;
+    $fullName = $name . ' ' . $lastName;
     $perosnal_ID = $_POST['personal_ID'];
     $gender = $_POST['gender'];
     $email = $_POST['email'];
