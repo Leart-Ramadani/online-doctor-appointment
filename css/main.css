@@ -279,7 +279,7 @@ nav {
 
 .popUp {
   width: 400px;
-  height: 600px;
+  padding-bottom: 15px;
   position: absolute;
   background-color: white;
   top: 50%;

@@ -209,7 +209,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                             <td class="text-center">
                                 <!-- href="rezervo.php?id=<?= $data['id'] ?>" -->
                                 <a class="text-decoration-none text-white popUpWindow" title="Book Appointment">
-                                    <button class="btn btn-primary text-white rez"><i class="fa-solid fa-calendar-plus"></i><span class="ms-1">Book</span></button>
+                                    <button class="btn btn-primary text-white rez"><i class="fa-solid fa-calendar-plus"></i></button>
                                 </a>
                             </td>
                         </tr>
@@ -285,30 +285,52 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                 <i class="fa-solid fa-close rezervoClose"></i>
             </button>
         </div>
-
-        <h4 class="det_pac_h4">Patient Details</h4>
-
-        <div class="emri_pac">
-            <p>Name: <span><?= $patient_data['fullName'] ?></span></p>
-            <hr>
-            <p>Email: <span><?= $patient_data['email'] ?></span></p>
-            <hr>
-            <p>Personal ID: <span><?= $patient_data['personal_id'] ?></span></p>
-            <hr>
-            <p>Phone number: <span><?= $patient_data['phone'] ?></span></p>
-            <hr>
-        </div>
-
+        
         <h4 class="det_pac_h4">Appointment Details</h4>
-
-        <div class="emri_pac doc_pac">
+        
+        <div class="emri_pac doc_pac"> 
 
         </div>
 
-        <form action="rezervo.php" method="POST" class="submit_rez">
-            <button type="submit" name="rezervo" class="btn btn-success"><i class="fa-solid fa-calendar-plus"></i> Book</button>
-        </form>
+  
+        <div class="d-flex justify-content-end me-3">
+            <button type="submit" class="btn btn-primary disabled bookApp"><i class="fa-solid fa-calendar-plus"></i> Book</button>
+        </div>
     </div>
+    <script>
+        const bookApp = document.querySelector('.bookApp');
+        const getValue = button => {
+            let selectedTime = button.value;
+            document.querySelector('.appTime').innerHTML = selectedTime;
+            document.querySelector('.bookApp').classList.remove('disabled');
+
+            const bookAppointment = () => {
+                $.ajax({
+                    url: './rezervo.php',
+                    type: 'POST',
+                    data:{
+                        rezervo: true,
+                        time: selectedTime
+                    },
+                    success: function(response) {
+                        if(response == 'Appointment booked'){
+                            alert("Appointment has been successfully booked. Check your email for the details!");
+                            window.location.replace('terminet_e_mia.php');
+                        } else if(response == 'Problems with server or internet'){
+                            alert("Problems with server or internet. Appointment booking has failed");
+                            window.location.replace('rezervoTermin.php');
+                        } else if(response == "You have an appointment booked at this date."){
+                            alert('You have an appointment booked at this date.');
+                            window.location.replace('reervoTermin.php')
+                        }
+                    }
+                });
+            }
+
+            bookApp.addEventListener('click', bookAppointment);
+
+        }
+    </script>
      
     <script>
             $(document).ready(function() {
@@ -325,7 +347,6 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                             'id': id,
                         },
                         success: function(response) {
-                            console.log(response);
                             $('.doc_pac').html(response);
                         }
 

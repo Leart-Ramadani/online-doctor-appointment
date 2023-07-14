@@ -19,6 +19,7 @@ $(document).ready(function(){
     $('.close').click(function () {
         $('#popWindow').removeClass('popWindow');
         $('#popWrapper').removeClass('wrapperWindow');
+        $('.bookApp').addClass('disabled');
     });
 
     $('.close').click(function () {
