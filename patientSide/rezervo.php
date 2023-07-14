@@ -69,14 +69,21 @@ $data = $stm->fetch();
         }
 
 
-
-        function appointments($result)
-        {
-            $appointments = '';
-            foreach ($result as $time) {
+        $appointments = '';
+        foreach ($result as $time) {
+            $checkApp = "SELECT * FROM terminet WHERE statusi='Booked' AND doktori=:doktori AND data=:data AND ora=:ora";
+            $appPrep = $con->prepare($checkApp);
+            $appPrep->bindParam(':doktori', $row['doktori']);
+            $appPrep->bindParam(':data', $row['data']);
+            $appPrep->bindParam(':ora', $time);
+            $appPrep->execute();
+            $appData = $appPrep->fetch();
+            if($appData){
+                $appointments .= "<button class='btn btn-danger disabled' style='width: 80px;' value='{$time}' onclick='getValue(this)'>{$time}</button>";
+            } else{
                 $appointments .= "<button class='btn btn-primary' style='width: 80px;' value='{$time}' onclick='getValue(this)'>{$time}</button>";
             }
-            return $appointments;
+
         }
 
         echo $return = "
@@ -90,7 +97,7 @@ $data = $stm->fetch();
             <hr>
             <p>Time: <span class='appTime'></span></p>
             <hr>
-            <div class='d-flex flex-wrap justify-content-center gap-2 pt-2 pb-2' style='height: 200px; overflow-y: scroll;'>" . appointments($result) . "</div>";
+            <div class='d-flex flex-wrap justify-content-center gap-2 pt-2 pb-2' style='height: 200px; overflow-y: scroll;'>" . $appointments . "</div>";
     }
 
 
@@ -144,7 +151,7 @@ $data = $stm->fetch();
         $check_data = $check_prep->fetch();
 
         if ($check_data) {
-            echo "You have an appointment booked at this date.";
+            echo "Appointment exists";
         } else {
 
             $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora, statusi)
@@ -168,9 +175,9 @@ $data = $stm->fetch();
                     $mail->isSMTP();                                            //Send using SMTP
                     $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
                     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                    $mail->Username   = SITE_EMAIL;            //SMTP username
-                    $mail->Password   = SITE_PASSWORD;                             //SMTP password
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                    $mail->Username   = SITE_EMAIL;                             //SMTP username
+                    $mail->Password   = SITE_PASSWORD;                          //SMTP password
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
                     $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                     //Recipients
@@ -192,7 +199,7 @@ $data = $stm->fetch();
                                             <br><br>
                                             Sincierly, <br>
                                             sistemi-termineve-online.com
-                                            </p>";
+                                        </p>";
 
                     $mail->send();
 

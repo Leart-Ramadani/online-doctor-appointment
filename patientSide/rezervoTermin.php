@@ -293,7 +293,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         </div>
 
   
-        <div class="d-flex justify-content-end me-3">
+        <div class="d-flex justify-content-end me-3 mt-1">
             <button type="submit" class="btn btn-primary disabled bookApp"><i class="fa-solid fa-calendar-plus"></i> Book</button>
         </div>
     </div>
@@ -306,22 +306,23 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
             const bookAppointment = () => {
                 $.ajax({
-                    url: './rezervo.php',
+                    url: 'rezervo.php',
                     type: 'POST',
                     data:{
                         rezervo: true,
                         time: selectedTime
                     },
                     success: function(response) {
-                        if(response == 'Appointment booked'){
-                            alert("Appointment has been successfully booked. Check your email for the details!");
-                            window.location.replace('terminet_e_mia.php');
-                        } else if(response == 'Problems with server or internet'){
-                            alert("Problems with server or internet. Appointment booking has failed");
-                            window.location.replace('rezervoTermin.php');
-                        } else if(response == "You have an appointment booked at this date."){
+                        console.log(response);
+                        if(response.includes('Appointment exists')){
+                            window.location.replace('rezervoTermin.php')
                             alert('You have an appointment booked at this date.');
-                            window.location.replace('reervoTermin.php')
+                        } else if(response.includes('Appointment booked')){
+                            window.location.replace('terminet_e_mia.php');
+                            alert("Appointment has been successfully booked. Check your email for the details!");
+                        } else if(response.includes('Problems with server or internet')){
+                            window.location.replace('rezervoTermin.php');
+                            alert(" Appointment booking has failed. Problems with server or internet.");
                         }
                     }
                 });
