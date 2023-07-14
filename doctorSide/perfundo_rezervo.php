@@ -126,28 +126,12 @@ $doc_data = $doc_prep->fetch();
                     $update_prep->bindParam(':zene_deri', $date_format);
                 
                     if ($update_prep->execute()) {
-                        $ins_sql = "INSERT INTO historia_e_termineve(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora, diagnoza, recepti)
-                        VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora, :diagnoza, :recepti)";
-
-                        $ins_prep = $con->prepare($ins_sql);
-                        $ins_prep->bindParam(':doktori', $doktori);
-                        $ins_prep->bindParam(':departamenti', $dep);
-                        $ins_prep->bindParam(':pacienti', $pacienti);
-                        $ins_prep->bindParam(':numri_personal', $numri_personal);
-                        $ins_prep->bindParam(':email_pacientit', $email_pacientit);
-                        $ins_prep->bindParam(':data', $data);
-                        $ins_prep->bindParam(':ora', $ora);
-                        $ins_prep->bindParam(':diagnoza', $diagnoza);
-                        $ins_prep->bindParam(':recepti', $recepti);
-
-                        if ($ins_prep->execute()) {
-                            $del_sql = "DELETE FROM terminet WHERE id=:id";
-                            $del_prep = $con->prepare($del_sql);
-                            $del_prep->bindParam(':id', $id);
-                            $del_prep->execute();
+                        $del_sql = "UPDATE terminet set status='Completed' WHERE id=:id";
+                        $del_prep = $con->prepare($del_sql);
+                        $del_prep->bindParam(':id', $id);
+                        $del_prep->execute();
 
 
-                        }
 
 
                         $mail = new PHPMailer(true);
