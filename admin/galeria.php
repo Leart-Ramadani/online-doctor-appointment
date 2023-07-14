@@ -5,7 +5,7 @@ if (!isset($_SESSION['admin'])) {
 }
 ?>
 <?php include('header.php') ?>
-<title>Galeria</title>
+<title>Gallery</title>
 </head>
 
 <body>
@@ -63,15 +63,15 @@ if (!isset($_SESSION['admin'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doktoret</a></li>
-            <li><a href="departamentet.php" class="nav-link text-white">Departamentet</a></li>
-            <li><a href="orari.php" class="nav-link text-white">Orari</a></li>
-            <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
-            <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
-            <li><a href="historiaTerminit.php" class="nav-link text-white">Historia termineve</a></li>
-            <li class="nav-item"><a href="galeria.php" class="nav-link active" aria-current="page">Galeria</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat per anulim</a></li>
+            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doctor</a></li>
+            <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
+            <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
+            <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
+            <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link active" aria-current="page">Gallery</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -85,18 +85,7 @@ if (!isset($_SESSION['admin'])) {
         </div>
     </div>
 
-    <main class=" text-center main_galeria mainRes">
-        <h1 class="h3 text-center fw-normal mt-3">Shto nje foto</h1>
-        <form method="POST" class="form-sigin" enctype="multipart/form-data" autocomplete="off">
-            <div class="mb-3">
-                <input class="form-control" type="file" name="galeria" id="formFile">
-            </div>
-            <button class="w-100 btn btn-lg btn-primary" type="submit" name="shto">Shto</button>
-        </form>
-
-
-    </main>
-    <?php
+        <?php
     $gallery_sql = "SELECT * FROM galeria";
     $gallery_prep = $con->prepare($gallery_sql);
     $gallery_prep->execute();
@@ -104,13 +93,26 @@ if (!isset($_SESSION['admin'])) {
     ?>
 
 
+    <main class=" text-center main_galeria mainRes">
+        <h1 class="h3 text-center fw-normal mt-3">Add a photo</h1>
+        <form method="POST" class="form-sigin" enctype="multipart/form-data" autocomplete="off">
+            <div class="mb-3">
+                <input class="form-control" type="file" name="galeria" id="formFile">
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit" name="shto">Add</button>
+        </form>
+
+
+    </main>
+
+
     <article class="galeria_wrapper mt-5">
-        <h3 class="h3 text-center fw-normal mt-5 mb-3">Galeria</h3> 
-        <table class="table table-border w-50 table_patient">
+        <h3 class="h3 text-center fw-normal mt-5 mb-3">Gallery</h3> 
+        <table class="table table-border w-50 table_patient text-center">
             <thead>
                 <tr>
-                    <th scope="col">Foto</th>
-                    <th scope="col">Aksioni</th>
+                    <th scope="col">Photo</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -119,10 +121,10 @@ if (!isset($_SESSION['admin'])) {
                         <td class="p-0 w-50 text-center"><img class="gallery_img" src="uploads_gallery/<?= $data['foto_src'] ?>"></td>
                         <td class="w-25">
                             <a class="text-decoration-none text-white" href="deletePhoto.php?id=<?= $data['id']  ?>">
-                                <button class="btn btn-danger w-100 fs-5 mt-4 text-white">Fshij</button>
+                                <button class="btn btn-danger fs-5 text-white"><i class="fa-solid fa-trash"></i></button>
                             </a>
                             <a class="text-decoration-none text-white" href="changePhoto.php?id=<?= $data['id']  ?>">
-                                <button class="btn btn-success w-100 fs-5  mt-2 mb-0 text-white">Perditeso</button>
+                                <button class="btn btn-success fs-5  text-white"><i class="fa-solid fa-user-edit"></i></button>
                             </a>
                         </td>
                     </tr>

@@ -11,7 +11,7 @@ if (!isset($_SESSION['fullName'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ankesat</title>
+    <title>Complaints</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/responsive.css">
@@ -41,11 +41,11 @@ if (!isset($_SESSION['fullName'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Terminet</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">Terminet e mia</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white active" aria-current="page">Ankesat</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Historia e termineve</a></li>
+            <li><a href="../index.php" class="nav-link text-white">Homepage</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appointments</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white active" aria-current="page">Complaints</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Appointments history</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -54,7 +54,7 @@ if (!isset($_SESSION['fullName'])) {
                 <strong class="useri"><?php echo $_SESSION['username'] ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="profili.php">Profili</a></li>
+                <li><a class="dropdown-item" href="profili.php">Profile</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
@@ -81,7 +81,7 @@ if (!isset($_SESSION['fullName'])) {
             $ankesa = $_POST['ankesa'];
 
             if ($ankesa == '') {
-                $error_msg = '*Ju duhet te plotesoni kete fushe!';
+                $error_msg = '*You must fill out this field!';
                 $invalid_msg = 'is-invalid';
             } else {
                 $error_msg = '';
@@ -97,17 +97,17 @@ if (!isset($_SESSION['fullName'])) {
         }
         ?>
         <form class="form-signin" method="POST" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal text-center">Ankesat</h1>
+            <h1 class="h3 mb-3 fw-normal text-center">Complaint</h1>
 
             <div class="form-floating">
-                <input type="text" class="form-control mb-2" readonly id="floatingInput" name="name" placeholder="Emri" value="<?= $_SESSION['fullName'] ?>">
-                <label for="floatingInput">Emri</label>
+                <input type="text" class="form-control mb-2" readonly id="floatingInput" name="name" placeholder="Name" value="<?= $_SESSION['fullName'] ?>">
+                <label for="floatingInput">Name</label>
             </div>
 
 
             <div class="form-floating">
-                <input type="text" class="form-control mb-2" readonly id="floatingInput" name="personal_id" placeholder="Numri personal" value="<?= $_SESSION['numri_personal'] ?>">
-                <label for="floatingInput">Numri personal</label>
+                <input type="text" class="form-control mb-2" readonly id="floatingInput" name="personal_id" placeholder="Personal ID" value="<?= $_SESSION['numri_personal'] ?>">
+                <label for="floatingInput">Personal ID</label>
             </div>
 
             <div class="form-floating">
@@ -116,14 +116,14 @@ if (!isset($_SESSION['fullName'])) {
             </div>
 
             <div class="mb-2">
-                <label for="ankesa" class="form-label">Ankesa juaj:</label>
+                <label for="ankesa" class="form-label">Your complaint:</label>
                 <textarea class="form-control <?= $invalid_msg ?? '' ?>" style="resize:none;" id="ankesa" rows="5" maxlength="350" name="ankesa"></textarea>
                 <span class="text-danger fw-normal"><?php echo $error_msg; ?></span>
             </div>
 
 
 
-            <button class=" btn btn-lg btn-primary ankohu updateRes" type="submit" name="ankohu">Dergo</button>
+            <button class=" btn btn-lg btn-primary ankohu updateRes" type="submit" name="ankohu">Send</button>
 
         </form>
     </main>

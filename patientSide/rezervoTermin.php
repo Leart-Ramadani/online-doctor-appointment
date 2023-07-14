@@ -42,7 +42,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li><a href="../index.php" class="nav-link text-white">Homepage</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link active" aria-current="page">Appointment</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link active" aria-current="page">Appointments</a></li>
             <li><a href="terminet_e_mia.php" class="nav-link text-white">My appointments</a></li>
             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
             <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Appointments history</a></li>
@@ -209,7 +209,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                             <td class="text-center">
                                 <!-- href="rezervo.php?id=<?= $data['id'] ?>" -->
                                 <a class="text-decoration-none text-white popUpWindow" title="Book Appointment">
-                                    <button class="btn btn-primary w-50 text-white rez"><i class="fa-solid fa-calendar-plus"></i></button>
+                                    <button class="btn btn-primary text-white rez"><i class="fa-solid fa-calendar-plus"></i><span class="ms-1">Book</span></button>
                                 </a>
                             </td>
                         </tr>

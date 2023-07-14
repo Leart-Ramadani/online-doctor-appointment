@@ -5,7 +5,7 @@ if (!isset($_SESSION['admin'])) {
 }
 ?>
 <?php include('header.php') ?>
-<title>Pacientat</title>
+<title>Patients</title>
 </head>
 
 <body>
@@ -19,15 +19,15 @@ if (!isset($_SESSION['admin'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doktoret</a></li>
-            <li><a href="departamentet.php" class="nav-link text-white">Departamentet</a></li>
-            <li><a href="orari.php" class="nav-link text-white">Orari</a></li>
-            <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
-            <li><a href="pacientat.php" class="nav-link text-white active" aria-current="page">Pacientat</a></li>
-            <li><a href="historiaTerminit.php" class="nav-link text-white">Historia termineve</a></li>
-            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat per anulim</a></li>
+            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doctors</a></li>
+            <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
+            <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
+            <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="pacientat.php" class="nav-link text-white active" aria-current="page">Patients</a></li>
+            <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -108,21 +108,18 @@ if (!isset($_SESSION['admin'])) {
     }
     ?>
     <main class="text-center main mainRes d-flex flex-column align-items-center p-2">
-
-
-
         <div class="d-flex justify-content-between w-100  pt-2">
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
-                    <label for="entries" class="me-2">Shfaq</label>
+                    <label for="entries" class="me-2">Show</label>
                     <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
                         <option value="100" <?= $entry100 ?? '' ?>>100</option>
                     </select>
-                    <label for="entries" class="ms-2">rreshta</label>
+                    <label for="entries" class="ms-2">entries</label>
                 </form>
             </div>
 
@@ -142,7 +139,7 @@ if (!isset($_SESSION['admin'])) {
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
                     <div class="d-flex mb-1">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
                             <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </div>
@@ -154,15 +151,15 @@ if (!isset($_SESSION['admin'])) {
             <table class="table table-striped mt-2 table_patient ">
                 <thead>
                     <tr>
-                        <th scope="col">Emri plote</th>
-                        <th scope="col">Nr. personal</th>
-                        <th scope="col">Gjinia</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Personal ID</th>
+                        <th scope="col">Gender</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Telefoni</th>
-                        <th scope="col">Ditelindja</th>
-                        <th scope="col">Adresa</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Birthday</th>
+                        <th scope="col">Adress</th>
                         <th scope="col">Username</th>
-                        <th scope="col">Aksioni</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -177,7 +174,9 @@ if (!isset($_SESSION['admin'])) {
                             <td><?= $data['adress'] ?></td>
                             <td><?= $data['username'] ?></td>
                             <td>
-                                <a class="text-decoration-none text-white" href="deletePatient.php?id=<?= $data['id']  ?>"><button class="btn btn-danger w-100 p-0 text-white">Delete</button></a>
+                                <a class="text-decoration-none text-white" href="deletePatient.php?id=<?= $data['id']  ?>">
+                                    <button class="btn btn-danger p-1 text-white"><i class="fa-solid fa-trash"></i></button>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -187,7 +186,7 @@ if (!isset($_SESSION['admin'])) {
 
         <?php if ($empty == 'empty') { ?>
             <article class=" d-flex justify-content-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Te dhenat nuk u gjenden ne databaze.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
             </article>
         <?php } else { ?>
             <nav aria-label="Page navigation example" class="w-100 ps-2">

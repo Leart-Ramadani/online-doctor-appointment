@@ -11,7 +11,7 @@ if (!isset($_SESSION['fullName'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historia e termineve</title>
+    <title>Appointments History</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/responsive.css">
@@ -41,11 +41,11 @@ if (!isset($_SESSION['fullName'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Terminet</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">Terminet e mia</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white active" aria-current="page">Historia e termineve</a></li>
+            <li><a href="../index.php" class="nav-link text-white">Homepage</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appointments</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white active" aria-current="page">Appointments history</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -54,7 +54,7 @@ if (!isset($_SESSION['fullName'])) {
                 <strong class="useri"><?php echo $_SESSION['username'] ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="profili.php">Profili</a></li>
+                <li><a class="dropdown-item" href="profili.php">Profile</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
@@ -151,14 +151,14 @@ if (!isset($_SESSION['fullName'])) {
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="historiaTermineve(pacientit).php">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
-                    <label for="entries" class="me-2">Shfaq</label>
+                    <label for="entries" class="me-2">Show</label>
                     <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
                         <option value="100" <?= $entry100 ?? '' ?>>100</option>
                     </select>
-                    <label for="entries" class="ms-2">rreshta</label>
+                    <label for="entries" class="ms-2">entries</label>
                 </form>
             </div>
 
@@ -176,7 +176,7 @@ if (!isset($_SESSION['fullName'])) {
                         <input type="hidden" name="page" value="<?= $currentPage ?>">
                         <div class="d-flex mb-1">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                                <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
                                 <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
@@ -187,12 +187,12 @@ if (!isset($_SESSION['fullName'])) {
             <table class="table table-striped text-center mt-2 table_patient">
                 <thead>
                     <tr>
-                        <th scope="col">Doktori</th>
-                        <th scope="col">Departamenti</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Ora</th>
-                        <th scope="col">Diagnoza</th>
-                        <th scope="col">Recepti</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Departament</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Diagnose</th>
+                        <th scope="col">Prescription</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -212,7 +212,7 @@ if (!isset($_SESSION['fullName'])) {
 
         <?php if ($empty == 'empty') { ?>
             <article class=" d-flex justify-content-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Nuk u gjenden te dhena ne databaze.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Data not found in the database.</h1>
             </article>
         <?php } else { ?>
             <nav aria-label="Page navigation example">

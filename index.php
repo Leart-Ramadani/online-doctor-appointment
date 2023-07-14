@@ -214,10 +214,10 @@ padding: 5px !important;
 <div class="container">
     <footer class="pt-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Ballina</a></li>
-            <li class="nav-item"><a href="galeria.php" class="nav-link px-2 text-muted">Galeria</a></li>
-            <li class="nav-item"><a href="./patientSide/rezervoTermin.php" class="nav-link px-2 text-muted">Terminet</a></li>
-            <li class="nav-item"><a href="./patientSide/ankesat.php" class="nav-link px-2 text-muted">Ankesat </a></li>
+            <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Homepage</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link px-2 text-muted">Gallery</a></li>
+            <li class="nav-item"><a href="./patientSide/rezervoTermin.php" class="nav-link px-2 text-muted">Appointments</a></li>
+            <li class="nav-item"><a href="./patientSide/ankesat.php" class="nav-link px-2 text-muted">Complaints</a></li>
         </ul>
         <p class="text-center text-muted"> Copyright ©2023 All rights reserved | This website is made by <a href="https://www.linkedin.com/in/leart-ramadani-47981125a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVVrswlowTROepZqoqZDZkw%3D%3D">Leart Ramadani</a>.</p>
     </footer>

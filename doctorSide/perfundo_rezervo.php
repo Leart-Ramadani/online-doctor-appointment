@@ -31,7 +31,7 @@ $doc_data = $doc_prep->fetch();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $_SESSION['doctor'] ?></title>
+    <title><?php echo $_SESSION['doctor'] ?> | Complete and book another</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="icon" href="../photos/doctor.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -83,9 +83,9 @@ $doc_data = $doc_prep->fetch();
         $gender_data = $gender_prep->fetch();
 
         if ($gender_data['gender'] == 'Mashkull') {
-            $gjinia = 'I nderuar z.';
+            $gjinia = 'Dear Mr.';
         } else {
-            $gjinia = 'E nderuar znj.';
+            $gjinia = 'Dear Mrs.';
         }
 
         $check_sql = "SELECT * FROM orari WHERE doktori=:doktori AND data=:data";
@@ -100,8 +100,8 @@ $doc_data = $doc_prep->fetch();
             $zene_deri = $check_data['zene_deri'];
             if ($zene_deri < $check_data['deri_oren']) {
 
-                $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora)
-                        VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora)";
+                $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora, statusi)
+                        VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora, 'Booked')";
                 $terminet_prep = $con->prepare($terminet_sql);
                 $terminet_prep->bindParam(':doktori', $doktori);
                 $terminet_prep->bindParam(':departamenti', $dep);
@@ -172,21 +172,21 @@ $doc_data = $doc_prep->fetch();
                             $mail->isHTML(true);                                        //Set email format to HTML
 
 
-                            $mail->Subject = 'Termini u rezeruva';
+                            $mail->Subject = 'Appointment booked';
                             $mail->Body    =   "<p style='font-size: 16px; color: black;'>
                                             $gjinia{$pacienti},
                                             <br> <br>
-                                            Termini juaj i dytë me datë:$final_date, në orën:$zene_deri, 
-                                            është rezervuar me sukses.
+                                            Your second appointment in:$final_date, on time:$zene_deri, 
+                                            has been successfully booked.
                                             <br><br>
-                                            Me respekt, <br>
+                                            Sincierly, <br>
                                             sistemi-termineve-online.com
                                             </p>";
 
                             $mail->send();
 
                             echo "<script>
-                                alert('Termini u rezervua me sukses.');
+                                alert('Appointment successfully booked.');
                                 window.location.replace('terminet.php');
                             </script>";
                         } catch (Exception $e) {
@@ -206,7 +206,7 @@ $doc_data = $doc_prep->fetch();
                 $delete_prep->bindParam(':data', $final_date);
                 $delete_prep->execute();
                 echo "<script>
-                    alert('Na vjen keq mirepo nuk ka termine te lira ne kete date.');
+                    alert('We are sorry but there aren't any free appointments to book.');
                     window.location.replace('perfundo_rezervo.php?numri_personal=$numri_personal&&data=$data');
                 </script>";
             }
@@ -226,14 +226,9 @@ $doc_data = $doc_prep->fetch();
                 $del_prep->bindParam(':id', $id);
                 $del_prep->execute();
 
-                $terminetMia_sql = "DELETE FROM terminet_e_mia WHERE numri_personal=:numri_personal AND data=:data AND ora=:ora";
-                $terminetMia_prep = $con->prepare($terminetMia_sql);
-                $terminetMia_prep->bindParam(':numri_personal', $numri_personal);
-                $terminetMia_prep->bindParam(':data', $data);
-                $terminetMia_prep->bindParam(':ora', $ora);
-                $terminetMia_prep->execute();
+
                 echo "<script>
-                        alert('Juve nuk ju eshte caktuar orari i punes me daten: $final_date, mirepo termini do te rezervohet sapo te ju caktohet orari i punes.');
+                        alert('Your schedule on: $final_date, isn't set but the appointment will be automaticlly booked once that your schedule will be set.');
                         window.location.replace('terminet.php');
                     </script>";
             }
@@ -242,25 +237,25 @@ $doc_data = $doc_prep->fetch();
     }
     ?>
     <form class="form-signin" method="POST" enctype="multipart/form-data" autocomplete="off">
-        <h1 class="h3 mb-3 fw-normal text-center">Perfundo dhe rezervo takim te ri</h1>
+        <h1 class="h3 mb-3 fw-normal text-center">Complete and book another appointment</h1>
         <div class="form-floating">
-            <input type="text" class="form-control mb-2" readonly id="floatingInput" name="doktori" placeholder="Doktori" value="<?= $_SESSION['doctor'] ?>">
-            <label for="floatingInput">Doktori: </label>
+            <input type="text" class="form-control mb-2" readonly id="floatingInput" name="doktori" placeholder="Doctor" value="<?= $_SESSION['doctor'] ?>">
+            <label for="floatingInput">Doctor: </label>
         </div>
 
         <div class="form-floating">
-            <input type="text" class="form-control mb-2" readonly id="floatingInput" name="pacienti" placeholder="Pacienti" value="<?= $row['fullName'] ?> ">
-            <label for="floatingInput">Pacienti:</label>
+            <input type="text" class="form-control mb-2" readonly id="floatingInput" name="pacienti" placeholder="Patient" value="<?= $row['fullName'] ?> ">
+            <label for="floatingInput">Patient:</label>
         </div>
 
         <div class="form-floating">
-            <input type="text" class="form-control mb-2" readonly id="floatingInput" name="pacienti" placeholder="Numri personal" value="<?= $row['personal_id'] ?>">
-            <label for="floatingInput">Numri personal:</label>
+            <input type="text" class="form-control mb-2" readonly id="floatingInput" name="pacienti" placeholder="Personal ID" value="<?= $row['personal_id'] ?>">
+            <label for="floatingInput">Personal ID:</label>
         </div>
 
 
         <div class="mb-3" id="zgjedh">
-            <label for="zgjedh">Pas sa kohe duhet te vije pacienti:</label>
+            <label for="zgjedh">When will the patient come again:</label>
             <div class="w-25 d-inline-block">
                 <select class="form-select <?= $invalid_duration ?? "" ?> " aria-label="Default select example" name="nr">
                     <option value="1">1</option>
@@ -274,14 +269,14 @@ $doc_data = $doc_prep->fetch();
 
             <div class="w-50 d-inline-block">
                 <select class="form-select <?= $invalid_duration ?? "" ?> ms-5" aria-label="Default select example" name="d_w_m">
-                    <option value="day">Dite</option>
-                    <option value="week">Jave</option>
-                    <option value="month">Muaj</option>
+                    <option value="day">Days</option>
+                    <option value="week">Weeks</option>
+                    <option value="month">Months</option>
                 </select>
             </div>
         </div>
 
-        <button class="w-100 btn btn-m btn-primary" type="submit" name="submit">Perfundo dhe rezervo takimin tjeter</button>
+        <button class="w-100 btn btn-m btn-primary" type="submit" name="submit">Complete</button>
     </form>
 </body>
 

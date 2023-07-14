@@ -13,7 +13,7 @@ if (!isset($_SESSION['doctor'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $_SESSION['doctor'] ?></title>
+    <title><?php echo $_SESSION['doctor'] ?> | Appointments</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="icon" href="../photos/doctor.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -32,8 +32,8 @@ if (!isset($_SESSION['doctor'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="terminet.php" class="nav-link active" aria-current="page">Terminet</a></li>
-            <li class="nav-item"><a href="historiaTermineve.php" class="nav-link text-white">Historia e termineve</a></li>
+            <li class="nav-item"><a href="terminet.php" class="nav-link active" aria-current="page">Appintments</a></li>
+            <li class="nav-item"><a href="historiaTermineve.php" class="nav-link text-white">Appointments history</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -126,14 +126,14 @@ if (!isset($_SESSION['doctor'])) {
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
-                    <label for="entries" class="me-2">Shfaq</label>
+                    <label for="entries" class="me-2">Show</label>
                     <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
                         <option value="100" <?= $entry100 ?? '' ?>>100</option>
                     </select>
-                    <label for="entries" class="ms-2">rreshta</label>
+                    <label for="entries" class="ms-2">entries</label>
                 </form>
             </div>
 
@@ -151,7 +151,7 @@ if (!isset($_SESSION['doctor'])) {
                         <input type="hidden" name="page" value="<?= $currentPage ?>">
                         <div class="d-flex mb-1">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                                <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
                                 <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
@@ -163,13 +163,13 @@ if (!isset($_SESSION['doctor'])) {
             <table class="table table-striped mt-2">
                 <thead>
                     <tr>
-                        <th scope="col">Pacienti</th>
-                        <th scope="col">Numri Personal</th>
-                        <th scope="col">Email i pacientit</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Ora</th>
-                        <th scope="col">Statusi</th>
-                        <th scope="col">Aksioni</th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Personal ID</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -182,7 +182,9 @@ if (!isset($_SESSION['doctor'])) {
                             <td><?= $data['ora'] ?> </td>
                             <td><?= $data['statusi'] ?> </td>
                             <td class="text-center">
-                                <a class="text-decoration-none text-white" href="perfundoTakimin.php?id=<?= $data['id']  ?>"><button class="btn btn-success  w-100 p-1 text-white">Perfundo takimin</button></a>
+                                <a class="text-decoration-none text-white" href="perfundoTakimin.php?id=<?= $data['id'] ?>" title="Complete appointment">
+                                    <button class="btn btn-success p-1 text-white"><i class="fa-solid fa-calendar-check"></i></button>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -940,6 +940,9 @@ nav {
 .editForm select {
   height: 38px;
 }
+.addForm select{
+  height: 58px !important;
+}
 
 .editForm textarea {
   width: 600px;

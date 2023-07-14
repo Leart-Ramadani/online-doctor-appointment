@@ -35,7 +35,7 @@ if (isset($_POST['anulo'])) {
     $arsyejaAnulimit = $_POST['arsyejaAnulimit'];
 
     if (empty($_POST['arsyejaAnulimit'])) {
-        $msg = '*Shkruani arsyen se pse deshironi te anuloni terminin!';
+        $msg = '*You must write the reason you want to cancel the appointment!';
         $njoftim = 'njoftim';
     } else {
         $req_sql = "INSERT INTO kerkesatanulimit(pacienti, numri_personal, email, telefoni, doktori, departamenti, data, ora, arsyeja_anulimit)
@@ -51,8 +51,8 @@ if (isset($_POST['anulo'])) {
         $res_prep->bindParam(':ora', $ora);
         $res_prep->bindParam(':arysejaAnulimit', $arsyejaAnulimit);
         if ($res_prep->execute()) {
-            $msg = "Kerkesa per te anuluar terminin eshte parashtruar me sukses. <br>
-                    Ju do te njoftoheni permes email-it nese ju eshte aprovuar kerkesa!";
+            $msg = "The cancelation request has been successfully sent. <br>
+                    You will be notified through email for the answer!";
             $njoftim = 'njoftim';
         }
     }
@@ -66,7 +66,7 @@ if (isset($_POST['anulo'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminet e mia</title>
+    <title>My Appointment</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/responsive.css">
@@ -96,11 +96,11 @@ if (isset($_POST['anulo'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Terminet</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white active" aria-current="page">Terminet e mia</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Historia e termineve</a></li>
+            <li><a href="../index.php" class="nav-link text-white">Homepage</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white active" aria-current="page">My appointments</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Appointments history</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -109,7 +109,7 @@ if (isset($_POST['anulo'])) {
                 <strong class="useri"><?php echo $_SESSION['username'] ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="profili.php">Profili</a></li>
+                <li><a class="dropdown-item" href="profili.php">Profile</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
@@ -223,14 +223,14 @@ if (isset($_POST['anulo'])) {
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="terminet_e_mia.php">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
-                    <label for="entries" class="me-2">Shfaq</label>
+                    <label for="entries" class="me-2">Show</label>
                     <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
                         <option value="100" <?= $entry100 ?? '' ?>>100</option>
                     </select>
-                    <label for="entries" class="ms-2">rreshta</label>
+                    <label for="entries" class="ms-2">entries</label>
                 </form>
             </div>
 
@@ -250,7 +250,7 @@ if (isset($_POST['anulo'])) {
                         <input type="hidden" name="page" value="<?= $currentPage ?>">
                         <div class="d-flex mb-1">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                                <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
                                 <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
@@ -262,11 +262,11 @@ if (isset($_POST['anulo'])) {
                 <thead>
                     <tr>
                         <th scope="col" style="display: none;">ID</th>
-                        <th scope="col">Doktori</th>
-                        <th scope="col">Departamenti</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Ora</th>
-                        <th scope="col">Aksioni</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Departament</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -278,8 +278,8 @@ if (isset($_POST['anulo'])) {
                             <td><?= $data['data'] ?></td>
                             <td><?= $data['ora'] ?></td>
                             <td class="text-center">
-                                <a class="text-decoration-none text-white anuloPop">
-                                    <button class="btn btn-warning w-100 p-1 text-white rez">Anulo</button>
+                                <a class="text-decoration-none text-white anuloPop" title="Cancel Appointment">
+                                    <button class="btn btn-warning p-1 text-white rez"><i class="fa-solid fa-calendar-xmark me-1"></i><span>Cancel</span></button>
                                 </a>
                             </td>
                         </tr>
@@ -292,7 +292,7 @@ if (isset($_POST['anulo'])) {
 
         <?php if ($empty == 'empty') { ?>
             <article class=" d-flex justify-content-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Nuk keni ndonje termin te rezervuar.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">You don't have any booked appointment.</h1>
             </article>
         <?php } else { ?>
             <nav aria-label="Page navigation example">
@@ -341,26 +341,26 @@ if (isset($_POST['anulo'])) {
 
     <div id="popWindow" class="popAnulo">
         <div class="pac_h5">
-            <h5>Anulo terminin</h5>
+            <h5>Cancel Appointment</h5>
             <button id="close" class="close">
                 <i class="fa-solid fa-close rezervoClose"></i>
             </button>
         </div>
 
-        <h5 class="det_pac_h4">Detajet e pacientit</h5>
+        <h5 class="det_pac_h4">Patient Details</h5>
 
         <div class="emri_pac">
-            <p>Pacienti: <span><?= $pacienti_fetch['fullName'] ?></span></p>
+            <p>Patient: <span><?= $pacienti_fetch['fullName'] ?></span></p>
             <hr>
             <p>Email: <span><?= $pacienti_fetch['email'] ?></span></p>
             <hr>
-            <p>Nr. personal: <span><?= $pacienti_fetch['personal_id'] ?></span></p>
+            <p>Personal ID: <span><?= $pacienti_fetch['personal_id'] ?></span></p>
             <hr>
-            <p>Nr. telefonit: <span><?= $pacienti_fetch['phone'] ?></span></p>
+            <p>Phone number: <span><?= $pacienti_fetch['phone'] ?></span></p>
             <hr>
         </div>
 
-        <h5 class="det_pac_h4">Detajet e terminit</h5>
+        <h5 class="det_pac_h4">Appointment Details</h5>
 
         <div class="emri_pac doc_pac">
 
@@ -368,17 +368,17 @@ if (isset($_POST['anulo'])) {
 
         <form action="terminet_e_mia.php" method="POST" class="submit_anu">
             <div class="mb-3">
-                <label for="arsyeja" class="form-label">Arsyeja e anulimmit:</label>
+                <label for="arsyeja" class="form-label">Cancelation reason:</label>
                 <textarea class="form-control text" id="arsyeja" rows="3" maxlength="250" name="arsyejaAnulimit"></textarea>
             </div>
 
-            <button type="submit" name="anulo" class="anulo btn btn-primary w-25">Dergo</button>
+            <button type="submit" name="anulo" class="anulo btn btn-primary w-25">Send</button>
         </form>
     </div>
 
     <div class="popMsg <?= $njoftim ?? '' ?>">
         <div class="pac_h5">
-            <h5>Njoftim</h5>
+            <h5>Notification</h5>
             <button id="close" class="close">
                 <i class="fa-solid fa-close rezervoClose"></i>
             </button>

@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin'])) {
 ?>
 
 <?php include('header.php') ?>
-<title>Orari</title>
+<title>Schedule</title>
 </head>
 
 <body>
@@ -22,15 +22,15 @@ if (!isset($_SESSION['admin'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white" aria-current="page">Doktoret</a></li>
-            <li><a href="departamentet.php" class="nav-link text-white ">Departamentet</a></li>
-            <li><a href="orari.php" class="nav-link text-white active">Orari</a></li>
-            <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
-            <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
-            <li><a href="historiaTerminit.php" class="nav-link text-white">Historia termineve</a></li>
-            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat per anulim</a></li>
+            <li class="nav-item"><a href="doktoret.php" class="nav-link text-white" aria-current="page">Doctors</a></li>
+            <li><a href="departamentet.php" class="nav-link text-white ">Departaments</a></li>
+            <li><a href="orari.php" class="nav-link text-white active">Schedule</a></li>
+            <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
+            <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -70,7 +70,7 @@ if (!isset($_SESSION['admin'])) {
         if (isset($_POST['submit'])) {
 
             if (empty($_POST['doktori'])) {
-                $doktorErr = '*Doktori duhet zgjedhur.';
+                $doktorErr = '*You must select the doctor.';
                 $invalid_doc = 'is-invalid';
             } else {
                 $doktori = $_POST['doktori'];
@@ -82,7 +82,7 @@ if (!isset($_SESSION['admin'])) {
 
 
             if (empty($_POST['data'])) {
-                $dateErr = '*Data duhet zgjedhur.';
+                $dateErr = '*Date must be picked.';
                 $invalid_date = 'is-invalid';
             } else {
                 $data = $_POST['data'];
@@ -92,7 +92,7 @@ if (!isset($_SESSION['admin'])) {
                 $dateTimestamp2 = strtotime($date2);
 
                 if ($dateTimestamp1 <= $dateTimestamp2) {
-                    $dateErr = "*Data nuk mund te jete me heret apo e njejet me daten e sotme.";
+                    $dateErr = "*Date cannot be the same as today or eralier.";
                     $invalid_date = 'is-invalid';
                 } else {
                     $data = $_POST['data'];
@@ -102,16 +102,16 @@ if (!isset($_SESSION['admin'])) {
             }
 
             if (empty($_POST['from_time'])) {
-                $from_time_err = '*Ju duhet te zgjedhni oren kur mjeku fillon punen.';
+                $from_time_err = '*You must select the start time for the doctor.';
                 $invalid_from_time = 'is-invalid';
             } else {
                 $nga_ora = $_POST['from_time'];
                 if ($nga_ora < '08:00') {
-                    $from_time_err = "*Ora nuk duhet te jete me heret se 08:00";
+                    $from_time_err = "*The time cannot be eralier than 08:00";
                     $invalid_from_time = 'is-invalid';
                 } else {
                     if ($nga_ora > '14:00') {
-                        $from_time_err = "*Ora nuk mund te jete me vone se 14:00";
+                        $from_time_err = "*The time cannot be later than 14:00";
                         $invalid_from_time = 'is-invalid';
                     } else {
                         $nga_ora = $_POST['from_time'];
@@ -122,16 +122,16 @@ if (!isset($_SESSION['admin'])) {
             }
 
             if (empty($_POST['to_time'])) {
-                $to_time_err = '*Ju duhet te zgjedhni oren kur mjeku perfundon punen.';
+                $to_time_err = '*End time for the doctor.';
                 $invalid_to_time = 'is-invalid';
             } else {
                 $deri_oren = $_POST['to_time'];
                 if ($deri_oren < '14:00') {
-                    $to_time_err = "*Ora nuk mund te jete me heret se 14:00";
+                    $to_time_err = "*Time cannot be earlier than 14:00";
                     $invalid_to_time = 'is-invalid';
                 } else {
                     if ($deri_oren > '18:00') {
-                        $to_time_err = "*Ora nuk mund te jete me vone se 18:00";
+                        $to_time_err = "*Time cannot be later than 18:00";
                         $invalid_to_time = 'is-invalid';
                     } else {
                         $deri_oren = $_POST['to_time'];
@@ -142,7 +142,7 @@ if (!isset($_SESSION['admin'])) {
             }
 
             if (empty($_POST['kohzgjatja'])) {
-                $durationErr = '*Ju duhet te zgjedhni kohezgjatjen e terminit';
+                $durationErr = '*You must select the appointment';
                 $invalid_duration = 'is-invalid';
             } else {
                 $kohzgjatja = $_POST['kohzgjatja'];
@@ -185,10 +185,10 @@ if (!isset($_SESSION['admin'])) {
                         foreach ($check_appointments_data as $check_appointments_data) {
                             $data10 = $check_appointments_data['data'];
                             $doktori10 = $check_appointments_data['doktori'];
-                            $emriPacientit10 = $check_appointments_data['emri_pacientit'];
-                            $mbiemriPacientit10 = $check_appointments_data['mbiemri_pacientit'];
+                            $pacienti = $check_appointments_data['pacienti'];
                             $numriPersonal10 = $check_appointments_data['numri_personal'];
                             $emailPacientit10 = $check_appointments_data['email_pacientit'];
+
 
                             $orari_sql = "SELECT * FROM orari WHERE doktori=:doktori AND data=:data";
                             $orari_prep = $con->prepare($orari_sql);
@@ -199,17 +199,18 @@ if (!isset($_SESSION['admin'])) {
                             $zene_deri = $orari_data['zene_deri'];
 
 
-                            $terminet_sql = "INSERT INTO terminet(doktori, fullName, numri_personal, email_pacientit, data, ora)
-                                            VALUES(:doktori, :fullName :numri_personal, :email_pacientit, :data, :ora)";
+                            $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora, statusi)
+                                            VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora, 'Booked')";
                             $terminet_prep = $con->prepare($terminet_sql);
                             $terminet_prep->bindParam(':doktori', $doktori10);
-                            $terminet_prep->bindParam(':fullName', $emriPacientit10);
+                            $terminet_prep->bindParam(':departamenti', $departamenti);
+                            $terminet_prep->bindParam(':pacienti', $pacienti);
                             $terminet_prep->bindParam(':numri_personal', $numriPersonal10);
                             $terminet_prep->bindParam(':email_pacientit', $emailPacientit10);
                             $terminet_prep->bindParam(':data', $data10);
                             $terminet_prep->bindParam(':ora', $zene_deri);
-
                             $terminet_prep->execute();
+
                             $time1 = $orari_data['zene_deri'];
                             $interval2 = $orari_data['kohezgjatja'];
                             $date = new DateTime($time1);
@@ -225,18 +226,6 @@ if (!isset($_SESSION['admin'])) {
                             $update_prep->execute();
 
 
-                            $ter_sql = "INSERT INTO terminet_e_mia(emri_pacientit, mbiemri_pacientit, numri_personal, doktori, departamenti, data, ora)
-                                            VALUES(:emri_pacientit, :mbiemri_pacientit, :numri_personal, :dok, :dep, :date, :ora)";
-                            $ter_prep = $con->prepare($ter_sql);
-                            $ter_prep->bindParam(':emri_pacientit', $emriPacientit10);
-                            $ter_prep->bindParam(':mbiemri_pacientit', $mbiemriPacientit10);
-                            $ter_prep->bindParam(':numri_personal', $numriPersonal10);
-                            $ter_prep->bindParam(':dok', $doktori10);
-                            $ter_prep->bindParam(':dep', $departamenti);
-                            $ter_prep->bindParam(':date', $data10);
-                            $ter_prep->bindParam(':ora', $zene_deri);
-                            $ter_prep->execute();
-
 
                             $del_terminet_dyta = "DELETE FROM terminet_e_dyta WHERE doktori=:doktori AND numri_personal=:numri_personal AND data=:data";
                             $del_terminet_dyta_prep = $con->prepare($del_terminet_dyta);
@@ -245,16 +234,16 @@ if (!isset($_SESSION['admin'])) {
                             $del_terminet_dyta_prep->bindParam(':data', $data10);
                             if ($del_terminet_dyta_prep->execute()) {
 
-                                $gender_sql = "SELECT gjinia FROM users WHERE userType=2 AND personal_id=:personal_id";
+                                $gender_sql = "SELECT gender FROM users WHERE userType=2 AND personal_id=:personal_id";
                                 $gender_prep = $con->prepare($gender_sql);
                                 $gender_prep->bindParam(':personal_id', $numriPersonal10);
                                 $gender_prep->execute();
                                 $gender_data = $gender_prep->fetch();
 
-                                if ($gender_data['gjinia'] == 'Mashkull') {
-                                    $gjinia = 'I nderuar z.';
+                                if ($gender_data['gender'] == 'Mashkull') {
+                                    $gjinia = 'Dear Mr.';
                                 } else {
-                                    $gjinia = 'E nderuar znj.';
+                                    $gjinia = 'Dear Mrs.';
                                 }
 
                                 $mail = new PHPMailer(true);
@@ -272,24 +261,24 @@ if (!isset($_SESSION['admin'])) {
                                     $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                                     //Recipients
-                                    $mail->setFrom('terminet.online@gmail.com', 'terminet-online.com');
-                                    $mail->addAddress($emailPacientit10, $emriPacientit10 . ' ' . $mbiemriPacientit10);                           //Add a recipient
+                                    $mail->setFrom('no@reply.com', 'terminet-online.com');
+                                    $mail->addAddress($emailPacientit10, $pacienti);                           //Add a recipient
 
 
                                     //Content
                                     $mail->isHTML(true);                                        //Set email format to HTML
 
 
-                                    $mail->Subject = 'Termini u rezervua';
+                                    $mail->Subject = 'Appointment Booked';
                                     $mail->Body    =   "<p style='font-size: 16px; color: black;'>
-                                                                    $gjinia{$mbiemriPacientit10},
-                                                                    <br> <br>
-                                                                    Termini juaj i dyte ne daten:$data, ne oren:$zene_deri, 
-                                                                    eshte rezervuar me sukses.
-                                                                    <br><br>
-                                                                    Me respekt, <br>
-                                                                    sistemi-termineve-online.com
-                                                                    </p>";
+                                                        $gjinia{$pacienti},
+                                                        <br> <br>
+                                                        Your second appointment on date:$data, in time:$zene_deri, 
+                                                        has been successfully booked.
+                                                        <br><br>
+                                                        Sincierly, <br>
+                                                        sistemi-termineve-online.com
+                                                        </p>";
 
                                     $mail->send();
 
@@ -313,7 +302,7 @@ if (!isset($_SESSION['admin'])) {
             <h1 class="h3 fw-normal text-center">Orari</h1>
             <div>
                 <select class="form-select <?= $invalid_doc ?? "" ?> res" aria-label="Default select example" name="doktori">
-                    <option value="">Zgjedhni doktorin</option>
+                    <option value="">Choose Doctor</option>
                     <?php foreach ($doc_data as $doc_data) : ?>
                         <option value="<?= $doc_data['fullName'] ?>"><?= $doc_data['fullName'] ?></option>
                     <?php endforeach; ?>
@@ -322,7 +311,7 @@ if (!isset($_SESSION['admin'])) {
             </div>
 
             <div class="d-inline-block">
-                <label for="startDate">Data:</label>
+                <label for="startDate">Date:</label>
                 <input id="startDate" class="form-control data  <?= $invalid_date ?? "" ?>" name="data" type="date" value="<?= $s_date ?>" />
                 <span class="text-danger fw-normal"><?php echo $dateErr; ?></span>
             </div>
@@ -330,20 +319,20 @@ if (!isset($_SESSION['admin'])) {
 
             <div class="text-center mb-0 resOrari">
                 <div class="d-inline-block w-50" style="float: left;">
-                    <label for="startingHour">Nga ora:</label>
+                    <label for="startingHour">From time:</label>
                     <input id="startingHour" class="form-control time  <?= $invalid_from_time ?? "" ?>" name="from_time" type="time" value="<?= $from_time ?>" />
                     <span class="text-danger fw-normal"><?php echo $from_time_err; ?></span>
                 </div>
 
                 <div class="d-inline-block w-50" style="float: right;">
-                    <label for="leavingHour">Ne oren:</label>
+                    <label for="leavingHour">To time:</label>
                     <input id="leavingHour" class="form-control  time time1 <?= $invalid_to_time ?? "" ?>" name="to_time" type="time" value="<?= $to_time; ?>" />
                     <span class="text-danger ms-2 fw-normal"><?php echo $to_time_err; ?></span>
                 </div>
 
                 <div>
                     <select class="form-select res <?= $invalid_duration ?? "" ?>" aria-label="Default select example" name="kohzgjatja">
-                        <option value="" selected>Kohezgjatja</option>
+                        <option value="" selected>Duration</option>
                         <option value="15">15min</option>
                         <option value="20">20min</option>
                         <option value="30">30min</option>
@@ -454,14 +443,14 @@ if (!isset($_SESSION['admin'])) {
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
-                    <label for="entries" class="me-2">Shfaq</label>
+                    <label for="entries" class="me-2">Show</label>
                     <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
                         <option value="100" <?= $entry100 ?? '' ?>>100</option>
                     </select>
-                    <label for="entries" class="ms-2">rreshta</label>
+                    <label for="entries" class="ms-2">entries </label>
                 </form>
             </div>
 
@@ -491,12 +480,12 @@ if (!isset($_SESSION['admin'])) {
             <table class="table table-striped text-center table_patinet">
                 <thead>
                     <tr>
-                        <th scope="col">Doktori</th>
-                        <th scope="col">Departamenti</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Ne dizpozicion</th>
-                        <th scope="col">Kohezgjatja</th>
-                        <th scope="col">Aksioni</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Departament</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Available</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -508,8 +497,12 @@ if (!isset($_SESSION['admin'])) {
                             <td><?= $data['nga_ora'] . '-' . $data['deri_oren'] ?></td>
                             <td><?= $data['kohezgjatja'] . 'min' ?> </td>
                             <td class="text-center">
-                                <a class="text-decoration-none text-white" href="editOrari.php?id=<?= $data['id']  ?>"><button class="btn btn-primary w-25  p-1 text-white">Edit</button></a>
-                                <a class="text-decoration-none text-white" href="deleteOrarin.php?id=<?= $data['id']  ?>"><button class="btn btn-danger w-50 p-1 text-white">Delete</button></a>
+                                <a class="text-decoration-none text-white" href="editOrari.php?id=<?= $data['id']  ?>" title="Edit Schedule">
+                                    <button class="btn btn-primary p-1 text-white"><i class="fa-solid fa-user-pen"></i></button>
+                                </a>
+                                <a class="text-decoration-none text-white" href="deleteOrarin.php?id=<?= $data['id']  ?>" title="Delete Schedule">
+                                    <button class="btn btn-danger p-1 text-white"><i class="fa-solid fa-trash"></i></button>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -519,7 +512,7 @@ if (!isset($_SESSION['admin'])) {
 
         <?php if ($empty == 'empty') { ?>
             <article class=" d-flex justify-content-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Te dhenat nuk u gjenden ne databaze.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
             </article>
         <?php } else { ?>
             <nav aria-label="Page navigation example">

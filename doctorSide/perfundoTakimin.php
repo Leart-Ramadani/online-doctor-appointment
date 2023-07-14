@@ -25,7 +25,7 @@ $ora = $row['ora'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $_SESSION['doctor'] ?></title>
+    <title><?php echo $_SESSION['doctor'] ?> | Complete Appointment</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="icon" href="../photos/doctor.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -65,7 +65,7 @@ $ora = $row['ora'];
         $recepti = $_POST['recepti'];
 
         if (empty($_POST['diagnoza'])) {
-            $diagnoza_err = 'Diagnoza duhet plotesuar.';
+            $diagnoza_err = 'Diagnose must be filled.';
             $invalid_dianoz = 'is-invalid';
         } else {
             $diagnoza = $_POST['diagnoza'];
@@ -74,7 +74,7 @@ $ora = $row['ora'];
         }
 
         if (empty($_POST['recepti'])) {
-            $recepti_err = 'Recepti duhet plotesuar.';
+            $recepti_err = 'Prescription must be filled.';
             $invalid_recepti = 'is-invalid';
         } else {
             $recepti = $_POST['recepti'];
@@ -99,7 +99,7 @@ $ora = $row['ora'];
         $data = $row['data'];
         
         if (empty($_POST['diagnoza'])) {
-            $diagnoza_err = 'Diagnoza duhet plotesuar.';
+            $diagnoza_err = 'Diagnose must be filled.';
             $invalid_dianoz = 'is-invalid';
         } else {
             $diagnoza = $_POST['diagnoza'];
@@ -108,7 +108,7 @@ $ora = $row['ora'];
         }
 
         if (empty($_POST['recepti'])) {
-            $recepti_err = 'Recepti duhet plotesuar.';
+            $recepti_err = 'Prescription must be filled.';
             $invalid_recepti = 'is-invalid';
         } else {
             $recepti = $_POST['recepti'];
@@ -127,15 +127,15 @@ $ora = $row['ora'];
             <div>
                 <a href="terminet.php" class="goBack" title="Go back"><i class="fa-solid fa-arrow-left"></i></a>
                 <div class="h1_flex">
-                    <h1 class="appointment_h1 app_h1">Detajet e terminit</h1>
+                    <h1 class="appointment_h1 app_h1">Appointment details</h1>
                 </div>
             </div>
             <div>
-                <label>Pacienti:</label>
+                <label>Patient:</label>
                 <p class="appointment_p"><?= $row['pacienti'] ?></p>
             </div>
             <div>
-                <label>Numri personal:</label>
+                <label>Personal ID:</label>
                 <p class="appointment_p"><?= $row['numri_personal'] ?></p>
             </div>
             <div>
@@ -143,23 +143,23 @@ $ora = $row['ora'];
                 <p class="appointment_p"><?= $row['email_pacientit'] ?></p>
             </div>
             <div>
-                <label>Data:</label>
+                <label>Date:</label>
                 <p class="appointment_p"><?= $row['data'] ?></p>
             </div>
 
             <div>
-                <label>Ora:</label>
+                <label>Time:</label>
                 <p class="appointment_p"><?= $row['ora'] ?></p>
             </div>
 
 
             <form method="post" autocomplete="off">
-                <label for="komentiDoktorit" class="form-label fs-5">Diagnoza:</label>
+                <label for="komentiDoktorit" class="form-label fs-5">Diagnose:</label>
                 <div>
                     <textarea class="form-control <?= $invalid_dianoz ?? '' ?>" style="resize: none;" id="komentiDoktorit" rows="3" maxlength="250" name="diagnoza"><?= $diag; ?></textarea>
                 </div>
                 <span class="text-danger fw-normal mb-5"><?php echo $diagnoza_err; ?></span> <br>
-                <label for="recepti" class="form-label fs-5">Recepti:</label>
+                <label for="recepti" class="form-label fs-5">Prescription:</label>
                 <div>
                     <textarea class="form-control <?= $invalid_recepti ?? '' ?>" style="resize: none;" id="recepti" rows="4" maxlength="250" name="recepti"><?= $rec; ?></textarea>
                 </div>

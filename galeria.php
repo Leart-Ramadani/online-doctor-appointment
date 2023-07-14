@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galeria</title>
+    <title>Gallery</title>
    
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="shortcut icon" href="./photos/icon-hospital.png">
@@ -107,21 +107,21 @@ padding: 5px !important;
             <div class="collapse navbar-collapse" id="navbarsExample04">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a href="index.php" class="nav-link active pt-0 pb-0" style="border-right: 1px solid white" aria-current="page">Ballina</a>
+                        <a href="index.php" class="nav-link active pt-0 pb-0" style="border-right: 1px solid white" aria-current="page">Homepage</a>
                     </li>
                     <li class="nav-item">
-                        <a href="galeria.php" class="nav-link pt-0 pb-0" style="border-right:1px solid white;color:#ADE8FF">Galeria</a>
+                        <a href="galeria.php" class="nav-link pt-0 pb-0" style="border-right:1px solid white;color:#ADE8FF">Gallery</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./patientSide/rezervoTermin.php" class="nav-link text-white pt-0 pb-0" style="border-right: 1px solid white">Terminet</a>
+                        <a href="./patientSide/rezervoTermin.php" class="nav-link text-white pt-0 pb-0" style="border-right: 1px solid white">Appointments</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./patientSide/ankesat.php" class="nav-link text-white pt-0 pb-0">Ankesat</a>
+                        <a href="./patientSide/ankesat.php" class="nav-link text-white pt-0 pb-0">Complaints</a>
                     </li>
                 </ul>
             </div>
             <div class="loginBtn d-flex justify-content-center align-items-center">
-                <?php if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) { ?>
+                <?php if (!isset($_SESSION['fullName'])) { ?>
                     <a href="./patientSide/login.php"><button type="button" class="login btn btn-outline-light me-2"><i class="fa-solid fa-arrow-right-to-bracket pe-1"></i> Login</button></a>
                 <?php } else { ?>
                     <a href="./patientSide/logout.php"><button type="button" class="btn btn-outline-warning me-2"><i class="fa-solid fa-arrow-right-to-bracket pe-1"></i> Log out</button></a>
@@ -171,7 +171,7 @@ padding: 5px !important;
 
         ?>
         <article id="doctors_art">
-            <h1>Galeria</h1>
+            <h1>Gallery</h1>
             <hr>
 
             <section id="gallery">
@@ -227,10 +227,10 @@ padding: 5px !important;
 <div class="container">
     <footer class="pt-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Ballina</a></li>
-            <li class="nav-item"><a href="galeria.php" class="nav-link px-2 text-muted">Galeria</a></li>
-            <li class="nav-item"><a href="./patientSide/rezervoTermin.php" class="nav-link px-2 text-muted">Terminet</a></li>
-            <li class="nav-item"><a href="./patientSide/ankesat.php" class="nav-link px-2 text-muted">Ankesat</a></li>
+            <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Homepage</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link px-2 text-muted">Gallery</a></li>
+            <li class="nav-item"><a href="./patientSide/rezervoTermin.php" class="nav-link px-2 text-muted">Appointments</a></li>
+            <li class="nav-item"><a href="./patientSide/ankesat.php" class="nav-link px-2 text-muted">Complaints</a></li>
         </ul>
         <p class="text-center text-muted"> Copyright ©2023 All rights reserved | This website is made by <a href="https://www.linkedin.com/in/leart-ramadani-47981125a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVVrswlowTROepZqoqZDZkw%3D%3D">Leart Ramadani</a>.</p>
     </footer>

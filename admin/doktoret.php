@@ -5,7 +5,7 @@
     }
     ?>
  <?php include('header.php') ?>
- <title>Doktoret</title>
+ <title>Doctors</title>
  </head>
 
  <body>
@@ -20,15 +20,15 @@
          </p>
          <hr>
          <ul class="nav nav-pills flex-column mb-auto">
-             <li class="nav-item"><a href="doktoret.php" class="nav-link active" aria-current="page">Doktoret</a></li>
-             <li><a href="departamentet.php" class="nav-link text-white">Departamentet</a></li>
-             <li><a href="orari.php" class="nav-link text-white">Orari</a></li>
-             <li><a href="terminet.php" class="nav-link text-white">Terminet</a></li>
-             <li><a href="pacientat.php"" class=" nav-link text-white">Pacientat</a></li>
-             <li><a href="historiaTerminit.php" class="nav-link text-white">Historia termineve</a></li>
-             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Galeria</a></li>
-             <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Kerkesat per anulim</a></li>
+             <li class="nav-item"><a href="doktoret.php" class="nav-link active" aria-current="page">Doctors</a></li>
+             <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
+             <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
+             <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
+             <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
+             <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
+             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
+             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
          </ul>
          <hr>
          <div class="dropdown">
@@ -53,20 +53,20 @@
          <div class="back_wrapper"></div>
          <article class="popDocAdd rounded" id="popDocAdd">
              <div class="d-flex justify-content-between">
-                 <h3 class="text-center text-uppercase ms-3">Shto nje doktor</h3>
+                 <h3 class="text-center text-uppercase ms-3">Add a doctor</h3>
                  <button type="button" class="closePopAdd"><i class="fa-regular fa-circle-xmark"></i></button>
              </div>
              <div class="editForm_wrapper">
                  <form class="editForm addForm" autocomplete="off" method="POST" enctype="multipart/form-data">
                      <div class="d-flex">
                          <div class="form-floating">
-                             <input type="text" class="form-control name" id="floatingInput" name="fullName" placeholder="Emri i plote" value="">
-                             <label for="floatingInput">Emri i plote</label>
+                             <input type="text" class="form-control name" id="floatingInput" name="fullName" placeholder="Full name" value="">
+                             <label for="floatingInput">Full name</label>
                              <span class="text-danger fw-normal nameError"></span>
                          </div>
                          <div>
                              <select class="form-select departament" aria-label="Default select example" name="departament">
-                                 <option selected value="">Zgjidhni departamentin</option>
+                                 <option selected value="">Choose a departament</option>
                                  <?php foreach ($data as $data) : ?>
                                      <option value="<?= $data['name']; ?>"><?= $data['name']; ?></option>
                                  <?php endforeach; ?>
@@ -77,9 +77,9 @@
                      <div>
                          <div class="mb-1">
                              <select class="form-select gender" aria-label="Default select example" name="gender">
-                                 <option value="">Zgjedhni gjinin tuaj</option>
-                                 <option value="Mashkull">Mashkull</option>
-                                 <option value="Femer">Femer</option>
+                                 <option value="">Select your gender</option>
+                                 <option value="Mashkull">Male</option>
+                                 <option value="Femer">Female</option>
                              </select>
                              <span class="text-danger fw-normal genderError"></span>
                          </div>
@@ -94,14 +94,14 @@
                      <div class="d-flex">
 
                          <div class="mb-3">
-                             <label for="formFile" class="form-label ">Foto</label>
+                             <label for="formFile" class="form-label ">Photo</label>
                              <input class="form-control photo" type="file" name="my_image" id="formFile">
                              <span class="text-danger fw-normal photoError"></span>
                          </div>
 
                          <div class="form-floating mt-3">
                              <input type="tel" class="form-control phone" id="floatingInput" name="phone" placeholder="Numri i telefonit" value="">
-                             <label for="floatingInput">Numri i telefonit</label>
+                             <label for="floatingInput">Phone number</label>
                              <span class="text-danger fw-normal phoneError"></span>
                          </div>
                      </div>
@@ -115,12 +115,12 @@
                          </div>
 
                          <div class="form-floating">
-                             <input type="password" class="form-control password" id="floatingPassword" name="password" placeholder="Fjalkalimi">
-                             <label for="floatingPassword">Fjalkalimi</label>
+                             <input type="password" class="form-control password" id="floatingPassword" name="password" placeholder="Password">
+                             <label for="floatingPassword">Password</label>
                              <span class="text-danger fw-normal passwordError"></span>
                          </div>
                      </div>
-                     <button class="w-100 btn btn-lg btn-primary mt-1 register" type="button" name="register">Shto</button>
+                     <button class="w-100 btn btn-lg btn-primary mt-1 register" type="button" name="register">Add</button>
                  </form>
              </div>
          </article>
@@ -214,14 +214,14 @@
              <div>
                  <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="doktoret.php">
                      <input type="hidden" name="page" value="<?= $currentPage ?>">
-                     <label for="entries" class="me-2">Shfaq</label>
+                     <label for="entries" class="me-2">Show</label>
                      <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
                          <option value="25" <?= $entry25 ?? '' ?>>25</option>
                          <option value="50" <?= $entry50 ?? '' ?>>50</option>
                          <option value="75" <?= $entry75 ?? '' ?>>75</option>
                          <option value="100" <?= $entry100 ?? '' ?>>100</option>
                      </select>
-                     <label for="entries" class="ms-2">rreshta</label>
+                     <label for="entries" class="ms-2">entries</label>
                  </form>
              </div>
 
@@ -241,7 +241,7 @@
                      <input type="hidden" name="page" value="<?= $currentPage ?>">
                      <div class="d-flex mb-1">
                          <div class="input-group mb-3">
-                             <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                             <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
                              <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                          </div>
                          <section class="bg-primary ms-2 addDoc" type="button" title="Add Doctor">+</section>
@@ -254,10 +254,10 @@
                  <thead>
                      <tr>
                          <th scope="col" style="display: none;">ID</th>
-                         <th scope="col">Doktori</th>
-                         <th scope="col">Departamenti</th>
+                         <th scope="col">Doctor</th>
+                         <th scope="col">Departament</th>
                          <th scope="col">Username</th>
-                         <th scope="col">Aksioni</th>
+                         <th scope="col">Action</th>
                      </tr>
                  </thead>
                  <tbody>
@@ -268,8 +268,8 @@
                              <td><?= $data['dep_name'] ?></td>
                              <td><?= $data['username'] ?></td>
                              <td>
-                                 <a class="text-decoration-none text-white showPop">
-                                     <button class="btn btn-primary text-white" id="showPop">Shiko</button>
+                                 <a class="text-decoration-none text-white showPop" title="View Info">
+                                     <button class="btn btn-primary text-white" id="showPop"><i class="fa-regular fa-eye"></i></button>
                                  </a>
                              </td>
                          </tr>
@@ -280,7 +280,7 @@
          <?php endif; ?>
          <?php if ($empty == 'empty') { ?>
              <article class=" d-flex justify-content-center mt-5">
-                 <h1 class=" h1 fw-normal text-center mt-5">Te dhenat nuk u gjenden ne databaze.</h1>
+                 <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
              </article>
          <?php } else { ?>
              <nav aria-label="Page navigation example">
