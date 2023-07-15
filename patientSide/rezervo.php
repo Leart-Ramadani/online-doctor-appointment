@@ -79,7 +79,7 @@ $data = $stm->fetch();
             $appPrep->execute();
             $appData = $appPrep->fetch();
             if($appData){
-                $appointments .= "<button class='btn btn-danger disabled' style='width: 80px;' value='{$time}' onclick='getValue(this)'>{$time}</button>";
+                $appointments .= "<button class='btn btn-danger' style='width: 80px;' title='This appointment is booked'>{$time}</button>";
             } else{
                 $appointments .= "<button class='btn btn-primary' style='width: 80px;' value='{$time}' onclick='getValue(this)'>{$time}</button>";
             }
@@ -166,7 +166,6 @@ $data = $stm->fetch();
             $terminet_prep->bindParam(':ora', $time);
 
             if ($terminet_prep->execute()) {
-                
                 $mail = new PHPMailer(true);
 
                 try {
@@ -204,7 +203,7 @@ $data = $stm->fetch();
                     $mail->send();
 
                     unset($_SESSION['id_ofApp']);
-                    echo "Appointment booked";
+                    echo "Appointment booked";  
                 } catch (Exception $e) {
                     echo  "Problems with server or internet";
                 }

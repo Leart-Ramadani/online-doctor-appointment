@@ -279,7 +279,7 @@ if (isset($_POST['anulo'])) {
                             <td><?= $data['ora'] ?></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white anuloPop" title="Cancel Appointment">
-                                    <button class="btn btn-warning p-1 text-white rez"><i class="fa-solid fa-calendar-xmark me-1"></i><span>Cancel</span></button>
+                                    <button class="btn btn-warning p-1 text-white rez"><i class="fa-solid fa-calendar-xmark"></i></button>
                                 </a>
                             </td>
                         </tr>

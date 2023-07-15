@@ -109,9 +109,9 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         $depPrep->bindParam(':nameDep', $keyword);
         $depPrep->execute();
         $depFetch = $depPrep->fetch();
-        if($depFetch){
+        if ($depFetch) {
             $dep = $depFetch['id'];
-        } else{
+        } else {
             $dep = '';
         }
 
@@ -169,20 +169,20 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
             </script>
 
 
-            
-                <div class="w-50 ms-2 me-1">
-                    <form method="get" action="rezervoTermin.php">
-                        <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="page" value="<?= $currentPage ?>">
-                        <div class="d-flex mb-1">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
-                                <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                            </div>
+
+            <div class="w-50 ms-2 me-1">
+                <form method="get" action="rezervoTermin.php">
+                    <input type="hidden" name="entries" value="<?= $entries ?>">
+                    <input type="hidden" name="page" value="<?= $currentPage ?>">
+                    <div class="d-flex mb-1">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                            <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
+        </div>
 
         <?php if ($empty == '') : ?>
             <table class="table table-striped text-center table_patient">
@@ -192,8 +192,6 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                         <th scope="col">Doctor</th>
                         <th scope="col">Departament</th>
                         <th scope="col">Date</th>
-                        <th scope="col">Available</th>
-                        <th scope="col">Duration</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -204,8 +202,6 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                             <td><?= $data['doktori'] ?></td>
                             <td><?= $data['dep_name'] ?></td>
                             <td><?= $data['data']; ?></td>
-                            <td><?= $data['nga_ora'] . '-' . $data['deri_oren'] ?></td>
-                            <td><?= $data['kohezgjatja'] . 'min'  ?></td>
                             <td class="text-center">
                                 <!-- href="rezervo.php?id=<?= $data['id'] ?>" -->
                                 <a class="text-decoration-none text-white popUpWindow" title="Book Appointment">
@@ -226,7 +222,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         <?php } else { ?>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                 <?php
+                    <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
 
                     $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
@@ -254,7 +250,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                     if ($currentPage < $totalPages) {
                         $nextPage = $currentPage + 1;
                         echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
-                    } else{
+                    } else {
                         echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
                     }
                     ?>
@@ -285,45 +281,68 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                 <i class="fa-solid fa-close rezervoClose"></i>
             </button>
         </div>
-        
+
         <h4 class="det_pac_h4">Appointment Details</h4>
-        
-        <div class="emri_pac doc_pac"> 
+
+        <div class="emri_pac doc_pac">
 
         </div>
 
-  
+
         <div class="d-flex justify-content-end me-3 mt-1">
             <button type="submit" class="btn btn-primary disabled bookApp"><i class="fa-solid fa-calendar-plus"></i> Book</button>
         </div>
     </div>
     <script>
         const bookApp = document.querySelector('.bookApp');
+        const pop = document.querySelector('.popUp');
         const getValue = button => {
             let selectedTime = button.value;
             document.querySelector('.appTime').innerHTML = selectedTime;
             document.querySelector('.bookApp').classList.remove('disabled');
 
             const bookAppointment = () => {
+                pop.style.width = '400px';
+                pop.style.height = '270px';
+                pop.classList.add('d-flex');
+                pop.classList.add('justify-content-center');
+                pop.classList.add('flex-column');
+
+                pop.innerHTML = "<h3 class='text-center'>Please wait...</h3> <div class='loader'></div>";
                 $.ajax({
                     url: 'rezervo.php',
                     type: 'POST',
-                    data:{
+                    data: {
                         rezervo: true,
                         time: selectedTime
                     },
                     success: function(response) {
-                        console.log(response);
-                        if(response.includes('Appointment exists')){
-                            window.location.replace('rezervoTermin.php')
-                            alert('You have an appointment booked at this date.');
-                        } else if(response.includes('Appointment booked')){
-                            window.location.replace('terminet_e_mia.php');
-                            alert("Appointment has been successfully booked. Check your email for the details!");
-                        } else if(response.includes('Problems with server or internet')){
-                            window.location.replace('rezervoTermin.php');
-                            alert(" Appointment booking has failed. Problems with server or internet.");
+                        if (response.includes('Appointment exists')) {
+                            pop.style.width = '400px';
+                            pop.style.height = '270px';
+                            pop.classList.add('d-flex');
+                            pop.classList.add('align-items-center');
+
+                            pop.innerHTML = "<h3 class='text-center'>You have an appointment booked in this date.</h3>";
+                            setTimeout(() => {
+                                window.location.replace('rezervoTermin.php');
+                            }, 1800);
+                        } else if (response.includes('Appointment booked')) {
+                            pop.innerHTML = "<h3 class='text-center'>Your appointment has been successfully booked!<h3>";
+                            setTimeout(() => {
+                                window.location.replace('rezervoTermin.php');
+                            }, 1800);
+
+                        } else if (response.includes('Problems with server or internet')) {
+
+                            pop.innerHTML = "<h3 class='text-center'>Appointment booking has failed. Problems with server or internet.</h3>";
+                            setTimeout(() => {
+                                window.location.replace('rezervoTermin.php');
+                            }, 1800);
+
                         }
+
+
                     }
                 });
             }
@@ -332,31 +351,31 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
         }
     </script>
-     
+
     <script>
-            $(document).ready(function() {
-                $('.popUpWindow').click(function(e) {
-                    e.preventDefault();
+        $(document).ready(function() {
+            $('.popUpWindow').click(function(e) {
+                e.preventDefault();
 
-                    let id = $(this).closest('tr').find('.id').text();
+                let id = $(this).closest('tr').find('.id').text();
 
-                    $.ajax({
-                        type: "POST",
-                        url: "rezervo.php",
-                        data: {
-                            'checking_viewbtn': true,
-                            'id': id,
-                        },
-                        success: function(response) {
-                            $('.doc_pac').html(response);
-                        }
+                $.ajax({
+                    type: "POST",
+                    url: "rezervo.php",
+                    data: {
+                        'checking_viewbtn': true,
+                        'id': id,
+                    },
+                    success: function(response) {
+                        $('.doc_pac').html(response);
+                    }
 
-                    })
+                })
 
 
-                });
             });
-        </script>
+        });
+    </script>
 
 </body>
 
