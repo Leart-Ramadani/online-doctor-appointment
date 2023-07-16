@@ -79,9 +79,9 @@ $data = $stm->fetch();
             $appPrep->execute();
             $appData = $appPrep->fetch();
             if($appData){
-                $appointments .= "<button class='btn btn-danger' style='width: 80px;' title='This appointment is booked'>{$time}</button>";
+                $appointments .= "<button class='btn btn-danger' style='width: 80px;' value='{$time}' onclick='waitList(this.value)' data-bs-toggle='modal' data-bs-target='#staticBackdrop' title='This appointment is booked'>{$time}</button>";
             } else{
-                $appointments .= "<button class='btn btn-primary' style='width: 80px;' value='{$time}' onclick='getValue(this)'>{$time}</button>";
+                $appointments .= "<button class='btn btn-primary' style='width: 80px;' value='{$time}' onclick='getValue(this.value)'>{$time}</button>";
             }
 
         }

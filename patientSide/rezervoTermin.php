@@ -134,6 +134,8 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
         $data = $prep->fetchAll(PDO::FETCH_ASSOC);
+
+
     }
 
 
@@ -184,6 +186,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
             </div>
         </div>
 
+
         <?php if ($empty == '') : ?>
             <table class="table table-striped text-center table_patient">
                 <thead>
@@ -196,12 +199,15 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) : ?>
+                    <?php foreach ($data as $data) {        
+                        $date = date_create($data['data']);
+                        $date = date_format($date, "l, M d, Y");
+                    ?>
                         <tr>
                             <td class="id" style="display: none;"><?= $data['id'] ?></td>
                             <td><?= $data['doktori'] ?></td>
                             <td><?= $data['dep_name'] ?></td>
-                            <td><?= $data['data']; ?></td>
+                            <td><?php echo $date; ?></td>
                             <td class="text-center">
                                 <!-- href="rezervo.php?id=<?= $data['id'] ?>" -->
                                 <a class="text-decoration-none text-white popUpWindow" title="Book Appointment">
@@ -209,7 +215,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                                 </a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         <?php endif; ?>
@@ -289,15 +295,53 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         </div>
 
 
-        <div class="d-flex justify-content-end me-3 mt-1">
+        <div class="d-flex justify-content-between align-items-center me-3 mt-1">
+            <div class="d-flex align-items-center">
+                <div class="bg-danger ms-1" style="height:15px; width: 15px;"></div> <label class="ms-1" style="font-size: 14px;"> - Booked</label>
+                <div class="bg-primary ms-2" style="height:15px; width: 15px;"></div><label class="ms-1" style="font-size: 14px;"> - Free to book</label>
+            </div>
             <button type="submit" class="btn btn-primary disabled bookApp"><i class="fa-solid fa-calendar-plus"></i> Book</button>
         </div>
     </div>
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Join waiting list</h5>
+            <button type="button" class="btn-close closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body waitBody">
+            <p>Unfortunately, this appointment is already booked. However, you have the option to join the waiting list. 
+                In the event that this appointment is canceled, it will be automatically booked for you. </p>
+            <p>Note: The waiting list operates on a first-come, first-served basis, meaning that the order of 
+                joining determines priority for future available appointments.</p>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+            <p>Waiting list: 50 people</p>
+            <div>
+                <button type="button" class="btn btn-secondary closeModal1" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary joinBtn">Join</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+
     <script>
         const bookApp = document.querySelector('.bookApp');
         const pop = document.querySelector('.popUp');
+
         const getValue = button => {
-            let selectedTime = button.value;
+            let selectedTime = button;
             document.querySelector('.appTime').innerHTML = selectedTime;
             document.querySelector('.bookApp').classList.remove('disabled');
 
@@ -326,19 +370,19 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                             pop.innerHTML = "<h3 class='text-center'>You have an appointment booked in this date.</h3>";
                             setTimeout(() => {
                                 window.location.replace('rezervoTermin.php');
-                            }, 1800);
+                            }, 1500);
                         } else if (response.includes('Appointment booked')) {
                             pop.innerHTML = "<h3 class='text-center'>Your appointment has been successfully booked!<h3>";
                             setTimeout(() => {
                                 window.location.replace('rezervoTermin.php');
-                            }, 1800);
+                            }, 1500);
 
                         } else if (response.includes('Problems with server or internet')) {
 
                             pop.innerHTML = "<h3 class='text-center'>Appointment booking has failed. Problems with server or internet.</h3>";
                             setTimeout(() => {
                                 window.location.replace('rezervoTermin.php');
-                            }, 1800);
+                            }, 1500);
 
                         }
 
@@ -346,10 +390,58 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                     }
                 });
             }
-
             bookApp.addEventListener('click', bookAppointment);
+        }
+
+        const waitList = button => {
+            let time = button;
+            const joinBtn = document.querySelector('.joinBtn');
+            const waitBody = document.querySelector('.waitBody');
+
+            const joinWaitList = () => {
+                joinBtn.disabled = 'true';
+                document.querySelector('.closeModal').disabled = 'true';
+                document.querySelector('.closeModal1').disabled = 'true';
+                joinBtn.innerHTML = "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading...";
+
+                $.ajax({
+                    url: 'waitingList.php',
+                    type: 'POST',
+                    data: {
+                        time: time
+                    },
+                    success: function(response) {   
+                        console.log(response);
+                        if(response.includes('Success')){
+                            joinBtn.innerHTML = "Joined";
+                            waitBody.innerHTML = "Congratulations! You have successfully joined the waiting list. In the event of a cancellation,"
+                            + "if luck is on your side, the appointment confirmation will be promptly sent to your email.";
+                            setTimeout(() => {
+                                window.location.replace('rezervoTermin.php');
+                            }, 5000);
+                        } else if(response.includes('Exists')){
+                            joinBtn.innerHTML = "Failed";
+                            waitBody.innerHTML = "You have already joined the waiting list.";
+                            setTimeout(() => {
+                                window.location.replace('rezervoTermin.php');
+                            }, 3000);
+                        } else if(response.includes('Error')){
+                            joinBtn.innerHTML = "Failed";
+                            waitBody.innerHTML = "Something went wrong.";
+                            setTimeout(() => {
+                                window.location.replace('rezervoTermin.php');
+                            }, 3000);
+                        }
+                    }
+                });
+            }
+
+            joinBtn.addEventListener('click', joinWaitList);
 
         }
+
+
+
     </script>
 
     <script>

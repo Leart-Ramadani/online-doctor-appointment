@@ -270,20 +270,23 @@ if (isset($_POST['anulo'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) : ?>
+                    <?php foreach ($data as $data) {    
+                        $date = date_create($data['data']);
+                        $date = date_format($date, "l, M d, Y");
+                    ?>
                         <tr>
                             <td class="idAnulo" style="display: none;"><?= $data['id'] ?></td>
                             <td><?= $data['doktori'] ?></td>
                             <td><?= $data['dep_name'] ?></td>
                             <td><?= $data['data'] ?></td>
-                            <td><?= $data['ora'] ?></td>
+                            <td><?php echo $date; ?></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white anuloPop" title="Cancel Appointment">
                                     <button class="btn btn-warning p-1 text-white rez"><i class="fa-solid fa-calendar-xmark"></i></button>
                                 </a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         <?php endif; ?>

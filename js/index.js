@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
 
     $('.popUpWindow').click(function () {
