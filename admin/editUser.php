@@ -1,15 +1,15 @@
 <?php
 include('../config.php');
 $id = $_GET['id'];
-$edit_sql = "SELECT * FROM doctor_personal_info WHERE id=:id";
+$edit_sql = "SELECT * FROM users WHERE userType=2 AND id=:id";
 $edit_prep = $con->prepare($edit_sql);
 $edit_prep->bindParam(':id', $id);
 $edit_prep->execute();
 $editData = $edit_prep->fetch();
 
-if ($editData['gjinia'] == 'Mashkull') {
+if ($editData['gender'] == 'Mashkull') {
     $maleGender = 'checked';
-} else if ($editData['gjinia'] == 'Femer') {
+} else if ($editData['gender'] == 'Femer') {
     $femGender = 'checked';
 }
 
@@ -160,16 +160,16 @@ $depData = $dep_prep->fetchAll();
 
 
 
-                $sql = "UPDATE doctor_personal_info SET fullName=:fullName, departamenti=:departamenti, gjinia=:gjinia, email=:email, 
-                    foto=:foto, telefoni=:telefoni, username=:username, password=:password WHERE id=:id";
+                $sql = "UPDATE users SET fullName=:fullName, departament=:departament, gender=:gender, email=:email, 
+                    photo=:photo, phone=:phone, username=:username, password=:password WHERE id=:id AND userType=2";
                 $stm = $con->prepare($sql);
                 $stm->bindParam(':id', $id);
                 $stm->bindParam(':fullName', $fullName);
-                $stm->bindParam(':departamenti', $departamenti);
-                $stm->bindParam(':gjinia', $gjinia);
+                $stm->bindParam(':departament', $departamenti);
+                $stm->bindParam(':gender', $gjinia);
                 $stm->bindParam(':email', $email);
-                $stm->bindParam(':foto', $new_img_name);
-                $stm->bindParam(':telefoni', $tel);
+                $stm->bindParam(':photo', $new_img_name);
+                $stm->bindParam(':phone', $tel);
                 $stm->bindParam(':username', $username);
                 $stm->bindParam(':password', $encPass);
                 if ($stm->execute()) {
@@ -195,9 +195,9 @@ $depData = $dep_prep->fetchAll();
                         </div>
                         <div>
                             <select class="form-select <?= $invalid_dep ?? "" ?> " aria-label="Default select example" name="departament">
-                                <option selected value="<?= $editData['departamenti']; ?>"><?= $editData['departamenti']; ?></option>
+                                <option selected value="<?= $editData['departament']; ?>"><?= $editData['departament']; ?></option>
                                 <?php foreach ($depData as $depData) : ?>
-                                    <option value="<?= $depData['departamenti']; ?>"><?= $depData['departamenti']; ?></option>
+                                    <option value="<?= $depData['name']; ?>"><?= $depData['name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <span class="text-danger fw-normal"><?php echo $departamentErr; ?></span>
@@ -235,7 +235,7 @@ $depData = $dep_prep->fetchAll();
                         </div>
 
                         <div class="form-floating mt-3">
-                            <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Numri i telefonit" value="<?= $editData['telefoni']; ?>">
+                            <input type="tel" class="form-control <?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Numri i telefonit" value="<?= $editData['phone']; ?>">
                             <label for="floatingInput">Numri i telefonit</label>
                             <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
                         </div>

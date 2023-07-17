@@ -71,15 +71,27 @@ $data = $stm->fetch();
 
         $appointments = '';
         foreach ($result as $time) {
-            $checkApp = "SELECT * FROM terminet WHERE statusi='Booked' AND doktori=:doktori AND data=:data AND ora=:ora";
+            $checkApp = "SELECT * FROM terminet WHERE (statusi='Booked' OR statusi='In progres') AND doktori=:doktori AND data=:data AND ora=:ora";
             $appPrep = $con->prepare($checkApp);
             $appPrep->bindParam(':doktori', $row['doktori']);
             $appPrep->bindParam(':data', $row['data']);
             $appPrep->bindParam(':ora', $time);
             $appPrep->execute();
             $appData = $appPrep->fetch();
+
+
+            $com = "SELECT * FROM terminet WHERE statusi='Completed' AND doktori=:doktori AND data=:data AND ora=:ora";
+            $com_prep = $con->prepare($com);
+            $com_prep->bindParam(':doktori', $row['doktori']);
+            $com_prep->bindParam(':data', $row['data']);
+            $com_prep->bindParam(':ora', $time);
+            $com_prep->execute();
+            $comData = $com_prep->fetch();
+
             if($appData){
                 $appointments .= "<button class='btn btn-danger' style='width: 80px;' value='{$time}' onclick='waitList(this.value)' data-bs-toggle='modal' data-bs-target='#staticBackdrop' title='This appointment is booked'>{$time}</button>";
+            } else if($comData) {
+                $appointments .= "<button class='btn btn-primary disabled' style='width: 80px;' title='This appointment is completed'>{$time}</button>";
             } else{
                 $appointments .= "<button class='btn btn-primary' style='width: 80px;' value='{$time}' onclick='getValue(this.value)'>{$time}</button>";
             }
@@ -97,7 +109,7 @@ $data = $stm->fetch();
             <hr>
             <p>Time: <span class='appTime'></span></p>
             <hr>
-            <div class='d-flex flex-wrap justify-content-center gap-2 pt-2 pb-2' style='height: 200px; overflow-y: scroll;'>" . $appointments . "</div>";
+            <div class='d-flex flex-wrap gap-2 pt-2 pb-2' style='height: 200px; overflow-y: scroll; padding-inline: 23px;'>" . $appointments . "</div>";
     }
 
 
@@ -142,7 +154,7 @@ $data = $stm->fetch();
         }
 
 
-        $check_sql = "SELECT * FROM terminet WHERE doktori=:doktori AND numri_personal=:numri_personal AND data=:data";
+        $check_sql = "SELECT * FROM terminet WHERE doktori=:doktori AND numri_personal=:numri_personal AND data=:data AND NOT statusi='Completed'";
         $check_prep = $con->prepare($check_sql);
         $check_prep->bindParam(':doktori', $doktori);
         $check_prep->bindParam(':numri_personal', $numri_personal);
@@ -189,7 +201,7 @@ $data = $stm->fetch();
 
 
                     $mail->Subject = 'Appointment Details';
-                    $mail->Body    =   "<p style='font-size: 16px; color: black;'>
+                    $mail->Body    =   "<p>
                                             $gjinia{$pacienti},
                                             <br> <br>
                                             Your appointment in date:$data, on time:$time, 

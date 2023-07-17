@@ -1,6 +1,6 @@
 <?php
 include('../config.php');
-if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
+if (!isset($_SESSION['fullName'])) {
     header("Location: login.php");
 }
 ?>
@@ -36,15 +36,15 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
     <div class="flex-shrink-0 p-3 text-white bg-dark sidebar">
         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
         <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <span class=" sess_admin"><?php echo $_SESSION['emri'] . ' ' . $_SESSION['mbiemri'] ?></span>
+            <span class=" sess_admin"><?php echo $_SESSION['fullName'] ?></span>
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a href="../index.php" class="nav-link text-white">Ballina</a></li>
-            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Terminet</a></li>
-            <li><a href="terminet_e_mia.php" class="nav-link text-white">Terminet e mia</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white">Ankesat</a></li>
-            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Historia e termineve</a></li>
+            <li><a href="../index.php" class="nav-link text-white">Homepage</a></li>
+            <li class="nav-item"><a href="rezervoTermin.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="terminet_e_mia.php" class="nav-link text-white">My appointments</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+            <li><a href="historiaTermineve(pacientit).php" class="nav-link text-white">Appointments history</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -206,7 +206,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
 
                 $PassErr = '';
 
-                $check_pass = "SELECT password FROM users WHERE numri_personal=:numri_personal";
+                $check_pass = "SELECT password FROM users WHERE userType=1 AND personal_id=:numri_personal";
                 $check_pass_prep = $con->prepare($check_pass);
                 $check_pass_prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
                 $check_pass_prep->execute();
@@ -237,9 +237,9 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
                 $birthdayErr == '' && $adressErr == '' && $usernameErr == '' && $PassErr == '' && $newPass_err == '' && $confirmPass_err == ''
             ) {
 
-                $sql = "UPDATE users  SET emri=:emri, mbiemri=:mbiemri, numri_personal=:numri_personal, gjinia=:gjinia, email=:email, 
-                    telefoni=:telefoni, ditlindja=:ditlindja, adresa=:adresa, username=:username, password=:password 
-                    WHERE numri_personal=:data_numri_personal";
+                $sql = "UPDATE users  SET fullName=:mbiemri, personal_id=:numri_personal, gender=:gjinia, email=:email, 
+                    phone=:telefoni, birthday=:ditlindja, adress=:adresa, username=:username, password=:password 
+                    WHERE personal_id=:data_numri_personal AND userType=1";
                 $prep = $con->prepare($sql);
                 $prep->bindParam(':data_numri_personal', $_SESSION['numri_personal']);
                 $prep->bindParam(':emri', $emri);
@@ -268,7 +268,7 @@ if (!isset($_SESSION['emri']) && !isset($_SESSION['mbiemri'])) {
             <h1 class="h3 mb-3 fw-normal">Perditeso llogarine</h1>
             <?php
 
-            $sql = "SELECT * FROM users WHERE numri_personal=:numri_personal";
+            $sql = "SELECT * FROM users WHERE personal_id=:numri_personal AND userType=1    ";
             $prep = $con->prepare($sql);
             $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
             $prep->execute();

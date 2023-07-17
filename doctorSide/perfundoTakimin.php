@@ -87,8 +87,12 @@ $ora = $row['ora'];
             $ins_prep = $con->prepare($ins_sql);
             $ins_prep->bindParam(':diagnoza', $diagnoza);
             $ins_prep->bindParam(':recepti', $recepti);
-            
-            if ($ins_prep->execute()) {
+            $ins_prep->execute();
+
+            $delWait = "DELETE FROM waiting_list WHERE apointment_id='$id'";
+            $del_prep = $con->prepare($delWait);
+
+            if ($del_prep->execute()) {
                 header("Location: terminet.php");
             }
         }

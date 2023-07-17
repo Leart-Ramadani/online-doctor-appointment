@@ -180,7 +180,7 @@ if (isset($_POST['anulo'])) {
         $sort = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, d.name AS 'dep_name' 
             FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id
             WHERE numri_personal=:numri_personal AND NOT statusi='completed'  AND (doktori=:keyword OR d.id='$dep' OR data=:keyword OR ora=:keyword) 
-            LIMIT :startIndex, $entries";
+            ORDER BY Date(t.data) LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -200,9 +200,9 @@ if (isset($_POST['anulo'])) {
         $pacienti = $pacienti_fetch['fullName'];
 
 
-        $sql = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, d.name AS 'dep_name' 
+        $sql = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, t.statusi, d.name AS 'dep_name' 
             FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id
-            WHERE numri_personal=:numri_personal AND NOT statusi='completed' LIMIT :startIndex, $entries";
+            WHERE t.numri_personal=:numri_personal AND NOT t.statusi='completed' ORDER BY Date(t.data) LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
@@ -266,6 +266,7 @@ if (isset($_POST['anulo'])) {
                         <th scope="col">Departament</th>
                         <th scope="col">Date</th>
                         <th scope="col">Time</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -273,16 +274,25 @@ if (isset($_POST['anulo'])) {
                     <?php foreach ($data as $data) {    
                         $date = date_create($data['data']);
                         $date = date_format($date, "l, M d, Y");
+
+                        if($data['statusi'] == 'Booked'){
+                            $statusColor = 'btn btn-success rounded p-1';
+                        } else if($data['statusi'] == 'Canceled'){
+                            $statusColor = 'btn btn-danger rounded p-1';
+                        } else if($data['statusi'] == 'In progres'){
+                            $statusColor = 'btn btn-warning text-white rounded p-1';
+                        }
                     ?>
                         <tr>
                             <td class="idAnulo" style="display: none;"><?= $data['id'] ?></td>
                             <td><?= $data['doktori'] ?></td>
                             <td><?= $data['dep_name'] ?></td>
-                            <td><?= $data['data'] ?></td>
                             <td><?php echo $date; ?></td>
+                            <td><?= $data['ora'] ?></td>
+                            <td><span class="<?= $statusColor ?>"><?= $data['statusi']; ?></span></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white anuloPop" title="Cancel Appointment">
-                                    <button class="btn btn-warning p-1 text-white rez"><i class="fa-solid fa-calendar-xmark"></i></button>
+                                    <button class="btn btn-warning ps-2 pe-2 text-white rez"><i class="fa-solid fa-calendar-xmark"></i></button>
                                 </a>
                             </td>
                         </tr>

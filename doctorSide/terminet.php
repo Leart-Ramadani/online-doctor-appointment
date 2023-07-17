@@ -160,7 +160,7 @@ if (!isset($_SESSION['doctor'])) {
             </div>
         </div>
         <?php if ($empty == '') : ?>
-            <table class="table table-striped mt-2">
+            <table class="table table-striped mt-2 text-center">
                 <thead>
                     <tr>
                         <th scope="col">Patient</th>
@@ -173,21 +173,29 @@ if (!isset($_SESSION['doctor'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) : ?>
+                    <?php foreach ($data as $data) { 
+                        if($data['statusi'] == 'Booked'){
+                            $statusColor = 'btn btn-success rounded p-1';
+                        } else if($data['statusi'] == 'Canceled'){
+                            $statusColor = 'btn btn-danger rounded p-1';
+                        } else if($data['statusi'] == 'In progres'){
+                            $statusColor = 'btn btn-warning text-white rounded p-1';
+                        }
+                    ?>
                         <tr>
                             <td><?= $data['pacienti']  ?></td>
                             <td><?= $data['numri_personal'] ?></td>
                             <td><?= $data['email_pacientit'] ?></td>
                             <td><?= $data['data'] ?></td>
                             <td><?= $data['ora'] ?> </td>
-                            <td><?= $data['statusi'] ?> </td>
+                            <td><span class="<?= $statusColor ?>"><?= $data['statusi'] ?></span></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white" href="perfundoTakimin.php?id=<?= $data['id'] ?>" title="Complete appointment">
-                                    <button class="btn btn-success p-1 text-white"><i class="fa-solid fa-calendar-check"></i></button>
+                                    <button class="btn btn-success ps-2 pe-2 text-white"><i class="fa-solid fa-calendar-check"></i></button>
                                 </a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         <?php endif; ?>

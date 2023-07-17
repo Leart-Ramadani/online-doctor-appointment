@@ -4,6 +4,8 @@ include('../config.php');
 if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
     header("Location: login.php");
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,7 +119,8 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
 
         $sort = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
-        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id  WHERE doktori=:keyword OR d.id='$dep' OR data=:keyword LIMIT :startIndex, $entries";
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id  WHERE doktori=:keyword OR d.id='$dep' OR data=:keyword 
+        ORDER BY Date(o.data) LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -129,7 +132,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         $searchedQuery = $keyword;
     } else {
         $sql = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
-        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id  LIMIT :startIndex, $entries";
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id  ORDER BY Date(o.data) LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
@@ -296,9 +299,16 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
 
         <div class="d-flex justify-content-between align-items-center me-3 mt-1">
-            <div class="d-flex align-items-center">
-                <div class="bg-danger ms-1" style="height:15px; width: 15px;"></div> <label class="ms-1" style="font-size: 14px;"> - Booked</label>
-                <div class="bg-primary ms-2" style="height:15px; width: 15px;"></div><label class="ms-1" style="font-size: 14px;"> - Free to book</label>
+            <div class="d-flex flex-column justify-content-center">
+                <div class="d-flex align-items-center">
+                    <div class="bg-danger ms-1" style="height:15px; width: 15px;"></div> <label class="ms-1" style="font-size: 14px;"> - Booked</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="bg-primary ms-1" style="height:15px; width: 15px;"></div><label class="ms-1" style="font-size: 14px;"> - Free to book</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="ms-1" style="height:15px; width: 15px; background: rgb(97,161,254);"></div><label class="ms-1" style="font-size: 14px;"> - Completed</label>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary disabled bookApp"><i class="fa-solid fa-calendar-plus"></i> Book</button>
         </div>
@@ -322,7 +332,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                 joining determines priority for future available appointments.</p>
         </div>
         <div class="modal-footer d-flex justify-content-between">
-            <p>Waiting list: 50 people</p>
+            <p>Waiting list: <span class="waitingList"></span></p>
             <div>
                 <button type="button" class="btn btn-secondary closeModal1" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary joinBtn">Join</button>
@@ -397,37 +407,68 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
             let time = button;
             const joinBtn = document.querySelector('.joinBtn');
             const waitBody = document.querySelector('.waitBody');
+            const closeModal = document.querySelector('.closeModal');
+            const closeModal1 = document.querySelector('.closeModal1');
+            const waitingList = document.querySelector('.waitingList');
+            
+            $.ajax({
+                url: 'waitingList.php',
+                type: 'POST',
+                data: {
+                    count: true,
+                    time: time
+                },
+                success: response => {
+                    waitingList.innerHTML = response;
+                }
+            });
 
             const joinWaitList = () => {
                 joinBtn.disabled = 'true';
-                document.querySelector('.closeModal').disabled = 'true';
-                document.querySelector('.closeModal1').disabled = 'true';
+                closeModal.classList.add('disabled');
+                closeModal1.classList.add('disabled');
                 joinBtn.innerHTML = "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading...";
 
                 $.ajax({
                     url: 'waitingList.php',
                     type: 'POST',
                     data: {
+                        waitList: true,
                         time: time
                     },
                     success: function(response) {   
                         console.log(response);
                         if(response.includes('Success')){
+                            closeModal.classList.remove('disabled');
+                            closeModal1.classList.remove('disabled');
                             joinBtn.innerHTML = "Joined";
                             waitBody.innerHTML = "Congratulations! You have successfully joined the waiting list. In the event of a cancellation,"
                             + "if luck is on your side, the appointment confirmation will be promptly sent to your email.";
+                            closeModal.onclick = () => {
+                                window.location.replace('rezervoTermin.php');
+                            }
                             setTimeout(() => {
                                 window.location.replace('rezervoTermin.php');
                             }, 5000);
                         } else if(response.includes('Exists')){
+                            closeModal.classList.remove('disabled');
+                            closeModal1.classList.remove('disabled');
                             joinBtn.innerHTML = "Failed";
                             waitBody.innerHTML = "You have already joined the waiting list.";
+                            closeModal.onclick = () => {
+                                window.location.replace('rezervoTermin.php');
+                            }
                             setTimeout(() => {
                                 window.location.replace('rezervoTermin.php');
                             }, 3000);
                         } else if(response.includes('Error')){
+                            closeModal.classList.remove('disabled');
+                            closeModal1.classList.remove('disabled');
                             joinBtn.innerHTML = "Failed";
                             waitBody.innerHTML = "Something went wrong.";
+                            closeModal.onclick = () => {
+                                window.location.replace('rezervoTermin.php');
+                            }
                             setTimeout(() => {
                                 window.location.replace('rezervoTermin.php');
                             }, 3000);
