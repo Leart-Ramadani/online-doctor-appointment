@@ -319,27 +319,27 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Join waiting list</h5>
-            <button type="button" class="btn-close closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body waitBody">
-            <p>Unfortunately, this appointment is already booked. However, you have the option to join the waiting list. 
-                In the event that this appointment is canceled, it will be automatically booked for you. </p>
-            <p>Note: The waiting list operates on a first-come, first-served basis, meaning that the order of 
-                joining determines priority for future available appointments.</p>
-        </div>
-        <div class="modal-footer d-flex justify-content-between">
-            <p>Waiting list: <span class="waitingList"></span></p>
-            <div>
-                <button type="button" class="btn btn-secondary closeModal1" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary joinBtn">Join</button>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Join waiting list</h5>
+                    <button type="button" class="btn-close closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body waitBody">
+                    <p>Unfortunately, this appointment is already booked. However, you have the option to join the waiting list. 
+                        In the event that this appointment is canceled, it will be automatically booked for you. </p>
+                    <p>Note: The waiting list operates on a first-come, first-served basis, meaning that the order of 
+                        joining determines priority for future available appointments.</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <p>Waiting list: <span class="waitingList"></span></p>
+                    <div>
+                        <button type="button" class="btn btn-secondary closeModal1" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary joinBtn">Join</button>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-    </div>
     </div>
 
 

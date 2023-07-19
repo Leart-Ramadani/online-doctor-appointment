@@ -38,7 +38,7 @@ $ora = $row['ora'];
 </head>
 
 
-<body>
+<body style="background: #f5f5f5;">
     <?php
     $diagnoza_err = $recepti_err = '';
     $diag = $rec = '';
@@ -98,10 +98,10 @@ $ora = $row['ora'];
         }
     }
 
-    if(isset($_POST['perfundo_rezervo'])){
+    if (isset($_POST['perfundo_rezervo'])) {
         $numri_personal = $row['numri_personal'];
         $data = $row['data'];
-        
+
         if (empty($_POST['diagnoza'])) {
             $diagnoza_err = 'Diagnose must be filled.';
             $invalid_dianoz = 'is-invalid';
@@ -120,56 +120,64 @@ $ora = $row['ora'];
             $rec = $recepti;
         }
 
-        if($diagnoza_err == '' && $recepti_err == ''){
+        if ($diagnoza_err == '' && $recepti_err == '') {
             header("Location: perfundo_rezervo.php?numri_personal=$numri_personal&data=$data&diagnoza=$diagnoza&recepti=$recepti&ora=$ora&id=$id");
         }
     }
 
     ?>
-    <article class="appointment_wrapper">
-        <section class="appointment">
+
+
+    <article class="finishApp">
+        <a href="terminet.php" class="goBack text-dark" style="height: 30px;" title="Go back"><i class="fa-solid fa-arrow-left"></i></a>
+        <section class="finishSection">
             <div>
-                <a href="terminet.php" class="goBack" title="Go back"><i class="fa-solid fa-arrow-left"></i></a>
                 <div class="h1_flex">
-                    <h1 class="appointment_h1 app_h1">Appointment details</h1>
+                    <h1 class="h2">Appointment details</h1>
                 </div>
             </div>
-            <div>
-                <label>Patient:</label>
-                <p class="appointment_p"><?= $row['pacienti'] ?></p>
-            </div>
-            <div>
-                <label>Personal ID:</label>
-                <p class="appointment_p"><?= $row['numri_personal'] ?></p>
-            </div>
-            <div>
-                <label>Email:</label>
-                <p class="appointment_p"><?= $row['email_pacientit'] ?></p>
-            </div>
-            <div>
-                <label>Date:</label>
-                <p class="appointment_p"><?= $row['data'] ?></p>
+
+            <div class="form-floating mb-2">
+                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Patient" value="<?= $row['pacienti'] ?>">
+                <label for="floatingInput">Patient</label>
             </div>
 
-            <div>
-                <label>Time:</label>
-                <p class="appointment_p"><?= $row['ora'] ?></p>
+
+            <div class="form-floating mb-2">
+                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Personal ID" value="<?= $row['numri_personal'] ?>">
+                <label for="floatingInput">Personal ID</label>
             </div>
 
+            <div class="form-floating mb-2">
+                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Email" value="<?= $row['email_pacientit'] ?>">
+                <label for="floatingInput">Email</label>
+            </div>
+
+            <div class="form-floating mb-2">
+                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Date" value="<?= $row['data'] ?>">
+                <label for="floatingInput">Date</label>
+            </div>
+
+            <div class="form-floating mb-2">
+                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Time" value="<?= $row['ora'] ?>">
+                <label for="floatingInput">Time</label>
+            </div>
 
             <form method="post" autocomplete="off">
-                <label for="komentiDoktorit" class="form-label fs-5">Diagnose:</label>
-                <div>
-                    <textarea class="form-control <?= $invalid_dianoz ?? '' ?>" style="resize: none;" id="komentiDoktorit" rows="3" maxlength="250" name="diagnoza"><?= $diag; ?></textarea>
+                <div class="mb-2">
+                    <label for="diagnoza" class="form-label">Diagnose:</label>
+                    <textarea class="form-control <?= $invalid_dianoz ?? '' ?>" style="resize:none;" id="diagnoza" rows="3" maxlength="350" name="diagnoza"><?= $diag; ?></textarea>
+                    <span class="text-danger fw-normal"><?php echo $diagnoza_err; ?></span>
                 </div>
-                <span class="text-danger fw-normal mb-5"><?php echo $diagnoza_err; ?></span> <br>
-                <label for="recepti" class="form-label fs-5">Prescription:</label>
-                <div>
-                    <textarea class="form-control <?= $invalid_recepti ?? '' ?>" style="resize: none;" id="recepti" rows="4" maxlength="250" name="recepti"><?= $rec; ?></textarea>
+
+                <div class="mb-2">
+                    <label for="diagnoza" class="form-label">Prescription:</label>
+                    <textarea class="form-control <?= $invalid_recepti ?? '' ?>" style="resize:none;" id="diagnoza" rows="3" maxlength="350" name="recepti"><?= $rec; ?></textarea>
+                    <span class="text-danger fw-normal"><?php echo $recepti_err; ?></span>
                 </div>
-                <span class="text-danger fw-normal"><?php echo $recepti_err; ?></span> <br>
-                <input type="submit" value="Perfundo takimin" name="perfundo" class="text-center h4 fw-normal p-2 mt-3 rounded w-100 bg-primary border-0 text-white">
-                <input type="submit" value="Perfundo takimin dhe rezervo nje te ri" name="perfundo_rezervo" class="text-center fw-normal h5 p-2 rounded w-100 bg-warning border-0 text-white">
+
+                <input type="submit" value="Complete" name="perfundo" class="text-center h4 fw-normal p-2 mt-3 rounded w-100 bg-primary border-0 text-white">
+                <input type="submit" value="Complete and book" name="perfundo_rezervo" class="text-center fw-normal h5 p-2 rounded w-100 bg-warning border-0 text-white">
             </form>
         </section>
     </article>

@@ -191,7 +191,7 @@ if (!isset($_SESSION['doctor'])) {
                             <td><span class="<?= $statusColor ?>"><?= $data['statusi'] ?></span></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white" href="perfundoTakimin.php?id=<?= $data['id'] ?>" title="Complete appointment">
-                                    <button class="btn btn-success ps-2 pe-2 text-white"><i class="fa-solid fa-calendar-check"></i></button>
+                                    <button type="button" class="btn btn-success ps-2 pe-2 text-white"><i class="fa-solid fa-calendar-check"></i></button>
                                 </a>
                             </td>
                         </tr>
@@ -243,5 +243,7 @@ if (!isset($_SESSION['doctor'])) {
             </nav>
         <?php } ?>
     </main>
+
+
 
 </body>
