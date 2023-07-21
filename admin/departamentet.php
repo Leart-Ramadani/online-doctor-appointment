@@ -29,6 +29,7 @@ if (!isset($_SESSION['admin'])) {
             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
             <li><a href="prices.php" class="nav-link text-white">Prices</a></li>
+            <li><a href="payments.php" class="nav-link text-white">Payments</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -122,7 +123,7 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM departamentet WHERE name=:keyword LIMIT :startIndex, $entries";
+        $sort = "SELECT * FROM departamentet WHERE NOT id=0 AND (name=:keyword) LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);

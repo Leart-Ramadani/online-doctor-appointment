@@ -29,6 +29,7 @@ if (!isset($_SESSION['admin'])) {
             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
             <li><a href="kerkesatAnulimit.php" class="nav-link text-white ">Cancelation requests</a></li>
             <li><a href="prices.php" class="nav-link text-white active" aria-current="page">Prices</a></li>
+            <li><a href="payments.php" class="nav-link text-white">Payments</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -82,7 +83,7 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM prices WHERE name=:keyword OR price=:keyword LIMIT :startIndex, $entries";
+        $sort = "SELECT * FROM prices WHERE NOT id=0 AND (name=:keyword OR price=:keyword) LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -94,7 +95,7 @@ if (!isset($_SESSION['admin'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM prices LIMIT :startIndex, $entries";
+        $sql = "SELECT * FROM prices WHERE NOT id=0  LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();

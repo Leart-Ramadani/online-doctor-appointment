@@ -1,7 +1,7 @@
 <?php
     include('../config.php');
 
-    unset($_SERVER['fullName']);
+    unset($_SESSION['fullName']);
     unset($_SESSION['username']);
     unset($_SESSION['numri_personal']);
 

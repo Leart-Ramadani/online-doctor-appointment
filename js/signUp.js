@@ -15,17 +15,17 @@ const showTab = n => {
     }
 
     if (n == tab.length - 2) {
-        nextBtn.innerHTML = 'Regjistrohu';
+        nextBtn.innerHTML = 'Register';
         nextBtn.classList.remove('w-25');
         nextBtn.classList.add('w-50');
     } else {
-        nextBtn.innerHTML = 'Para';
+        nextBtn.innerHTML = 'Next';
         nextBtn.classList.remove('w-50');
         nextBtn.classList.add('w-25');
     }
 
     if (n == (tab.length - 1)) {
-        document.querySelector('.register').innerHTML = 'Ju lutemi prisni...'
+        document.querySelector('.register').innerHTML = 'Please wait...'
         document.querySelector('.loginLink').style.display = 'none';
         nextBtn.style.display = 'none'
         prevBtn.style.display = 'none'
@@ -93,22 +93,22 @@ const validate = () => {
                         if (response[i] == "*Name must be filled!") {
                             nameValid = false;
                             namme.classList.add('is-invalid');
-                            nameError.innerHTML = "*Emri duhet plotesuar!";
+                            nameError.innerHTML = "*Name must be filled!";
                         } else if (response[i] == "*Only alphabetical letters are allowed!") {
                             nameValid = false;
                             namme.classList.add('is-invalid');
-                            nameError.innerHTML = "*Nuk lejohen karaktere tjera perveq shkronjave!";
+                            nameError.innerHTML = "*Only alphabetical letters are allowed!";
                         }
 
                         // Validate the last name input
                         if (response[i] == "*Last name must be filled!") {
                             surnameValid = false;
                             lastName.classList.add('is-invalid');
-                            lastNameErr.innerHTML = "*Mbiemri duhet plotesuar!";
+                            lastNameErr.innerHTML = "*Last name must be filled!";
                         } else if (response[i] == "*Only alphabetical letters are allowed!LastName") {
                             surnameValid = false;
                             lastName.classList.add('is-invalid');
-                            lastNameErr.innerHTML = "*Nuk lejohen karaktere tjera perveq shkronjave!";
+                            lastNameErr.innerHTML = "*Only alphabetical letters are allowed!";
                         }
 
 
@@ -116,35 +116,35 @@ const validate = () => {
                         if (response[i] == "*Personal ID must be filled!") {
                             personalNrValid = false;
                             personal_ID.classList.add('is-invalid');
-                            personal_id_err.innerHTML = "*Numri personal duhet plotesuar!";
+                            personal_id_err.innerHTML = "*Personal ID must be filled!";
                         } else if (response[i] == "*Only numbers are allowed!Personal_id") {
                             personalNrValid = false;
                             personal_ID.classList.add('is-invalid');
-                            personal_id_err.innerHTML = "*Nuk lejohen karaktere tjera perveq numrave!";
+                            personal_id_err.innerHTML = "*Only numbers are allowed!";
                         } else if (response[i] == "*Personal ID must be 10 characters!") {
                             personalNrValid = false;
                             personal_ID.classList.add('is-invalid');
-                            personal_id_err.innerHTML = "Numri personal duhet te jete 10 karaktere!";
+                            personal_id_err.innerHTML = "*Personal ID must be 10 characters!";
                         } else if (response[i] == "*An account already exists using this ID") {
                             personalNrValid = false;
                             personal_ID.classList.add('is-invalid');
-                            personal_id_err.innerHTML = "*Nje llogari eshte e hapur me kete numer personal!";
-                        } 
+                            personal_id_err.innerHTML = "*An account already exists using this ID";
+                        }
 
                         // Validate the gender input
                         if (response[i] == "*You must select the gender.") {
                             genderValid = false;
                             gender.classList.add('is-invalid');
-                            genderErr.innerHTML = "*Zgjedhni gjinin!";
-                        } 
+                            genderErr.innerHTML = "*You must select the gender.";
+                        }
 
 
                     }
                     if (nameValid) {
                         namme.classList.remove('is-invalid');
                         nameError.innerHTML = "";
-                    } 
-                    if(surnameValid){
+                    }
+                    if (surnameValid) {
                         lastName.classList.remove('is-invalid');
                         lastNameErr.innerHTML = "";
                     }
@@ -157,9 +157,9 @@ const validate = () => {
                         genderErr.innerHTML = "";
                     }
 
-                    if(nameValid && surnameValid && personalNrValid && genderValid){
+                    if (nameValid && surnameValid && personalNrValid && genderValid) {
                         resolve(true);
-                    } else{
+                    } else {
                         resolve(false);
                     }
                 },
@@ -197,26 +197,26 @@ const validate = () => {
                         if (response[i] == "*Email must be filled!") {
                             emailValid = false;
                             email.classList.add('is-invalid');
-                            emailErr.innerHTML = "*Email duhet plotesuar!";
+                            emailErr.innerHTML = "*Email must be filled!";
                         } else if (response[i] == "*The given email is invalid!") {
                             emailValid = false;
                             email.classList.add('is-invalid');
-                            emailErr.innerHTML = "*Ky email eshte i pavlefshem!";
+                            emailErr.innerHTML = "*The given email is invalid!";
                         } else if (response[i] == "*An account already exists using this email!") {
                             emailValid = false;
                             email.classList.add('is-invalid');
-                            emailErr.innerHTML = "*Nje llogari eshte e hapur me kete email!";
+                            emailErr.innerHTML = "*An account already exists using this email!";
                         }
 
                         // Validate the last name input
                         if (response[i] == "*Birthday must be filled.") {
                             birthdayValid = false;
                             birthday.classList.add('is-invalid');
-                            birthdayErr.innerHTML = "*Ju duhet te shkruani ditelindjen.";
+                            birthdayErr.innerHTML = "*Birthday must be filled.";
                         } else if (response[i] == "*You must be 18 years or older.") {
                             birthdayValid = false;
                             birthday.classList.add('is-invalid');
-                            birthdayErr.innerHTML = "*Ti duhet te jesh mbi 18 vjet per te hapur nje llogari.";
+                            birthdayErr.innerHTML = "*You must be 18 years or older.";
                         }
 
 
@@ -224,7 +224,7 @@ const validate = () => {
                         if (response[i] == "*Phone number must be filled!") {
                             phoneValid = false;
                             phone.classList.add('is-invalid');
-                            phoneErr.innerHTML = "*Numri i telefonit duhet plotesuar!";
+                            phoneErr.innerHTML = "*Phone number must be filled!";
                         } else if (response[i] == "*The given phone number is invalid!") {
                             phoneValid = false;
                             phone.classList.add('is-invalid');
@@ -232,14 +232,14 @@ const validate = () => {
                         } else if (response[i] == "*An account already exists using this phone number!") {
                             phoneValid = false;
                             phone.classList.add('is-invalid');
-                            phoneErr.innerHTML = "*Nje llogari eshte e hapur me kete numer telefoni!";
+                            phoneErr.innerHTML = "*An account already exists using this phone number!";
                         }
 
                         // Validate the gender input
                         if (response[i] == "*Adress must be filled!") {
                             addressValid = false;
                             adress.classList.add('is-invalid');
-                            adressErr.innerHTML = "*Adresa duhet plotesuar!";
+                            adressErr.innerHTML = "*Adress must be filled!  ";
                         }
 
 
@@ -300,30 +300,30 @@ const validate = () => {
                         if (response[i] == "*Username must be filled!") {
                             usernameValid = false;
                             username.classList.add('is-invalid');
-                            usernameErr.innerHTML = "*Username duhet plotesuar!";
+                            usernameErr.innerHTML = "*Username must be filled!";
                         } else if (response[i] == "*An account already exists using this username!") {
                             usernameValid = false;
                             email.classList.add('is-invalid');
-                            emailErr.innerHTML = "*Nje llogari eshte e hapur me kete username!";
+                            emailErr.innerHTML = "*An account already exists using this username!";
                         }
 
                         // Validate the password input
                         if (response[i] == "*Password must be filled!") {
                             passwordValid = false;
                             password.classList.add('is-invalid');
-                            passwordErr.innerHTML = "*Fjalkalimi duhet plotesuar!";
-                        } 
+                            passwordErr.innerHTML = "*Password must be filled!";
+                        }
 
 
                         // Validate the confirm password input
                         if (response[i] == "*You must confirm your password!") {
                             confirmPassValid = false;
                             confirmPass.classList.add('is-invalid');
-                            confirmPassErr.innerHTML = "*Ju duhet te konfirmoni fjalkalimin!";
+                            confirmPassErr.innerHTML = "*You must confirm your password!";
                         } else if (response[i] == "*Password doesn't match!") {
                             confirmPassValid = false;
                             confirmPass.classList.add('is-invalid');
-                            confirmPassErr.innerHTML = "*Fjalkalimet nuk perputhen!";
+                            confirmPassErr.innerHTML = "*Password doesn't match!";
                         }
 
 
@@ -368,7 +368,7 @@ const nextTab = () => {
         tab[tabNumber].style.display = 'none';
         tabNumber++;
 
-        if(tabNumber == tab.length - 1){
+        if (tabNumber == tab.length - 1) {
             $.ajax({
                 url: '../patientSide/validateForm.php',
                 type: 'POST',
@@ -387,12 +387,12 @@ const nextTab = () => {
                     password: password.value,
                     confirmPass: confirmPass.value,
                 },
-                success: function (response) {  
+                success: function (response) {
                     console.log(response);
-                    if (response == "Registerd"){
+                    if (response == "Registerd") {
                         window.location.replace('../patientSide/emailVerification.php');
-                    } else if (response == "Something went wrong"){
-                        alert('Probleme me rrjetin ose serverin');
+                    } else if (response == "Something went wrong") {
+                        alert('Problems with server or internet');
                     }
                 },
                 error: function (xhr, status, error) {

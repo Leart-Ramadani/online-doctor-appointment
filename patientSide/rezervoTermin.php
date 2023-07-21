@@ -372,7 +372,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                     },
                     success: function(response) {
                         if (response.includes('Appointment exists')) {
-                            pop.style.width = '400px';
+                            pop.style.width = '430px';
                             pop.style.height = '270px';
                             pop.classList.add('d-flex');
                             pop.classList.add('align-items-center');
@@ -387,16 +387,18 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                                 window.location.replace('rezervoTermin.php');
                             }, 1500);
 
+                        } else if(response.includes('not paied')){
+                            pop.innerHTML = "<h3 class='text-center'>You can't book another appointment if you don't pay the bill!<h3>";
+                            setTimeout(() => {
+                                window.location.replace('rezervoTermin.php');
+                            }, 3000);
                         } else if (response.includes('Problems with server or internet')) {
-
                             pop.innerHTML = "<h3 class='text-center'>Appointment booking has failed. Problems with server or internet.</h3>";
                             setTimeout(() => {
                                 window.location.replace('rezervoTermin.php');
                             }, 1500);
 
-                        }
-
-
+                        } 
                     }
                 });
             }

@@ -35,16 +35,22 @@
     if (isset($_POST['submit'])) {
         $email = $_POST['email'];
 
-        $sql = "SELECT * FROM users WHERE email=:email";
+        $sql = "SELECT * FROM users WHERE userType=1 AND email=:email";
         $prep = $con->prepare($sql);
         $prep->bindParam(':email', $email);
         $prep->execute();
         $data = $prep->fetch();
+    
 
         if (!$data) {
-            $error = "*Ky email nuk ekziston ne sistemin tone!";
+            $error = "*This email doesn't exists in our system!";
             $invalid_error = 'is-invalid';
         } else{
+            if($data['gender'] == 'Male'){
+                $gender = "Dear Mr.{$data['fullName']}";
+            } else if($data['gender'] == 'Female'){
+                $gender = "Dear Mrs.{$data['fullName']}";
+            }
             $mail = new PHPMailer(true);
 
             try {
@@ -60,21 +66,34 @@
 
                 //Recipients
                 $mail->setFrom('no@replay.com', 'terminet-online.com');
-                $mail->addAddress($email, $data['emri'].' '.$data['mbiemri']);                           //Add a recipient
+                $mail->addAddress($email, $data['fullName']);                           //Add a recipient
 
 
                 //Content
                 $mail->isHTML(true);                                        //Set email format to HTML
 
 
-                $mail->Subject = 'Rivendos fjalkalimin';
-                $mail->Body    = "<p style='font-size: 18px;'>Kliko <a href='localhost/online-doctor-appointment-master/patientSide/resetPassword.php?email=$email'>ketu</a> 
-                per te rivendosur fjalkalimin.</p>";
+                $mail->Subject = 'Reset password';
+                $mail->Body    = "<p>
+                $gender,
+                <br>
+                We have received a request to reset your password for your account at online-booking-system. To proceed with the password reset, please click on the link below:
+                <br>
+                <a href='localhost/online-doctor-appointment-master/patientSide/resetPassword.php?email=$email'>Reset here</a>
+                <br>
+                If you did not request this password reset, you can ignore this email. Your account is secure, and no changes have been made.
+                <br>
+                Thank you for using online booking system.
+                <br> <br>
+                Best regards,
+                <br>
+                online-appointment-system.com 
+                </p>";
 
                 $mail->send();
 
                 echo "<script>
-                        alert('Ne ju derguam nje link per te rivendosur fjalkalimin ne emailin: $email.');
+                        alert('We sent you a reset link in your email: $email.');
                         window.location.replace('login.php');
                     </script>";
 
@@ -85,15 +104,15 @@
     }
     ?>
     <form method="post" class="form-signin" autocomplete="off">
-        <h1 class="h3 mb-4 fw-normal text-center">Rivendos fjalekalimin</h1>
+        <h1 class="h3 mb-4 fw-normal text-center">Reset your password</h1>
         <div class="form-floating">
             <input type="email" class="form-control rounded <?= $invalid_error ?? '' ?>" id="floatingInput" name="email" placeholder="Email">
             <label for="floatingInput">Email</label>
             <span class="text-danger fw-normal"><?php echo $error; ?></span>
         </div>
         
-        <button class="w-100 btn btn-lg btn-primary mt-3 mb-2" type="submit" name="submit">Vazhdo</button>
-        <p class="text-center">Kthehuni perseri per tu <a href="./login.php">kyqyr.</a></p>
+        <button class="w-100 btn btn-lg btn-primary mt-3 mb-2" type="submit" name="submit">Submit</button>
+        <p class="text-center">Go back to <a href="./login.php">login.</a></p>
     </form>
 
 </body>

@@ -153,74 +153,84 @@ $data = $stm->fetch();
             $gjinia = 'Dear Mrs.';
         }
 
+        $paiedSql = "SELECT * FROM terminet WHERE numri_personal=:numri_personal AND paied=false";
+        $paied_prep = $con->prepare($paiedSql);
+        $paied_prep->bindParam(':doktori', $doktori);
+        $paied_prep->bindParam(':numri_personal', $numri_personal);
+        $paied_prep->execute();
+        $data_paied = $paied_prep->fetch();
 
-        $check_sql = "SELECT * FROM terminet WHERE doktori=:doktori AND numri_personal=:numri_personal AND data=:data AND NOT statusi='Completed'";
-        $check_prep = $con->prepare($check_sql);
-        $check_prep->bindParam(':doktori', $doktori);
-        $check_prep->bindParam(':numri_personal', $numri_personal);
-        $check_prep->bindParam(':data', $data);
-        $check_prep->execute();
-        $check_data = $check_prep->fetch();
-
-        if ($check_data) {
-            echo "Appointment exists";
+        if($data_paied){
+            echo "not paied";
         } else {
-
-            $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora, statusi)
-                        VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora, 'Booked')";
-            $terminet_prep = $con->prepare($terminet_sql);
-            $terminet_prep->bindParam(':doktori', $doktori);
-            $terminet_prep->bindParam(':departamenti', $docInfo['departament']);
-            $terminet_prep->bindParam(':pacienti', $pacienti);
-            $terminet_prep->bindParam(':numri_personal', $numri_personal);
-            $terminet_prep->bindParam(':email_pacientit', $email_pacientit);
-            $terminet_prep->bindParam(':data', $data);
-            $terminet_prep->bindParam(':ora', $time);
-
-            if ($terminet_prep->execute()) {
-                $mail = new PHPMailer(true);
-
-                try {
-                    //Server settings
-                    $mail->SMTPDebug = 0;                                       //Enable verbose debug output
-                    $mail->isSMTP();                                            //Send using SMTP
-                    $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
-                    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                    $mail->Username   = SITE_EMAIL;                             //SMTP username
-                    $mail->Password   = SITE_PASSWORD;                          //SMTP password
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
-                    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-                    //Recipients
-                    $mail->setFrom('no@reply.com', 'terminet-online.com');
-                    $mail->addAddress($email_pacientit, $pacienti);                           //Add a recipient
-
-
-                    //Content
-                    $mail->isHTML(true);                                        //Set email format to HTML
-
-
-                    $mail->Subject = 'Appointment Details';
-                    $mail->Body    =   "<p>
-                                            $gjinia{$pacienti},
-                                            <br> <br>
-                                            Your appointment in date:$data, on time:$time, 
-                                            at dr.$doktori
-                                            has been successfully booked
-                                            <br><br>
-                                            Sincierly, <br>
-                                            sistemi-termineve-online.com
-                                        </p>";
-
-                    $mail->send();
-
-                    unset($_SESSION['id_ofApp']);
-                    echo "Appointment booked";  
-                } catch (Exception $e) {
-                    echo  "Problems with server or internet";
+            $check_sql = "SELECT * FROM terminet WHERE doktori=:doktori AND numri_personal=:numri_personal AND data=:data";
+            $check_prep = $con->prepare($check_sql);
+            $check_prep->bindParam(':doktori', $doktori);
+            $check_prep->bindParam(':numri_personal', $numri_personal);
+            $check_prep->bindParam(':data', $data);
+            $check_prep->execute();
+            $check_data = $check_prep->fetch();
+    
+            if ($check_data) {
+                echo "Appointment exists";
+            } else {
+    
+                $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora, statusi)
+                            VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora, 'Booked')";
+                $terminet_prep = $con->prepare($terminet_sql);
+                $terminet_prep->bindParam(':doktori', $doktori);
+                $terminet_prep->bindParam(':departamenti', $docInfo['departament']);
+                $terminet_prep->bindParam(':pacienti', $pacienti);
+                $terminet_prep->bindParam(':numri_personal', $numri_personal);
+                $terminet_prep->bindParam(':email_pacientit', $email_pacientit);
+                $terminet_prep->bindParam(':data', $data);
+                $terminet_prep->bindParam(':ora', $time);
+    
+                if ($terminet_prep->execute()) {
+                    $mail = new PHPMailer(true);
+    
+                    try {
+                        //Server settings
+                        $mail->SMTPDebug = 0;                                       //Enable verbose debug output
+                        $mail->isSMTP();                                            //Send using SMTP
+                        $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
+                        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                        $mail->Username   = SITE_EMAIL;                             //SMTP username
+                        $mail->Password   = SITE_PASSWORD;                          //SMTP password
+                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
+                        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    
+                        //Recipients
+                        $mail->setFrom('no@reply.com', 'terminet-online.com');
+                        $mail->addAddress($email_pacientit, $pacienti);                           //Add a recipient
+    
+    
+                        //Content
+                        $mail->isHTML(true);                                        //Set email format to HTML
+    
+    
+                        $mail->Subject = 'Appointment Details';
+                        $mail->Body    =   "<p>
+                                                $gjinia{$pacienti},
+                                                <br> <br>
+                                                Your appointment in date:$data, on time:$time, 
+                                                at dr.$doktori
+                                                has been successfully booked
+                                                <br><br>
+                                                Sincierly, <br>
+                                                sistemi-termineve-online.com
+                                            </p>";
+    
+                        $mail->send();
+    
+                        unset($_SESSION['id_ofApp']);
+                        echo "Appointment booked";  
+                    } catch (Exception $e) {
+                        echo  "Problems with server or internet";
+                    }
+    
+                    exit();
                 }
-
-                exit();
             }
         }
     }

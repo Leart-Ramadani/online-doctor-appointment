@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regjistrohu</title>
+    <title>Sign up</title>
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <link rel="stylesheet" href="../css/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -75,33 +75,33 @@
 
     <main class="form-signin">
         <form method="POST" autocomplete="off" action="validateForm.php" id="registerForm">
-            <h1 class="h3 mb-3 fw-normal register">Regjistrohu</h1>
+            <h1 class="h3 mb-3 fw-normal register">Sign up</h1>
 
             <!-- First tab of register inputs (name, lastName, personal ID, gender) -->
             <div class="tab">
                 <div class="form-floating mb-1">
                     <input type="text" class="form-control name" id="floatingInput name" name="name" placeholder="Name">
-                    <label for="floatingInput">Emri</label>
+                    <label for="floatingInput">Name</label>
                     <span class="text-danger fw-normal nameErrorr"></span>
                 </div>
 
                 <div class="form-floating mb-1">
                     <input type="text" class="form-control lastName" id="floatingInput" name="surname" placeholder="Last name">
-                    <label for="floatingInput">Mbiemri</label>
+                    <label for="floatingInput">Last name</label>
                     <span class="text-danger fw-normal lastNameErr"></span>
                 </div>
 
                 <div class="form-floating mb-1">
                     <input type="text" class="form-control personal_ID" id="floatingInput" name="personal_id" placeholder="Personal ID" maxlength="10">
-                    <label for="floatingInput">Nr. personal</label>
+                    <label for="floatingInput">Personal ID</label>
                     <span class="text-danger fw-normal personal_id_err"></span>
                 </div>
 
                 <div class="mb-1">
                     <select class="form-select gender " aria-label="Default select example" name="gender">
-                        <option value="">Zgjedhni gjinin tauj</option>
-                        <option value="Mashkull">Mashkull</option>
-                        <option value="Femer">Femer</option>
+                        <option value="">Select your gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
                     </select>
                     <span class="text-danger fw-normal genderErr"></span>
                 </div>
@@ -117,20 +117,20 @@
                 </div>
 
                 <div class="mb-1">
-                    <label for="startDate">Ditelindja:</label>
+                    <label for="startDate">Birthday:</label>
                     <input id="startDate" class="form-control birthday ditlindja" name="birthday" type="date" />
                     <span class="text-danger fw-normal birthdayErr"></span>
                 </div>
 
                 <div class="form-floating mb-1">
                     <input type="tel" class="form-control phone" id="floatingInput" name="phone" placeholder="Phone number">
-                    <label for="floatingInput">Numri i telefonit</label>
+                    <label for="floatingInput">Phone number</label>
                     <span class="text-danger fw-normal phoneErr"></span>
                 </div>
 
                 <div class="form-floating mb-1">
                     <input type="text" class="form-control adress" id="floatingInput" name="adress" placeholder="Adress">
-                    <label for="floatingInput">Adresa</label>
+                    <label for="floatingInput">Adress</label>
                     <span class="text-danger fw-normal adressErr"></span>
                 </div>
             </div>
@@ -146,18 +146,18 @@
 
                 <div class="form-floating mb-1">
                     <input type="password" class="form-control password rounded mb-0" id="floatingPassword" name="password" placeholder="Password">
-                    <label for="floatingPassword">Fjalekalimi</label>
+                    <label for="floatingPassword">Password</label>
                     <span class="text-danger fw-normal passwordErr"></span>
                 </div>
 
                 <div class="form-floating">
                     <input type="password" class="form-control confirmPass rounded mb-0" id="confirmPassword" name="confirmPass" placeholder="Confirm password">
-                    <label for="confirmPassword">Konfirmo fjalkalimin</label>
+                    <label for="confirmPassword">Confirm password</label>
                     <span class="text-danger fw-normal confirmPassErr"></span>
                 </div>
 
                 <div class="form-check d-flex mb-2 justify-content-end">
-                    <label class="form-check-label" for="flexCheckDefault">Shfaq fjalkalimin</label>
+                    <label class="form-check-label" for="flexCheckDefault">Show password</label>
                     <input class="form-check-input ms-2" type="checkbox" value="" id="flexCheckDefault">
                 </div>
 
@@ -182,10 +182,10 @@
 
             <!-- Register form action buttons -->
             <div class="d-flex justify-content-end mt-2 ">
-                <button class="w-25 btn btn-primary me-2 prev" type="button">Prapa</button>
-                <button class="w-25 btn btn-primary next" type="button">Para</button>
+                <button class="w-25 btn btn-primary me-2 prev" type="button">Prev</button>
+                <button class="w-25 btn btn-primary next" type="button">Next</button>
             </div>
-            <p class="mt-2 loginLink">Keni nje llogari? <a href="login.php">Kyquni</a></p>
+            <p class="mt-2 loginLink">Have an account? <a href="login.php">Login</a></p>
         </form>
     </main>
 </body>

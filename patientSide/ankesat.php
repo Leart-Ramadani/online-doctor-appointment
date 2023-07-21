@@ -80,19 +80,30 @@ if (!isset($_SESSION['fullName'])) {
             $email = $data['email'];
             $ankesa = $_POST['ankesa'];
 
-            if ($ankesa == '') {
-                $error_msg = '*You must fill out this field!';
+            $paid = "SELECT * FROM terminet WHERE numri_personal=:personal_id AND paied=false";
+            $prep = $con->prepare($paid);
+            $prep->bindParam(':personal_id', $_SESSION['numri_personal']);
+            $prep->execute();
+            $data_paid = $prep->fetch();
+
+            if($data_paid){
+                $error_msg = "You can't complain until you pay the bill!";
                 $invalid_msg = 'is-invalid';
-            } else {
-                $error_msg = '';
-                $ankesa_sql = "INSERT INTO ankesat(pacienti, numri_personal, email, ankesa)
-                    VALUES(:pacienti, :numri_personal, :email, :ankesa)";
-                $ankesa_prep = $con->prepare($ankesa_sql);
-                $ankesa_prep->bindParam(':pacienti', $pacienti);
-                $ankesa_prep->bindParam(':numri_personal', $personal_id);
-                $ankesa_prep->bindParam(':email', $email);
-                $ankesa_prep->bindParam(':ankesa', $ankesa);
-                $ankesa_prep->execute();
+            } else{
+                if ($ankesa == '') {
+                    $error_msg = '*You must fill out this field!';
+                    $invalid_msg = 'is-invalid';
+                } else {
+                    $error_msg = '';
+                    $ankesa_sql = "INSERT INTO ankesat(pacienti, numri_personal, email, ankesa)
+                        VALUES(:pacienti, :numri_personal, :email, :ankesa)";
+                    $ankesa_prep = $con->prepare($ankesa_sql);
+                    $ankesa_prep->bindParam(':pacienti', $pacienti);
+                    $ankesa_prep->bindParam(':numri_personal', $personal_id);
+                    $ankesa_prep->bindParam(':email', $email);
+                    $ankesa_prep->bindParam(':ankesa', $ankesa);
+                    $ankesa_prep->execute();
+                }
             }
         }
         ?>

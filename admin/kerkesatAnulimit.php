@@ -29,6 +29,7 @@ if (!isset($_SESSION['admin'])) {
             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
             <li><a href="kerkesatAnulimit.php" class="nav-link text-white active" aria-current="page">Cancelation requests</a></li>
             <li><a href="prices.php" class="nav-link text-white" aria-current="page">Prices</a></li>
+            <li><a href="payments.php" class="nav-link text-white">Payments</a></li>
         </ul>
         <hr>
         <div class="dropdown">

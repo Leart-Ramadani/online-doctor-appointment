@@ -1,135 +1,136 @@
- <?php
+<?php
     include('../config.php');
     if (!isset($_SESSION['admin'])) {
         header("Location: login.php");
     }
     ?>
- <?php include('header.php') ?>
- <title>Doctors</title>
- </head>
+<?php include('header.php') ?>
+<title>Doctors</title>
+</head>
 
- <body>
-     <div class="sideBlock">
-         <button type="button" class="ham" id="ham_menu"><i class="fa-solid fa-bars"></i></button>
-     </div>
+<body>
+    <div class="sideBlock">
+        <button type="button" class="ham" id="ham_menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
 
-     <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
-         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
-         <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-             <span class="fs-4"><?php echo $_SESSION['admin'] ?></span>
-         </p>
-         <hr>
-         <ul class="nav nav-pills flex-column mb-auto">
-             <li class="nav-item"><a href="doktoret.php" class="nav-link active" aria-current="page">Doctors</a></li>
-             <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
-             <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
-             <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
-             <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
-             <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
-             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
-             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
-             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
-             <li><a href="prices.php" class="nav-link text-white">Prices</a></li>
-         </ul>
-         <hr>
-         <div class="dropdown">
-             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                 <img src="https://w7.pngwing.com/pngs/200/420/png-transparent-user-profile-computer-icons-overview-rectangle-black-data-thumbnail.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                 <strong><?php echo $_SESSION['admin'] ?></strong>
-             </a>
-             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                 <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
-             </ul>
-         </div>
-     </div>
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
+        <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
+        <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <span class="fs-4"><?php echo $_SESSION['admin'] ?></span>
+        </p>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item"><a href="doktoret.php" class="nav-link active" aria-current="page">Doctors</a></li>
+            <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
+            <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
+            <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
+            <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
+            <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
+            <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
+            <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
+            <li><a href="prices.php" class="nav-link text-white">Prices</a></li>
+            <li><a href="payments.php" class="nav-link text-white">Payments</a></li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://w7.pngwing.com/pngs/200/420/png-transparent-user-profile-computer-icons-overview-rectangle-black-data-thumbnail.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong><?php echo $_SESSION['admin'] ?></strong>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+            </ul>
+        </div>
+    </div>
 
-     <?php
+    <?php
         $sql = "SELECT * FROM departamentet";
         $stm = $con->prepare($sql);
         $stm->execute();
         $data = $stm->fetchAll();
         ?>
 
-     <main class="text-center main mainRes">
-         <div class="back_wrapper"></div>
-         <article class="popDocAdd rounded" id="popDocAdd">
-             <div class="d-flex justify-content-between">
-                 <h3 class="text-center text-uppercase ms-3">Add a doctor</h3>
-                 <button type="button" class="closePopAdd"><i class="fa-regular fa-circle-xmark"></i></button>
-             </div>
-             <div class="editForm_wrapper">
-                 <form class="editForm addForm" autocomplete="off" method="POST" enctype="multipart/form-data">
-                     <div class="d-flex">
-                         <div class="form-floating">
-                             <input type="text" class="form-control name" id="floatingInput" name="fullName" placeholder="Full name" value="">
-                             <label for="floatingInput">Full name</label>
-                             <span class="text-danger fw-normal nameError"></span>
-                         </div>
-                         <div>
-                             <select class="form-select departament" aria-label="Default select example" name="departament">
-                                 <option selected value="">Choose a departament</option>
-                                 <?php foreach ($data as $data) : ?>
-                                     <option value="<?= $data['name']; ?>"><?= $data['name']; ?></option>
-                                 <?php endforeach; ?>
-                             </select>
-                             <span class="text-danger fw-normal departamentError"></span>
-                         </div>
-                     </div>
-                     <div>
-                         <div class="mb-1">
-                             <select class="form-select gender" aria-label="Default select example" name="gender">
-                                 <option value="">Select your gender</option>
-                                 <option value="Mashkull">Male</option>
-                                 <option value="Femer">Female</option>
-                             </select>
-                             <span class="text-danger fw-normal genderError"></span>
-                         </div>
+    <main class="text-center main mainRes">
+        <div class="back_wrapper"></div>
+        <article class="popDocAdd rounded" id="popDocAdd">
+            <div class="d-flex justify-content-between">
+                <h3 class="text-center text-uppercase ms-3">Add a doctor</h3>
+                <button type="button" class="closePopAdd"><i class="fa-regular fa-circle-xmark"></i></button>
+            </div>
+            <div class="editForm_wrapper">
+                <form class="editForm addForm" autocomplete="off" method="POST" enctype="multipart/form-data">
+                    <div class="d-flex">
+                        <div class="form-floating">
+                            <input type="text" class="form-control name" id="floatingInput" name="fullName" placeholder="Full name" value="">
+                            <label for="floatingInput">Full name</label>
+                            <span class="text-danger fw-normal nameError"></span>
+                        </div>
+                        <div>
+                            <select class="form-select departament" aria-label="Default select example" name="departament">
+                                <option selected value="">Choose a departament</option>
+                                <?php foreach ($data as $data) : ?>
+                                    <option value="<?= $data['name']; ?>"><?= $data['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <span class="text-danger fw-normal departamentError"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mb-1">
+                            <select class="form-select gender" aria-label="Default select example" name="gender">
+                                <option value="">Select your gender</option>
+                                <option value="Mashkull">Male</option>
+                                <option value="Femer">Female</option>
+                            </select>
+                            <span class="text-danger fw-normal genderError"></span>
+                        </div>
 
-                         <div class="form-floating">
-                             <input type="email" class="form-control rounded email " id="floatingInput" name="email" placeholder="name@example.com" value="">
-                             <label for="floatingInput">Email</label>
-                             <span class="text-danger fw-normal emailError"></span>
-                         </div>
-                     </div>
+                        <div class="form-floating">
+                            <input type="email" class="form-control rounded email " id="floatingInput" name="email" placeholder="name@example.com" value="">
+                            <label for="floatingInput">Email</label>
+                            <span class="text-danger fw-normal emailError"></span>
+                        </div>
+                    </div>
 
-                     <div class="d-flex">
+                    <div class="d-flex">
 
-                         <div class="mb-3">
-                             <label for="formFile" class="form-label ">Photo</label>
-                             <input class="form-control photo" type="file" name="my_image" id="formFile">
-                             <span class="text-danger fw-normal photoError"></span>
-                         </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label ">Photo</label>
+                            <input class="form-control photo" type="file" name="my_image" id="formFile">
+                            <span class="text-danger fw-normal photoError"></span>
+                        </div>
 
-                         <div class="form-floating mt-3">
-                             <input type="tel" class="form-control phone" id="floatingInput" name="phone" placeholder="Numri i telefonit" value="">
-                             <label for="floatingInput">Phone number</label>
-                             <span class="text-danger fw-normal phoneError"></span>
-                         </div>
-                     </div>
+                        <div class="form-floating mt-3">
+                            <input type="tel" class="form-control phone" id="floatingInput" name="phone" placeholder="Numri i telefonit" value="">
+                            <label for="floatingInput">Phone number</label>
+                            <span class="text-danger fw-normal phoneError"></span>
+                        </div>
+                    </div>
 
-                     <div class="d-flex">
+                    <div class="d-flex">
 
-                         <div class="form-floating">
-                             <input type="text" class="form-control username" id="floatingInput" name="username" placeholder="Username" value="">
-                             <label for="floatingInput">Username</label>
-                             <span class="text-danger fw-normal usernameError"></span>
-                         </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control username" id="floatingInput" name="username" placeholder="Username" value="">
+                            <label for="floatingInput">Username</label>
+                            <span class="text-danger fw-normal usernameError"></span>
+                        </div>
 
-                         <div class="form-floating">
-                             <input type="password" class="form-control password" id="floatingPassword" name="password" placeholder="Password">
-                             <label for="floatingPassword">Password</label>
-                             <span class="text-danger fw-normal passwordError"></span>
-                         </div>
-                     </div>
-                     <button class="w-100 btn btn-lg btn-primary mt-1 register" type="button" name="register">Add</button>
-                 </form>
-             </div>
-         </article>
-     </main>
+                        <div class="form-floating">
+                            <input type="password" class="form-control password" id="floatingPassword" name="password" placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+                            <span class="text-danger fw-normal passwordError"></span>
+                        </div>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary mt-1 register" type="button" name="register">Add</button>
+                </form>
+            </div>
+        </article>
+    </main>
 
 
 
-     <?php
+    <?php
         $searchedQuery = "";
         $showEntries;
         $entries = isset($_GET['entries']) ? $_GET['entries'] : 25;
@@ -210,83 +211,83 @@
 
 
 
-     <article class="main d-flex flex-column p-2">
-         <div class="d-flex justify-content-between pt-2">
-             <div>
-                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="doktoret.php">
-                     <input type="hidden" name="page" value="<?= $currentPage ?>">
-                     <label for="entries" class="me-2">Show</label>
-                     <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
-                         <option value="25" <?= $entry25 ?? '' ?>>25</option>
-                         <option value="50" <?= $entry50 ?? '' ?>>50</option>
-                         <option value="75" <?= $entry75 ?? '' ?>>75</option>
-                         <option value="100" <?= $entry100 ?? '' ?>>100</option>
-                     </select>
-                     <label for="entries" class="ms-2">entries</label>
-                 </form>
-             </div>
+    <article class="main d-flex flex-column p-2">
+        <div class="d-flex justify-content-between pt-2">
+            <div>
+                <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="doktoret.php">
+                    <input type="hidden" name="page" value="<?= $currentPage ?>">
+                    <label for="entries" class="me-2">Show</label>
+                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
+                        <option value="25" <?= $entry25 ?? '' ?>>25</option>
+                        <option value="50" <?= $entry50 ?? '' ?>>50</option>
+                        <option value="75" <?= $entry75 ?? '' ?>>75</option>
+                        <option value="100" <?= $entry100 ?? '' ?>>100</option>
+                    </select>
+                    <label for="entries" class="ms-2">entries</label>
+                </form>
+            </div>
 
-             <script>
-                 $(document).ready(function() {
-                     $('#entries').change(function() {
-                         $('#entriesForm').submit();
-                     });
-                 });
-             </script>
+            <script>
+                $(document).ready(function() {
+                    $('#entries').change(function() {
+                        $('#entriesForm').submit();
+                    });
+                });
+            </script>
 
 
 
-             <div class="w-50 ms-2 me-1">
-                 <form method="get" action="doktoret.php">
-                     <input type="hidden" name="entries" value="<?= $entries ?>">
-                     <input type="hidden" name="page" value="<?= $currentPage ?>">
-                     <div class="d-flex mb-1">
-                         <div class="input-group mb-3">
-                             <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
-                             <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                         </div>
-                         <section class="bg-primary ms-2 addDoc" type="button" title="Add Doctor">+</section>
-                     </div>
-                 </form>
-             </div>
-         </div>
-         <?php if ($empty == '') : ?>
-             <table class="table table-striped table_doc table_patient text-center table_doctors">
-                 <thead>
-                     <tr>
-                         <th scope="col" style="display: none;">ID</th>
-                         <th scope="col">Doctor</th>
-                         <th scope="col">Departament</th>
-                         <th scope="col">Username</th>
-                         <th scope="col">Action</th>
-                     </tr>
-                 </thead>
-                 <tbody>
-                     <?php foreach ($data as $data) : ?>
-                         <tr>
-                             <td class="idShow" style="display: none;"><?= $data['id']; ?></td>
-                             <td><?= $data['fullName'] ?></td>
-                             <td><?= $data['dep_name'] ?></td>
-                             <td><?= $data['username'] ?></td>
-                             <td>
-                                 <a class="text-decoration-none text-white showPop" title="View Info">
-                                     <button class="btn btn-primary text-white" id="showPop"><i class="fa-regular fa-eye"></i></button>
-                                 </a>
-                             </td>
-                         </tr>
-                     <?php endforeach; ?>
-                 </tbody>
-             </table>
+            <div class="w-50 ms-2 me-1">
+                <form method="get" action="doktoret.php">
+                    <input type="hidden" name="entries" value="<?= $entries ?>">
+                    <input type="hidden" name="page" value="<?= $currentPage ?>">
+                    <div class="d-flex mb-1">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                            <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                        <section class="bg-primary ms-2 addDoc" type="button" title="Add Doctor">+</section>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <?php if ($empty == '') : ?>
+            <table class="table table-striped table_doc table_patient text-center table_doctors">
+                <thead>
+                    <tr>
+                        <th scope="col" style="display: none;">ID</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Departament</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($data as $data) : ?>
+                        <tr>
+                            <td class="idShow" style="display: none;"><?= $data['id']; ?></td>
+                            <td><?= $data['fullName'] ?></td>
+                            <td><?= $data['dep_name'] ?></td>
+                            <td><?= $data['username'] ?></td>
+                            <td>
+                                <a class="text-decoration-none text-white showPop" title="View Info">
+                                    <button class="btn btn-primary text-white" id="showPop"><i class="fa-regular fa-eye"></i></button>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
 
-         <?php endif; ?>
-         <?php if ($empty == 'empty') { ?>
-             <article class=" d-flex justify-content-center mt-5">
-                 <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
-             </article>
-         <?php } else { ?>
-             <nav aria-label="Page navigation example">
-                 <ul class="pagination">
-                     <?php
+        <?php endif; ?>
+        <?php if ($empty == 'empty') { ?>
+            <article class=" d-flex justify-content-center mt-5">
+                <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
+            </article>
+        <?php } else { ?>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <?php
                         $maxVisibleLinks = 5; // Maximum number of visible page links
 
                         $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
@@ -318,43 +319,37 @@
                             echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
                         }
                         ?>
-                 </ul>
-             </nav>
-         <?php } ?>
-     </article>
+                </ul>
+            </nav>
+        <?php } ?>
+    </article>
 
 
 
-     <article class="popDoc" id="popDoc">
+    <article class="popDoc" id="popDoc">
 
-     </article>
-
-
-     <article class="popDoc_info" id="popDoc_info">
-         <div class="pac_h5">
-             <h5>Doctor information</h5>
-             <button id="close" class="close">
-                 <i class="fa-solid fa-close rezervoClose"></i>
-             </button>
-         </div>
-
-         <div class='doc_wrapper'>
-
-     </article>
+    </article>
 
 
+    <article class="popDoc_info" id="popDoc_info">
+        <div class="pac_h5">
+            <h5>Doctor information</h5>
+            <button id="close" class="close">
+                <i class="fa-solid fa-close rezervoClose"></i>
+            </button>
+        </div>
 
+        <div class='doc_wrapper'>
 
-     <!-- External scripts
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js"></script> -->
-     <!-- Font-awesome script -->
-     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous"></script>
-     <!-- JQuery link -->
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-     <script src="../js/showDocInfo.js"></script>
-     <script src="../js/DoctorProfile.js"></script>
-     <script src="../js/addDoctor.js"></script>
- </body>
+    </article>
 
- </html>
+    <!-- Font-awesome script -->
+    <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous"></script>
+    <!-- JQuery link -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="../js/showDocInfo.js"></script>
+    <script src="../js/DoctorProfile.js"></script>
+    <script src="../js/addDoctor.js"></script>
+</body>
+
+</html>

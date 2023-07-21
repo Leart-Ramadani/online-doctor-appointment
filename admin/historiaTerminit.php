@@ -30,6 +30,7 @@ if (!isset($_SESSION['admin'])) {
             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
             <li><a href="prices.php" class="nav-link text-white">Prices</a></li>
+            <li><a href="payments.php" class="nav-link text-white">Payments</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -211,7 +212,7 @@ if (!isset($_SESSION['admin'])) {
             <nav aria-label="Page navigation example" class="w-100 ps-2">
                 <ul class="pagination">
                     <?php
-                    $maxVisibleLinks = 5; // Maximum number of visible page links
+                    $maxVisibleLinks = 5; 
 
                     $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
                     $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);

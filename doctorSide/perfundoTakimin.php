@@ -16,6 +16,11 @@ $row = $prep->fetch();
 
 $ora = $row['ora'];
 
+$service = "SELECT * FROM prices WHERE NOT id=0";
+$prep_service = $con->prepare($service);
+$prep_service->execute();
+$service_data = $prep_service->fetchAll();
+
 
 ?>
 <!DOCTYPE html>
@@ -40,7 +45,7 @@ $ora = $row['ora'];
 
 <body style="background: #f5f5f5;">
     <?php
-    $diagnoza_err = $recepti_err = '';
+    $diagnoza_err = $recepti_err = $serviceErr = '';
     $diag = $rec = '';
 
 
@@ -65,7 +70,7 @@ $ora = $row['ora'];
         $recepti = $_POST['recepti'];
 
         if (empty($_POST['diagnoza'])) {
-            $diagnoza_err = 'Diagnose must be filled.';
+            $diagnoza_err = '*Diagnose must be filled.';
             $invalid_dianoz = 'is-invalid';
         } else {
             $diagnoza = $_POST['diagnoza'];
@@ -74,7 +79,7 @@ $ora = $row['ora'];
         }
 
         if (empty($_POST['recepti'])) {
-            $recepti_err = 'Prescription must be filled.';
+            $recepti_err = '*Prescription must be filled.';
             $invalid_recepti = 'is-invalid';
         } else {
             $recepti = $_POST['recepti'];
@@ -82,11 +87,26 @@ $ora = $row['ora'];
             $rec = $recepti;
         }
 
-        if ($diagnoza_err == '' && $recepti_err == '') {
-            $ins_sql = "UPDATE terminet SET statusi='Completed', diagnoza=:diagnoza, recepti=:recepti WHERE id='$id'";
+        if(empty($_POST['service'])){
+            $serviceErr = '*Service must be selected';
+            $invalid_service = 'is-invalid';
+        } else{
+            $serviceErr = '';
+            $service = $_POST['service'];
+
+            $service_sql = "SELECT id FROM prices WHERE name=:service";
+            $service_stmt = $con->prepare($service_sql);
+            $service_stmt->bindParam(':service', $service);
+            $service_stmt->execute();
+            $service_row = $service_stmt->fetch();
+        }
+
+        if ($diagnoza_err == '' && $recepti_err == '' && $serviceErr == '') {
+            $ins_sql = "UPDATE terminet SET statusi='Completed', diagnoza=:diagnoza, recepti=:recepti, service=:service WHERE id='$id'";
             $ins_prep = $con->prepare($ins_sql);
             $ins_prep->bindParam(':diagnoza', $diagnoza);
             $ins_prep->bindParam(':recepti', $recepti);
+            $ins_prep->bindParam(':service', $service_row['id']);
             $ins_prep->execute();
 
             $delWait = "DELETE FROM waiting_list WHERE apointment_id='$id'";
@@ -164,6 +184,15 @@ $ora = $row['ora'];
             </div>
 
             <form method="post" autocomplete="off">
+                <div class="mb-1">
+                     <select class="form-select gender <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="service">
+                        <option value="">Select service</option>
+                        <?php foreach($service_data as $service_data) : ?>
+                        <option value="<?= $service_data['name'] ?>"><?= $service_data['name'] ?></option>
+                        <?php endforeach; ?>
+                     </select>
+                     <span class="text-danger fw-normal"><?php echo $serviceErr; ?></span>
+                 </div>
                 <div class="mb-2">
                     <label for="diagnoza" class="form-label">Diagnose:</label>
                     <textarea class="form-control <?= $invalid_dianoz ?? '' ?>" style="resize:none;" id="diagnoza" rows="3" maxlength="350" name="diagnoza"><?= $diag; ?></textarea>

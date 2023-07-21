@@ -13,7 +13,7 @@ $data = $prep->fetch();
 
 if($data['verificated'] == true){
     echo "<script>
-        alert('Llogaria juaj eshte verifikuar!');
+        alert('Your account has been verified!');
         window.location.replace('../patientSide/rezervoTermin.php');
         </script>";
 }

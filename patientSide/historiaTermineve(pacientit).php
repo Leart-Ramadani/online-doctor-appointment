@@ -114,7 +114,7 @@ if (!isset($_SESSION['fullName'])) {
 
         $sort = "SELECT h.id, h.doktori, h.departamenti, h.pacienti, h.numri_personal, h.email_pacientit, h.data, h.ora, h.diagnoza, h.recepti, 
             d.name AS 'dep_name' FROM terminet AS h INNER JOIN departamentet AS d ON h.departamenti = d.id 
-            WHERE numri_personal=:numri_personal  AND statusi='Completed' AND 
+            WHERE h.numri_personal=:numri_personal  AND h.statusi='Completed' AND h.paied=true AND 
             (doktori=:keyword OR d.id='$dep' OR ora=:keyword OR diagnoza=:keyword OR recepti=:keyword) LIMIT :startIndex, $entries";
         $sql = $sort;
 
@@ -130,7 +130,7 @@ if (!isset($_SESSION['fullName'])) {
 
         $sql = "SELECT h.id, h.doktori, h.departamenti, h.pacienti, h.numri_personal, h.email_pacientit, h.data, h.ora, h.diagnoza, h.recepti, 
             d.name AS 'dep_name' FROM terminet AS h INNER JOIN departamentet AS d ON h.departamenti = d.id 
-            WHERE numri_personal=:numri_personal AND statusi='Completed' LIMIT :startIndex, $entries";
+            WHERE h.numri_personal=:numri_personal AND h.statusi='Completed' AND h.paied=true LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
@@ -217,7 +217,7 @@ if (!isset($_SESSION['fullName'])) {
         <?php } else { ?>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                 <?php
+                <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
 
                     $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));

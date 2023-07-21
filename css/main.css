@@ -1272,3 +1272,110 @@ nav {
   justify-content: center;
   flex-direction: column;
 }
+
+.perscriptionContainer{
+  display: flex;
+  justify-content: center;
+}
+
+.prescriptionWrapper{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 21cm;
+  height: 29.6cm;
+  background-color: rgb(228,240,240);
+}
+
+.prescriptionHeader{
+  display: flex;
+  justify-content: space-between;
+}
+
+.prescriptionHeader > div > h1{
+  text-transform: uppercase;
+}
+
+.prescriptionBody{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.prescriptionBody > div > img{
+  width: 60px;
+  height: 60px;
+}
+
+.prescriptionDoc{
+  text-align: center;
+  text-transform: uppercase;
+  
+}
+
+.prescriptionDoc > h1{
+  color: #309896;
+}
+
+.appointmentInfo{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.app_data{
+  background-color: rgb(185,211,215);
+  padding: 5px;
+}
+
+.appointmentInfo > div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.desPrescription{
+  margin-left: 10px !important;
+  height: 470px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  background: url("../photos/caduceus.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 350px;
+  letter-spacing: 2px;
+}
+
+.prescriptionFooter{
+  position: relative;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 22px;
+}
+
+.prescriptionFooter > p{
+  width: fit-content;
+  margin-top: 0;
+}
+
+.doctorsName{
+  border-bottom: 1px solid rgba(0, 0, 0, 0.512);
+  width: fit-content;
+  padding: 5px 20px;
+
+}
+
+.prescriptionFooter > img {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: -70px;
+  right: -5px;
+  user-select: none;
+  opacity: .6;
+}
