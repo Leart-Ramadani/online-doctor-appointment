@@ -71,7 +71,7 @@ $date = date_format($date, "d/m/Y");
 
 </head>
 
-<body class="">
+<body class="" style="background-color: rgb(228,240,240);"> 
     <article class="perscriptionContainer" id="pdfElemenet">
         <div class="prescriptionWrapper">
             <div class="prescriptionHeader">
@@ -167,6 +167,10 @@ $date = date_format($date, "d/m/Y");
 
         // New Promise-based usage:
         html2pdf().set(opt).from(element).save();
+    
+        setTimeout( () => {
+            window.location.replace('historiaTermineve(pacientit).php');
+        }, 3000);
     </script>
 
 </body>

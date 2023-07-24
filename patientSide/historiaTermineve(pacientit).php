@@ -207,7 +207,7 @@ if (!isset($_SESSION['fullName'])) {
                             <td><?= $data['recepti'] ?></td> -->
                             <td>
                                 <a href="downloadPDF.php?id=<?= $data['id'] ?>" title="Download as PDF">
-                                    <button class="btn btn-danger">PDF <i class="fa-regular fa-file-lines"></i></button>
+                                    <button class="btn btn-danger"><i class="fa-regular fa-file-lines"></i> PDF</button>
                                 </a>
                             </td>
                         </tr>
