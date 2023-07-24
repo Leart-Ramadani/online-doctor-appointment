@@ -169,11 +169,11 @@ if (!isset($_SESSION['admin'])) {
                 </thead>
                 <tbody>
                     <?php foreach ($data as $data) {
-                        if($data['statusi'] == 'Booked'){
+                        if ($data['statusi'] == 'Booked') {
                             $statusColor = 'btn btn-success rounded p-1';
-                        } else if($data['statusi'] == 'Canceled'){
+                        } else if ($data['statusi'] == 'Canceled') {
                             $statusColor = 'btn btn-danger rounded p-1';
-                        } else if($data['statusi'] == 'In progres'){
+                        } else if ($data['statusi'] == 'In progres') {
                             $statusColor = 'btn btn-warning text-white rounded p-1';
                         }
                     ?>
@@ -184,7 +184,7 @@ if (!isset($_SESSION['admin'])) {
                             <td><?= $data['email_pacientit'] ?></td>
                             <td><?= $data['data'] ?></td>
                             <td><?= $data['ora'] ?> </td>
-                            <td><span class="<?= $statusColor?>"><?= $data['statusi'] ?></span></td>
+                            <td><span class="<?= $statusColor ?>"><?= $data['statusi'] ?></span></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white" href="deleteTerminin.php?id=<?= $data['id'] ?>" title="Delete">
                                     <button class="btn btn-danger p-1 text-white rez"><i class="fa-solid fa-trash"></i></button>
@@ -197,8 +197,9 @@ if (!isset($_SESSION['admin'])) {
 
         <?php endif; ?>
 
+
         <?php if ($empty == 'empty') { ?>
-            <article class=" d-flex justify-content-center">
+            <article class="d-flex justify-content-center">
                 <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
             </article>
         <?php } else { ?>

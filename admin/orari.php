@@ -285,12 +285,12 @@ if (!isset($_SESSION['admin'])) {
                                     $mail->send();
 
                                     echo "<script>
-                                             window.location.replace('orari.php');
+                                            window.location.replace('orari.php');
                                         </script>";
                                 } catch (Exception $e) {
                                     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                                     echo "<script>
-                                             window.location.replace('orari.php');
+                                            window.location.replace('orari.php');
                                         </script>";
                                 }
                             }
@@ -499,9 +499,6 @@ if (!isset($_SESSION['admin'])) {
                             <td><?= $data['nga_ora'] . '-' . $data['deri_oren'] ?></td>
                             <td><?= $data['kohezgjatja'] . 'min' ?> </td>
                             <td class="text-center">
-                                <a class="text-decoration-none text-white" href="editOrari.php?id=<?= $data['id']  ?>" title="Edit Schedule">
-                                    <button class="btn btn-primary p-1 text-white"><i class="fa-solid fa-user-pen"></i></button>
-                                </a>
                                 <a class="text-decoration-none text-white" href="deleteOrarin.php?id=<?= $data['id']  ?>" title="Delete Schedule">
                                     <button class="btn btn-danger p-1 text-white"><i class="fa-solid fa-trash"></i></button>
                                 </a>

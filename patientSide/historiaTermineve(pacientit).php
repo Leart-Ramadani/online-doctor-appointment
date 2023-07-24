@@ -106,9 +106,9 @@ if (!isset($_SESSION['fullName'])) {
         $depPrep->bindParam(':nameDep', $keyword);
         $depPrep->execute();
         $depFetch = $depPrep->fetch();
-        if($depFetch){
+        if ($depFetch) {
             $dep = $depFetch['id'];
-        } else{
+        } else {
             $dep = '';
         }
 
@@ -170,19 +170,19 @@ if (!isset($_SESSION['fullName'])) {
                 });
             </script>
 
-                <div class="w-50 ms-2 me-1">
-                    <form method="get" action="historiaTermineve(pacientit).php">
-                        <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="page" value="<?= $currentPage ?>">
-                        <div class="d-flex mb-1">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
-                                <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                            </div>
+            <div class="w-50 ms-2 me-1">
+                <form method="get" action="historiaTermineve(pacientit).php">
+                    <input type="hidden" name="entries" value="<?= $entries ?>">
+                    <input type="hidden" name="page" value="<?= $currentPage ?>">
+                    <div class="d-flex mb-1">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                            <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
+        </div>
         <?php if ($empty == '') : ?>
             <table class="table table-striped text-center mt-2 table_patient">
                 <thead>
@@ -191,8 +191,9 @@ if (!isset($_SESSION['fullName'])) {
                         <th scope="col">Departament</th>
                         <th scope="col">Date</th>
                         <th scope="col">Time</th>
-                        <th scope="col">Diagnose</th>
-                        <th scope="col">Prescription</th>
+                        <!-- <th scope="col">Diagnose</th>
+                        <th scope="col">Prescription</th> -->
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -202,8 +203,13 @@ if (!isset($_SESSION['fullName'])) {
                             <td><?= $data['dep_name'] ?></td>
                             <td><?= $data['data'] ?></td>
                             <td><?= $data['ora'] ?> </td>
-                            <td><?= $data['diagnoza'] ?></td>
-                            <td><?= $data['recepti'] ?></td>
+                            <!-- <td><?= $data['diagnoza'] ?></td>
+                            <td><?= $data['recepti'] ?></td> -->
+                            <td>
+                                <a href="downloadPDF.php?id=<?= $data['id'] ?>" title="Download as PDF">
+                                    <button class="btn btn-danger">PDF <i class="fa-regular fa-file-lines"></i></button>
+                                </a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -217,7 +223,7 @@ if (!isset($_SESSION['fullName'])) {
         <?php } else { ?>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                <?php
+                    <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
 
                     $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
@@ -245,7 +251,7 @@ if (!isset($_SESSION['fullName'])) {
                     if ($currentPage < $totalPages) {
                         $nextPage = $currentPage + 1;
                         echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
-                    } else{
+                    } else {
                         echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
                     }
                     ?>

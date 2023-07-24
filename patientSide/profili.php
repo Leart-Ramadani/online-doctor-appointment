@@ -78,42 +78,30 @@ if (!isset($_SESSION['fullName'])) {
             }
 
             if (empty($_POST['name'])) {
-                $nameErr = '*Emri duhet plotesuar.';
+                $nameErr = '*Full name must be filled.';
                 $invalid_name = 'is-invalid';
             } else {
                 $emri = testInput($_POST['name']);
-                if (!preg_match("/^[a-zA-z]*$/", $emri)) {
-                    $nameErr = '*Nuk lejohen karaktere tjera perveq shkronjave.';
+                if (!preg_match("/^[a-z A-z]*$/", $emri)) {
+                    $nameErr = '*Only alphabetical letters are allowed.';
                     $invalid_name = 'is-invalid';
                 } else {
                     $nameErr = '';
                 }
             }
 
-            if (empty($_POST['surname'])) {
-                $surnameErr = '*Mbiemri duhet plotesuar.';
-                $invalid_surname = 'is-invalid';
-            } else {
-                $mbiemri = testInput($_POST['surname']);
-                if (!preg_match("/^[a-zA-z]*$/", $mbiemri)) {
-                    $surnameErr = '*Nuk lejohen karaktere tjera perveq shkronjave.';
-                    $invalid_surname = 'is-invalid';
-                } else {
-                    $surnameErr = '';
-                }
-            }
 
             if (empty($_POST['personal_id'])) {
-                $personalNrErr = '*Numri personal duhet plotesuar.';
+                $personalNrErr = '*Personal ID must be filled.';
                 $invalid_personal_id = 'is-invalid';
             } else {
                 $numri_personal = testInput($_POST['personal_id']);
                 if (!preg_match("/^[0-9]*$/", $numri_personal)) {
-                    $personalNrErr = "*Nuk lejohen karaktere tjera perveq numrave.";
+                    $personalNrErr = "*Onlu numbers are allowed.";
                     $invalid_personal_id = 'is-invalid';
                 } else {
                     if (strlen($numri_personal) != 10) {
-                        $personalNrErr = '*Numri personal duhet te jete 10 karaktere';
+                        $personalNrErr = '*Personal ID must be 10 characters.';
                         $invalid_personal_id = 'is-invalid';
                     } else {
                         $personalNrErr = '';
@@ -121,21 +109,29 @@ if (!isset($_SESSION['fullName'])) {
                 }
             }
 
-            if (!isset($_POST['gender'])) {
-                $genderErr = '*Gjinia duhet zgjedhur';
+
+            if (empty($_POST['gender'])) {
+                $genderErr = '*Gender must be selected.';
+                $gender_invalid = 'is-invalid';
             } else {
-                $gjinia = testInput($_POST['gender']);
+                $gjinia = $_POST['gender'];
                 $genderErr = '';
+                if ($gjinia == "Male") {
+                    $maleValue = "selected";
+                } else if ($gjinia == "Female") {
+                    $femaleValue = "selected";
+                }
             }
 
+
             if (empty($_POST['email'])) {
-                $emailErr = '*Email duhet plotesuar.';
+                $emailErr = '*Email must be filled.';
                 $invalid_email = 'is-invalid';
             } else {
                 $pattern = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^";
                 $email = testInput($_POST['email']);
                 if (!preg_match($pattern, $email)) {
-                    $emailErr = '*Ky email nuk pranohet.';
+                    $emailErr = '*This email is invalid.';
                     $invalid_email = 'is-invalid';
                 } else {
 
@@ -144,7 +140,7 @@ if (!isset($_SESSION['fullName'])) {
             }
 
             if (empty($_POST['birthday'])) {
-                $birthdayErr = '*Ditelindja duhet plotesuar.';
+                $birthdayErr = '*Birthday must be filled.';
                 $invalid_birthday = 'is-invalid';
             } else {
                 $ditlindja = testInput($_POST['birthday']);
@@ -152,12 +148,12 @@ if (!isset($_SESSION['fullName'])) {
             }
 
             if (empty($_POST['phone'])) {
-                $phoneErr = '*Numri i telefonit duhet plotesuar.';
+                $phoneErr = '*Phone number must be filled.';
                 $invalid_phone = 'is-invalid';
             } else {
                 $telefoni = testInput($_POST['phone']);
                 if (!preg_match('/^[0-9]{9}+$/', $telefoni)) {
-                    $phoneErr = '*Ky numer i telefonit nuk pranohet.';
+                    $phoneErr = '*This phone number is invalid.';
                     $invalid_phone = 'is-invalid';
                 } else {
                     $phoneErr = '';
@@ -165,7 +161,7 @@ if (!isset($_SESSION['fullName'])) {
             }
 
             if (empty($_POST['adress'])) {
-                $adressErr = '*Adresa duhet plotesuar.';
+                $adressErr = '*Adress must be filled.';
                 $invalid_adress = 'is-invalid';
             } else {
                 $adresa = testInput($_POST['adress']);
@@ -173,7 +169,7 @@ if (!isset($_SESSION['fullName'])) {
             }
 
             if (empty($_POST['username'])) {
-                $usernameErr = '*Username duhet plotesuar.';
+                $usernameErr = '*Username must be filled.';
                 $invalid_username = 'is-invalid';
             } else {
                 $username = testInput($_POST['username']);
@@ -182,7 +178,7 @@ if (!isset($_SESSION['fullName'])) {
 
 
             if (empty($_POST['newPassword'])) {
-                $newPass_err = '*Fjalkalimi i ri duhet plotesuar.';
+                $newPass_err = '*New password must be filled.';
                 $invalid_newPass = 'is-invalid';
             } else {
                 $newPassword = $_POST['newPassword'];
@@ -190,7 +186,7 @@ if (!isset($_SESSION['fullName'])) {
             }
 
             if (empty($_POST['confirmPassword'])) {
-                $confirmPass_err = '*Duhet te konfirmosh fjalkalimin.';
+                $confirmPass_err = '*You must confirm your password.';
                 $invalid_confirmPass = 'is-invalid';
             } else {
                 $confirmPassword = $_POST['confirmPassword'];
@@ -199,16 +195,16 @@ if (!isset($_SESSION['fullName'])) {
 
 
             if (empty($_POST['password'])) {
-                $PassErr = '*Fjalkalimi aktual duhet vendosur.';
+                $PassErr = '*Actual password must be filled.';
                 $invalid_pass = 'is-invalid';
             } else {
                 $password = testInput($_POST['password']);
 
                 $PassErr = '';
 
-                $check_pass = "SELECT password FROM users WHERE userType=1 AND personal_id=:numri_personal";
+                $check_pass = "SELECT password FROM users WHERE userType=1 AND personal_id=:personal_id";
                 $check_pass_prep = $con->prepare($check_pass);
-                $check_pass_prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+                $check_pass_prep->bindParam(':personal_id', $_SESSION['numri_personal']);
                 $check_pass_prep->execute();
                 $check_data = $check_pass_prep->fetch();
 
@@ -217,7 +213,7 @@ if (!isset($_SESSION['fullName'])) {
 
                     if ($newPass_err == '' && $confirmPass_err == '') {
                         if ($newPassword !== $confirmPassword) {
-                            $confirmPass_err = "*Fjalkalimet nuk perputhen.";
+                            $confirmPass_err = "*Passwords doesn't match.";
                             $invalid_confirmPass = 'is-invalid';
                         } else {
                             $confirmPass_err = '';
@@ -225,25 +221,22 @@ if (!isset($_SESSION['fullName'])) {
                         }
                     }
                 } else {
-                    $PassErr = '*Fjalkalimi nuk eshte i sakte.';
+                    $PassErr = '*The passwors is incorret.';
                     $invalid_pass = 'is-invalid';
                 }
             }
-
-
 
             if (
                 $nameErr == '' && $surnameErr == '' && $personalNrErr == '' && $genderErr == '' && $emailErr == '' && $phoneErr == '' &&
                 $birthdayErr == '' && $adressErr == '' && $usernameErr == '' && $PassErr == '' && $newPass_err == '' && $confirmPass_err == ''
             ) {
 
-                $sql = "UPDATE users  SET fullName=:mbiemri, personal_id=:numri_personal, gender=:gjinia, email=:email, 
+                $sql = "UPDATE users SET fullName=:fullName, personal_id=:numri_personal, gender=:gjinia, email=:email, 
                     phone=:telefoni, birthday=:ditlindja, adress=:adresa, username=:username, password=:password 
                     WHERE personal_id=:data_numri_personal AND userType=1";
                 $prep = $con->prepare($sql);
                 $prep->bindParam(':data_numri_personal', $_SESSION['numri_personal']);
-                $prep->bindParam(':emri', $emri);
-                $prep->bindParam(':mbiemri', $mbiemri);
+                $prep->bindParam(':fullName', $emri);
                 $prep->bindParam(':numri_personal', $numri_personal);
                 $prep->bindParam(':gjinia', $gjinia);
                 $prep->bindParam(':email', $email);
@@ -254,7 +247,7 @@ if (!isset($_SESSION['fullName'])) {
                 $prep->bindParam(':password', $encPass);
                 if ($prep->execute()) {
                     echo "<script>
-                            alert('Llogaria juaj eshte perditesuar me sukses.');
+                            alert('Your account has been successfully updated.');
                             window.location.replace('../index.php');
                         </script>";
                 } else {
@@ -264,66 +257,65 @@ if (!isset($_SESSION['fullName'])) {
         }
 
         ?>
-        <form method="POST" class="form-sigin form-siginPro" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal">Perditeso llogarine</h1>
+        <form method="POST" class="form-sigin form-siginPro mt-2" autocomplete="off">
+            <h1 class="h3 mb-3 fw-normal">Update your account</h1>
             <?php
 
-            $sql = "SELECT * FROM users WHERE personal_id=:numri_personal AND userType=1    ";
+            $sql = "SELECT * FROM users WHERE personal_id=:personal_id AND userType=1";
             $prep = $con->prepare($sql);
-            $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
+            $prep->bindParam(':personal_id', $_SESSION['numri_personal']);
             $prep->execute();
             $data = $prep->fetch();
+
+            if ($data['gender'] == "Male") {
+                $maleValue = "selected";
+            } else if ($gjinia == "Female") {
+                $femaleValue = "selected";
+            }
             ?>
 
             <div class="form-floating mb-2">
-                <input type="text" class="form-control res <?= $invalid_name ?? "" ?>" id="floatingInput" name="name" placeholder="Emri" value="<?= $data['emri'] ?>">
-                <label for="floatingInput">Emri</label>
+                <input type="text" class="form-control res <?= $invalid_name ?? "" ?>" id="floatingInput" name="name" placeholder="Full name" value="<?= $data['fullName'] ?>">
+                <label for="floatingInput">Full name</label>
                 <span class="text-danger fw-normal"><?php echo $nameErr; ?></span>
             </div>
 
             <div class="form-floating mb-2">
-                <input type="text" class="form-control res <?= $invalid_surname ?? "" ?>" id="floatingInput" name="surname" placeholder="Mbiemri" value="<?= $data['mbiemri'] ?>">
-                <label for="floatingInput">Mbiemri</label>
-                <span class="text-danger fw-normal"><?php echo $surnameErr; ?></span>
-            </div>
-
-            <div class="form-floating mb-2">
-                <input type="text" class="form-control res <?= $invalid_personal_id ?? "" ?>" id="floatingInput" name="personal_id" placeholder="Numri personal" value="<?= $data['numri_personal'] ?>">
-                <label for="floatingInput">Numri personal</label>
+                <input type="text" class="form-control res <?= $invalid_personal_id ?? "" ?>" id="floatingInput" name="personal_id" placeholder="Personal ID" value="<?= $data['personal_id'] ?>">
+                <label for="floatingInput">Personal ID</label>
                 <span class="text-danger fw-normal"><?php echo $personalNrErr; ?></span>
             </div>
 
-            <div class="form-check form-check-inline mb-2">
-                <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Mashkull">
-                <label class="form-check-label" for="inlineRadio1">Mashkull</label>
+            <div class="mb-2">
+                <select class="form-select <?= $gender_invalid ?? "" ?>" name="gender">
+                    <option value="">Select your gender</option>
+                    <option value="Male" <?= $maleValue ?? "" ?>>Male</option>
+                    <option value="Female" <?= $femaleValue ?? "" ?>>Female</option>
+                </select>
+                <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
             </div>
 
-            <div class="form-check form-check-inline mb-2">
-                <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Femer">
-                <label class="form-check-label" for="inlineRadio2">Femer</label>
-            </div> <br>
-            <span class="text-danger fw-normal"><?php echo $genderErr; ?></span>
             <div class="form-floating mb-2">
                 <input type="email" class="form-control res <?= $invalid_email ?? "" ?>" id="floatingInput" name="email" placeholder="name@example.com" value="<?= $data['email'] ?>">
-                <label for="floatingInput">Email </label>
+                <label for="floatingInput">Email</label>
                 <span class="text-danger fw-normal"><?php echo $emailErr; ?></span>
             </div>
 
             <div class="col-lg-3 col-sm-6 mb-2">
-                <label for="startDate">Ditelindja:</label>
-                <input id="startDate" class="form-control ditlindja res <?= $invalid_birthday ?? "" ?>" name="birthday" type="date" value="<?= $data['ditlindja'] ?>" />
+                <label for="startDate">Birthday:</label>
+                <input id="startDate" class="form-control ditlindja res <?= $invalid_birthday ?? "" ?>" name="birthday" type="date" value="<?= $data['birthday'] ?>" />
                 <span class="text-danger fw-normal"><?php echo $birthdayErr; ?></span>
             </div>
 
             <div class="form-floating mb-2">
-                <input type="tel" class="form-control  res<?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Numri i telefonit" value="<?= $data['telefoni'] ?>">
-                <label for="floatingInput">Numri i telefonit</label>
+                <input type="tel" class="form-control  res<?= $invalid_phone ?? "" ?>" id="floatingInput" name="phone" placeholder="Numri i telefonit" value="<?= $data['phone'] ?>">
+                <label for="floatingInput">Phone number</label>
                 <span class="text-danger fw-normal"><?php echo $phoneErr; ?></span>
             </div>
 
             <div class="form-floating mb-2">
-                <input type="text" class="form-control res <?= $invalid_adress ?? "" ?>" id="floatingInput" name="adress" placeholder="Adresa" value="<?= $data['adresa'] ?>">
-                <label for="floatingInput">Adresa</label>
+                <input type="text" class="form-control res <?= $invalid_adress ?? "" ?>" id="floatingInput" name="adress" placeholder="Adresa" value="<?= $data['adress'] ?>">
+                <label for="floatingInput">Adress</label>
                 <span class="text-danger fw-normal"><?php echo $adressErr; ?></span>
             </div>
 
@@ -333,25 +325,50 @@ if (!isset($_SESSION['fullName'])) {
                 <span class="text-danger fw-normal"><?php echo $usernameErr; ?></span>
             </div>
 
-            <div class="form-floating">
-                <input type="password" class="form-control mb-2 res <?= $invalid_pass ?? "" ?>" id="floatingPassword" name="password" placeholder="Fjalkalimi aktual">
-                <label for="floatingPassword">Fjalkalimi aktual</label>
+            <div class="form-floating mb-2">
+                <input type="password" class="form-control  res <?= $invalid_pass ?? "" ?>" id="actualPassword" name="password" placeholder="Fjalkalimi aktual">
+                <label for="floatingPassword">Actual password</label>
                 <span class="text-danger fw-normal"><?php echo $PassErr; ?></span>
             </div>
 
-            <div class="form-floating">
-                <input type="password" class="form-control res mb-2 <?= $invalid_newPass ?? "" ?>" id="floatingPassword" name="newPassword" placeholder="Fjalkalimi i ri">
-                <label for="floatingPassword">Fjalkalimi i ri</label>
+            <div class="form-floating mb-2">
+                <input type="password" class="form-control res <?= $invalid_newPass ?? "" ?>" id="newPassword" name="newPassword" placeholder="Fjalkalimi i ri">
+                <label for="floatingPassword">New password</label>
                 <span class="text-danger fw-normal"><?php echo $newPass_err; ?></span>
             </div>
 
-            <div class="form-floating">
-                <input type="password" class="form-control res mb-2  <?= $invalid_confirmPass ?? "" ?>" id="floatingPassword" name="confirmPassword" placeholder="Konfirmo fjalkalimin">
-                <label for="floatingPassword">Konfirmo fjalkalimin</label>
+            <div class="form-floating mb-2">
+                <input type="password" class="form-control res <?= $invalid_confirmPass ?? "" ?>" id="confrimPassword" name="confirmPassword" placeholder="Konfirmo fjalkalimin">
+                <label for="floatingPassword">Confirm password</label>
                 <span class="text-danger fw-normal"><?php echo $confirmPass_err; ?></span>
             </div>
 
-            <button class=" btn btn-lg btn-primary updateRes" type="submit" name="update">Perditeso</button>
+            <div class="form-check d-flex mb-2 justify-content-end">
+                <label class="form-check-label" for="flexCheckDefault">Show password</label>
+                <input class="form-check-input ms-2" type="checkbox" value="" id="flexCheckDefault">
+            </div>
+
+            <script>
+                const passInput = document.getElementById('actualPassword');
+                const newPass = document.getElementById('newPassword');
+                const confirmPass = document.getElementById('confrimPassword');
+                const showPassCheckBox = document.getElementById('flexCheckDefault');
+
+                const showPass = () => {
+                    if (showPassCheckBox.checked) {
+                        passInput.type = 'text';
+                        newPass.type = 'text';
+                        confirmPass.type = 'text';
+                    } else {
+                        passInput.type = 'password';
+                        newPass.type = 'password';
+                        confirmPass.type = 'password';
+                    }
+                }
+
+                showPassCheckBox.addEventListener('change', showPass);
+            </script>
+            <button class=" btn btn-lg btn-primary updateRes" type="submit" name="update">Update</button>
 
         </form>
 

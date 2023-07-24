@@ -25,7 +25,7 @@ if($data['verificated'] == true){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifikoni</title>
+    <title>Verificate</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -37,8 +37,8 @@ if($data['verificated'] == true){
 <body style="background-color: #f5f5f5;">
     <main class="mainVeriCode">
         <form autocomplete="off" class="veri_form">
-            <h1>Verifikoni llogarine tuaj</h1>
-            <p>Shkruani kodin qe je kemi derguar ne emailin tuaj!</p>
+            <h1>Verify your account</h1>
+            <p>Write down the code that was sent in your email!</p>
             <div>
                 <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp1">
                 <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp2">
@@ -48,9 +48,9 @@ if($data['verificated'] == true){
                 <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp6">
             </div>
             <div class="verifyBtnWrapper">
-                <button type="button" class="verify w-100 mt-3 btn btn-lg btn-primary" id="verify">Verifiko</button>
+                <button type="button" class="verify w-100 mt-3 btn btn-lg btn-primary" id="verify">Verify</button>
             </div>
-            <a class="countdown"><span class="restart"> Dergo kodin perseri:</span> <span class="timer"> </span></a>
+            <a class="countdown"><span class="restart"> Resend code:</span> <span class="timer"> </span></a>
         </form>
     </main>
 
@@ -106,7 +106,7 @@ if($data['verificated'] == true){
                     code.style.borderColor = '';
                 });
                 
-                alert("Kodi ka skaduar. Ju lutemi klikoni linkun per te derguar kodin perseri për të verifikuar llogarinë tua");
+                alert("Code has expired. Please click on the resend code link to resend the code!");
             } else {
                 verifyBtn.disabled = false;
                 veri_code.forEach(code => {

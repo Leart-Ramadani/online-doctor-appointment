@@ -80,7 +80,7 @@ if (!isset($_SESSION['fullName'])) {
             $email = $data['email'];
             $ankesa = $_POST['ankesa'];
 
-            $paid = "SELECT * FROM terminet WHERE numri_personal=:personal_id AND paied=false";
+            $paid = "SELECT * FROM terminet WHERE numri_personal=:personal_id AND paied=0";
             $prep = $con->prepare($paid);
             $prep->bindParam(':personal_id', $_SESSION['numri_personal']);
             $prep->execute();
@@ -103,6 +103,7 @@ if (!isset($_SESSION['fullName'])) {
                     $ankesa_prep->bindParam(':email', $email);
                     $ankesa_prep->bindParam(':ankesa', $ankesa);
                     $ankesa_prep->execute();
+                    echo "<script> alert('Your complaint has successfully been sent!')</script>";
                 }
             }
         }
