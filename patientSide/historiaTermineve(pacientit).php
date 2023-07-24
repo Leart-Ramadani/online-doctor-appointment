@@ -191,8 +191,6 @@ if (!isset($_SESSION['fullName'])) {
                         <th scope="col">Departament</th>
                         <th scope="col">Date</th>
                         <th scope="col">Time</th>
-                        <!-- <th scope="col">Diagnose</th>
-                        <th scope="col">Prescription</th> -->
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -203,11 +201,11 @@ if (!isset($_SESSION['fullName'])) {
                             <td><?= $data['dep_name'] ?></td>
                             <td><?= $data['data'] ?></td>
                             <td><?= $data['ora'] ?> </td>
-                            <!-- <td><?= $data['diagnoza'] ?></td>
-                            <td><?= $data['recepti'] ?></td> -->
                             <td>
-                                <a href="downloadPDF.php?id=<?= $data['id'] ?>" title="Download as PDF">
-                                    <button class="btn btn-danger">PDF <i class="fa-regular fa-file-lines"></i></button>
+                                <a href="downloadPDF.php?id=<?= $data['id'] ?>" title="Download as PDF" class="d-flex justify-content-center">
+                                    <button class="btn btn-danger d-flex">
+                                        <i class="fa-solid fa-file-pdf" style="font-size: 20px;"></i>
+                                    </button>
                                 </a>
                             </td>
                         </tr>
