@@ -15,10 +15,11 @@ if (!isset($_SESSION['admin'])) {
     <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <span class="fs-4"><?php echo $_SESSION['admin'] ?></span>
+            <span class="fs-5"><?php echo $_SESSION['admin'] ?></span>
         </a>
-        <hr>
+        <hr style="margin: 10px 0 !important;">
         <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item"><a href="dashboard.php" class="nav-link text-white">Dashboard</a></li>
             <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doctors</a></li>
             <li><a href="departamentet.php" class="nav-link text-white active" aria-current="page">Departaments</a></li>
             <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>

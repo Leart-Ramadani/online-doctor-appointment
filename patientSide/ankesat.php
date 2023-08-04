@@ -108,7 +108,7 @@ if (!isset($_SESSION['fullName'])) {
             }
         }
         ?>
-        <form class="form-signin p-0" method="POST" autocomplete="off">
+        <form class="form-signin p-0" method="POST" autocomplete="off" style="max-width: 300px;">
             <h1 class="h3 mb-3 fw-normal text-center">Complaint</h1>
 
             <div class="form-floating">
