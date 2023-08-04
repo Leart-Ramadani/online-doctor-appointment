@@ -108,21 +108,21 @@
 
 <body>
     <nav class="t navbar navbar-expand-md navbar-dark" style="background-color:#05204A" aria-label="Fourth navbar example">
-        <div class="container-fluid">
+        <div class="container-fluid" style="background: #05204A;">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarsExample04">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0 text-center align-items-center">
                     <li class="nav-item">
-                        <a href="index.php" class="nav-link active pt-0 pb-0" style="border-right: 1px solid white;color:#ADE8FF" aria-current="page">Homepage</a>
+                        <a href="index.php" class="nav-link active pt-0 pb-0 navMenuLink" style="border-right: 1px solid white;color:#ADE8FF" aria-current="page">Homepage</a>
                     </li>
                     <li class="nav-item">
-                        <a href="galeria.php" class="nav-link text-white pt-0 pb-0" style="border-right: 1px solid white">Gallery</a>
+                        <a href="galeria.php" class="nav-link text-white pt-0 pb-0 navMenuLink" style="border-right: 1px solid white">Gallery</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./patientSide/rezervoTermin.php" class="nav-link text-white pt-0 pb-0" style="border-right: 1px solid white">Appointments</a>
+                        <a href="./patientSide/rezervoTermin.php" class="nav-link text-white pt-0 pb-0 navMenuLink" style="border-right: 1px solid white">Appointments</a>
                     </li>
                     <li class="nav-item">
                         <a href="./patientSide/ankesat.php" class="nav-link text-white pt-0 pb-0">Complaints</a>

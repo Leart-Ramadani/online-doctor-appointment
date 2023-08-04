@@ -109,7 +109,7 @@ $data = $stm->fetch();
             <hr>
             <p>Time: <span class='appTime'></span></p>
             <hr>
-            <div class='d-flex flex-wrap gap-2 pt-2 pb-2' style='height: 200px; overflow-y: scroll; padding-inline: 23px;'>" . $appointments . "</div>";
+            <div class='d-flex flex-wrap gap-2 pt-2 pb-2' style='height: 200px; overflow-y: scroll; padding-left: 22px;'>" . $appointments . "</div>";
     }
 
 

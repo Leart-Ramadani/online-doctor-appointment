@@ -147,7 +147,7 @@ if (!isset($_SESSION['fullName'])) {
     }
     ?>
     <main class="main mainRes d-flex flex-column p-2">
-        <div class="d-flex justify-content-between pt-2">
+        <div class="d-flex justify-content-between sort">
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="historiaTermineve(pacientit).php">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
@@ -170,7 +170,7 @@ if (!isset($_SESSION['fullName'])) {
                 });
             </script>
 
-            <div class="w-50 ms-2 me-1">
+            <div class="searchInp me-1">
                 <form method="get" action="historiaTermineve(pacientit).php">
                     <input type="hidden" name="entries" value="<?= $entries ?>">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
@@ -188,7 +188,7 @@ if (!isset($_SESSION['fullName'])) {
                 <thead>
                     <tr>
                         <th scope="col">Doctor</th>
-                        <th scope="col">Departament</th>
+                        <th scope="col" class="departamentRes">Departament</th>
                         <th scope="col">Date</th>
                         <th scope="col">Time</th>
                         <th scope="col">Action</th>
@@ -198,14 +198,14 @@ if (!isset($_SESSION['fullName'])) {
                     <?php 
                         foreach ($data as $data) { 
                             $date = date_create($data['data']);
-                            $date = date_format($date, "d/m/Y, D");
+                            $date = date_format($date, "d/m/Y");
     
                             $time = date_create($data['ora']);
                             $time = date_format($time, "H:i");
                     ?>
                         <tr>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['dep_name'] ?></td>
+                            <td class="departamentRes"><?= $data['dep_name'] ?></td>
                             <td><?= $date ?></td>
                             <td><?= $time ?> </td>
                             <td>

@@ -13,6 +13,10 @@
         font-size: 28px !important;
     }
 
+    .navMenuLink {
+        border-right: none !important;
+    }
+
     #doctor1>img {
         height: 200px !important;
         width: 200px !important;
@@ -40,14 +44,13 @@
         margin-left: 30px !important;
     }
 
-    .swiper-wrapper{
+    .swiper-wrapper {
         margin-left: -190px !important;
     }
+
     #gallery>a>img {
         width: 200px !important;
         height: 150px !important;
-        margin-left: 25px;
-        margin-bottom: 25px;
         object-fit: cover;
         cursor: pointer;
         box-shadow: 0px 5px 13px rgba(0, 0, 0, .2);
@@ -87,9 +90,10 @@
         position: fixed;
     }
 
-    .sidebar ul li a{
+    .sidebar ul li a {
         font-size: 14px !important;
     }
+
     .main {
         display: flex;
         justify-content: center;
@@ -97,23 +101,25 @@
         margin-left: 165px;
     }
 
-    .sess_admin{
+    .sess_admin {
         font-size: 18px !important;
     }
 
-    .useri{
+    .useri {
         font-size: 13px;
     }
-    .loginBtn{
+
+    .loginBtn {
         position: absolute;
         top: 8px;
         left: 70%;
     }
-    .popUp{
+
+    .popUp {
         margin-top: 20px;
     }
 
-    .popAnulo{
+    .popAnulo {
         margin-top: 50px;
         z-index: 999;
     }
@@ -121,19 +127,20 @@
 }
 
 
-@media (min-width: 300px) and (max-width: 700px){
-    .table_patient thead tr th{
-        font-size: 8px !important;
-        padding: 0 !important;
+@media (min-width: 300px) and (max-width: 700px) {
+    .table_patient thead tr th {
+        font-size: 14px !important;
     }
-    .table_patient tbody tr td{
-        font-size: 8px !important;
-        padding: 0 !important;
+
+    .table_patient tbody tr td {
+        font-size: 14px !important;
     }
-    .rez{
-        font-size: 10px !important;
+
+    .rez {
+        font-size: 14px !important;
     }
-    .sidebar{
+
+    .sidebar {
         width: 200px !important;
         margin-left: -300px;
         transition: 1.5s;
@@ -145,13 +152,18 @@
         padding-top: 50px !important;
     }
 
-    .side_res{
+    .side_res {
         margin-left: 0;
         display: block !important;
     }
-    .hamburger{
+    .sort{
+        padding-top: 50px !important;
+    }
+
+    .hamburger {
         display: none !important;
     }
+
     .ham {
         position: fixed;
         z-index: 888;
@@ -162,12 +174,13 @@
         border-radius: 3px;
         color: white;
         background-color: rgb(33, 37, 41);
-      }
+    }
 
-    .close_side{
+    .close_side {
         display: block !important;
     }
-    .table_patient{
+
+    .table_patient {
         width: 100%;
     }
 
@@ -188,6 +201,14 @@
         top: 40%;
     }
 
+    .departamentRes{
+        display: none !important;
+    }
+
+    .navMenuLink {
+        border-right: none !important;
+    }
+
     .blog_des h1 {
         font-size: 20px;
     }
@@ -201,7 +222,6 @@
     }
 
     .btn_doc {
-        width: 35%;
         font-size: 14px !important;
     }
 
@@ -244,8 +264,6 @@
     #gallery>a>img {
         width: 150px !important;
         height: 100px !important;
-        margin-left: 25px;
-        margin-bottom: 25px;
         object-fit: cover;
         cursor: pointer;
         box-shadow: 0px 5px 13px rgba(0, 0, 0, .2);
@@ -280,6 +298,7 @@
     .profile p {
         font-size: 12px !important;
     }
+
     /* .table_patient thead tr th {
         font-size: 13px !important;
         padding: 3px !important;
@@ -296,42 +315,47 @@
         position: fixed;
     }
 
-    .sidebar ul li a{
+    .sidebar ul li a {
         font-size: 14px !important;
     }
+
     .main {
         display: flex;
         justify-content: center;
         width: calc(100% - 165px);
         margin-left: 165px;
+        padding-top: 50px !important;
     }
 
-    .sess_admin{
+    .sess_admin {
         font-size: 18px !important;
     }
 
-    .useri{
+    .useri {
         font-size: 13px;
     }
 
-    .loginBtn{
+    .loginBtn {
         position: absolute;
         top: 8px;
         left: 55%;
     }
-    .popUp{
+
+    .popUp {
         margin-top: 20px;
     }
 
-    .popAnulo{
+    .popAnulo {
         width: 400px;
         height: 660px;
         margin-top: 50px;
     }
+
     .submit_anu {
         display: flex;
         flex-direction: column;
     }
+
     .submit_anu div {
         margin-left: 50px;
     }
@@ -345,6 +369,14 @@
     .blog_des {
         top: 25% !important;
     }
+    .departamentRes{
+        display: none !important;
+    }
+
+    .navMenuLink {
+        border-right: none !important;
+    }
+
 
     .blog_des h1 {
         font-size: 28px;
@@ -403,8 +435,6 @@
     #gallery>a>img {
         width: 150px !important;
         height: 100px !important;
-        margin-left: 25px;
-        margin-bottom: 25px;
         object-fit: cover;
         cursor: pointer;
         box-shadow: 0px 5px 13px rgba(0, 0, 0, .2);
@@ -474,9 +504,10 @@
         position: fixed;
     }
 
-    .sidebar ul li a{
+    .sidebar ul li a {
         font-size: 14px !important;
     }
+
     .main {
         display: flex;
         justify-content: center;
@@ -484,52 +515,76 @@
         margin-left: 165px;
     }
 
-    .sess_admin{
+    .sess_admin {
         font-size: 18px !important;
     }
 
-    .useri{
+    .useri {
         font-size: 13px;
     }
-    .loginBtn{
+
+    .loginBtn {
         position: absolute;
         top: 8px;
         left: 50%;
     }
 
-    .reg_doc{
+    .reg_doc {
         margin-left: 50px;
     }
-    .table_wrapper{
+
+    .table_wrapper {
         margin-left: 0 !important;
     }
-    .popUp{
+
+    .popUp {
         margin-top: 20px;
     }
 
-    .popAnulo{
+    .popAnulo {
         width: 350px;
         height: 680px;
         margin-top: 60px;
     }
+
     .submit_anu {
         display: flex;
         flex-direction: column;
     }
+
     .submit_anu div {
         margin-left: 40px;
     }
-    .dataNotfound{
-        margin-left: 0; 
+
+    .dataNotfound {
+        margin-left: 0;
         width: 100%;
         font-size: 22px;
     }
+
 }
 
 
 @media (min-width: 320px) and (max-width: 375px) {
     .blog_des {
         top: 20% !important;
+    }
+
+    .navMenuLink {
+        border-right: none !important;
+    }
+    .departamentRes{
+        display: none !important;
+    }
+
+    .mainRes > div {
+        flex-direction: column;
+        align-items: start;
+        gap: 5px;
+    }
+    .searchInp{
+        width: 100% !important;
+        margin-left: 0 !important;
     }
 
     .blog_des h1 {
@@ -589,8 +644,6 @@
     #gallery>a>img {
         width: 150px !important;
         height: 100px !important;
-        margin-left: 25px;
-        margin-bottom: 25px;
         object-fit: cover;
         cursor: pointer;
         box-shadow: 0px 5px 13px rgba(0, 0, 0, .2);
@@ -639,7 +692,8 @@
         justify-content: center;
         width: 100%;
     }
-/* 
+
+    /* 
     .table_patient thead tr th {
         font-size: 13px !important;
         padding: 3px !important;
@@ -656,9 +710,10 @@
         position: fixed;
     }
 
-    .sidebar ul li a{
+    .sidebar ul li a {
         font-size: 14px !important;
     }
+
     .main {
         display: flex;
         justify-content: center;
@@ -666,58 +721,67 @@
         margin-left: 165px;
     }
 
-    .sess_admin{
+    .sess_admin {
         font-size: 18px !important;
     }
 
-    .useri{
+    .useri {
         font-size: 13px;
     }
-    .loginBtn{
+
+    .loginBtn {
         position: absolute;
         top: 8px;
         left: 50%;
     }
 
-    .popUp{
-        margin-top: 20px;
+    .popUp {
         width: 350px;
     }
-    .pac_det h4{
-        font-size: 16px;
-    }
-    .det_pac_h4{
+
+    .pac_det h4 {
         font-size: 16px;
     }
 
-    .popAnulo{
+    .det_pac_h4 {
+        font-size: 16px;
+    }
+
+    .popAnulo {
         width: 300px;
         height: 680px;
         margin-top: 60px;
     }
+
     .submit_anu {
         display: flex;
         flex-direction: column;
     }
+
     .submit_anu div {
         margin-left: 20px;
     }
-    #arsyeja{
+
+    #arsyeja {
         width: 260px !important;
     }
-    .res{
+
+    .res {
         width: 230px !important;
         font-size: 14px !important;
     }
-    .mainProfili{
+
+    .mainProfili {
         margin-left: 70px !important;
         width: 300px !important;
     }
-    .updateRes{
+
+    .updateRes {
         width: 100% !important;
     }
-    .dataNotfound{
-        margin-left: 0; 
+
+    .dataNotfound {
+        margin-left: 0;
         width: 100%;
         font-size: 22px;
     }
@@ -727,6 +791,9 @@
 @media (max-width: 320px) {
     .blog_des {
         top: 16% !important;
+    }
+    .departamentRes{
+        display: none !important;
     }
 
     .blog_des h1 {
@@ -789,8 +856,6 @@
     #gallery>a>img {
         width: 125px !important;
         height: 100px !important;
-        margin-left: 5px;
-        margin-bottom: 25px;
         object-fit: cover;
         cursor: pointer;
         box-shadow: 0px 5px 13px rgba(0, 0, 0, .2);
@@ -842,13 +907,13 @@
     }
 
     .table_patient thead tr th {
-        font-size: 8px !important;
+        font-size: 14px !important;
         padding: 3px !important;
     }
 
     .table_patient tbody tr td {
         padding: 3px !important;
-        font-size: 8px !important;
+        font-size: 14px !important;
     }
 
     .sidebar {
@@ -857,9 +922,10 @@
         position: fixed;
     }
 
-    .sidebar ul li a{
+    .sidebar ul li a {
         font-size: 14px !important;
     }
+
     .main {
         display: flex;
         justify-content: center;
@@ -867,15 +933,15 @@
         margin-left: 165px;
     }
 
-    .sess_admin{
+    .sess_admin {
         font-size: 18px !important;
     }
 
-    .useri{
+    .useri {
         font-size: 13px;
     }
 
-    .loginBtn{
+    .loginBtn {
         position: absolute;
         top: 8px;
         left: 40%;
@@ -888,40 +954,43 @@
     .form-check,
     .ditlindja,
     .data,
-    .res{
+    .res {
         width: 230px !important;
         font-size: 14px !important;
     }
-    .updateRes{
-        width: 93.3% !important;
+
+    .updateRes {
         font-size: 16px !important;
     }
 
-    .time{
-       font-size: 16px !important;
-       width: 122px !important;
+    .time {
+        font-size: 16px !important;
+        width: 122px !important;
     }
-    .time1{
+
+    .time1 {
         margin-left: -5px !important;
     }
 
-    .popUp{
-        margin-top: 20px;
+    .popUp {
         width: 300px;
     }
-    .pac_det h4{
+
+    .pac_det h4 {
         font-size: 16px;
     }
-    .det_pac_h4{
+
+    .det_pac_h4 {
         font-size: 16px;
     }
-    .mainProfili{
+
+    .mainProfili {
         margin-left: 50px !important;
         width: 247px !important;
     }
 
-    .dataNotfound{
-        margin-left: 0; 
+    .dataNotfound {
+        margin-left: 0;
         width: 100%;
         font-size: 22px;
     }

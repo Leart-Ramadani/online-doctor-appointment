@@ -137,8 +137,6 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
         $data = $prep->fetchAll(PDO::FETCH_ASSOC);
-
-
     }
 
 
@@ -150,7 +148,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
     }
     ?>
     <main class="main mainRes d-flex flex-column p-2">
-        <div class="d-flex justify-content-between pt-2">
+        <div class="d-flex justify-content-between sort">
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="rezervoTermin.php">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
@@ -175,7 +173,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
 
 
-            <div class="w-50 ms-2 me-1">
+            <div class="me-1 searchInp">
                 <form method="get" action="rezervoTermin.php">
                     <input type="hidden" name="entries" value="<?= $entries ?>">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
@@ -196,20 +194,20 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                     <tr>
                         <th scope="col" style="display: none;">ID</th>
                         <th scope="col">Doctor</th>
-                        <th scope="col">Departament</th>
+                        <th scope="col" class="departamentRes">Departament</th>
                         <th scope="col">Date</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) {        
+                    <?php foreach ($data as $data) {
                         $date = date_create($data['data']);
                         $date = date_format($date, "d/m/Y, D");
                     ?>
                         <tr>
                             <td class="id" style="display: none;"><?= $data['id'] ?></td>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['dep_name'] ?></td>
+                            <td class="departamentRes"><?= $data['dep_name'] ?></td>
                             <td><?php echo $date; ?></td>
                             <td class="text-center">
                                 <!-- href="rezervo.php?id=<?= $data['id'] ?>" -->
@@ -326,9 +324,9 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                     <button type="button" class="btn-close closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body waitBody">
-                    <p>Unfortunately, this appointment is already booked. However, you have the option to join the waiting list. 
+                    <p>Unfortunately, this appointment is already booked. However, you have the option to join the waiting list.
                         In the event that this appointment is canceled, it will be automatically booked for you. </p>
-                    <p>Note: The waiting list operates on a first-come, first-served basis, meaning that the order of 
+                    <p>Note: The waiting list operates on a first-come, first-served basis, meaning that the order of
                         joining determines priority for future available appointments.</p>
                 </div>
                 <div class="modal-footer d-flex justify-content-between">
@@ -350,17 +348,27 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
         const bookApp = document.querySelector('.bookApp');
         const pop = document.querySelector('.popUp');
 
+        let screenWidth = window.innerWidth;
         const getValue = button => {
             let selectedTime = button;
             document.querySelector('.appTime').innerHTML = selectedTime;
             document.querySelector('.bookApp').classList.remove('disabled');
 
             const bookAppointment = () => {
-                pop.style.width = '400px';
-                pop.style.height = '270px';
-                pop.classList.add('d-flex');
-                pop.classList.add('justify-content-center');
-                pop.classList.add('flex-column');
+                if (screenWidth > 425) {
+
+                    pop.style.width = '400px';
+                    pop.style.height = '270px';
+                    pop.classList.add('d-flex');
+                    pop.classList.add('justify-content-center');
+                    pop.classList.add('flex-column');
+                } else {
+                    pop.style.width = '310px';
+                    pop.style.height = '270px';
+                    pop.classList.add('d-flex');
+                    pop.classList.add('justify-content-center');
+                    pop.classList.add('flex-column');
+                }
 
                 pop.innerHTML = "<h3 class='text-center'>Please wait...</h3> <div class='loader'></div>";
                 $.ajax({
@@ -372,8 +380,6 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                     },
                     success: function(response) {
                         if (response.includes('Appointment exists')) {
-                            pop.style.width = '430px';
-                            pop.style.height = '270px';
                             pop.classList.add('d-flex');
                             pop.classList.add('align-items-center');
 
@@ -387,7 +393,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                                 window.location.replace('rezervoTermin.php');
                             }, 1500);
 
-                        } else if(response.includes('not paied')){
+                        } else if (response.includes('not paied')) {
                             pop.innerHTML = "<h3 class='text-center'>You can't book another appointment if you don't pay the bill!<h3>";
                             setTimeout(() => {
                                 window.location.replace('rezervoTermin.php');
@@ -398,7 +404,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                                 window.location.replace('rezervoTermin.php');
                             }, 1500);
 
-                        } 
+                        }
                     }
                 });
             }
@@ -412,7 +418,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
             const closeModal = document.querySelector('.closeModal');
             const closeModal1 = document.querySelector('.closeModal1');
             const waitingList = document.querySelector('.waitingList');
-            
+
             $.ajax({
                 url: 'waitingList.php',
                 type: 'POST',
@@ -438,21 +444,21 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                         waitList: true,
                         time: time
                     },
-                    success: function(response) {   
+                    success: function(response) {
                         console.log(response);
-                        if(response.includes('Success')){
+                        if (response.includes('Success')) {
                             closeModal.classList.remove('disabled');
                             closeModal1.classList.remove('disabled');
                             joinBtn.innerHTML = "Joined";
-                            waitBody.innerHTML = "Congratulations! You have successfully joined the waiting list. In the event of a cancellation,"
-                            + "if luck is on your side, the appointment confirmation will be promptly sent to your email.";
+                            waitBody.innerHTML = "Congratulations! You have successfully joined the waiting list. In the event of a cancellation," +
+                                "if luck is on your side, the appointment confirmation will be promptly sent to your email.";
                             closeModal.onclick = () => {
                                 window.location.replace('rezervoTermin.php');
                             }
                             setTimeout(() => {
                                 window.location.replace('rezervoTermin.php');
                             }, 5000);
-                        } else if(response.includes('Exists')){
+                        } else if (response.includes('Exists')) {
                             closeModal.classList.remove('disabled');
                             closeModal1.classList.remove('disabled');
                             joinBtn.innerHTML = "Failed";
@@ -463,7 +469,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                             setTimeout(() => {
                                 window.location.replace('rezervoTermin.php');
                             }, 3000);
-                        } else if(response.includes('Error')){
+                        } else if (response.includes('Error')) {
                             closeModal.classList.remove('disabled');
                             closeModal1.classList.remove('disabled');
                             joinBtn.innerHTML = "Failed";
@@ -482,9 +488,6 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
             joinBtn.addEventListener('click', joinWaitList);
 
         }
-
-
-
     </script>
 
     <script>

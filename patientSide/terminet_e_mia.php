@@ -177,9 +177,9 @@ if (isset($_POST['anulo'])) {
         $pacienti = $pacienti_fetch['fullName'];
 
 
-        $sort = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, d.name AS 'dep_name' 
+        $sort = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, t.statusi, d.name AS 'dep_name' 
             FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id
-            WHERE numri_personal=:numri_personal AND NOT statusi='completed'  AND (doktori=:keyword OR d.id='$dep' OR data=:keyword OR ora=:keyword) 
+            WHERE t.numri_personal=:numri_personal AND NOT t.statusi='completed'  AND (t.doktori=:keyword OR d.id='$dep' OR t.data=:keyword OR t.ora=:keyword) 
             ORDER BY Date(t.data) LIMIT :startIndex, $entries";
         $sql = $sort;
 
@@ -219,7 +219,7 @@ if (isset($_POST['anulo'])) {
 
     ?>
     <main class="main mainRes d-flex flex-column p-2">
-        <div class="d-flex justify-content-between pt-2">
+        <div class="d-flex justify-content-between sort" >
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="terminet_e_mia.php">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
@@ -244,7 +244,7 @@ if (isset($_POST['anulo'])) {
 
 
 
-                <div class="w-50 ms-2 me-1">
+                <div class="searchInp me-1">
                     <form method="get" action="terminet_e_mia.php">
                         <input type="hidden" name="entries" value="<?= $entries ?>">
                         <input type="hidden" name="page" value="<?= $currentPage ?>">
@@ -263,10 +263,10 @@ if (isset($_POST['anulo'])) {
                     <tr>
                         <th scope="col" style="display: none;">ID</th>
                         <th scope="col">Doctor</th>
-                        <th scope="col">Departament</th>
+                        <th scope="col" class="departamentRes">Departament</th>
                         <th scope="col">Date</th>
                         <th scope="col">Time</th>
-                        <th scope="col">Status</th>
+                        <th scope="col" class="departamentRes">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -289,10 +289,10 @@ if (isset($_POST['anulo'])) {
                         <tr>
                             <td class="idAnulo" style="display: none;"><?= $data['id'] ?></td>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['dep_name'] ?></td>
+                            <td class="departamentRes"><?= $data['dep_name'] ?></td>
                             <td><?php echo $date; ?></td>
                             <td><?= $time ?></td>
-                            <td><span class="<?= $statusColor ?>"><?= $data['statusi']; ?></span></td>
+                            <td class="departamentRes"><span class="<?= $statusColor ?> rez"><?= $data['statusi']; ?></span></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white anuloPop" title="Cancel Appointment">
                                     <button class="btn btn-warning ps-2 pe-2 text-white rez"><i class="fa-solid fa-calendar-xmark"></i></button>

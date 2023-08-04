@@ -9,6 +9,7 @@
     <title>Gallery</title>
 
     <link rel="stylesheet" href="./css/responsive.css">
+
     <link rel="shortcut icon" href="./photos/icon-hospital.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
@@ -28,7 +29,11 @@
     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <!-- Lightbox library -->
+    <link rel='stylesheet' type='text/css' media='screen' href='./css/lightbox.min.css'>
+    <script src="./js/lightbox-plus-jquery.min.js"></script>
+    
+    
     <style>
         .custom-dropdown-toggle {
             background-image: none !important;
@@ -111,21 +116,21 @@
 
 <body>
     <nav class="t navbar navbar-expand-md navbar-dark" style="background-color:#05204A" aria-label="Fourth navbar example">
-        <div class="container-fluid">
+        <div class="container-fluid" style="background: #05204A;">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarsExample04">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0 text-center align-items-center">
                     <li class="nav-item">
-                        <a href="index.php" class="nav-link active pt-0 pb-0" style="border-right: 1px solid white" aria-current="page">Homepage</a>
+                        <a href="index.php" class="nav-link active pt-0 pb-0 navMenuLink" style="border-right: 1px solid white" aria-current="page">Homepage</a>
                     </li>
                     <li class="nav-item">
-                        <a href="galeria.php" class="nav-link pt-0 pb-0" style="border-right:1px solid white;color:#ADE8FF">Gallery</a>
+                        <a href="galeria.php" class="nav-link pt-0 pb-0 navMenuLink" style="border-right:1px solid white;color:#ADE8FF">Gallery</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./patientSide/rezervoTermin.php" class="nav-link text-white pt-0 pb-0" style="border-right: 1px solid white">Appointments</a>
+                        <a href="./patientSide/rezervoTermin.php" class="nav-link text-white pt-0 pb-0 navMenuLink" style="border-right: 1px solid white">Appointments</a>
                     </li>
                     <li class="nav-item">
                         <a href="./patientSide/ankesat.php" class="nav-link text-white pt-0 pb-0">Complaints</a>
@@ -186,7 +191,7 @@
             <h1>Gallery</h1>
             <hr>
 
-            <section id="gallery">
+            <section id="gallery" class="d-flex flex-wrap justify-content-center gap-3">
                 <?php foreach ($images as $image) : ?>
                     <a href="./admin/uploads_gallery/<?= $image['foto_src'] ?>" data-lightbox="mygallery">
                         <img src="./admin/uploads_gallery/<?= $image['foto_src'] ?>">
@@ -196,7 +201,7 @@
                     <img src="">
                 </article>
             </section>
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation example" class="mt-4">
                 <ul class="pagination">
                     <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links

@@ -64,7 +64,7 @@ if (!isset($_SESSION['admin'])) {
 
 
 
-    $countSql = "SELECT COUNT(*) as total FROM historia_e_termineve";
+    $countSql = "SELECT COUNT(*) as total FROM terminet WHERE statusi='Completed'";
     $countPrep = $con->prepare($countSql);
     $countPrep->execute();
     $totalRows = $countPrep->fetch();

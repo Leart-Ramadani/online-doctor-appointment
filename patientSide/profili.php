@@ -269,7 +269,7 @@ if (!isset($_SESSION['fullName'])) {
 
             if ($data['gender'] == "Male") {
                 $maleValue = "selected";
-            } else if ($gjinia == "Female") {
+            } else if ($data['gender'] == "Female") {
                 $femaleValue = "selected";
             }
             ?>
