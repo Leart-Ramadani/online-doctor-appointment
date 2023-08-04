@@ -396,7 +396,7 @@ if (!isset($_SESSION['admin'])) {
                         url: 'editService.php',
                         type: 'GET',
                         data: {
-                            editService: true,
+                        editService: true,
                             idEdit: id
                         },
                         success: response => {

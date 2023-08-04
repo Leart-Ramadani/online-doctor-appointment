@@ -202,8 +202,6 @@ if (!isset($_SESSION['fullName'])) {
                             <td><?= $data['data'] ?></td>
                             <td><?= $data['ora'] ?> </td>
                             <td>
-                                <a href="downloadPDF.php?id=<?= $data['id'] ?>" title="Download as PDF">
-                                    <button class="btn btn-danger"><i class="fa-regular fa-file-lines"></i> PDF</button>
                                 <a href="downloadPDF.php?id=<?= $data['id'] ?>" title="Download as PDF" class="d-flex justify-content-center">
                                     <button class="btn btn-danger d-flex">
                                         <i class="fa-solid fa-file-pdf" style="font-size: 20px;"></i>

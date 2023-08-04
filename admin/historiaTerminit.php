@@ -25,7 +25,7 @@ if (!isset($_SESSION['admin'])) {
             <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
             <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
             <li><a href="pacientat.php" class="nav-link text-white">Patients</a></li>
-            <li><a href="pacientat.php" class="nav-link text-white active" aria-current="page">Appointments history</a></li>
+            <li><a href="historiaTerminit.php" class="nav-link text-white active" aria-current="page">Appointments history</a></li>
             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
             <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
@@ -169,33 +169,42 @@ if (!isset($_SESSION['admin'])) {
             <table class="table table-striped text-center users">
                 <thead>
                     <tr>
+                        <th scope="col" class="d-none">ID</th>
                         <th scope="col">Doctor</th>
-                        <th scope="col">Departament</th>
+                        <!-- <th scope="col">Departament</th> -->
                         <th scope="col">Patient</th>
                         <th scope="col">Personal ID</th>
-                        <th scope="col">Email</th>
+                        <!-- <th scope="col">Email</th> -->
                         <th scope="col">Date</th>
-                        <th scope="col">Time</th>
-                        <th scope="col">Diagnose</th>
-                        <th scope="col">Prescription</th>
+                        <!-- <th scope="col">Time</th> -->
+                        <!-- <th scope="col">Diagnose</th> -->
+                        <!-- <th scope="col">Prescription</th> -->
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($data as $data) : ?>
                         <tr>
+                            <td class="d-none id"><?= $data['id'] ?></td>
                             <td><?= $data['doktori'] ?></td>
-                            <td><?= $data['dep_name'] ?></td>
+                            <!-- <td><?= $data['dep_name'] ?></td> -->
                             <td><?= $data['pacienti'] ?></td>
                             <td><?= $data['numri_personal'] ?></td>
-                            <td><?= $data['email_pacientit'] ?></td>
+                            <!-- <td><?= $data['email_pacientit'] ?></td> -->
                             <td><?= $data['data'] ?></td>
-                            <td><?= $data['ora'] ?> </td>
-                            <td><?= $data['diagnoza'] ?></td>
-                            <td><?= $data['recepti'] ?></td>
+                            <!-- <td><?= $data['ora'] ?> </td> -->
+                            <!-- <td><?= $data['diagnoza'] ?></td> -->
+                            <!-- <td><?= $data['recepti'] ?></td> -->
                             <td class="text-center">
+                                <a class="text-decoration-none text-white IdBtn" title="Appointment details">
+                                    <button class="btn btn-primary p-1 text-white" type="button" data-bs-toggle="modal" data-bs-target="#appointmentDetails">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                    </button>
+                                </a>
                                 <a class="text-decoration-none text-white" href="deleteHistorinTerminit.php?id=<?= $data['id']  ?>">
-                                    <button class="btn btn-danger p-1 text-white"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-danger p-1 text-white">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
                                 </a>
                             </td>
                         </tr>
@@ -212,7 +221,7 @@ if (!isset($_SESSION['admin'])) {
             <nav aria-label="Page navigation example" class="w-100 ps-2">
                 <ul class="pagination">
                     <?php
-                    $maxVisibleLinks = 5; 
+                    $maxVisibleLinks = 5;
 
                     $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
                     $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
@@ -248,6 +257,119 @@ if (!isset($_SESSION['admin'])) {
         <?php } ?>
     </main>
 
+    <!-- Modal -->
+    <div class="modal fade" id="appointmentDetails" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Appointment ID: <span class="appointmentId"></span></h5>
+                    <button type="button" class="btn-close closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mt-3">
+                        <label for="Doctor" class="col-form-label me-2 labelDet">Doctor:</label>
+                        <input type="text" class="form-control doc rounded doctor" readonly id="Doctor">
+                        <label for="Departament" class="col-form-label ms-2 me-2">Departament:</label>
+                        <input type="text" class="form-control dep rounded departament" readonly id="Departament">
+                    </div>
+                    <div class="input-group mt-3">
+                        <div class="d-flex">
+                            <label for="patient" class="col-form-label me-2 labelDet">Patient:</label>
+                            <input type="text" class="form-control patient rounded patient" style="width: 279px;" readonly id="patient">
+                        </div>
+                        <div class="d-flex" style="width: 390px;">
+                            <label for="Personal ID" class="col-form-label ms-2 me-2 labelDet" style="width: 140px !important;">Personal ID:</label>
+                            <input type="text" class="form-control personal_id rounded" readonly id="Personal ID">
+                        </div>
+                    </div>
+                    <div class="input-group mt-3 align-items-center">
+                        <div class="d-flex">
+                            <label for="Date" class="col-form-label me-2 labelDet">Date:</label>
+                            <input type="text" class="form-control dateInp rounded" style="width: 279px !important;" readonly id="Date">
+                        </div>
+                        <div class="d-flex">
+                            <label for="Time" class="col-form-label ms-2 me-2" style="width: 97px;">Time:</label>
+                            <input type="text" class="form-control timeInp roundedInp" style="width: 276px;" readonly id="Time">
+                        </div>
+                    </div>
+                    <div class="input-group mt-3">
+                        <div class="d-flex">
+                            <label for="Service" class="col-form-label me-2 labelDet">Service:</label>
+                            <input type="text" class="form-control service rounded service" readonly id="Service" style="width: 278px !important;">
+                        </div>
+                        <label for="price" class="col-form-label ms-2 me-2" style="width: 98px !important;">Price:</label>
+                        <input type="text" class="form-control price rounded-start price" readonly id="price">
+                        <span class="input-group-text">&euro;</span>
+                    </div>
+                    <div class="input-group mt-3">
+                        <label for="" class="col-form-label me-2 labelDet">Diagnose:</label>
+                        <input type="text" class="form-control patient rounded diagnose" readonly id="">
+                    </div>
+                    <div class="mt-3 d-flex align-items-center w-100">
+                        <label for="" class="form-label labelDet">Prescription:</label>
+                        <textarea class="form-control ms-2 prescription" readonly style="resize:none;" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer mt-3">
+                    <button type="button" class="btn btn-secondary closeModal1" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const appId = document.querySelector('.appointmentId');
+        const doctor = document.querySelector('.doctor');
+        const departament = document.querySelector('.departament');
+        const patient = document.querySelector('.patient');
+        const personal_id = document.querySelector('.personal_id');
+        const date = document.querySelector('.dateInp');
+        const time = document.querySelector('.timeInp');
+        const service = document.querySelector('.service');
+        const price = document.querySelector('.price');
+        const diagnose = document.querySelector('.diagnose');
+        const prescription = document.querySelector('.prescription');
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const buttons = document.querySelectorAll('.IdBtn');
+
+
+            buttons.forEach((button) => {
+                button.addEventListener('click', () => {
+
+                    const closestTr = button.closest('tr');
+
+                    const idElement = closestTr.querySelector('.id');
+
+                    const id = idElement.textContent;
+
+                    $.ajax({
+                        url: 'viewAppointment.php',
+                        type: 'GET',
+                        data: {
+                            App_id: id
+                        },
+                        success: response => {
+                            response = JSON.parse(response);  
+                            console.log(response);  
+                            appId.innerHTML = response.ID;
+                            doctor.value = response.Doctor;
+                            departament.value = response.Departament;
+                            patient.value = response.Patient;
+                            personal_id.value = response.Personal_ID;
+                            date.value = response.Date;
+                            time.value = response.Time;
+                            service.value = response.Service;
+                            price.value = response.Price;
+                            diagnose.value = response.Diagnose;
+                            prescription.value = response.Prescription;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 
 </body>
 
