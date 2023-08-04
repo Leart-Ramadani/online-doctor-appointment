@@ -195,12 +195,19 @@ if (!isset($_SESSION['fullName'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) : ?>
+                    <?php 
+                        foreach ($data as $data) { 
+                            $date = date_create($data['data']);
+                            $date = date_format($date, "d/m/Y, D");
+    
+                            $time = date_create($data['ora']);
+                            $time = date_format($time, "H:i");
+                    ?>
                         <tr>
                             <td><?= $data['doktori'] ?></td>
                             <td><?= $data['dep_name'] ?></td>
-                            <td><?= $data['data'] ?></td>
-                            <td><?= $data['ora'] ?> </td>
+                            <td><?= $date ?></td>
+                            <td><?= $time ?> </td>
                             <td>
                                 <a href="downloadPDF.php?id=<?= $data['id'] ?>" title="Download as PDF" class="d-flex justify-content-center">
                                     <button class="btn btn-danger d-flex">
@@ -209,7 +216,7 @@ if (!isset($_SESSION['fullName'])) {
                                 </a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         <?php endif; ?>

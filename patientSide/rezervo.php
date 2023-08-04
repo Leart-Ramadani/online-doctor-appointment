@@ -153,7 +153,7 @@ $data = $stm->fetch();
             $gjinia = 'Dear Mrs.';
         }
 
-        $paiedSql = "SELECT * FROM terminet WHERE numri_personal=:numri_personal AND paied=0";
+        $paiedSql = "SELECT * FROM terminet WHERE numri_personal=:numri_personal AND statusi='Completed' AND paied=0";
         $paied_prep = $con->prepare($paiedSql);
         $paied_prep->bindParam(':numri_personal', $numri_personal);
         $paied_prep->execute();

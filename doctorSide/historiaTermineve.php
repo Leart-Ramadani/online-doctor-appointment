@@ -18,8 +18,8 @@ if (!isset($_SESSION['doctor'])) {
     <link rel="stylesheet" href="../bootstrap-5.1.3-examples/sidebars/sidebars.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js" defer></script>
-     <!-- Font-awesome script -->
-     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous" defer></script>
+    <!-- Font-awesome script -->
+    <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous" defer></script>
 
     <style>
         .form-control {
@@ -70,7 +70,7 @@ if (!isset($_SESSION['doctor'])) {
     }
 
 
-   
+
 
 
     $countSql = "SELECT COUNT(*) as total FROM terminet WHERE doktori=:doktori AND statusi='Completed'";
@@ -147,19 +147,19 @@ if (!isset($_SESSION['doctor'])) {
                 });
             </script>
 
-                <div class="w-50 ms-2 me-1">
-                    <form method="get" action="">
-                        <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="page" value="<?= $currentPage ?>">
-                        <div class="d-flex mb-1">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
-                                <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                            </div>
+            <div class="w-50 ms-2 me-1">
+                <form method="get" action="">
+                    <input type="hidden" name="entries" value="<?= $entries ?>">
+                    <input type="hidden" name="page" value="<?= $currentPage ?>">
+                    <div class="d-flex mb-1">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                            <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
+        </div>
         </div>
         <?php if ($empty == '') : ?>
             <table class="table table-striped text-center">
@@ -174,16 +174,23 @@ if (!isset($_SESSION['doctor'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) : ?>
+                    <?php 
+                        foreach ($data as $data) { 
+                            $date = date_create($data['data']);
+                            $date = date_format($date, "d/m/Y");
+    
+                            $time = date_create($data['ora']);
+                            $time = date_format($time, "H:i");
+                    ?>
                         <tr>
                             <td><?= $data['pacienti'] ?></td>
                             <td><?= $data['numri_personal'] ?></td>
-                            <td><?= $data['data'] ?></td>
-                            <td><?= $data['ora'] ?> </td>
+                            <td><?= $date    ?></td>
+                            <td><?= $time ?> </td>
                             <td><?= $data['diagnoza'] ?></td>
                             <td><?= $data['recepti'] ?></td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         <?php endif; ?>
@@ -193,9 +200,9 @@ if (!isset($_SESSION['doctor'])) {
                 <h1 class=" h1 fw-normal text-center mt-5">Data not found.</h1>
             </article>
         <?php } else { ?>
-            <nav aria-label="Page navigation example" class="w-100 ps-2" >
+            <nav aria-label="Page navigation example" class="w-100 ps-2">
                 <ul class="pagination">
-                 <?php
+                    <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
 
                     $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
@@ -223,7 +230,7 @@ if (!isset($_SESSION['doctor'])) {
                     if ($currentPage < $totalPages) {
                         $nextPage = $currentPage + 1;
                         echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
-                    } else{
+                    } else {
                         echo '<li class="page-item disabled"><a href="#" class="page-link" tabindex="-1">Next</a></li>';
                     }
                     ?>

@@ -182,15 +182,22 @@ if (!isset($_SESSION['admin'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($data as $data) : ?>
+                        <?php 
+                            foreach ($data as $data) { 
+                                $date = date_create($data['data']);
+                                $date = date_format($date, "d/m/Y");
+
+                                $time = date_create($data['ora']);
+                                $time = date_format($time, "H:i");  
+                        ?>
                             <tr>
                                 <td class="id" style="display: none;"><?= $data['id']; ?></td>
                                 <td><?= $data['doktori'] ?></td>
                                 <td><?= $data['dep_name'] ?></td>
                                 <td><?= $data['pacienti'] ?></td>
                                 <td><?= $data['numri_personal'] ?></td>
-                                <td><?= $data['data'] ?></td>
-                                <td><?= $data['ora'] ?></td>
+                                <td><?= $date ?></td>
+                                <td><?= $time ?></td>
                                 <td>
                                     <a class="text-decoration-none text-white billBtn" title="Bill">
                                         <button class="btn btn-primary text-white" type="button" data-bs-toggle='modal' data-bs-target='#staticBackdrop' id="showPop">
@@ -199,7 +206,7 @@ if (!isset($_SESSION['admin'])) {
                                     </a>
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php } ?>
                     </tbody>
                 </table>
 

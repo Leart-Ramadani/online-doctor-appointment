@@ -165,14 +165,18 @@ if (!isset($_SESSION['admin'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) : ?>
+                    <?php 
+                        foreach ($data as $data) {
+                            $birthday = date_create($data['birthday']);
+                            $birthday = date_format($birthday, "d/m/Y");
+                    ?>
                         <tr>
                             <td><?= $data['fullName'] ?></td>
                             <td><?= $data['personal_id'] ?></td>
                             <td><?= $data['gender'] ?></td>
                             <td><?= $data['email'] ?></td>
                             <td class="p-2"><?= $data['phone'] ?></td>
-                            <td class="p-2"><?= $data['birthday'] ?></td>
+                            <td class="p-2"><?= $birthday ?></td>
                             <td><?= $data['adress'] ?></td>
                             <td><?= $data['username'] ?></td>
                             <td>
@@ -181,7 +185,7 @@ if (!isset($_SESSION['admin'])) {
                                 </a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         <?php endif; ?>

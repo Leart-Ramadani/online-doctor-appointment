@@ -20,8 +20,8 @@ if (!isset($_SESSION['doctor'])) {
     <link rel="stylesheet" href="../bootstrap-5.1.3-examples/sidebars/sidebars.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js" defer></script>
-     <!-- Font-awesome script -->
-     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous" defer></script>
+    <!-- Font-awesome script -->
+    <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous" defer></script>
 </head>
 
 <body>
@@ -145,19 +145,19 @@ if (!isset($_SESSION['doctor'])) {
                 });
             </script>
 
-                <div class="w-50 ms-2 me-1">
-                    <form method="get" action="">
-                        <input type="hidden" name="entries" value="<?= $entries ?>">
-                        <input type="hidden" name="page" value="<?= $currentPage ?>">
-                        <div class="d-flex mb-1">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
-                                <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                            </div>
+            <div class="w-50 ms-2 me-1">
+                <form method="get" action="">
+                    <input type="hidden" name="entries" value="<?= $entries ?>">
+                    <input type="hidden" name="page" value="<?= $currentPage ?>">
+                    <div class="d-flex mb-1">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                            <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
+        </div>
         </div>
         <?php if ($empty == '') : ?>
             <table class="table table-striped mt-2 text-center">
@@ -173,21 +173,27 @@ if (!isset($_SESSION['doctor'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) { 
-                        if($data['statusi'] == 'Booked'){
+                    <?php foreach ($data as $data) {
+                        if ($data['statusi'] == 'Booked') {
                             $statusColor = 'btn btn-success rounded p-1';
-                        } else if($data['statusi'] == 'Canceled'){
+                        } else if ($data['statusi'] == 'Canceled') {
                             $statusColor = 'btn btn-danger rounded p-1';
-                        } else if($data['statusi'] == 'In progres'){
+                        } else if ($data['statusi'] == 'In progres') {
                             $statusColor = 'btn btn-warning text-white rounded p-1';
                         }
+
+                        $date = date_create($data['data']);
+                        $date = date_format($date, "d/m/Y");
+
+                        $time = date_create($data['ora']);
+                        $time = date_format($time, "H:i");
                     ?>
                         <tr>
                             <td><?= $data['pacienti']  ?></td>
                             <td><?= $data['numri_personal'] ?></td>
                             <td><?= $data['email_pacientit'] ?></td>
-                            <td><?= $data['data'] ?></td>
-                            <td><?= $data['ora'] ?> </td>
+                            <td><?= $date ?></td>
+                            <td><?= $time ?> </td>
                             <td><span class="<?= $statusColor ?>"><?= $data['statusi'] ?></span></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white" href="perfundoTakimin.php?id=<?= $data['id'] ?>" title="Complete appointment">
@@ -207,7 +213,7 @@ if (!isset($_SESSION['doctor'])) {
         <?php } else { ?>
             <nav aria-label="Page navigation example" class="d-flex justify-content-start w-100 ps-2">
                 <ul class="pagination">
-                 <?php
+                    <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
 
                     $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
@@ -235,7 +241,7 @@ if (!isset($_SESSION['doctor'])) {
                     if ($currentPage < $totalPages) {
                         $nextPage = $currentPage + 1;
                         echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
-                    } else{
+                    } else {
                         echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
                     }
                     ?>

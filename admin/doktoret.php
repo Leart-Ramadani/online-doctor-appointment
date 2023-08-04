@@ -45,7 +45,7 @@
     </div>
 
     <?php
-        $sql = "SELECT * FROM departamentet";
+        $sql = "SELECT * FROM departamentet WHERE NOT id=0";
         $stm = $con->prepare($sql);
         $stm->execute();
         $data = $stm->fetchAll();

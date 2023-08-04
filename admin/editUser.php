@@ -225,7 +225,7 @@ $depData = $dep_prep->fetchAll();
 
                     <div class="d-flex">
 
-                        <div class="mb-3">
+                        <div class="mb-3 ms-0 me-2">
                             <label for="formFile" class="form-label">Photo</label>
                             <input class="form-control <?= $invalid_photo ?? "" ?>" type="file" name="my_image" id="formFile">
                             <span class="text-danger fw-normal"><?php echo $photoErr; ?></span>

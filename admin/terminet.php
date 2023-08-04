@@ -176,14 +176,20 @@ if (!isset($_SESSION['admin'])) {
                         } else if ($data['statusi'] == 'In progres') {
                             $statusColor = 'btn btn-warning text-white rounded p-1';
                         }
+
+                        $date = date_create($data['data']);
+                        $date = date_format($date, "d/m/Y");
+
+                        $time = date_create($data['ora']);
+                        $time = date_format($time, "H:i");
                     ?>
                         <tr>
                             <td><?= $data['doktori'] ?></td>
                             <td><?= $data['pacienti'] ?></td>
                             <td><?= $data['numri_personal'] ?></td>
                             <td><?= $data['email_pacientit'] ?></td>
-                            <td><?= $data['data'] ?></td>
-                            <td><?= $data['ora'] ?> </td>
+                            <td><?= $date ?></td>
+                            <td><?= $time ?> </td>
                             <td><span class="<?= $statusColor ?>"><?= $data['statusi'] ?></span></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white" href="deleteTerminin.php?id=<?= $data['id'] ?>" title="Delete">

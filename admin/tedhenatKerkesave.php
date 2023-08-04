@@ -10,7 +10,11 @@ $prep->bindParam(':id', $id);
 $prep->execute();
 $data = $prep->fetch();
 
+$date = date_create($data['data']);
+$date = date_format($date, "d/m/Y");
 
+$time = date_create($data['ora']);
+$time = date_format($time, "H:i");
 
 ?>
 <?php include('header.php'); ?>
@@ -63,11 +67,12 @@ $data = $prep->fetch();
                     </div>
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Data e terminit"
-                            value="<?= $data['data'] ?>">
+                            value="<?= $date ?>">
                         <label for="floatingInput">Data e terminit</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="text" class="form-control" readonly id="floatingInput" placeholder="Ora" value="<?= $data['ora'] ?>">
+                        <input type="text" class="form-control" readonly id="floatingInput" placeholder="Ora"
+                            value="<?= $time ?>">
                         <label for="floatingInput">Ora</label>
                     </div>
                 </div>

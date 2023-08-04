@@ -204,7 +204,7 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
                 <tbody>
                     <?php foreach ($data as $data) {        
                         $date = date_create($data['data']);
-                        $date = date_format($date, "l, M d, Y");
+                        $date = date_format($date, "d/m/Y, D");
                     ?>
                         <tr>
                             <td class="id" style="display: none;"><?= $data['id'] ?></td>

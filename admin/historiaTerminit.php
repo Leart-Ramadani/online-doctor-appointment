@@ -96,8 +96,8 @@ if (!isset($_SESSION['admin'])) {
 
         $sort = "SELECT h.id, h.doktori, h.departamenti, h.pacienti, h.numri_personal, h.email_pacientit, h.data, h.ora, h.diagnoza, h.recepti, 
             d.name AS 'dep_name' FROM terminet AS h INNER JOIN departamentet AS d ON h.departamenti = d.id
-            WHERE statusi='Completed' AND (doktori=:keyword OR d.id='$dep' OR pacienti=:keyword OR numri_personal=:keyword OR 
-            email_pacientit=:keyword OR data=:keyword OR ora=:keyword OR diagnoza=:keyword OR recepti=:keyword) LIMIT :startIndex, $entries";
+            WHERE statusi='Completed' AND (h.id=:keyword OR h.doktori=:keyword OR d.id='$dep' OR h.pacienti=:keyword OR h.numri_personal=:keyword OR 
+            h.email_pacientit=:keyword OR h.data=:keyword OR h.ora=:keyword OR h.diagnoza=:keyword OR h.recepti=:keyword) LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -171,30 +171,24 @@ if (!isset($_SESSION['admin'])) {
                     <tr>
                         <th scope="col" class="d-none">ID</th>
                         <th scope="col">Doctor</th>
-                        <!-- <th scope="col">Departament</th> -->
                         <th scope="col">Patient</th>
                         <th scope="col">Personal ID</th>
-                        <!-- <th scope="col">Email</th> -->
                         <th scope="col">Date</th>
-                        <!-- <th scope="col">Time</th> -->
-                        <!-- <th scope="col">Diagnose</th> -->
-                        <!-- <th scope="col">Prescription</th> -->
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) : ?>
+                    <?php 
+                        foreach ($data as $data) { 
+                            $date = date_create($data['data']);
+                            $date = date_format($date, "d/m/Y");
+                    ?>
                         <tr>
                             <td class="d-none id"><?= $data['id'] ?></td>
                             <td><?= $data['doktori'] ?></td>
-                            <!-- <td><?= $data['dep_name'] ?></td> -->
                             <td><?= $data['pacienti'] ?></td>
                             <td><?= $data['numri_personal'] ?></td>
-                            <!-- <td><?= $data['email_pacientit'] ?></td> -->
-                            <td><?= $data['data'] ?></td>
-                            <!-- <td><?= $data['ora'] ?> </td> -->
-                            <!-- <td><?= $data['diagnoza'] ?></td> -->
-                            <!-- <td><?= $data['recepti'] ?></td> -->
+                            <td><?= $date ?></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white IdBtn" title="Appointment details">
                                     <button class="btn btn-primary p-1 text-white" type="button" data-bs-toggle="modal" data-bs-target="#appointmentDetails">
@@ -208,7 +202,7 @@ if (!isset($_SESSION['admin'])) {
                                 </a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         <?php endif; ?>

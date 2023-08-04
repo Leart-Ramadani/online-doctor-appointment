@@ -398,7 +398,7 @@ if (!isset($_SESSION['admin'])) {
         }
 
         $sort = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS
-        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id WHERE (doktori=:keyword OR d.id='$dep' OR data=:keyword) LIMIT :startIndex, $entries";
+        'dep_name' FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id WHERE (o.id=:keyword OR o.doktori=:keyword OR d.id='$dep' OR o.data=:keyword) LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -491,12 +491,23 @@ if (!isset($_SESSION['admin'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) : ?>
+                    <?php foreach ($data as $data) {        
+                        $date = date_create($data['data']);
+                        $date = date_format($date, "d/m/Y");
+
+                        $from_time = date_create($data['nga_ora']);
+                        $from_time = date_format($from_time, "H:i");
+
+                        $to_time = date_create($data['deri_oren']);
+                        $to_time = date_format($to_time, "H:i");
+
+                        $fullTime = $from_time. ' - ' .$to_time;
+                        ?>
                         <tr>
                             <td><?= $data['doktori'] ?></td>
                             <td><?= $data['dep_name'] ?></td>
-                            <td><?= $data['data'] ?></td>
-                            <td><?= $data['nga_ora'] . '-' . $data['deri_oren'] ?></td>
+                            <td><?= $date ?></td>
+                            <td><?= $fullTime  ?></td>
                             <td><?= $data['kohezgjatja'] . 'min' ?> </td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white" href="deleteOrarin.php?id=<?= $data['id']  ?>" title="Delete Schedule">
@@ -504,7 +515,7 @@ if (!isset($_SESSION['admin'])) {
                                 </a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         <?php endif; ?>

@@ -13,7 +13,11 @@ if (isset($_POST['popAnulo'])) {
     $prep->execute();
     $ter_data = $prep->fetch();
 
+    $date = date_create($ter_data['data']);
+    $date = date_format($date, "d/m/Y, l");
 
+    $time = date_create($ter_data['ora']);
+    $time = date_format($time, "H:i");
 
 
     echo $return = "
@@ -21,9 +25,9 @@ if (isset($_POST['popAnulo'])) {
     <hr>
     <p>Departament: <span class='doc_dep'>{$ter_data['dep_name']}</span></p> 
     <hr>
-    <p>Appointment date: <span class='app_date'>{$ter_data['data']}</span></p> 
+    <p>Appointment date: <span class='app_date'>{$date}</span></p> 
     <hr>
-    <p>Time: <span class='app_time'> {$ter_data['ora']} <span></p>
+    <p>Time: <span class='app_time'> {$time} <span></p>
     <hr>";
 }
 

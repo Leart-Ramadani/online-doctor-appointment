@@ -273,7 +273,10 @@ if (isset($_POST['anulo'])) {
                 <tbody>
                     <?php foreach ($data as $data) {    
                         $date = date_create($data['data']);
-                        $date = date_format($date, "l, M d, Y");
+                        $date = date_format($date, "d/m/Y, D");
+
+                        $time = date_create($data['ora']);
+                        $time = date_format($time, "H:i");
 
                         if($data['statusi'] == 'Booked'){
                             $statusColor = 'btn btn-success rounded p-1';
@@ -288,7 +291,7 @@ if (isset($_POST['anulo'])) {
                             <td><?= $data['doktori'] ?></td>
                             <td><?= $data['dep_name'] ?></td>
                             <td><?php echo $date; ?></td>
-                            <td><?= $data['ora'] ?></td>
+                            <td><?= $time ?></td>
                             <td><span class="<?= $statusColor ?>"><?= $data['statusi']; ?></span></td>
                             <td class="text-center">
                                 <a class="text-decoration-none text-white anuloPop" title="Cancel Appointment">
@@ -310,7 +313,7 @@ if (isset($_POST['anulo'])) {
         <?php } else { ?>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                 <?php
+                <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
 
                     $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));

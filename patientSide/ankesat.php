@@ -80,7 +80,7 @@ if (!isset($_SESSION['fullName'])) {
             $email = $data['email'];
             $ankesa = $_POST['ankesa'];
 
-            $paid = "SELECT * FROM terminet WHERE numri_personal=:personal_id AND paied=0";
+            $paid = "SELECT * FROM terminet WHERE numri_personal=:personal_id AND statusi='Completed' AND paied=0";
             $prep = $con->prepare($paid);
             $prep->bindParam(':personal_id', $_SESSION['numri_personal']);
             $prep->execute();

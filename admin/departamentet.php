@@ -86,7 +86,7 @@ if (!isset($_SESSION['admin'])) {
     }
     ?>
 
- 
+
 
     <?php
     $searchedQuery = "";
@@ -123,7 +123,7 @@ if (!isset($_SESSION['admin'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM departamentet WHERE NOT id=0 AND (name=:keyword) LIMIT :startIndex, $entries";
+        $sort = "SELECT * FROM departamentet WHERE NOT id=0 AND (name=:keyword OR id=:keyword) LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -148,7 +148,7 @@ if (!isset($_SESSION['admin'])) {
         $empty = '';
     }
     ?>
-   <main class="text-center main mainRes">
+    <main class="text-center main mainRes">
         <form method="POST" autocomplete="off" class="form-signin text-center departament d-flex flex-column justify-content-center">
             <h1 class="h3 mb-3 fw-normal">Add a departament</h1>
             <div class="input-group mb-1">
@@ -160,115 +160,114 @@ if (!isset($_SESSION['admin'])) {
 
 
 
-    <article class="table_wrapper d-flex flex-column align-items-center p-2">
-        <div class="d-flex justify-content-between pt-2">
-            <div>
-                <form id="entriesForm" method="GET" class="d-flex align-items-center" action="departamentet.php">
-                    <input type="hidden" name="page" value="<?= $currentPage ?>">
-                    <label for="entries" class="me-2">Show</label>
-                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
-                        <option value="25" <?= $entry25 ?? '' ?>>25</option>
-                        <option value="50" <?= $entry50 ?? '' ?>>50</option>
-                        <option value="75" <?= $entry75 ?? '' ?>>75</option>
-                        <option value="100" <?= $entry100 ?? '' ?>>100</option>
-                    </select>
-                    <label for="entries" class="ms-2">entries</label>
-                </form>
-            </div>
+        <article class="table_wrapper d-flex flex-column align-items-center p-2">
+            <div class="d-flex justify-content-between pt-2">
+                <div>
+                    <form id="entriesForm" method="GET" class="d-flex align-items-center" action="departamentet.php">
+                        <input type="hidden" name="page" value="<?= $currentPage ?>">
+                        <label for="entries" class="me-2">Show</label>
+                        <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
+                            <option value="25" <?= $entry25 ?? '' ?>>25</option>
+                            <option value="50" <?= $entry50 ?? '' ?>>50</option>
+                            <option value="75" <?= $entry75 ?? '' ?>>75</option>
+                            <option value="100" <?= $entry100 ?? '' ?>>100</option>
+                        </select>
+                        <label for="entries" class="ms-2">entries</label>
+                    </form>
+                </div>
 
-            <script>
-                $(document).ready(function() {
-                    $('#entries').change(function() {
-                        $('#entriesForm').submit();
+                <script>
+                    $(document).ready(function() {
+                        $('#entries').change(function() {
+                            $('#entriesForm').submit();
+                        });
                     });
-                });
-            </script>
+                </script>
 
 
 
-            <div class="ms-2 me-1">
-                <form method="get" action="departamentet.php">
-                    <input type="hidden" name="entries" value="<?= $entries ?>">
-                    <input type="hidden" name="sortBy" value="<?= $sortBy ?>">
-                    <input type="hidden" name="page" value="<?= $currentPage ?>">
-                    <div class="d-flex mb-1">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
-                            <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <div class="ms-2 me-1">
+                    <form method="get" action="departamentet.php">
+                        <input type="hidden" name="entries" value="<?= $entries ?>">
+                        <input type="hidden" name="page" value="<?= $currentPage ?>">
+                        <div class="d-flex mb-1">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                                <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-        <?php if ($empty == '') : ?>
-            <table class="table table-striped table-borderd text-center">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-center">#</th>
-                        <th scope="col">Departament</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($data as $data) : ?>
+            <?php if ($empty == '') : ?>
+                <table class="table table-striped table-borderd text-center">
+                    <thead>
                         <tr>
-                            <th scope="row" class="text-center"><?= $data['id'] ?></th>
-                            <td><?= $data['name'] ?></td>
-                            <td>
-                                <a class="text-decoration-none text-white" title="Delete" href="deleteDepartament.php?id=<?= $data['id']  ?>">
-                                    <button class="btn btn-danger p-1 text-white"><i class="fa-solid fa-trash ps-1 pe-1"></i></button>
-                                </a>
-                            </td>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col">Departament</th>
+                            <th scope="col">Action</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php endif; ?>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($data as $data) : ?>
+                            <tr>
+                                <th scope="row" class="text-center"><?= $data['id'] ?></th>
+                                <td><?= $data['name'] ?></td>
+                                <td>
+                                    <a class="text-decoration-none text-white" title="Delete" href="deleteDepartament.php?id=<?= $data['id']  ?>">
+                                        <button class="btn btn-danger p-1 text-white"><i class="fa-solid fa-trash ps-1 pe-1"></i></button>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
 
-        <?php if ($empty == 'empty') { ?>
-            <article class=" d-flex justify-content-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
-            </article>
-        <?php } else { ?>
-            <nav aria-label="Page navigation example" class="w-100 ps-1">
-                <ul class="pagination">
-                    <?php
-                    $maxVisibleLinks = 5; // Maximum number of visible page links
+            <?php if ($empty == 'empty') { ?>
+                <article class=" d-flex justify-content-center mt-5">
+                    <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
+                </article>
+            <?php } else { ?>
+                <nav aria-label="Page navigation example" class="w-100 ps-1">
+                    <ul class="pagination">
+                        <?php
+                        $maxVisibleLinks = 5; // Maximum number of visible page links
 
-                    $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
-                    $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
+                        $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
+                        $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
 
-                    $showEllipsisStart = ($startPage > 1);
-                    $showEllipsisEnd = ($endPage < $totalPages);
+                        $showEllipsisStart = ($startPage > 1);
+                        $showEllipsisEnd = ($endPage < $totalPages);
 
-                    if ($currentPage == 1) {
-                        echo '<li class="page-item disabled"><a href="#" class="page-link" tabindex="-1">Previous</a></li>';
-                    }
+                        if ($currentPage == 1) {
+                            echo '<li class="page-item disabled"><a href="#" class="page-link" tabindex="-1">Previous</a></li>';
+                        }
 
-                    if ($currentPage > 1) {
-                        $previousPage = $currentPage - 1;
-                        echo '<li class"page-item"><a href="?page=' . $previousPage . '" class="page-link">Previous</a></li>';
-                    }
+                        if ($currentPage > 1) {
+                            $previousPage = $currentPage - 1;
+                            echo '<li class"page-item"><a href="?page=' . $previousPage . '" class="page-link">Previous</a></li>';
+                        }
 
-                    for ($i = $startPage; $i <= $endPage; $i++) {
-                        $activePage = ($i == $currentPage) ? 'active' : '';
-                        echo '<li class="page-item"><a class="page-link ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a></li>';
-                    }
+                        for ($i = $startPage; $i <= $endPage; $i++) {
+                            $activePage = ($i == $currentPage) ? 'active' : '';
+                            echo '<li class="page-item"><a class="page-link ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a></li>';
+                        }
 
 
 
-                    if ($currentPage < $totalPages) {
-                        $nextPage = $currentPage + 1;
-                        echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
-                    } else {
-                        echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
-                    }
-                    ?>
-                </ul>
-            </nav>
-        <?php } ?>
-    </article>
-   </main>
+                        if ($currentPage < $totalPages) {
+                            $nextPage = $currentPage + 1;
+                            echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
+                        } else {
+                            echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
+                        }
+                        ?>
+                    </ul>
+                </nav>
+            <?php } ?>
+        </article>
+    </main>
 </body>
 
 </html>

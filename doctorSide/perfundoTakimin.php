@@ -16,6 +16,12 @@ $row = $prep->fetch();
 
 $ora = $row['ora'];
 
+$date = date_create($row['data']);
+$date = date_format($date, "d/m/Y");
+
+$time = date_create($row['ora']);
+$time = date_format($time, "H:i");
+
 $service = "SELECT * FROM prices WHERE NOT id=0";
 $prep_service = $con->prepare($service);
 $prep_service->execute();
@@ -87,10 +93,10 @@ $service_data = $prep_service->fetchAll();
             $rec = $recepti;
         }
 
-        if(empty($_POST['service'])){
+        if (empty($_POST['service'])) {
             $serviceErr = '*Service must be selected';
             $invalid_service = 'is-invalid';
-        } else{
+        } else {
             $serviceErr = '';
             $service = $_POST['service'];
 
@@ -174,25 +180,25 @@ $service_data = $prep_service->fetchAll();
             </div>
 
             <div class="form-floating mb-2">
-                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Date" value="<?= $row['data'] ?>">
+                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Date" value="<?= $date ?>">
                 <label for="floatingInput">Date</label>
             </div>
 
             <div class="form-floating mb-2">
-                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Time" value="<?= $row['ora'] ?>">
+                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Time" value="<?= $time ?>">
                 <label for="floatingInput">Time</label>
             </div>
 
             <form method="post" autocomplete="off">
                 <div class="mb-1">
-                     <select class="form-select gender <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="service">
+                    <select class="form-select gender <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="service">
                         <option value="">Select service</option>
-                        <?php foreach($service_data as $service_data) : ?>
-                        <option value="<?= $service_data['name'] ?>"><?= $service_data['name'] ?></option>
+                        <?php foreach ($service_data as $service_data) : ?>
+                            <option value="<?= $service_data['name'] ?>"><?= $service_data['name'] ?></option>
                         <?php endforeach; ?>
-                     </select>
-                     <span class="text-danger fw-normal"><?php echo $serviceErr; ?></span>
-                 </div>
+                    </select>
+                    <span class="text-danger fw-normal"><?php echo $serviceErr; ?></span>
+                </div>
                 <div class="mb-2">
                     <label for="diagnoza" class="form-label">Diagnose:</label>
                     <textarea class="form-control <?= $invalid_dianoz ?? '' ?>" style="resize:none;" id="diagnoza" rows="3" maxlength="350" name="diagnoza"><?= $diag; ?></textarea>
@@ -206,7 +212,7 @@ $service_data = $prep_service->fetchAll();
                 </div>
 
                 <input type="submit" value="Complete" name="perfundo" class="text-center h4 fw-normal p-2 mt-3 rounded w-100 bg-primary border-0 text-white">
-                <input type="submit" value="Complete and book" name="perfundo_rezervo" class="text-center fw-normal h5 p-2 rounded w-100 bg-warning border-0 text-white">
+                <!-- <input type="submit" value="Complete and book" name="perfundo_rezervo" class="text-center fw-normal h5 p-2 rounded w-100 bg-warning border-0 text-white"> -->
             </form>
         </section>
     </article>

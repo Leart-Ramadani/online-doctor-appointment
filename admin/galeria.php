@@ -57,7 +57,7 @@ if (!isset($_SESSION['admin'])) {
         <button type="button" class="ham" id="ham_menu"><i class="fa-solid fa-bars"></i></button>
     </div>
     <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
-    <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
+        <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
         <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <span class="fs-4"><?php echo $_SESSION['admin'] ?></span>
         </p>
@@ -87,11 +87,55 @@ if (!isset($_SESSION['admin'])) {
         </div>
     </div>
 
-        <?php
-    $gallery_sql = "SELECT * FROM galeria";
-    $gallery_prep = $con->prepare($gallery_sql);
-    $gallery_prep->execute();
-    $data = $gallery_prep->fetchAll();
+    <?php
+    $searchedQuery = "";
+    $showEntries;
+    $entries = isset($_GET['entries']) ? $_GET['entries'] : 5;
+    if (isset($_GET['entries'])) {
+        $showEntries = $_GET['entries'];
+        $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+        if ($showEntries == 5) {
+            $entry5 = 'selected';
+        } else if ($showEntries == 10) {
+            $entry10 = 'selected';
+        } else if ($showEntries == 15) {
+            $entry15 = 'selected';
+        } else if ($showEntries == 20) {
+            $entry20 = 'selected';
+        }
+    }
+
+
+
+    $countSql = "SELECT COUNT(*) as total FROM galeria";
+    $countPrep = $con->prepare($countSql);
+    $countPrep->execute();
+    $totalRows = $countPrep->fetch();
+
+    $totalRows = $totalRows['total'];
+
+    $totalPages = ceil($totalRows / $entries);
+
+    $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    $startIndex = ($currentPage - 1) * $entries;
+
+
+
+
+    $sql = "SELECT * FROM galeria LIMIT :startIndex, $entries";
+    $prep = $con->prepare($sql);
+    $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
+    $prep->execute();
+    $data = $prep->fetchAll(PDO::FETCH_ASSOC);
+
+
+    if (!$data) {
+        $empty = 'empty';
+    } else {
+        $empty = '';
+    }
+
     ?>
 
 
@@ -106,39 +150,97 @@ if (!isset($_SESSION['admin'])) {
 
 
     </main>
-
-
     <article class="galeria_wrapper mt-5">
-        <h3 class="h3 text-center fw-normal mt-5 mb-3">Gallery</h3> 
-        <table class="table table-border w-50 table_patient text-center">
-            <thead>
-                <tr>
-                    <th scope="col">Photo</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($data as $data) : ?>
+        <div class="d-flex w-100 ps-2">
+            <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="">
+                <input type="hidden" name="page" value="<?= $currentPage ?>">
+                <label for="entries" class="me-2">Show</label>
+                <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
+                    <option value="5" <?= $entry5 ?? '' ?>>5</option>
+                    <option value="10" <?= $entry10 ?? '' ?>>10</option>
+                    <option value="15" <?= $entry15 ?? '' ?>>15</option>
+                    <option value="20" <?= $entry20 ?? '' ?>>20</option>
+                </select>
+                <label for="entries" class="ms-2">entries</label>
+            </form>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                $('#entries').change(function() {
+                    $('#entriesForm').submit();
+                });
+            });
+        </script>
+        <h3 class="h3 text-center fw-normal mt-5 mb-3">Gallery</h3>
+        <?php if ($empty == '') : ?>
+            <table class="table table-border w-50 table_patient text-center">
+                <thead>
                     <tr>
-                        <td class="p-0 w-50 text-center"><img class="gallery_img" src="uploads_gallery/<?= $data['foto_src'] ?>"></td>
-                        <td class="w-25">
-                            <a class="text-decoration-none text-white" href="deletePhoto.php?id=<?= $data['id']  ?>">
-                                <button class="btn btn-danger fs-5 text-white"><i class="fa-solid fa-trash"></i></button>
-                            </a>
-                            <a class="text-decoration-none text-white" href="changePhoto.php?id=<?= $data['id']  ?>">
-                                <button class="btn btn-success fs-5  text-white"><i class="fa-solid fa-user-edit"></i></button>
-                            </a>
-                        </td>
+                        <th scope="col">Photo</th>
+                        <th scope="col">Action</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($data as $data) : ?>
+                        <tr>
+                            <td class="p-0 w-50 text-center"><img class="gallery_img" src="uploads_gallery/<?= $data['foto_src'] ?>"></td>
+                            <td class="w-25">
+                                <a class="text-decoration-none text-white" href="deletePhoto.php?id=<?= $data['id']  ?>">
+                                    <button class="btn btn-danger fs-5 text-white"><i class="fa-solid fa-trash"></i></button>
+                                </a>
+                                <a class="text-decoration-none text-white" href="changePhoto.php?id=<?= $data['id']  ?>">
+                                    <button class="btn btn-success fs-5  text-white"><i class="fa-solid fa-user-edit"></i></button>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+        <?php if ($empty == 'empty') { ?>
+            <article class=" d-flex justify-content-center mt-5">
+                <h1 class=" h1 fw-normal text-center mt-5">Data not found.</h1>
+            </article>
+        <?php } else { ?>
+            <nav aria-label="Page navigation example" class="w-100 ps-2">
+                <ul class="pagination">
+                    <?php
+                    $maxVisibleLinks = 5;
+
+                    $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
+                    $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
+
+                    $showEllipsisStart = ($startPage > 1);
+                    $showEllipsisEnd = ($endPage < $totalPages);
+
+                    if ($currentPage == 1) {
+                        echo '<li class="page-item disabled"><a href="#" class="page-link" tabindex="-1">Previous</a></li>';
+                    }
+
+                    if ($currentPage > 1) {
+                        $previousPage = $currentPage - 1;
+                        echo '<li class"page-item"><a href="?page=' . $previousPage . '" class="page-link">Previous</a></li>';
+                    }
+
+                    for ($i = $startPage; $i <= $endPage; $i++) {
+                        $activePage = ($i == $currentPage) ? 'active' : '';
+                        echo '<li class="page-item"><a class="page-link ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a></li>';
+                    }
+
+
+
+                    if ($currentPage < $totalPages) {
+                        $nextPage = $currentPage + 1;
+                        echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
+                    } else {
+                        echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
+                    }
+                    ?>
+                </ul>
+            </nav>
+        <?php } ?>
     </article>
-
-
-
-
-
 </body>
 
 </html>

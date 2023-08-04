@@ -26,11 +26,11 @@ if(isset($_POST['popShow']) && $_POST['popShow'] == true){
 
             </div>
             <div class='d-flex justify-content-end'>
-                <a href='editUser.php?id=$id' class='text-decoration-none text-white showEditPop'>
-                <button class='btn btn-warning  text-white'>Perditeso</button>
+                <a href='editUser.php?id=$id' class='text-decoration-none text-white showEditPop' title='Edit'>
+                <button class='btn btn-primary  text-white'><i class='fa-solid fa-user-edit'></i></button>
                 </a>
-                <a href='deleteUser.php?id=$id' class='text-decoration-none ms-2 text-white'>
-                    <button class='btn btn-danger text-white'>Fshij</button>
+                <a href='deleteUser.php?id=$id' class='text-decoration-none ms-2 text-white' title='Delete'>
+                    <button class='btn btn-danger text-white'><i class='fa-solid fa-trash'></i></button>
                 </a>
             </div>
         ";
