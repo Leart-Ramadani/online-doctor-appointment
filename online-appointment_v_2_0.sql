@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2023 at 02:28 PM
+-- Generation Time: Aug 08, 2023 at 03:53 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -34,6 +34,13 @@ CREATE TABLE `ankesat` (
   `email` varchar(100) NOT NULL,
   `ankesa` varchar(350) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ankesat`
+--
+
+INSERT INTO `ankesat` (`id`, `pacienti`, `numri_personal`, `email`, `ankesa`) VALUES
+(30, 'Leart Ramadani', 1351035133, 'leart.ramadani06@gmail.com', 'dsds');
 
 -- --------------------------------------------------------
 
@@ -86,34 +93,7 @@ INSERT INTO `galeria` (`id`, `foto_src`) VALUES
 (11, 'IMG-649f1862e29f06.24149677.jpg'),
 (12, 'IMG-649f257086f623.73052664.jpg'),
 (13, 'IMG-649f2574a97b93.67103756.png'),
-(14, 'IMG-649f257967f357.18696129.jpg'),
-(15, 'IMG-649f257f7b9688.02940590.jpg');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `historia_e_termineve`
---
-
-CREATE TABLE `historia_e_termineve` (
-  `id` int(11) NOT NULL,
-  `doktori` varchar(100) NOT NULL,
-  `departamenti` int(11) NOT NULL,
-  `pacienti` varchar(100) NOT NULL,
-  `numri_personal` varchar(10) NOT NULL,
-  `email_pacientit` varchar(100) NOT NULL,
-  `data` date NOT NULL,
-  `ora` time NOT NULL,
-  `diagnoza` varchar(250) NOT NULL,
-  `recepti` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `historia_e_termineve`
---
-
-INSERT INTO `historia_e_termineve` (`id`, `doktori`, `departamenti`, `pacienti`, `numri_personal`, `email_pacientit`, `data`, `ora`, `diagnoza`, `recepti`) VALUES
-(70, 'Olivia Michaels', 1, 'testte', '1234125678', 'guesst2006@gmail.com', '2023-07-24', '08:00:00', 'asd', 'asd');
+(14, 'IMG-649f257967f357.18696129.jpg');
 
 -- --------------------------------------------------------
 
@@ -163,8 +143,8 @@ CREATE TABLE `orari` (
 --
 
 INSERT INTO `orari` (`id`, `doktori`, `departamenti`, `data`, `nga_ora`, `deri_oren`, `kohezgjatja`, `zene_deri`) VALUES
-(214, 'Liam Smith', 8, '2023-07-24', '08:00:00', '16:00:00', 15, '07:45:00'),
-(215, 'Benjamin Sullivan', 2, '2023-07-25', '10:00:00', '18:00:00', 30, '09:30:00');
+(218, 'Benjamin Sullivan', 2, '2023-08-24', '08:00:00', '16:00:00', 15, '08:00:00'),
+(219, 'Maya Patel', 3, '2023-08-19', '08:00:00', '16:00:00', 20, '08:00:00');
 
 -- --------------------------------------------------------
 
@@ -184,9 +164,11 @@ CREATE TABLE `prices` (
 
 INSERT INTO `prices` (`id`, `name`, `price`) VALUES
 (0, '', 0),
-(1, 'General Check', 14.99),
-(4, 'Surgery', 1500),
-(7, 'X-rays', 30);
+(4, 'Surgery', 1200),
+(7, 'X-rays', 30),
+(9, 'MRI', 50),
+(10, 'General Check', 20),
+(11, 'kontroll', 15);
 
 -- --------------------------------------------------------
 
@@ -215,9 +197,9 @@ CREATE TABLE `terminet` (
 --
 
 INSERT INTO `terminet` (`id`, `doktori`, `departamenti`, `pacienti`, `numri_personal`, `email_pacientit`, `data`, `ora`, `statusi`, `diagnoza`, `recepti`, `service`, `paied`) VALUES
-(594, 'Liam Smith', 8, 'Leart Ramadani', 1351035133, 'leart.ramadani06@gmail.com', '2023-07-24', '08:00:00', 'Completed', 'Ftohje e lehte', 'asd', 1, 1),
-(595, 'Liam Smith', 8, 'Leart Ramadani', 1351035133, 'leart.ramadani06@gmail.com', '2023-07-24', '15:30:00', 'Completed', 'Palidhje', 'palidhje', 1, 1),
-(596, 'Benjamin Sullivan', 2, 'Leart Ramadani', 1351035133, 'leart.ramadani06@gmail.com', '2023-07-25', '15:00:00', 'Completed', 'dsd', 'sdsd', 1, 1);
+(601, 'Maya Patel', 3, 'guesst guesst', 2147483647, 'guesst2006@gmail.com', '2023-08-19', '08:40:00', 'Completed', 'asdf`', 'lorem ipsum', 7, 1),
+(603, 'Benjamin Sullivan', 2, 'guesst guesst', 2147483647, 'guesst2006@gmail.com', '2023-08-24', '08:45:00', 'Booked', '', '', 0, 0),
+(604, 'Maya Patel', 3, 'Leart Ramadani', 1351035133, 'leart.ramadani06@gmail.com', '2023-08-19', '10:20:00', 'In progres', '', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -277,15 +259,16 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `userType`, `fullName`, `personal_id`, `departament`, `gender`, `email`, `phone`, `photo`, `birthday`, `adress`, `username`, `password`, `veri_code`, `veri_date`, `veri_time`, `verificated`) VALUES
 (6, 3, '', 0, 1, '', '', '', '', '0000-00-00', '', 'admin', '$2y$10$QRDfMM8OZY3Vf.crq2KVP.L3lJrh7Zq5xMXLJEwOCXCsEzwyIes6a', 0, '0000-00-00', '00:00:00', 0),
-(9, 2, 'Olivia Michaels', 0, 1, 'Female', 'oliviaMichaels@gmail.com', '045123789', 'IMG-64ae8d9b44aaa4.82457204.webp', '0000-00-00', '', 'oliviaMichaels', '$2y$10$dADfq4upOFT0v2OYr8FtNuvVuwMfI/j.OaajOILF/fPHQFTTpVAWG', 0, '0000-00-00', '00:00:00', 0),
+(9, 2, 'Olivia Michaels', 0, 13, 'Female', 'oliviaMichaels@gmail.com', '045123789', 'IMG-64bea674126925.09842547.jpg', '0000-00-00', '', 'oliviaMichaels', '$2y$10$E7B8fgQ7kD1c75OUzl.r.eHGIP2HewQ5jK3LJeEwDl5mBb2qp9PXu', 0, '0000-00-00', '00:00:00', 0),
 (10, 2, 'Benjamin Sullivan', 0, 2, 'Male', 'benjaminSullivan@gmail.com', '045151121', 'IMG-64ae8df6434678.89671794.jpg', '0000-00-00', '', 'benjaminSullivan', '$2y$10$Jle0I6zoWHobuKPZScOkoOnKE/T198T1VStbiX5nXCTN76Iz7j3BS', 0, '0000-00-00', '00:00:00', 0),
 (11, 2, 'Maya Patel', 0, 3, 'Female', 'mayaPatel@gmail.com', '049125111', 'IMG-64ae8e26a0ca90.09146637.webp', '0000-00-00', '', 'mayaPatel', '$2y$10$TBJEDpwJ6Yo5uaDTWL1.p.H3lzTbT90iWjQbJsBa1rNVCEahP4Fhu', 0, '0000-00-00', '00:00:00', 0),
 (12, 2, 'Jonathan Reed', 0, 4, 'Male', 'jonathanReed@gmail.com', '045675142', 'IMG-64ae8e4bbcd757.78182653.webp', '0000-00-00', '', 'jonathanReed', '$2y$10$q.m9dFLjIa89Yw9nl8ckQ.vOtDhB7WcjS2/pDK89n8NE..mUcL6pm', 0, '0000-00-00', '00:00:00', 0),
 (13, 2, 'Grace Anderson', 0, 7, 'Female', 'graceAnderson@gmail.com', '045125111', 'IMG-64ae8e991c5651.34480751.png', '0000-00-00', '', 'graceAnderson', '$2y$10$AAt0aB./4dYqDTlNAqatYOEoxSc9JGuVF5P/7Ktk79.g2Gp5wRtTy', 0, '0000-00-00', '00:00:00', 0),
 (14, 2, 'Liam Smith', 0, 8, 'Male', 'liamSmith@gmail.com', '045788555', 'IMG-64ae8ee66e0ff2.23642687.webp', '0000-00-00', '', 'liamSmith', '$2y$10$G16goJdJ5MBPQUNSNWJT5.M6VXY2tYjrlFPNyC8nCFoB4Rvm8bOJG', 0, '0000-00-00', '00:00:00', 0),
 (15, 2, 'Sophia Ramirez', 0, 13, 'Female', 'sophiaRamirez@gmail.com', '045148654', 'IMG-64ae8f113690c2.79129875.jpg', '0000-00-00', '', 'sophiaRamirez', '$2y$10$WWuB3Qg6JZTDfzx.ahuWtecQUutD7lm/EV7TNtbsomRbNpkkZo5vG', 0, '0000-00-00', '00:00:00', 0),
-(19, 1, 'Leart Ramadani', 1351035133, 0, 'Male', 'leart.ramadani06@gmail.com', '045125425', '', '2000-01-01', 'lorem ipsum', 'leart', '$2y$10$8pd.TaFMuTtiNLz2ivXUSumHSozFrZjyU8/bibdNW77hCOuAg2U/.', 561789, '2023-07-12', '18:42:00', 1),
-(20, 1, 'Guesst Demo', 2147483647, 0, 'Female', 'guesst2006@gmail.com', '045114254', '', '2000-01-01', 'lorem ipsum', 'guesst', '$2y$10$JmUQjrP2SgeshNoYD36YMu3eVpv6XZL/GewboXsHnyxMn9AgdzWwm', 873348, '2023-07-12', '18:48:38', 1);
+(19, 1, 'Leart Ramadani', 1351035133, 0, 'Male', 'leart.ramadani06@gmail.com', '045125425', '', '2000-01-01', 'lorem ipsum', 'leart', '$2y$10$tUcXC8iUhUfZdEH0TCdHX.AkY1quxfbGJOPkWKpG.6qQbH0I2R4BS', 561789, '2023-07-12', '18:42:00', 1),
+(22, 1, 'guesst guesst', 2147483647, 0, 'Female', 'guesst2006@gmail.com', '045122222', '', '2000-01-10', 'asdasdasd', 'guesst', '$2y$10$pKFffbRQrj6i5G4WqNwe7e4Mp.NR2K32KhGbRthtyOvCCfnWmVDWa', 617777, '2023-07-25', '11:14:41', 1),
+(23, 1, 'fr frf', 2147483647, 0, 'Male', 'palidhje@gmail.com', '045123222', '', '2000-01-01', 'lorem ipsum', 'test', '$2y$10$f3PpCbwHShSoqBhSY.67kez/6U7CSK3dZl.0I7oOyh1XKuJ425hdK', 820325, '2023-08-08', '15:38:41', 0);
 
 -- --------------------------------------------------------
 
@@ -344,13 +327,6 @@ ALTER TABLE `departamentet`
 --
 ALTER TABLE `galeria`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `historia_e_termineve`
---
-ALTER TABLE `historia_e_termineve`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `departamenti` (`departamenti`);
 
 --
 -- Indexes for table `kerkesatanulimit`
@@ -416,7 +392,7 @@ ALTER TABLE `waiting_list`
 -- AUTO_INCREMENT for table `ankesat`
 --
 ALTER TABLE `ankesat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `departamentet`
@@ -431,34 +407,28 @@ ALTER TABLE `galeria`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT for table `historia_e_termineve`
---
-ALTER TABLE `historia_e_termineve`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
-
---
 -- AUTO_INCREMENT for table `kerkesatanulimit`
 --
 ALTER TABLE `kerkesatanulimit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `orari`
 --
 ALTER TABLE `orari`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=220;
 
 --
 -- AUTO_INCREMENT for table `prices`
 --
 ALTER TABLE `prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `terminet`
 --
 ALTER TABLE `terminet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=597;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=605;
 
 --
 -- AUTO_INCREMENT for table `terminet_e_dyta`
@@ -470,7 +440,7 @@ ALTER TABLE `terminet_e_dyta`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `usertypes`
@@ -482,17 +452,11 @@ ALTER TABLE `usertypes`
 -- AUTO_INCREMENT for table `waiting_list`
 --
 ALTER TABLE `waiting_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `historia_e_termineve`
---
-ALTER TABLE `historia_e_termineve`
-  ADD CONSTRAINT `historia_e_termineve_ibfk_1` FOREIGN KEY (`departamenti`) REFERENCES `departamentet` (`id`);
 
 --
 -- Constraints for table `kerkesatanulimit`

@@ -27,7 +27,7 @@ $time = date_format($time, "H:i");
             <div>
                 <a href="kerkesatAnulimit.php" class="goBack" title="Go back"><i class="fa-solid fa-arrow-left text-dark"></i></a>
                 <div class="h1_flex">
-                    <h1 class="h3 mb-4 fw-normal text-center">Kerkesa e anulimit</h1>
+                    <h1 class="h3 mb-4 fw-normal text-center">Cancelation request</h1>
                 </div>
             </div>
             <article class=firsecKerkesa" style="  display: flex; gap: 15px;">
@@ -35,12 +35,12 @@ $time = date_format($time, "H:i");
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Emri dhe mbiemri"
                             value="<?= $data['pacienti'] ?>">
-                        <label for="floatingInput">Emri dhe mbiemri</label>
+                        <label for="floatingInput">Patient</label>
                     </div>
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Numri persoanl"
                             value="<?= $data['numri_personal'] ?>">
-                        <label for="floatingInput">Numri persoanl</label>
+                        <label for="floatingInput">Personal ID</label>
                     </div>
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Email"
@@ -50,7 +50,7 @@ $time = date_format($time, "H:i");
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Numri i telefonit"
                             value="<?= $data['telefoni'] ?>">
-                        <label for="floatingInput">Numri i telefonit</label>
+                        <label for="floatingInput">Phone number</label>
                     </div>
                 </div>
     
@@ -58,41 +58,41 @@ $time = date_format($time, "H:i");
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Doktori"
                             value="<?= $data['doktori'] ?>">
-                        <label for="floatingInput">Doktori</label>
+                        <label for="floatingInput">Doctor</label>
                     </div>
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Departamenti"
                             value="<?= $data['dep_name'] ?>">
-                        <label for="floatingInput">Departamenti</label>
+                        <label for="floatingInput">Departament</label>
                     </div>
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Data e terminit"
                             value="<?= $date ?>">
-                        <label for="floatingInput">Data e terminit</label>
+                        <label for="floatingInput">Appointment date</label>
                     </div>
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" readonly id="floatingInput" placeholder="Ora"
                             value="<?= $time ?>">
-                        <label for="floatingInput">Ora</label>
+                        <label for="floatingInput">Time</label>
                     </div>
                 </div>
             </article>
             
 
             <div class="mb-2 d-flex">
-                <label for="ankesa" class="form-label">Arsyeja e kerkeses:</label>
+                <label for="ankesa" class="form-label">Reason for the request:</label>
                 <textarea class="form-control" readonly style="resize:none;" rows="5"><?= $data['arsyeja_anulimit'] ?></textarea>
             </div>
 
             <div class="kerkesaAction mt-3">
                 <a class="text-decoration-none text-white d-inline-block"
                     href="aprovoKerkesen.php?id=<?= $data['id']  ?>">
-                    <button class="btn btn-success w-100 p-2 text-white rounded mb-1">Aprovo</button>
+                    <button class="btn btn-success w-100 p-2 text-white rounded mb-1">Approve</button>
                 </a>
 
                 <a class="text-decoration-none text-white d-inline-block"
                     href="deleteKerkesen.php?id=<?= $data['id']  ?>">
-                    <button class="btn btn-danger w-100 p-2 text-white mb-1">Mos aprovo</button>
+                    <button class="btn btn-danger w-100 p-2 text-white mb-1">Reject</button>
                 </a>
             </div>
 
