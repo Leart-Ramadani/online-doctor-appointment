@@ -1,7 +1,7 @@
 <?php
 include('../config.php');
 if (isset($_SESSION['admin'])) {
-    header("Location: doktoret.php");
+    header("Location: dashboard.php");
 }
 ?>
 <!DOCTYPE html>
@@ -89,7 +89,7 @@ if (isset($_SESSION['admin'])) {
             $invalidUser = 'is-invalid';
         } else if (password_verify($password, $data['password'])) {
             $_SESSION['admin'] = $data['username'];
-            header("Location: doktoret.php");
+            header("Location: dashboard.php");
             $usernameErr = $passErr = '';
         } else {
             $passErr = '*Incorrect password!';
