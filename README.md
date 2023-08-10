@@ -44,26 +44,10 @@ br
 br
 
 ## Doctor
-#### <u>Username</u>: oliverJohnson
-#### <u>Password:</u> oliverJohnson
+#### <u>Username</u>: mayaPatel
+#### <u>Password:</u> mayaPatel
 br
 
-#### <u>Username</u>: emmaWilliams
-#### <u>Password:</u> emmaWilliams
-br
-
-#### <u>Username</u>: charlotteBrown
-#### <u>Password:</u> charlotteBrown
-br
-
-#### <u>Username</u>: emmaSmith
-#### <u>Password:</u> emmaSmith
-br
-
-#### <u>Username</u>: liamSmith
-#### <u>Password:</u> liamSmith
-
-br
 
 ## The patient
 #### To see all the features of this website, please open an account with your email so that you can verify the account and accept the term details through your email.
