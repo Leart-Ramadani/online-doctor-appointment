@@ -92,9 +92,11 @@ if (!isset($_SESSION['doctor'])) {
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM terminet WHERE doktori=:doktori AND statusi='Completed' AND (pacienti=:keyword  OR
+        $sort = "SELECT t.id, t.pacienti, t.numri_personal, t.data, t.ora, t.diagnoza, c.code AS 'diagnose', t.recepti 
+        FROM terminet AS t INNER JOIN icd_code AS c ON t.diagnoza=c.id 
+        WHERE doktori=:doktori AND statusi='Completed' AND (pacienti=:keyword  OR
         data=:keyword OR ora=:keyword OR numri_personal=:keyword OR diagnoza=:keyword OR recepti=:keyword)
-         LIMIT :startIndex, $entries";
+        LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -107,7 +109,9 @@ if (!isset($_SESSION['doctor'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM terminet WHERE doktori=:doktori AND statusi='Completed' LIMIT :startIndex, $entries";
+        $sql = "SELECT t.id, t.pacienti, t.numri_personal, t.data, t.ora, t.diagnoza, t.recepti, c.code AS 'diagnose'
+        FROM terminet AS t INNER JOIN icd_code AS c ON t.diagnoza=c.id
+        WHERE doktori=:doktori AND statusi='Completed' LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindParam(':doktori', $_SESSION['doctor']);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
@@ -187,7 +191,7 @@ if (!isset($_SESSION['doctor'])) {
                             <td><?= $data['numri_personal'] ?></td>
                             <td><?= $date    ?></td>
                             <td><?= $time ?> </td>
-                            <td><?= $data['diagnoza'] ?></td>
+                            <td><?= $data['diagnose'] ?></td>
                             <td><?= $data['recepti'] ?></td>
                         </tr>
                     <?php } ?>

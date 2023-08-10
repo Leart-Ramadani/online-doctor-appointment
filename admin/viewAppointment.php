@@ -1,10 +1,10 @@
 <?php
-    include('../config.php');
+include('../config.php');
 
-    if(isset($_GET['App_id'])){
-        $id = $_GET['App_id'];
+if (isset($_GET['App_id'])) {
+    $id = $_GET['App_id'];
 
-        $sql = "SELECT
+    $sql = "SELECT
         t.id,
         t.doktori,
         t.pacienti,
@@ -18,20 +18,22 @@
         t.paied,
         d.name AS 'dep_name',
         p.price AS 'price',
-        p2.name AS 'service'
+        p2.name AS 'service',
+        c.code AS 'diagnose'
     FROM
         terminet AS t
     INNER JOIN departamentet AS d ON t.departamenti = d.id
     INNER JOIN prices AS p ON t.service = p.id
     INNER JOIN prices AS p2 ON t.service = p2.id
+    INNER JOIN icd_code AS c ON t.diagnoza=c.id
     WHERE
         t.id = :id;";
 
 
-$prep = $con->prepare($sql);
-$prep->bindParam(':id', $id);
-$prep->execute();
-$data = $prep->fetch();
+    $prep = $con->prepare($sql);
+    $prep->bindParam(':id', $id);
+    $prep->execute();
+    $data = $prep->fetch();
 
     // Data found, proceed with processing and returning JSON
     $time = date_create($data['ora']);
@@ -50,9 +52,9 @@ $data = $prep->fetch();
         "Time" => $time,
         "Service" => $data['service'],
         "Price" => $data['price'],
-        "Diagnose" => $data['diagnoza'],
+        "Diagnose" => $data['diagnose'],
         "Prescription" => $data['recepti']
     ];
 
     echo json_encode($response);
-    }
+}

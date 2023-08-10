@@ -82,6 +82,12 @@ $service_data = $prep_service->fetchAll();
             $diagnoza = $_POST['diagnoza'];
             $diagnoza_err = '';
             $diag = $diagnoza;
+
+            $diag_sql = "SELECT id FROM icd_code WHERE code='$diagnoza'";
+            $diag_prep = $con->prepare($diag_sql);
+            $diag_prep->execute();
+            $diag_data = $diag_prep->fetch();
+            $diag_id = $diag_data['id'];
         }
 
         if (empty($_POST['recepti'])) {
@@ -107,10 +113,11 @@ $service_data = $prep_service->fetchAll();
             $service_row = $service_stmt->fetch();
         }
 
+
         if ($diagnoza_err == '' && $recepti_err == '' && $serviceErr == '') {
             $ins_sql = "UPDATE terminet SET statusi='Completed', diagnoza=:diagnoza, recepti=:recepti, service=:service WHERE id='$id'";
             $ins_prep = $con->prepare($ins_sql);
-            $ins_prep->bindParam(':diagnoza', $diagnoza);
+            $ins_prep->bindParam(':diagnoza', $diag_id);
             $ins_prep->bindParam(':recepti', $recepti);
             $ins_prep->bindParam(':service', $service_row['id']);
             $ins_prep->execute();
@@ -124,32 +131,32 @@ $service_data = $prep_service->fetchAll();
         }
     }
 
-    if (isset($_POST['perfundo_rezervo'])) {
-        $numri_personal = $row['numri_personal'];
-        $data = $row['data'];
+    // if (isset($_POST['perfundo_rezervo'])) {
+    //     $numri_personal = $row['numri_personal'];
+    //     $data = $row['data'];
 
-        if (empty($_POST['diagnoza'])) {
-            $diagnoza_err = 'Diagnose must be filled.';
-            $invalid_dianoz = 'is-invalid';
-        } else {
-            $diagnoza = $_POST['diagnoza'];
-            $diagnoza_err = '';
-            $diag = $diagnoza;
-        }
+    //     if (empty($_POST['diagnoza'])) {
+    //         $diagnoza_err = 'Diagnose must be filled.';
+    //         $invalid_dianoz = 'is-invalid';
+    //     } else {
+    //         $diagnoza = $_POST['diagnoza'];
+    //         $diagnoza_err = '';
+    //         $diag = $diagnoza;
+    //     }
 
-        if (empty($_POST['recepti'])) {
-            $recepti_err = 'Prescription must be filled.';
-            $invalid_recepti = 'is-invalid';
-        } else {
-            $recepti = $_POST['recepti'];
-            $recepti_err = '';
-            $rec = $recepti;
-        }
+    //     if (empty($_POST['recepti'])) {
+    //         $recepti_err = 'Prescription must be filled.';
+    //         $invalid_recepti = 'is-invalid';
+    //     } else {
+    //         $recepti = $_POST['recepti'];
+    //         $recepti_err = '';
+    //         $rec = $recepti;
+    //     }
 
-        if ($diagnoza_err == '' && $recepti_err == '') {
-            header("Location: perfundo_rezervo.php?numri_personal=$numri_personal&data=$data&diagnoza=$diagnoza&recepti=$recepti&ora=$ora&id=$id");
-        }
-    }
+    //     if ($diagnoza_err == '' && $recepti_err == '') {
+    //         header("Location: perfundo_rezervo.php?numri_personal=$numri_personal&data=$data&diagnoza=$diagnoza&recepti=$recepti&ora=$ora&id=$id");
+    //     }
+    // }
 
     ?>
 
@@ -190,7 +197,7 @@ $service_data = $prep_service->fetchAll();
             </div>
 
             <form method="post" autocomplete="off">
-                <div class="mb-1">
+                <div class="mb-2">
                     <select class="form-select gender <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="service">
                         <option value="">Select service</option>
                         <?php foreach ($service_data as $service_data) : ?>
@@ -199,9 +206,21 @@ $service_data = $prep_service->fetchAll();
                     </select>
                     <span class="text-danger fw-normal"><?php echo $serviceErr; ?></span>
                 </div>
-                <div class="mb-2">
-                    <label for="diagnoza" class="form-label">Diagnose:</label>
-                    <textarea class="form-control <?= $invalid_dianoz ?? '' ?>" style="resize:none;" id="diagnoza" rows="3" maxlength="350" name="diagnoza"><?= $diag; ?></textarea>
+
+                <div class="diagnose mb-2">
+                    <div class="diagnose-selected">
+                        <input type="text" class="form-control diagnose-input <?= $invalid_dianoz ?? '' ?>" id="floatingInput" name="diagnoza" placeholder="Select diagnose" readonly style="height: 50px !important;" value="<?= $diag ?>">
+                    </div>
+                    <div class="diagnose-content">
+                        <div class="diagnose-search">
+                            <input type="text" class="form-control searchDiagnose" id="floatingInput" placeholder="Search diagnose">
+                        </div>
+                        <div class="diagnose-options">
+                            <ul class="options">
+
+                            </ul>
+                        </div>
+                    </div>
                     <span class="text-danger fw-normal"><?php echo $diagnoza_err; ?></span>
                 </div>
 
@@ -217,6 +236,79 @@ $service_data = $prep_service->fetchAll();
         </section>
     </article>
 
+    <script>
+        const diagnoseSelected = document.querySelector('.diagnose-selected');
+        const diagnoseInp = document.querySelector('.diagnose-input');
+        const diagnoseContent = document.querySelector('.diagnose-content');
+        const diagnoseOptions = document.querySelectorAll('.options  li');
+        const options = document.querySelector('.options');
+        const searchDiagnose = document.querySelector('.searchDiagnose');
+
+
+
+        diagnoseSelected.addEventListener('click', () => {
+            diagnoseContent.classList.toggle('diagnose-active');
+        });
+
+        document.querySelector('.diagnose-options').addEventListener('click', event => {
+            const target = event.target;
+            if (target.tagName === 'LI') {
+                diagnoseInp.value = target.textContent;
+                diagnoseContent.classList.remove('diagnose-active');
+            }
+        });
+
+
+        searchDiagnose.addEventListener('keyup', () => {
+            if (searchDiagnose.value.length >= 2) {
+                let filter, li, i, textValue;
+                filter = searchDiagnose.value.toUpperCase();
+                li = options.getElementsByTagName('li');
+                for (i = 0; i < li.length; i++) {
+                    liCount = li[i];
+                    textValue = liCount.textContent || liCount.innerText;
+                    if (textValue.toUpperCase().indexOf(filter) > -1) {
+                        li[i].style.display = '';
+                    } else {
+                        li[i].style.display = 'none';
+                    }
+                }
+
+                $.ajax({
+                    url: 'icd_code.php',
+                    type: 'POST',
+                    data: {
+                        filter: filter
+                    },
+                    success: response => {
+                        response = JSON.parse(response);
+                        if (response == 'not found') {
+                            options.innerText = "Code like this doesn't exists in our system";
+                        } else {
+
+                            options.innerHTML = '';
+                            response.forEach(code => {
+                                const createLi = document.createElement('li');
+                                createLi.textContent = code;
+                                options.appendChild(createLi);
+                            });
+                        }
+                    }
+                })
+            } else if (searchDiagnose.value.length < 2) {
+                li = options.getElementsByTagName('li');
+                for (i = 0; i < li.length; i++) {
+                    li[i].style.display = 'none';
+                }
+            }
+
+
+        });
+    </script>
+
+
+    <!-- JQuery link -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </body>
 
 </html>

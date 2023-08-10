@@ -347,7 +347,6 @@ if (!isset($_SESSION['admin'])) {
                         },
                         success: response => {
                             response = JSON.parse(response);  
-                            console.log(response);  
                             appId.innerHTML = response.ID;
                             doctor.value = response.Doctor;
                             departament.value = response.Departament;

@@ -7,7 +7,8 @@ if (!isset($_SESSION['admin'])) {
 $id = $_GET['id'];
 
 $sql = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, t.statusi, t.diagnoza, t.recepti, t.service, t.paied,
-    d.name AS 'dep_name', p.price AS 'price' FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id INNER JOIN prices AS p ON t.service = p.id
+    d.name AS 'dep_name', p.price AS 'price', c.code AS 'diagnose' FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id INNER JOIN prices AS p ON t.service = p.id
+    INNER JOIN icd_code AS c ON t.diagnoza=c.id
     WHERE t.id='$id'";
 $prep = $con->prepare($sql);
 $prep->execute();
@@ -129,7 +130,7 @@ $date = date_format($date, "d/m/Y");
                     </div>
                     <div>
                         <p>Diagnosis </p>
-                        <p class="app_data" style="width: 678px; margin-left: 5px;"><?= $data['diagnoza'] ?></p>
+                        <p class="app_data" style="width: 678px; margin-left: 5px;"><?= $data['diagnose'] ?></p>
                     </div>
                     <div class="desPrescription d-flex">
                         <h3>Prescription:</h3>
