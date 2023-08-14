@@ -135,6 +135,7 @@ if (isset($_SESSION['admin'])) {
             </script>
 
             <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Login</button>
+            <p class="mt-2">Go back to <a href="../index.php">homepage.</a></p>
         </form>
     </main>
 </body>

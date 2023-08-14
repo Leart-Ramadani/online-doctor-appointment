@@ -1483,7 +1483,7 @@ nav {
   list-style: none;
   padding: 0;
   margin-bottom: 0;
-  max-height: 150px !important;
+  max-height: 100px !important;
   overflow-y: scroll;
 }
 

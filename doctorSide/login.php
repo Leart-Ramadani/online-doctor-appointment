@@ -142,6 +142,7 @@ if (isset($_SESSION['doctor'])) {
             </script>
 
             <button class="w-100 btn btn-lg btn-primary mt-2" type="submit" name="submit">Log in</button>
+            <p class="mt-2">Go back to <a href="../index.php">homepage.</a></p>
         </form>
     </main>
 

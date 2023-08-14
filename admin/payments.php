@@ -13,7 +13,7 @@ if (!isset($_SESSION['admin'])) {
         <button type="button" class="ham" id="ham_menu"><i class="fa-solid fa-bars"></i></button>
     </div>
 
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar" style="overflow-y: scroll;">
         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
         <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <span class="fs-5"><?php echo $_SESSION['admin'] ?></span>

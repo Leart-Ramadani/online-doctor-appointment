@@ -57,7 +57,7 @@
 
 
         $mail->Subject = 'Kerkesa per anulimin e terminit';
-        $mail->Body    = "<p>
+        $mail->Body    = "
                     $gjinia{$data['pacienti']},
                     <br>
                     Kërkesa juaj për anulimin e terminit me datë:{$data['data']}, në orën:{$data['ora']}, 
@@ -68,7 +68,7 @@
                     <br> <br>
                     Me respekt, <br>
                     sistemi-termineve-online.com
-                    </p>";
+                    ";
 
         $mail->send();
 

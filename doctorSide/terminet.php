@@ -32,7 +32,7 @@ if (!isset($_SESSION['doctor'])) {
         </p>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="terminet.php" class="nav-link active" aria-current="page">Appintments</a></li>
+            <li class="nav-item"><a href="terminet.php" class="nav-link active" aria-current="page">Appointments</a></li>
             <li class="nav-item"><a href="historiaTermineve.php" class="nav-link text-white">Appointments history</a></li>
         </ul>
         <hr>
@@ -91,7 +91,7 @@ if (!isset($_SESSION['doctor'])) {
         $keyword = $_GET['keyword'];
 
         $sort = "SELECT * FROM terminet WHERE doktori=:doktori AND (statusi='Booked' OR statusi='In progres') AND (numri_personal=:keyword OR 
-                 pacienti=:keyword OR data=:keyword OR ora=:keyword) LIMIT :startIndex, $entries";
+                pacienti=:keyword OR data=:keyword OR ora=:keyword) LIMIT :startIndex, $entries";
         $sql = $sort;
 
         $prep = $con->prepare($sql);
@@ -154,6 +154,7 @@ if (!isset($_SESSION['doctor'])) {
                             <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
                             <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
+                        <section class="bg-primary ms-2 addDoc fs-6" type="button" title="View calendar"><i class="fa-solid fa-calendar"></i></section>
                     </div>
                 </form>
             </div>
@@ -208,7 +209,7 @@ if (!isset($_SESSION['doctor'])) {
 
         <?php if ($empty == 'empty') { ?>
             <article class=" d-flex justify-content-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Te dhenat nuk u gjenden ne databaze.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
             </article>
         <?php } else { ?>
             <nav aria-label="Page navigation example" class="d-flex justify-content-start w-100 ps-2">

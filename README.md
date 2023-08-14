@@ -5,7 +5,7 @@
 This project helps a certain medical institution, be it a clinic
 private or hospital, where customers/patients can book an appointment with a doctor online. This doctor appointment system will organize each patient's appointment times, which will be sent as a request to the doctor they have selected. The system has 3 parts which are the administrator, the doctor and the patient. The system administrator will complete the list of doctors with their specialties. Patients will browse the physician appointment system website to find a physician who has the specialty of their needs. The patient can check the doctor's weekly schedule to help them choose the day and time they can keep the appointment and they will submit their request for an appointment. After that, doctors can view all their appointments and patients' appointment requests for their availability.
 
-br
+<br>
 
 ## Admin side
 - Admin can add, update or delete a doctor;
@@ -35,18 +35,18 @@ br
 - Reset the password if you have forgotten it by accepting a link to reset the password.
 - To see the history of his terms.
 
-br
+<br>
 
 # Open accounts
 ## Admin
 #### <u>Username</u>: admin
 #### <u>Password</u>: admin
-br
+<br>
 
 ## Doctor
 #### <u>Username</u>: mayaPatel
 #### <u>Password:</u> mayaPatel
-br
+<br>
 
 
 ## The patient

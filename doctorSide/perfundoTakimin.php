@@ -1,6 +1,8 @@
 <?php
-
 include('../config.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 $id = $_GET['id'];
 
@@ -75,9 +77,30 @@ $service_data = $prep_service->fetchAll();
         $diagnoza = $_POST['diagnoza'];
         $recepti = $_POST['recepti'];
 
+
+        if (empty($_POST['service'])) {
+            $serviceErr = '*Service must be selected';
+            $invalid_service = 'is-invalid';
+        } else {
+            $serviceErr = '';
+            $service = $_POST['service'];
+
+            $service_sql = "SELECT * FROM prices WHERE name=:service";
+            $service_stmt = $con->prepare($service_sql);
+            $service_stmt->bindParam(':service', $service);
+            $service_stmt->execute();
+            $service_row = $service_stmt->fetch();
+        }
+
         if (empty($_POST['diagnoza'])) {
-            $diagnoza_err = '*Diagnose must be filled.';
-            $invalid_dianoz = 'is-invalid';
+            if($service != "Reference"){
+                $diagnoza_err = '*Diagnose must be filled.';
+                $invalid_dianoz = 'is-invalid';
+            } else{
+                $diagnoza_err = '';
+                $invalid_dianoz = '';
+                $diag_id = 0;
+            }
         } else {
             $diagnoza = $_POST['diagnoza'];
             $diagnoza_err = '';
@@ -99,28 +122,27 @@ $service_data = $prep_service->fetchAll();
             $rec = $recepti;
         }
 
-        if (empty($_POST['service'])) {
-            $serviceErr = '*Service must be selected';
-            $invalid_service = 'is-invalid';
-        } else {
-            $serviceErr = '';
-            $service = $_POST['service'];
 
-            $service_sql = "SELECT id FROM prices WHERE name=:service";
-            $service_stmt = $con->prepare($service_sql);
-            $service_stmt->bindParam(':service', $service);
-            $service_stmt->execute();
-            $service_row = $service_stmt->fetch();
-        }
 
 
         if ($diagnoza_err == '' && $recepti_err == '' && $serviceErr == '') {
-            $ins_sql = "UPDATE terminet SET statusi='Completed', diagnoza=:diagnoza, recepti=:recepti, service=:service WHERE id='$id'";
-            $ins_prep = $con->prepare($ins_sql);
-            $ins_prep->bindParam(':diagnoza', $diag_id);
-            $ins_prep->bindParam(':recepti', $recepti);
-            $ins_prep->bindParam(':service', $service_row['id']);
-            $ins_prep->execute();
+            if($service == "Reference"){
+                $ins_sql = "UPDATE terminet SET statusi='Transfered', recepti=:recepti, service=:service, paied=1 WHERE id='$id'";
+                $ins_prep = $con->prepare($ins_sql);
+                $ins_prep->bindParam(':recepti', $recepti);
+                $ins_prep->bindParam(':service', $service_row['id']);
+                $ins_prep->execute();
+            } else{
+                $ins_sql = "UPDATE terminet SET statusi='Completed', diagnoza=:diagnoza, recepti=:recepti, service=:service WHERE id='$id'";
+                $ins_prep = $con->prepare($ins_sql);
+                $ins_prep->bindParam(':diagnoza', $diag_id);
+                $ins_prep->bindParam(':recepti', $recepti);
+                $ins_prep->bindParam(':service', $service_row['id']);
+                $ins_prep->execute();
+            }
+
+
+            
 
             $delWait = "DELETE FROM waiting_list WHERE apointment_id='$id'";
             $del_prep = $con->prepare($delWait);
@@ -200,9 +222,16 @@ $service_data = $prep_service->fetchAll();
                 <div class="mb-2">
                     <select class="form-select gender <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="service">
                         <option value="">Select service</option>
-                        <?php foreach ($service_data as $service_data) : ?>
-                            <option value="<?= $service_data['name'] ?>"><?= $service_data['name'] ?></option>
-                        <?php endforeach; ?>
+                        <?php 
+                            foreach ($service_data as $service_data) { 
+                                if($service_data == $diag){
+                        ?>
+                            <option value="<?= $service_data['name'] ?>" selected><?= $service_data['name'] ?></option>
+                        <?php } else{ ?>
+                            <option value="<?= $service_data['name'] ?>"><?= $service_data['name'] ?></option>  
+                        <?php 
+                            }
+                        } ?>
                     </select>
                     <span class="text-danger fw-normal"><?php echo $serviceErr; ?></span>
                 </div>

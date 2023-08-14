@@ -8,7 +8,11 @@ if (!isset($_SESSION['admin'])) {
 $id = $_GET['id'];
 
 $sql = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, t.statusi, t.diagnoza, t.recepti, t.service, t.paied,
-    d.name AS 'dep_name', p.price AS 'price' FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id INNER JOIN prices AS p ON t.service = p.id
+    d.name AS 'dep_name', p.price AS 'price', c.code AS 'diagnose_code' 
+    FROM terminet AS t 
+    INNER JOIN departamentet AS d ON t.departamenti = d.id 
+    INNER JOIN prices AS p ON t.service = p.id
+    INNER JOIN icd_code AS c ON t.diagnoza = c.id
     WHERE t.id='$id'";
 $prep = $con->prepare($sql);
 $prep->execute();
@@ -87,7 +91,7 @@ $date = date_format($date, "d/m/Y");
                     <div>
                         <p class="patientName">Patient's Name </p><p class="app_data" style="width: 373px; margin-inline: 5px;"><?= $data['pacienti'] ?></p>
                         <p class="date">Date </p><p class="app_data" style="width: 94px; margin-left: 5px;"><?= $date ?></p>
-                        <p class="date" style="margin-left: 5px;">Ora </p><p class="app_data" style="width: 94px; margin-left: 5px;"><?= $time ?></p>
+                        <p class="date" style="margin-left: 5px;">Time </p><p class="app_data" style="width: 86px; margin-left: 5px;"><?= $time ?></p>
                     </div>
                     <div>
                         <p class="date">Personal ID </p><p class="app_data" style="width: 180px; margin-inline: 5px;"><?= $patient_info['personal_id'] ?></p>
@@ -99,7 +103,7 @@ $date = date_format($date, "d/m/Y");
                         <p class="gender">Gender </p><p class="app_data" style="width: 200px; margin-left: 5px;"><?= $patient_info['gender'] ?></p>
                     </div>
                     <div>
-                        <p>Diagnosis </p><p class="app_data" style="width: 678px; margin-left: 5px;"><?= $data['diagnoza'] ?></p>
+                        <p>Diagnosis Code </p><p class="app_data" style="width: 635px; margin-left: 5px;"><?= $data['diagnose_code'] ?></p>
                     </div>
                     <div class="desPrescription d-flex">
                         <h3>Prescription:</h3>
