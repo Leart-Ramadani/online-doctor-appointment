@@ -1288,6 +1288,7 @@ nav {
 .perscriptionContainer {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .prescriptionWrapper {
@@ -1304,7 +1305,7 @@ nav {
   justify-content: space-between;
 }
 
-.prescriptionHeader>div>h1 {
+.prescriptionHeader div h1 {
   text-transform: uppercase;
 }
 
@@ -1314,7 +1315,7 @@ nav {
   align-items: center;
 }
 
-.prescriptionBody>div>img {
+.prescriptionBody div img {
   width: 60px;
   height: 60px;
 }
@@ -1325,7 +1326,7 @@ nav {
 
 }
 
-.prescriptionDoc>h1 {
+.prescriptionDoc h1 {
   color: #309896;
 }
 
@@ -1340,14 +1341,13 @@ nav {
   padding: 5px;
 }
 
-.appointmentInfo>div {
+.appointmentInfo div {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .desPrescription {
-  margin-left: 10px !important;
   height: 470px;
   width: 100%;
   display: flex;
@@ -1372,7 +1372,7 @@ nav {
   margin-right: 22px;
 }
 
-.prescriptionFooter>p {
+.prescriptionFooter p {
   width: fit-content;
   margin-top: 0;
 }
@@ -1384,7 +1384,7 @@ nav {
 
 }
 
-.prescriptionFooter>img {
+.prescriptionFooter img {
   width: 150px;
   height: 150px;
   position: absolute;
@@ -1462,6 +1462,7 @@ nav {
 
 .diagnose-selected{
   position: relative;
+  width: 323px;
 }
 .diagnose-selected::after{
   content: "";
@@ -1484,7 +1485,9 @@ nav {
   padding: 0;
   margin-bottom: 0;
   max-height: 100px !important;
-  overflow-y: scroll;
+  overflow-y: auto;
+  width: 100%;
+
 }
 
 .diagnose-options ul li {
@@ -1510,14 +1513,22 @@ nav {
   width: 320px;
   height: fit-content;
   position: absolute;
-  margin-top: 5px;
+  top: 548px;
   background-color: white;
   border-radius: 5px;
   box-shadow: 1px 2px 10px #212529b1;
-  display: none;
+  display: none !important;
   z-index: 3;
 }
 
 .diagnose-active {
-  display: block;
+  display: block !important;
+}
+
+
+.finishAppointment_btn{
+  position: absolute;
+  bottom: 40px;
+  cursor: pointer;
+  z-index: 5;
 }

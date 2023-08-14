@@ -10,13 +10,55 @@ $updateStatus = "UPDATE terminet SET statusi='In progres' WHERE id='$id'";
 $updatePrep = $con->prepare($updateStatus);
 $updatePrep->execute();
 
-$sql = "SELECT * FROM terminet WHERE id=:id";
+$sql = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, t.statusi, t.diagnoza, t.recepti, t.service, t.paied,
+d.name AS 'dep_name', p.price AS 'price', c.code AS 'diagnose_code' 
+FROM terminet AS t 
+INNER JOIN departamentet AS d ON t.departamenti = d.id 
+INNER JOIN prices AS p ON t.service = p.id
+INNER JOIN icd_code AS c ON t.diagnoza = c.id
+WHERE t.id=:id";
+
+
 $prep = $con->prepare($sql);
 $prep->bindParam(':id', $id);
 $prep->execute();
 $row = $prep->fetch();
 
+if ($row['paied'] == true) {
+    $paied = 'Yes';
+} else if ($row['paied'] == false) {
+    $paied = 'No';
+}
+
 $ora = $row['ora'];
+
+$service = "SELECT * FROM prices WHERE NOT id=0";
+$prep_service = $con->prepare($service);
+$prep_service->execute();
+$service_data = $prep_service->fetchAll();
+
+$patient_sql = "SELECT * FROM users WHERE userType=1 AND personal_id=:personal_id";
+$patient_prep = $con->prepare($patient_sql);
+$patient_prep->bindParam(':personal_id', $row['numri_personal']);
+$patient_prep->execute();
+$patient_info = $patient_prep->fetch();
+
+$birthday = date_create($patient_info['birthday']);
+$birthday = date_format($birthday, "d/m/Y");
+
+function calculateAge($birthdate)
+{
+    $birthdateObj = DateTime::createFromFormat('d/m/Y', $birthdate);
+    $currentDateObj = new DateTime();
+
+    $ageInterval = $birthdateObj->diff($currentDateObj);
+
+    $age = $ageInterval->y;
+
+    return $age;
+}
+
+$age = calculateAge($birthday);
 
 $date = date_create($row['data']);
 $date = date_format($date, "d/m/Y");
@@ -24,11 +66,11 @@ $date = date_format($date, "d/m/Y");
 $time = date_create($row['ora']);
 $time = date_format($time, "H:i");
 
-$service = "SELECT * FROM prices WHERE NOT id=0";
-$prep_service = $con->prepare($service);
-$prep_service->execute();
-$service_data = $prep_service->fetchAll();
 
+$depSql = "SELECT * FROM departamentet WHERE NOT id=0";
+$depPrep = $con->prepare($depSql);
+$depPrep->execute();
+$depData = $depPrep->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -54,7 +96,7 @@ $service_data = $prep_service->fetchAll();
 <body style="background: #f5f5f5;">
     <?php
     $diagnoza_err = $recepti_err = $serviceErr = '';
-    $diag = $rec = '';
+    $diag = $rec = $serv = '';
 
 
     if (isset($_POST['perfundo'])) {
@@ -84,19 +126,22 @@ $service_data = $prep_service->fetchAll();
         } else {
             $serviceErr = '';
             $service = $_POST['service'];
+            $serv = $service;
 
             $service_sql = "SELECT * FROM prices WHERE name=:service";
             $service_stmt = $con->prepare($service_sql);
             $service_stmt->bindParam(':service', $service);
             $service_stmt->execute();
             $service_row = $service_stmt->fetch();
+            $invalid_service = '';
+
         }
 
         if (empty($_POST['diagnoza'])) {
-            if($service != "Reference"){
+            if ($service != "Reference") {
                 $diagnoza_err = '*Diagnose must be filled.';
                 $invalid_dianoz = 'is-invalid';
-            } else{
+            } else {
                 $diagnoza_err = '';
                 $invalid_dianoz = '';
                 $diag_id = 0;
@@ -125,14 +170,15 @@ $service_data = $prep_service->fetchAll();
 
 
 
+
         if ($diagnoza_err == '' && $recepti_err == '' && $serviceErr == '') {
-            if($service == "Reference"){
+            if ($service == "Reference") {
                 $ins_sql = "UPDATE terminet SET statusi='Transfered', recepti=:recepti, service=:service, paied=1 WHERE id='$id'";
                 $ins_prep = $con->prepare($ins_sql);
                 $ins_prep->bindParam(':recepti', $recepti);
                 $ins_prep->bindParam(':service', $service_row['id']);
                 $ins_prep->execute();
-            } else{
+            } else {
                 $ins_sql = "UPDATE terminet SET statusi='Completed', diagnoza=:diagnoza, recepti=:recepti, service=:service WHERE id='$id'";
                 $ins_prep = $con->prepare($ins_sql);
                 $ins_prep->bindParam(':diagnoza', $diag_id);
@@ -142,7 +188,7 @@ $service_data = $prep_service->fetchAll();
             }
 
 
-            
+
 
             $delWait = "DELETE FROM waiting_list WHERE apointment_id='$id'";
             $del_prep = $con->prepare($delWait);
@@ -182,162 +228,129 @@ $service_data = $prep_service->fetchAll();
 
     ?>
 
-
-    <article class="finishApp">
-        <a href="terminet.php" class="goBack text-dark" style="height: 30px;" title="Go back"><i class="fa-solid fa-arrow-left"></i></a>
-        <section class="finishSection">
-            <div>
-                <div class="h1_flex">
-                    <h1 class="h2">Appointment details</h1>
+<article class="perscriptionContainer">
+        <div class="prescriptionWrapper">
+            <div class="prescriptionHeader">
+                <div>
+                    <h1>
+                        Medical Center <br>
+                        <small>Lorem ipsum</small>
+                    </h1>
+                </div>
+                <div>
+                    <p>123, Lorem Ipsum St.</p>
+                    <p>+38344521522</p>
+                    <p>online-appointmnet@gmail.com</p>
                 </div>
             </div>
 
-            <div class="form-floating mb-2">
-                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Patient" value="<?= $row['pacienti'] ?>">
-                <label for="floatingInput">Patient</label>
-            </div>
-
-
-            <div class="form-floating mb-2">
-                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Personal ID" value="<?= $row['numri_personal'] ?>">
-                <label for="floatingInput">Personal ID</label>
-            </div>
-
-            <div class="form-floating mb-2">
-                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Email" value="<?= $row['email_pacientit'] ?>">
-                <label for="floatingInput">Email</label>
-            </div>
-
-            <div class="form-floating mb-2">
-                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Date" value="<?= $date ?>">
-                <label for="floatingInput">Date</label>
-            </div>
-
-            <div class="form-floating mb-2">
-                <input type="text" class="form-control" readonly id="floatingInput" name="username" placeholder="Time" value="<?= $time ?>">
-                <label for="floatingInput">Time</label>
-            </div>
-
-            <form method="post" autocomplete="off">
-                <div class="mb-2">
-                    <select class="form-select gender <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="service">
-                        <option value="">Select service</option>
-                        <?php 
-                            foreach ($service_data as $service_data) { 
-                                if($service_data == $diag){
-                        ?>
-                            <option value="<?= $service_data['name'] ?>" selected><?= $service_data['name'] ?></option>
-                        <?php } else{ ?>
-                            <option value="<?= $service_data['name'] ?>"><?= $service_data['name'] ?></option>  
-                        <?php 
-                            }
-                        } ?>
-                    </select>
-                    <span class="text-danger fw-normal"><?php echo $serviceErr; ?></span>
+            <div class="prescriptionBody">
+                <div>
+                    <img src="../photos/hospital logo.png" alt="Hospital logo">
                 </div>
-
-                <div class="diagnose mb-2">
-                    <div class="diagnose-selected">
-                        <input type="text" class="form-control diagnose-input <?= $invalid_dianoz ?? '' ?>" id="floatingInput" name="diagnoza" placeholder="Select diagnose" readonly style="height: 50px !important;" value="<?= $diag ?>">
+                <div class="prescriptionDoc">
+                    <h1>Dr. <?= $row['doktori'] ?></h1>
+                    <p><?= $row['dep_name'] ?></p>
+                </div>
+                <div class="appointmentInfo">
+                    <div class="d-flex justify-content-end">
+                        <p class="appointmentId">Appointment ID</p>
+                        <p class="app_data" style="margin-left: 5px; width: 120px;"><?= $row['id'] ?></p>
                     </div>
-                    <div class="diagnose-content">
-                        <div class="diagnose-search">
-                            <input type="text" class="form-control searchDiagnose" id="floatingInput" placeholder="Search diagnose">
-                        </div>
-                        <div class="diagnose-options">
-                            <ul class="options">
-
-                            </ul>
-                        </div>
+                    <div>
+                        <p class="patientName">Patient's Name </p>
+                        <p class="app_data" style="width: 373px; margin-inline: 5px;"><?= $row['pacienti'] ?></p>
+                        <p class="date">Date </p>
+                        <p class="app_data" style="width: 94px; margin-left: 5px;"><?= $date ?></p>
+                        <p class="date" style="margin-left: 5px;">Time </p>
+                        <p class="app_data" style="width: 86px; margin-left: 5px;"><?= $time ?></p>
                     </div>
-                    <span class="text-danger fw-normal"><?php echo $diagnoza_err; ?></span>
-                </div>
+                    <div>
+                        <p class="date">Personal ID </p>
+                        <p class="app_data" style="width: 180px; margin-inline: 5px;"><?= $patient_info['personal_id'] ?></p>
+                        <p class="patientName">Adress </p>
+                        <p class="app_data" style="width: 425px; margin-left: 5px;"><?= $patient_info['adress'] ?></p>
+                    </div>
+                    <div>
+                        <p class="dateOfBirth">Date of birth </p>
+                        <p class="app_data" style="width: 209px; margin-inline: 5px;"><?= $birthday ?></p>
+                        <p class="age">Age </p>
+                        <p class="app_data" style="width: 150px; margin-inline: 5px;"><?= $age ?></p>
+                        <p class="gender">Gender </p>
+                        <p class="app_data" style="width: 200px; margin-left: 5px;"><?= $patient_info['gender'] ?></p>
+                    </div>
+                    <form action="" method="POST">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="w-50 d-flex flex-column align-items-start">
+                                <select class="form-select gender service <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="service" style="width: 320px;">
+                                    <option value="">Select service</option>
+                                    <?php
+                                    foreach ($service_data as $service_data) {
+                                        if ($service_data == $serv) {
+                                    ?>
+                                            <option value="<?= $service_data['name'] ?>" selected><?= $service_data['name'] ?></option>
+                                        <?php } else { ?>
+                                            <option value="<?= $service_data['name'] ?>"><?= $service_data['name'] ?></option>
+                                    <?php
+                                        }
+                                    } ?>
+                                </select>
+                                <span class="text-danger fw-normal"><?php echo $serviceErr; ?></span>
+                            </div>
+                            <div class="diagnose flex-column align-items-start">
+                                <div class="diagnose-selected">
+                                    <input type="text" class="form-control diagnose-input <?= $invalid_dianoz ?? '' ?>" id="floatingInput" name="diagnoza" placeholder="Select diagnose" readonly style="height: 50px !important;" value="<?= $diag ?>">
+                                </div>
+                                <div class="diagnose-content">
+                                    <div class="diagnose-search">
+                                        <input type="text" class="form-control searchDiagnose" id="floatingInput" placeholder="Search diagnose">
+                                    </div>
+                                    <div class="diagnose-options">
+                                        <ul class="options">
 
-                <div class="mb-2">
-                    <label for="diagnoza" class="form-label">Prescription:</label>
-                    <textarea class="form-control <?= $invalid_recepti ?? '' ?>" style="resize:none;" id="diagnoza" rows="3" maxlength="350" name="recepti"><?= $rec; ?></textarea>
-                    <span class="text-danger fw-normal"><?php echo $recepti_err; ?></span>
-                </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <span class="text-danger fw-normal"><?php echo $diagnoza_err; ?></span>
+                            </div>
+                            <div class="w-50 departament d-none" style=" margin-left: 113px;">
+                                <select class="form-select gender  <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="departament" style="width: 320px;">
+                                    <option value="">Select departament</option>
+                                    <?php foreach ($depData as $depData) { ?>
+                                        <option value="<?= $depData['name'] ?>"><?= $depData['name'] ?></option>
+                                    <?php } ?>
+                                </select>
+                                <span class="text-danger fw-normal"><?php echo $serviceErr; ?></span>
+                            </div>
+                        </div>
+                        <div class="desPrescription d-flex mt-2">
+                            <h3>Rp:</h3>
+                            <textarea class="form-control <?= $invalid_recepti ?? '' ?>" style="resize:none; height: 370px; background: transparent;" id="diagnoza" rows="3" maxlength="2000" name="recepti"><?= $rec; ?></textarea>
+                            <span class="text-danger fw-normal"><?php echo $recepti_err; ?></span>
+                        </div>
+                        <input type="submit" value="Complete" name="perfundo" class="text-center h4 fw-normal p-2 mt-3 rounded w-25 bg-primary border-0 text-white finishAppointment_btn">
+                    </form>
 
-                <input type="submit" value="Complete" name="perfundo" class="text-center h4 fw-normal p-2 mt-3 rounded w-100 bg-primary border-0 text-white">
-                <!-- <input type="submit" value="Complete and book" name="perfundo_rezervo" class="text-center fw-normal h5 p-2 rounded w-100 bg-warning border-0 text-white"> -->
-            </form>
-        </section>
+                </div>
+            </div>
+
+            <div class="prescriptionFooter">
+                <img src="../photos/mediacal stamp.png" alt="">
+                <p class="doctorsName"><?= $row['doktori'] ?></p>
+                <p>Doctor's signature</p>
+            </div>
+        </div>
     </article>
 
+
     <script>
-        const diagnoseSelected = document.querySelector('.diagnose-selected');
-        const diagnoseInp = document.querySelector('.diagnose-input');
-        const diagnoseContent = document.querySelector('.diagnose-content');
-        const diagnoseOptions = document.querySelectorAll('.options  li');
-        const options = document.querySelector('.options');
-        const searchDiagnose = document.querySelector('.searchDiagnose');
 
-
-
-        diagnoseSelected.addEventListener('click', () => {
-            diagnoseContent.classList.toggle('diagnose-active');
-        });
-
-        document.querySelector('.diagnose-options').addEventListener('click', event => {
-            const target = event.target;
-            if (target.tagName === 'LI') {
-                diagnoseInp.value = target.textContent;
-                diagnoseContent.classList.remove('diagnose-active');
-            }
-        });
-
-
-        searchDiagnose.addEventListener('keyup', () => {
-            if (searchDiagnose.value.length >= 2) {
-                let filter, li, i, textValue;
-                filter = searchDiagnose.value.toUpperCase();
-                li = options.getElementsByTagName('li');
-                for (i = 0; i < li.length; i++) {
-                    liCount = li[i];
-                    textValue = liCount.textContent || liCount.innerText;
-                    if (textValue.toUpperCase().indexOf(filter) > -1) {
-                        li[i].style.display = '';
-                    } else {
-                        li[i].style.display = 'none';
-                    }
-                }
-
-                $.ajax({
-                    url: 'icd_code.php',
-                    type: 'POST',
-                    data: {
-                        filter: filter
-                    },
-                    success: response => {
-                        response = JSON.parse(response);
-                        if (response == 'not found') {
-                            options.innerText = "Code like this doesn't exists in our system";
-                        } else {
-
-                            options.innerHTML = '';
-                            response.forEach(code => {
-                                const createLi = document.createElement('li');
-                                createLi.textContent = code;
-                                options.appendChild(createLi);
-                            });
-                        }
-                    }
-                })
-            } else if (searchDiagnose.value.length < 2) {
-                li = options.getElementsByTagName('li');
-                for (i = 0; i < li.length; i++) {
-                    li[i].style.display = 'none';
-                }
-            }
-
-
-        });
     </script>
 
 
     <!-- JQuery link -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="../js/finishAppoitment.js"></script>
 </body>
 
 </html>
