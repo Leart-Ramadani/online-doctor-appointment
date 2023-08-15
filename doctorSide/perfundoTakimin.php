@@ -99,105 +99,7 @@ $depData = $depPrep->fetchAll();
     $diag = $rec = $serv = '';
 
 
-    if (isset($_POST['perfundo'])) {
-        $doktori = $row['doktori'];
 
-        $sql_doc = "SELECT fullName, departament FROM users WHERE userType=2 AND fullName=:fullName";
-        $doc_prep = $con->prepare($sql_doc);
-        $doc_prep->bindParam(':fullName', $doktori);
-        $doc_prep->execute();
-        $doc_data = $doc_prep->fetch();
-
-        $departamenti = $doc_data['departament'];
-
-
-        $pacienti = $row['pacienti'];
-        $numri_personal = $row['numri_personal'];
-        $email_pacientit = $row['email_pacientit'];
-        $data = $row['data'];
-        $ora = $row['ora'];
-        $diagnoza = $_POST['diagnoza'];
-        $recepti = $_POST['recepti'];
-
-
-        if (empty($_POST['service'])) {
-            $serviceErr = '*Service must be selected';
-            $invalid_service = 'is-invalid';
-        } else {
-            $serviceErr = '';
-            $service = $_POST['service'];
-            $serv = $service;
-
-            $service_sql = "SELECT * FROM prices WHERE name=:service";
-            $service_stmt = $con->prepare($service_sql);
-            $service_stmt->bindParam(':service', $service);
-            $service_stmt->execute();
-            $service_row = $service_stmt->fetch();
-            $invalid_service = '';
-
-        }
-
-        if (empty($_POST['diagnoza'])) {
-            if ($service != "Reference") {
-                $diagnoza_err = '*Diagnose must be filled.';
-                $invalid_dianoz = 'is-invalid';
-            } else {
-                $diagnoza_err = '';
-                $invalid_dianoz = '';
-                $diag_id = 0;
-            }
-        } else {
-            $diagnoza = $_POST['diagnoza'];
-            $diagnoza_err = '';
-            $diag = $diagnoza;
-
-            $diag_sql = "SELECT id FROM icd_code WHERE code='$diagnoza'";
-            $diag_prep = $con->prepare($diag_sql);
-            $diag_prep->execute();
-            $diag_data = $diag_prep->fetch();
-            $diag_id = $diag_data['id'];
-        }
-
-        if (empty($_POST['recepti'])) {
-            $recepti_err = '*Prescription must be filled.';
-            $invalid_recepti = 'is-invalid';
-        } else {
-            $recepti = $_POST['recepti'];
-            $recepti_err = '';
-            $rec = $recepti;
-        }
-
-
-
-
-
-        if ($diagnoza_err == '' && $recepti_err == '' && $serviceErr == '') {
-            if ($service == "Reference") {
-                $ins_sql = "UPDATE terminet SET statusi='Transfered', recepti=:recepti, service=:service, paied=1 WHERE id='$id'";
-                $ins_prep = $con->prepare($ins_sql);
-                $ins_prep->bindParam(':recepti', $recepti);
-                $ins_prep->bindParam(':service', $service_row['id']);
-                $ins_prep->execute();
-            } else {
-                $ins_sql = "UPDATE terminet SET statusi='Completed', diagnoza=:diagnoza, recepti=:recepti, service=:service WHERE id='$id'";
-                $ins_prep = $con->prepare($ins_sql);
-                $ins_prep->bindParam(':diagnoza', $diag_id);
-                $ins_prep->bindParam(':recepti', $recepti);
-                $ins_prep->bindParam(':service', $service_row['id']);
-                $ins_prep->execute();
-            }
-
-
-
-
-            $delWait = "DELETE FROM waiting_list WHERE apointment_id='$id'";
-            $del_prep = $con->prepare($delWait);
-
-            if ($del_prep->execute()) {
-                header("Location: terminet.php");
-            }
-        }
-    }
 
     // if (isset($_POST['perfundo_rezervo'])) {
     //     $numri_personal = $row['numri_personal'];
@@ -228,7 +130,7 @@ $depData = $depPrep->fetchAll();
 
     ?>
 
-<article class="perscriptionContainer">
+    <article class="perscriptionContainer">
         <div class="prescriptionWrapper">
             <div class="prescriptionHeader">
                 <div>
@@ -255,7 +157,7 @@ $depData = $depPrep->fetchAll();
                 <div class="appointmentInfo">
                     <div class="d-flex justify-content-end">
                         <p class="appointmentId">Appointment ID</p>
-                        <p class="app_data" style="margin-left: 5px; width: 120px;"><?= $row['id'] ?></p>
+                        <p class="app_data app-ID" style="margin-left: 5px; width: 120px;"><?= $row['id'] ?></p>
                     </div>
                     <div>
                         <p class="patientName">Patient's Name </p>
@@ -279,57 +181,55 @@ $depData = $depPrep->fetchAll();
                         <p class="gender">Gender </p>
                         <p class="app_data" style="width: 200px; margin-left: 5px;"><?= $patient_info['gender'] ?></p>
                     </div>
-                    <form action="" method="POST">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="w-50 d-flex flex-column align-items-start">
-                                <select class="form-select gender service <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="service" style="width: 320px;">
-                                    <option value="">Select service</option>
-                                    <?php
-                                    foreach ($service_data as $service_data) {
-                                        if ($service_data == $serv) {
-                                    ?>
-                                            <option value="<?= $service_data['name'] ?>" selected><?= $service_data['name'] ?></option>
-                                        <?php } else { ?>
-                                            <option value="<?= $service_data['name'] ?>"><?= $service_data['name'] ?></option>
-                                    <?php
-                                        }
-                                    } ?>
-                                </select>
-                                <span class="text-danger fw-normal"><?php echo $serviceErr; ?></span>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="w-50 d-flex flex-column align-items-start">
+                            <select class="form-select gender service <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="service" style="width: 320px;">
+                                <option value="">Select service</option>
+                                <?php
+                                foreach ($service_data as $service_data) {
+                                    if ($service_data == $serv) {
+                                ?>
+                                        <option value="<?= $service_data['name'] ?>" selected><?= $service_data['name'] ?></option>
+                                    <?php } else { ?>
+                                        <option value="<?= $service_data['name'] ?>"><?= $service_data['name'] ?></option>
+                                <?php
+                                    }
+                                } ?>
+                            </select>
+                            <span class="text-danger fw-normal serviceErr"></span>
+                        </div>
+                        <div class="diagnose flex-column align-items-start">
+                            <div class="diagnose-selected">
+                                <input type="text" class="form-control diagnose-input" id="floatingInput" name="diagnoza" placeholder="Select diagnose" readonly style="height: 50px !important;" value="<?= $diag ?>">
                             </div>
-                            <div class="diagnose flex-column align-items-start">
-                                <div class="diagnose-selected">
-                                    <input type="text" class="form-control diagnose-input <?= $invalid_dianoz ?? '' ?>" id="floatingInput" name="diagnoza" placeholder="Select diagnose" readonly style="height: 50px !important;" value="<?= $diag ?>">
+                            <div class="diagnose-content">
+                                <div class="diagnose-search">
+                                    <input type="text" class="form-control searchDiagnose" id="floatingInput" placeholder="Search diagnose">
                                 </div>
-                                <div class="diagnose-content">
-                                    <div class="diagnose-search">
-                                        <input type="text" class="form-control searchDiagnose" id="floatingInput" placeholder="Search diagnose">
-                                    </div>
-                                    <div class="diagnose-options">
-                                        <ul class="options">
+                                <div class="diagnose-options">
+                                    <ul class="options">
 
-                                        </ul>
-                                    </div>
+                                    </ul>
                                 </div>
-                                <span class="text-danger fw-normal"><?php echo $diagnoza_err; ?></span>
                             </div>
-                            <div class="w-50 departament d-none" style=" margin-left: 113px;">
-                                <select class="form-select gender  <?= $invalid_service ?? "" ?>" aria-label="Default select example" name="departament" style="width: 320px;">
-                                    <option value="">Select departament</option>
-                                    <?php foreach ($depData as $depData) { ?>
-                                        <option value="<?= $depData['name'] ?>"><?= $depData['name'] ?></option>
-                                    <?php } ?>
-                                </select>
-                                <span class="text-danger fw-normal"><?php echo $serviceErr; ?></span>
-                            </div>
+                            <span class="text-danger fw-normal diagnoseErr"></span>
                         </div>
-                        <div class="desPrescription d-flex mt-2">
-                            <h3>Rp:</h3>
-                            <textarea class="form-control <?= $invalid_recepti ?? '' ?>" style="resize:none; height: 370px; background: transparent;" id="diagnoza" rows="3" maxlength="2000" name="recepti"><?= $rec; ?></textarea>
-                            <span class="text-danger fw-normal"><?php echo $recepti_err; ?></span>
+                        <div class="w-50 departament d-none flex-column" style=" margin-left: 113px;">
+                            <select class="form-select gender departamentInp" aria-label="Default select example" name="departament" style="width: 320px;">
+                                <option value="">Select departament</option>
+                                <?php foreach ($depData as $depData) { ?>
+                                    <option value="<?= $depData['name'] ?>"><?= $depData['name'] ?></option>
+                                <?php } ?>
+                            </select>
+                            <span class="text-danger fw-normal departamentErr"></span>
                         </div>
-                        <input type="submit" value="Complete" name="perfundo" class="text-center h4 fw-normal p-2 mt-3 rounded w-25 bg-primary border-0 text-white finishAppointment_btn">
-                    </form>
+                    </div>
+                    <div class="desPrescription d-flex mt-2 flex-column">
+                        <h3>Rp:</h3>
+                        <textarea class="form-control prescription" style="resize:none; height: 370px; background: transparent;" id="diagnoza" rows="3" maxlength="2000" name="recepti"><?= $rec; ?></textarea>
+                        <span class="text-danger fw-normal prescriptionErr"></span>
+                    </div>
+                    <input type="submit" value="Complete" class="text-center h4 fw-normal p-2 mt-3 rounded w-25 bg-primary border-0 text-white finishAppointment_btn">
 
                 </div>
             </div>
