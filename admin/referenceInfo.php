@@ -61,6 +61,19 @@ $time = date_format($time, "H:i");
 
 $date = date_create($data['data']);
 $date = date_format($date, "d/m/Y");
+
+
+$doctor_sql = "SELECT fullName FROM users WHERE userType=2 AND departament=:departament";
+$doctor_prep = $con->prepare($doctor_sql);
+$doctor_prep->bindParam(':departament', $data['to_departament_id']);
+$doctor_prep->execute();
+$doctor_data = $doctor_prep->fetchAll();
+
+// $schedule_sql = "SELECT * FROM orari WHERE doktori=:doctor";
+// $schedule_prep = $con->prepare($schedule_sql);
+// $schedule_prep->bindParam(':doctor', $doctor_data['fullName']);
+// $schedule_prep->execute();
+// $schedule_data = $schedule_prep->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +101,7 @@ $date = date_format($date, "d/m/Y");
 </head>
 
 <body>
-    <article class="perscriptionContainer d-flex justify-content-start" id="pdfElemenet">
+    <article class="perscriptionContainer d-flex justify-content-start w-100 flex-wrap" id="pdfElemenet">
         <div class="prescriptionWrapper">
             <div class="prescriptionHeader">
                 <div>
@@ -157,10 +170,52 @@ $date = date_format($date, "d/m/Y");
             </div>
         </div>
 
-        <section class="d-flex">
-            <div>
-
+        <section class="d-flex p-3 referenceAction justify-content-center">
+            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                <div class="">
+                    <select class="form-select doctor">
+                        <option value="">Choose a doctor</option>
+                        <?php foreach ($doctor_data as $doctor_data) : ?>
+                            <option value="<?= $doctor_data['fullName']; ?>"><?= $doctor_data['fullName']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <span class="text-danger fw-normal departamentError"></span>
+                </div>
+                <div class="d-none avail_date">
+                    <select class="form-select avail_select">
+                        <option value="">Choose available date</option>
+                    </select>
+                    <span class="text-danger fw-normal departamentError"></span>
+                </div>
+                <div class="appointmentTimeWrapper d-none">
+                    <h3 class="h3">Choose appointment time</h3>
+                    <div class="appointmentTime d-flex flex-wrap gap-2">
+                        
+                    </div>
+                </div>
             </div>
         </section>
     </article>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="referenceBooking" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Join waiting list</h5>
+                    <button type="button" class="btn-close closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bookingBody">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary closeModal1" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary bookBtn">Book</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/reference.js"></script>
 </body>

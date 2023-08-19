@@ -7,6 +7,7 @@
   --font-family: 'Roboto', sans-serif;
   --grey: #adb5bd;
   --darkGrey: #495057;
+  --prescriptionWidth: 21.2cm;
 }
 
 * {
@@ -1300,7 +1301,7 @@ nav {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  width: 21.2cm;
+  width: var(--prescriptionWidth);
   height: 29.6cm;
   background-color: rgb(228, 240, 240);
 }
@@ -1397,6 +1398,7 @@ nav {
   right: -5px;
   user-select: none;
   opacity: .6;
+  user-select: none;
 }
 
 .labelDet {
@@ -1536,4 +1538,9 @@ nav {
   bottom: 40px;
   cursor: pointer;
   z-index: 5;
+}
+
+.referenceAction{
+  width: calc(100% - var(--prescriptionWidth));
+  height: fit-content;
 }

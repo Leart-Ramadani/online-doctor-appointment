@@ -63,7 +63,7 @@ $data = $stm->fetch();
         $currentTime = strtotime($row['nga_ora']);
         $endTime = strtotime($row['deri_oren']);
 
-        while ($currentTime <= $endTime) {
+        while ($currentTime < $endTime) {
             $result[] = date('H:i', $currentTime);
             $currentTime = strtotime('+' . $row['kohezgjatja'] . ' minutes', $currentTime);
         }
