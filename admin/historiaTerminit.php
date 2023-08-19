@@ -13,13 +13,13 @@ if (!isset($_SESSION['admin'])) {
     <div class="sideBlock">
         <button type="button" class="ham" id="ham_menu"><i class="fa-solid fa-bars"></i></button>
     </div>
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar" style="overflow-y: scroll;">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
         <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white ">
             <span class="fs-5"><?php echo $_SESSION['admin'] ?></span>
         </p>
         <hr style="margin: 10px 0 !important;">
-        <ul class="nav nav-pills flex-column mb-auto">
+        <ul class="nav nav-pills mb-auto">
             <li class="nav-item"><a href="dashboard.php" class="nav-link text-white">Dashboard</a></li>
             <li class="nav-item"><a href="doktoret.php" class="nav-link text-white">Doctors</a></li>
             <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
@@ -32,6 +32,7 @@ if (!isset($_SESSION['admin'])) {
             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
             <li><a href="prices.php" class="nav-link text-white">Prices</a></li>
             <li><a href="payments.php" class="nav-link text-white">Payments</a></li>
+            <li><a href="references.php" class="nav-link text-white">References</a></li>
         </ul>
         <hr>
         <div class="dropdown">

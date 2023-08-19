@@ -73,7 +73,7 @@ if (!isset($_SESSION['doctor'])) {
 
 
 
-    $countSql = "SELECT COUNT(*) as total FROM terminet WHERE doktori=:doktori AND statusi='Completed'";
+    $countSql = "SELECT COUNT(*) as total FROM terminet WHERE doktori=:doktori AND statusi='Completed' OR statusi='Transfered'";
     $countPrep = $con->prepare($countSql);
     $countPrep->bindParam(':doktori', $_SESSION['doctor']);
     $countPrep->execute();
@@ -94,7 +94,7 @@ if (!isset($_SESSION['doctor'])) {
 
         $sort = "SELECT t.id, t.pacienti, t.numri_personal, t.data, t.ora, t.diagnoza, c.code AS 'diagnose', t.recepti 
         FROM terminet AS t INNER JOIN icd_code AS c ON t.diagnoza=c.id 
-        WHERE doktori=:doktori AND statusi='Completed' AND (pacienti=:keyword  OR
+        WHERE doktori=:doktori AND (statusi='Completed' OR statusi='Transfered') AND (pacienti=:keyword  OR
         data=:keyword OR ora=:keyword OR numri_personal=:keyword OR diagnoza=:keyword OR recepti=:keyword)
         LIMIT :startIndex, $entries";
         $sql = $sort;
@@ -111,7 +111,7 @@ if (!isset($_SESSION['doctor'])) {
 
         $sql = "SELECT t.id, t.pacienti, t.numri_personal, t.data, t.ora, t.diagnoza, t.recepti, c.code AS 'diagnose'
         FROM terminet AS t INNER JOIN icd_code AS c ON t.diagnoza=c.id
-        WHERE doktori=:doktori AND statusi='Completed' LIMIT :startIndex, $entries";
+        WHERE doktori=:doktori AND (statusi='Completed' OR statusi='Transfered') LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindParam(':doktori', $_SESSION['doctor']);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);

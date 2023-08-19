@@ -4,8 +4,9 @@ if (!isset($_SESSION['admin'])) {
     header("Location: login.php");
 }
 ?>
-<?php include('header.php'); ?>
-<title>Complaints</title>
+
+<?php include('header.php') ?>
+<title>References</title>
 </head>
 
 <body>
@@ -14,9 +15,9 @@ if (!isset($_SESSION['admin'])) {
     </div>
     <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
         <button type="button" class="close_side"><i class="fa-solid fa-close"></i></button>
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white ">
             <span class="fs-5"><?php echo $_SESSION['admin'] ?></span>
-        </a>
+        </p>
         <hr style="margin: 10px 0 !important;">
         <ul class="nav nav-pills mb-auto">
             <li class="nav-item"><a href="dashboard.php" class="nav-link text-white">Dashboard</a></li>
@@ -24,14 +25,14 @@ if (!isset($_SESSION['admin'])) {
             <li><a href="departamentet.php" class="nav-link text-white">Departaments</a></li>
             <li><a href="orari.php" class="nav-link text-white">Schedule</a></li>
             <li><a href="terminet.php" class="nav-link text-white">Appointments</a></li>
-            <li><a href="pacientat.php"" class=" nav-link text-white">Patients</a></li>
+            <li><a href="pacientat.php" class="nav-link text-white">Patients</a></li>
             <li><a href="historiaTerminit.php" class="nav-link text-white">Appointments history</a></li>
             <li class="nav-item"><a href="galeria.php" class="nav-link text-white">Gallery</a></li>
-            <li><a href="ankesat.php" class="nav-link text-white active" aria-current="page">Complaints</a></li>
+            <li><a href="ankesat.php" class="nav-link text-white">Complaints</a></li>
             <li><a href="kerkesatAnulimit.php" class="nav-link text-white">Cancelation requests</a></li>
             <li><a href="prices.php" class="nav-link text-white">Prices</a></li>
             <li><a href="payments.php" class="nav-link text-white">Payments</a></li>
-            <li><a href="references.php" class="nav-link text-white">References</a></li>
+            <li><a href="references.php" class="nav-link text-white active" aria-current="page">References</a></li>
         </ul>
         <hr>
         <div class="dropdown">
@@ -40,10 +41,12 @@ if (!isset($_SESSION['admin'])) {
                 <strong><?php echo $_SESSION['admin'] ?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+
                 <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
             </ul>
         </div>
     </div>
+
 
 
     <?php
@@ -64,7 +67,9 @@ if (!isset($_SESSION['admin'])) {
         }
     }
 
-    $countSql = "SELECT COUNT(*) as total FROM ankesat";
+
+
+    $countSql = "SELECT COUNT(*) as total FROM reference";
     $countPrep = $con->prepare($countSql);
     $countPrep->execute();
     $totalRows = $countPrep->fetch();
@@ -79,15 +84,23 @@ if (!isset($_SESSION['admin'])) {
 
 
 
-
     $keywordPrep;
     if (isset($_GET['search']) && !empty($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
 
-        $sort = "SELECT * FROM ankesat WHERE pacienti=:keyword OR numri_personal=:keyword OR 
-                email=:keyword OR ankesa=:keyword LIMIT :startIndex, $entries";
-        $sql = $sort;
-
+        $sql = "SELECT 
+                r.id, 
+                r.appointment_id, 
+                r.to_departament, 
+                t.doktori AS 'doctor', 
+                t.pacienti AS 'patient',
+                t.numri_personal AS 'personal_id',
+                t.data AS 'date'
+                FROM reference AS r INNER JOIN terminet AS t 
+                ON r.appointment_id=t.id
+                WHERE (r.id=:keyword OR t.doktori=:keyword OR t.pacienti=:keyword OR t.numri_personal=:keyword OR t.data=:keyword) 
+                LIMIT :startIndex, $entries";
+                
         $prep = $con->prepare($sql);
         $prep->bindParam(':keyword', $keyword);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
@@ -97,7 +110,17 @@ if (!isset($_SESSION['admin'])) {
         $searchedQuery = $keyword;
     } else {
 
-        $sql = "SELECT * FROM ankesat LIMIT :startIndex, $entries";
+        $sql = "SELECT 
+                r.id, 
+                r.appointment_id, 
+                r.to_departament, 
+                t.doktori AS 'doctor', 
+                t.pacienti AS 'patient',
+                t.numri_personal AS 'personal_id',
+                t.data AS 'date'
+                FROM reference AS r INNER JOIN terminet AS t 
+                ON r.appointment_id=t.id  
+                LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $prep->execute();
@@ -111,8 +134,9 @@ if (!isset($_SESSION['admin'])) {
         $empty = '';
     }
     ?>
+
     <main class="main mainRes d-flex flex-column align-items-center p-2">
-        <div class="d-flex justify-content-between w-100 pt-2 ">
+        <div class="d-flex justify-content-between w-100  pt-2">
             <div>
                 <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="">
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
@@ -136,6 +160,7 @@ if (!isset($_SESSION['admin'])) {
             </script>
 
 
+
             <div class="w-50 ms-2 me-1">
                 <form method="get" action="">
                     <input type="hidden" name="entries" value="<?= $entries ?>">
@@ -150,30 +175,37 @@ if (!isset($_SESSION['admin'])) {
             </div>
         </div>
         <?php if ($empty == '') : ?>
-            <table class="table table-striped table-borderd mt-2 table_patient text-center">
+
+            <table class="table table-striped text-center users">
                 <thead>
                     <tr>
+                        <th scope="col">Doctor</th>
                         <th scope="col">Patient</th>
                         <th scope="col">Personal ID</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Complaint</th>
+                        <th scope="col">Date</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $data) : ?>
+                    <?php 
+                        foreach ($data as $data) { 
+                            $date = date_create($data['date']);
+                            $date = date_format($date, "d/m/Y");
+                    ?>
                         <tr>
-                            <td scope="row"><?= $data['pacienti'] ?></td>
-                            <td scope="row"><?= $data['numri_personal'] ?></td>
-                            <td scope="row"><?= $data['email'] ?></td>
-                            <td scope="row"><?= $data['ankesa'] ?></td>
-                            <td>
-                                <a class="text-decoration-none text-white" href="deleteAnkesen.php?id=<?= $data['id']  ?>">
-                                    <button class="btn btn-danger p-1 text-white"><i class="fa-solid fa-trash"></i></button>
+                            <td><?= $data['doctor'] ?></td>
+                            <td><?= $data['patient'] ?></td>
+                            <td><?= $data['personal_id'] ?></td>
+                            <td><?= $date ?></td>
+                            <td class="text-center">
+                                <a class="text-decoration-none text-white" href="referenceInfo.php?id=<?= $data['id'] ?>" title="Reference details">
+                                    <button class="btn btn-primary p-1 text-white" type="button" data-bs-toggle="modal" data-bs-target="#appointmentDetails">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
                                 </a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         <?php endif; ?>
@@ -186,7 +218,7 @@ if (!isset($_SESSION['admin'])) {
             <nav aria-label="Page navigation example" class="w-100 ps-2">
                 <ul class="pagination">
                     <?php
-                    $maxVisibleLinks = 5; // Maximum number of visible page links
+                    $maxVisibleLinks = 5;
 
                     $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
                     $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
@@ -220,9 +252,7 @@ if (!isset($_SESSION['admin'])) {
                 </ul>
             </nav>
         <?php } ?>
-
     </main>
-
 </body>
 
 </html>

@@ -33,7 +33,7 @@
 /* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background: rgba(17, 17, 17, 0.336);
+  background: rgba(62, 58, 58, 0.97);
 }
 
 body {
@@ -55,7 +55,6 @@ nav {
 
 .main {
   display: flex;
-  justify-content: center;
   width: calc(100% - 200px);
   margin-left: 200px;
 }
@@ -69,7 +68,13 @@ nav {
   z-index: 999;
 }
 
+.sidebar > ul {
+  overflow-y: scroll;
+}
 
+.sidebar > ul > li {
+  width: 100%;
+}
 
 .main_galeria {
   display: flex;
