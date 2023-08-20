@@ -28,6 +28,12 @@ $fullName = $data['fullName'];
 $username = $data['username'];
 $personal_id = $data['personal_id'];
 
+if($data['gender'] == 'Male'){
+    $gender = "Dear Mr.$fullName";
+} else{
+    $gender = "Dear Mrs.$fullName";
+}
+
 
 $otp = $_POST['otp'];
 
@@ -77,10 +83,25 @@ if ($otp === $veri_code) {
             $veri_date = date('Y-m-d');
             $veri_time = date('H:i:s');
 
-            $mail->Subject = 'Verifikimi i llogaris';
-            $mail->Body    = "<p style='font-size: 16px;'>
-                    $username llogaria juaj eshte verifikuar me sukses.
-                </p>";
+            $mail->Subject = 'Account Verification Successful';
+            $mail->Body    = "<p>
+                            $gender,
+                            <br>
+                            We're excited to inform you that your account has been successfully verified. 
+                            Thank you for completing the verification process.
+                            <br><br>
+                            With your verified account, you can now enjoy all the benefits and features of 
+                            our platform. Feel free to explore and make the most out of your experience.
+                            <br><br>
+                            If you have any questions or need assistance, our support team is here to help. 
+                            Simply reply to this email or visit our support page.
+                            <br><br>
+                            Thank you for choosing online-appointment-booking.com. We look forward to serving you!
+                            <br><br>
+                            Best regards,
+                            <br>
+                            online-appointment-booking.com
+                            </p>";
 
 
             $mail->send();

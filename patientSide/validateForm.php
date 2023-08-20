@@ -264,6 +264,12 @@ if (isset($_POST['set']) && $_POST['id'] == 4) {
     // Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
 
+    if($gender == 'Male'){
+        $gen = "Dear Mr.$fullName";
+    } else{
+        $gen = "Dear Mrs.$fullName";
+    }
+
     try {
         //Server settings
         $mail->SMTPDebug = 0;                                       //Enable verbose debug output
@@ -286,10 +292,26 @@ if (isset($_POST['set']) && $_POST['id'] == 4) {
 
         $veri_code = rand(111111, 999999);
 
-        $mail->Subject = 'Email verification';
-        $mail->Body    = "<p style='font-size: 16px;'>
-                        Kodi i verifikimit: <b>$veri_code</b> <br>
-                        Ky kod eshte i vlefshem per vetem 02:30 minuta!
+        $mail->Subject = 'Your Verification Code';
+        $mail->Body    = "<p>
+                        $gen,
+                        <br><br>
+                        Thank you for choosing our services. To complete your verification process, 
+                        please use the following verification code:
+                        <br>
+                        Verification Code: <b>$veri_code</b>
+                        <br><br>
+                        Please be aware that this code will remain valid for the next 2 hours and 30 minutes.
+                        After this period, you'll need to request a new verification code if needed.
+                        <br><br>
+                        If you have any questions or encounter any issues during the verification process, 
+                        feel free to reach out to our support team.
+                        <br><br>
+                        Thank you for your trust.
+                        <br><br>
+                        Best regards,
+                        <br>
+                        online-appointment-booking.com
                         </p>";
 
         $mail->send();
