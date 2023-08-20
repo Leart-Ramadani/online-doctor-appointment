@@ -3,6 +3,22 @@ include('../config.php');
 if (!isset($_SESSION['admin'])) {
     header("Location: login.php");
 }
+
+$countDoc_sql = "SELECT COUNT(*) AS totalDoctors FROM users WHERE userType=2";
+$countDoc_prep = $con->prepare($countDoc_sql);
+$countDoc_prep->execute();
+$countDoc = $countDoc_prep->fetch(PDO::FETCH_ASSOC);
+
+$countPatients_sql = "SELECT COUNT(*) AS totalPatients FROM users WHERE userType=1";
+$countPatients_prep = $con->prepare($countPatients_sql);
+$countPatients_prep->execute();
+$countPatients = $countPatients_prep->fetch(PDO::FETCH_ASSOC);
+
+$countAppointments_sql = "SELECT COUNT(*) AS totalAppointments FROM terminet";
+$countAppointments_prep = $con->prepare($countAppointments_sql);
+$countAppointments_prep->execute();
+$countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
+
 ?>
 <?php include('header.php') ?>
 <title>Dashboard</title>
@@ -51,32 +67,35 @@ if (!isset($_SESSION['admin'])) {
             <div class="d-flex flex-wrap gap-3">
                 <div class="dashboardCard-1">
                     <div>
-                        <p>Todays Patients</p>
+                        <p class="fs-4">Doctors</p>
                         <div>
-                            <img src="../photos/dashboardPatient.png">
-                            231
+                            <?= $countDoc['totalDoctors'] ?>
+                            <div class="dashboardImage">
+                                <img src="../photos/whitedoctor.png">
+                            </div>
                         </div>
-                        <p>18% Higher Then Last Month</p>
                     </div>
                 </div>
-                <div class="dashboardCard-2">
+                <div class="dashboardCard-1">
                     <div>
-                        <p>Appointments</p>
+                        <p class="fs-4">Patients</p>
                         <div>
-                            <img src="../photos/appointment.png">
-                            122
+                            <?= $countPatients['totalPatients'] ?>
+                            <div class="dashboardImage">
+                                <img src="../photos/patient.png">
+                            </div>
                         </div>
-                        <p>21% Higher Then Last Month</p>
                     </div>
                 </div>
-                <div class="dashboardCard-3">
+                <div class="dashboardCard-1">
                     <div>
-                        <p>Registerd Patients</p>
+                        <p class="fs-4">Appointments</p>
                         <div>
-                            <img src="../photos/dashboardPatient.png">
-                            10
+                            <?= $countAppointments['totalAppointments'] ?>
+                            <div class="dashboardImage">
+                                <img src="../photos/appointment.png">
+                            </div>
                         </div>
-                        <p>2% Higher Then Last Month</p>
                     </div>
                 </div>
             </div>

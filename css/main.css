@@ -1412,52 +1412,32 @@ nav {
 
 .dashboardCard-1 {
   width: 350px;
-  background: rgb(9, 67, 112);
-  background: linear-gradient(90deg,
-      rgba(9, 67, 112, 1) 0%,
-      rgba(53, 53, 176, 0.9976365546218487) 23%,
-      rgba(35, 77, 180, 1) 32%,
-      rgba(5, 172, 210, 1) 100%,
-      rgba(0, 212, 255, 1) 100%);
+  background-color: #ffffff;
+  background-image: linear-gradient(to right, 
+    rgba(0, 158, 251, 0.80), #ffffff);
   padding: 10px;
   color: white;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.dashboardCard-1>div>div,
-.dashboardCard-2>div>div,
-.dashboardCard-3>div>div {
+.dashboardImage{
+  background-color: #009efb;
+  position: absolute;
+  padding: 26.5px;
+  border-radius: 50% 0 0 50%;
+  right: 0;
+  top: -62px;
+}
+
+.dashboardCard-1>div>div{
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
   font-size: 24px;
+  position: relative;
 }
-
-.dashboardCard-2 {
-  width: 350px;
-  background: rgb(203, 20, 192);
-  background: linear-gradient(90deg,
-      rgba(203, 20, 192, 1) 9%,
-      rgba(115, 11, 133, 1) 56%,
-      rgba(72, 5, 153, 1) 100%);
-  padding: 10px;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.dashboardCard-3 {
-  width: 350px;
-  background: rgb(14, 224, 73);
-  background: linear-gradient(90deg, rgba(14, 224, 73, 1) 7%, rgba(13, 85, 25, 1) 100%);
-  padding: 10px;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 
 .diagnose-selected input {
   cursor: pointer;
