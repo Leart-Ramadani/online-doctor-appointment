@@ -16,9 +16,9 @@ $gender_prep->bindParam(':personal_id', $data['numri_personal']);
 $gender_prep->execute();
 $gender_data = $gender_prep->fetch();
 
-if ($gender_data['gender'] == 'Mashkull') {
+if ($gender_data['gender'] == 'Male') {
     $gjinia = 'Dear Mr.';
-} else if($gender_data['gender'] == 'Femer') {
+} else if($gender_data['gender'] == 'Female') {
     $gjinia = 'Dear Mrs.';
 }
 

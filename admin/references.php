@@ -119,7 +119,8 @@ if (!isset($_SESSION['admin'])) {
                 t.numri_personal AS 'personal_id',
                 t.data AS 'date'
                 FROM reference AS r INNER JOIN terminet AS t 
-                ON r.appointment_id=t.id  
+                ON r.appointment_id=t.id
+                WHERE status='Not transfered'  
                 LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);

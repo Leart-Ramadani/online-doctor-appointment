@@ -20,8 +20,13 @@ $query_prep->execute();
 $data = $query_prep->fetch();
 
 $email = $data['email'];
-$name = $data['emri'];
-$lastName = $data['mbiemri'];
+$fullName = $data['fullName'];
+
+if($data['gender'] == 'Male'){
+    $gender = "Dear Mr.$fullName";
+} else {
+    $gender = "Dear Mrs.$fullName";
+}
 
 $mail = new PHPMailer(true);
 
@@ -37,8 +42,8 @@ try {
     $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('no@reply.com', 'terminet-online.com');
-    $mail->addAddress($email, $name . ' ' . $lastName);                           //Add a recipient
+    $mail->setFrom('no@reply.com', 'online-appointment.com');
+    $mail->addAddress($email, $fullName);                           //Add a recipient
 
 
     //Content
@@ -48,10 +53,24 @@ try {
     $veri_date = date('Y-m-d');
     $veri_time = date('H:i:s');
 
-    $mail->Subject = 'Email verification';
-    $mail->Body    = "<p style='font-size: 16px;'>
-                    Kodi per te verifikuar llogarin tende: <b>$veri_code</b> <br>
-                    Ky kod eshte valid vetem per 02:30 minuta!
+    $mail->Subject = 'Your Account Verification Code';
+    $mail->Body    = "<p>
+                        $gender, <br><br>
+                        Thank you for signing up with us. To verify your account, 
+                        please use the following verification code:
+                        <br>
+                        Verification Code: <b>[Verification Code]</b>
+                        <br><br>
+                        Please note that this code is valid for the next 02:30 seconds. 
+                        After this period, you'll need to request a new verification code 
+                        if needed.
+                        <br><br>
+                        If you didn't initiate this account verification, please ignore 
+                        this email or contact our support team immediately.
+                        <br><br>
+                        Best regards,
+                        <br>
+                        online-appointment-booking.com
                     </p>";
     
 

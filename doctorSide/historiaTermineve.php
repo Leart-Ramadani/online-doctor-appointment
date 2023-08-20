@@ -185,13 +185,18 @@ if (!isset($_SESSION['doctor'])) {
     
                             $time = date_create($data['ora']);
                             $time = date_format($time, "H:i");
+                            if($data['diagnose'] == ""){
+                                $diagnose = "Transfered";
+                            } else{
+                                $diagnose = $data['diagnose'];
+                            }
                     ?>
                         <tr>
                             <td><?= $data['pacienti'] ?></td>
                             <td><?= $data['numri_personal'] ?></td>
                             <td><?= $date    ?></td>
                             <td><?= $time ?> </td>
-                            <td><?= $data['diagnose'] ?></td>
+                            <td><?= $diagnose ?></td>
                             <td><?= $data['recepti'] ?></td>
                         </tr>
                     <?php } ?>

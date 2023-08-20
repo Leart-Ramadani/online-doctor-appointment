@@ -52,6 +52,23 @@ avail_select.addEventListener('change', () => {
     }
 });
 
+
+const personalID = document.querySelector('.personal_id');
+// Modal data
+const appointmentId = document.querySelector('.appointmentId');
+const patientName = document.querySelector('.patient');
+const patientID = document.querySelector('.patientID');
+const app_doctor = document.querySelector('.app_doctor');
+const app_departament = document.querySelector('.app_departament');
+const app_date = document.querySelector('.app_date');
+const app_time = document.querySelector('.app_time');
+
+const bookingBody = document.querySelector('.bookingBody');
+const bookBtn = document.querySelector('.bookBtn');
+const closeModal = document.querySelector('.closeModal');
+const closeModal1 = document.querySelector('.closeModal1');
+
+
 const getValue = value => {
     let selectedTime = value;
 
@@ -62,40 +79,55 @@ const getValue = value => {
             action: 'showAppointment',
             doctor: doctor.value,
             date: avail_select.value,
-            time: selectedTime
+            time: selectedTime,
+            personal_id: personalID.innerText
         }, 
         success: response => {
-            
+            response = JSON.parse(response);
+
+            patientName.innerText = response.Patient;
+            patientID.innerText = response.PersonalID;
+            app_doctor.innerText = response.Doctor;
+            app_departament.innerText = response.Departament;
+            app_date.innerText = response.Date;
+            app_time.innerText = response.Time;
+
         }
     });
-    // const bookAppointment = () => {
-    //     bookBtn.disabled = 'true';
-    //     closeModal.classList.add('disabled');
-    //     closeModal1.classList.add('disabled');
-    //     bookBtn.innerHTML = "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading...";
 
-    //     $.ajax({
-    //         url: '../doctorSide/referenceLogic.php',
-    //         type: 'POST',
-    //         data: {
-    //             action: 'bookAppointment',
-    //             doctor: doctor.value,
-    //             date: avail_select.value,
-    //             time: selectedTime
-    //         }, 
-    //         success: response => {
-                
-    //         }
 
-    //     });
-    // }
+    const bookAppointment = () => {
+        bookBtn.disabled = 'true';
+        closeModal.classList.add('disabled');
+        closeModal1.classList.add('disabled');
+        bookBtn.innerHTML = "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading...";
+
+        $.ajax({
+            url: '../doctorSide/referenceLogic.php',
+            type: 'POST',
+            data: {
+                action: 'bookAppointment',
+                doctor: doctor.value,
+                date: avail_select.value,
+                time: selectedTime,
+                personal_id: personalID.innerText,
+                appointmentId: appointmentId.innerText
+            }, 
+            success: response => {
+                if(response.includes("booked")){
+                    window.location.replace('../admin/references.php');
+                } else{
+
+                }
+            }
+
+        });
+    }
+
+    bookBtn.addEventListener('click', bookAppointment);
 }
 
-const bookingBody = document.querySelector('.bookingBody');
-const bookBtn = document.querySelector('.bookBtn');
-const closeModal = document.querySelector('.closeModal');
-const closeModal1 = document.querySelector('.closeModal1');
 
 
 
-bookBtn.addEventListener('click', bookAppointment);
+

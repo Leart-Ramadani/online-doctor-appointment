@@ -100,13 +100,13 @@ if(isset($_POST['departament'])){
         $prescriptionErr = '*Prescription must be filled.';
     } else {
         $prescriptionErr = '';
-    }
+    } 
 
     $diag_id = 0;
     $errors = [$serviceErr, $prescriptionErr, $departamentErr];
 
     if ($departamentErr == '' && $prescriptionErr == '' && $serviceErr == '') {
-        $sql = "INSERT INTO reference(appointment_id, to_departament) VALUES(:appointment_id, :to_departament)";
+        $sql = "INSERT INTO reference(appointment_id, to_departament, status) VALUES(:appointment_id, :to_departament, 'Not transfered')";
         $prep = $con->prepare($sql);
         $prep->bindParam(':appointment_id', $id);
         $prep->bindParam(':to_departament', $depId);

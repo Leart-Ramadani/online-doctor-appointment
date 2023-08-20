@@ -56,18 +56,24 @@
         $mail->isHTML(true);           
 
 
-        $mail->Subject = 'Kerkesa per anulimin e terminit';
+        $mail->Subject = 'Cancellation Request Update';
         $mail->Body    = "
                     $gjinia{$data['pacienti']},
                     <br>
-                    Kërkesa juaj për anulimin e terminit me datë:{$data['data']}, në orën:{$data['ora']}, 
-                    për arsyen se: '{$data['arsyeja_anulimit']}' nuk është aprovuar.
+                    We hope this message finds you well. We regret to inform you that your recent request to cancel the appointment 
+                    scheduled for {$data['data']} at {$data['ora']} has not been approved. The reason provided for cancellation, 
+                    {$data['arsyeja_anulimit']}, has been reviewed, and unfortunately, we are unable to accommodate the request at this time.
+                    <br><br>
+                    We kindly remind you that you are obligated to attend the appointment as scheduled. Failure to do so may result in consequences, 
+                    including suspension from our online appointment system.
+                    <br><br>
+                    If you have any questions or concerns, please don't hesitate to reach out to our support team.
+                    <br><br>
+                    Thank you for your understanding.
+                    <br><br>
+                    Best regards,
                     <br>
-                    Jeni te obliguar që të shkoni në këtë termin. <br>
-                    Mosardhja juaj do të ndëshkohet me përjashtimin nga sistemi-termineve-online.com
-                    <br> <br>
-                    Me respekt, <br>
-                    sistemi-termineve-online.com
+                    online-appointment-booking.com
                     ";
 
         $mail->send();

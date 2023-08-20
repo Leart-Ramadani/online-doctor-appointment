@@ -128,7 +128,7 @@ $doctor_data = $doctor_prep->fetchAll();
                 <div class="appointmentInfo">
                     <div class="d-flex justify-content-end">
                         <p class="appointmentId">Appointment ID</p>
-                        <p class="app_data" style="margin-left: 5px; width: 150px;"><?= $data['id'] ?></p>
+                        <p class="app_data appointmentId" style="margin-left: 5px; width: 150px;"><?= $data['id'] ?></p>
                     </div>
                     <div>
                         <p class="patientName">Patient's Name </p>
@@ -140,7 +140,7 @@ $doctor_data = $doctor_prep->fetchAll();
                     </div>
                     <div>
                         <p class="date">Personal ID </p>
-                        <p class="app_data" style="width: 180px; margin-inline: 5px;"><?= $data['numri_personal'] ?></p>
+                        <p class="app_data personal_id" style="width: 180px; margin-inline: 5px;"><?= $data['numri_personal'] ?></p>
                         <p class="patientName">Adress </p>
                         <p class="app_data" style="width: 425px; margin-left: 5px;"><?= $patient_info['adress'] ?></p>
                     </div>
@@ -203,11 +203,16 @@ $doctor_data = $doctor_prep->fetchAll();
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Join waiting list</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Book appointment</h5>
                     <button type="button" class="btn-close closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body bookingBody">
-
+                    <p>Patient: <span class="patient"></span></p>
+                    <p>Personal ID: <span class="patientID"></span></p>
+                    <p>Doctor: <span class="app_doctor"></span></p>
+                    <p>Departament: <span class="app_departament"></span></p>
+                    <p>Date: <span class="app_date"></span></p>
+                    <p>Time: <span class="app_time"></span></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary closeModal1" data-bs-dismiss="modal">Close</button>

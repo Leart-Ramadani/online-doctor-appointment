@@ -147,10 +147,10 @@ $data = $stm->fetch();
         $numri_personal = $patient_data['personal_id'];
         $email_pacientit = $patient_data['email'];
 
-        if ($patient_data['gender'] == 'Mashkull') {
-            $gjinia = 'Dear Mr.';
+        if ($patient_data['gender'] == 'Male') {
+            $gender = "Dear Mr.$pacienti";
         } else {
-            $gjinia = 'Dear Mrs.';
+            $gender = "Dear Mrs.$pacienti";
         }
 
         $paiedSql = "SELECT * FROM terminet WHERE numri_personal=:numri_personal AND statusi='Completed' AND paied=0";
@@ -200,7 +200,7 @@ $data = $stm->fetch();
                         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
     
                         //Recipients
-                        $mail->setFrom('no@reply.com', 'terminet-online.com');
+                        $mail->setFrom('no@reply.com', 'online-appointment.com');
                         $mail->addAddress($email_pacientit, $pacienti);                           //Add a recipient
     
     
@@ -208,16 +208,23 @@ $data = $stm->fetch();
                         $mail->isHTML(true);                                        //Set email format to HTML
     
     
-                        $mail->Subject = 'Appointment Details';
+                        $mail->Subject = 'Appointment Booking Confirmation';
                         $mail->Body    =   "<p>
-                                                $gjinia{$pacienti},
-                                                <br> <br>
-                                                Your appointment in date:$data, on time:$time, 
-                                                at dr.$doktori
-                                                has been successfully booked
-                                                <br><br>
-                                                Sincierly, <br>
-                                                sistemi-termineve-online.com
+                                            $gender, <br><br>
+                                            We are pleased to inform you that your appointment has been successfully booked. Here are the details:
+                                            <br>
+                                            Appointment Date: $data <br>
+                                            Appointment Time: $time <br>
+                                            Doctor: Dr. $doctor <br>
+                                            Department: $dep
+                                            <br><br>
+                                            If you have any questions or need to make changes to your appointment, please feel free to contact us.
+                                            <br><br>
+                                            Thank you for choosing our online appointment system.
+                                            <br> <br>
+                                            Best regards,
+                                            <br>
+                                            online-appointment-booking.com
                                             </p>";
     
                         $mail->send();
