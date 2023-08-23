@@ -22,9 +22,11 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
 ?>
 <?php include('header.php') ?>
 <title>Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../js/dashboard.js"></script>
 </head>
 
-<body>
+<body style="background-color: #F1F5FC;">
     <div class="sideBlock">
         <button type="button" class="ham" id="ham_menu"><i class="fa-solid fa-bars"></i></button>
     </div>
@@ -62,7 +64,7 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <main class="main p-4 flex-column">
+    <main class="main p-4 flex-column align-items-center">
         <div class="d-flex justify-content-center">
             <div class="d-flex flex-wrap gap-3">
                 <div class="dashboardCard-1">
@@ -100,7 +102,73 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
+
+        <?php
+        $sql = "SELECT * FROM terminet LIMIT 1,5";
+        $prep = $con->prepare($sql);
+        $prep->execute();
+        $data = $prep->fetchAll(PDO::FETCH_ASSOC);
+        ?>
+
+        <section class="d-flex justify-content-between w-100 gap-5 mt-5">
+            <article class="appointmentsDashboard w-100">
+                <h5 class="h5">Appointments</h5>
+                <hr>
+                <table class="table table-hover mt-2">
+                    <thead>
+                        <tr class="table-primary">
+                            <th scope="col">Doctor</th>
+                            <th scope="col">Patient</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th scope="col" class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($data as $data) {
+                            if ($data['statusi'] == 'Booked') {
+                                $statusColor = 'btn btn-warning  text-white rounded p-1';
+                            } else if ($data['statusi'] == 'Canceled') {
+                                $statusColor = 'btn btn-danger rounded p-1';
+                            } else if ($data['statusi'] == 'In progres') {
+                                $statusColor = 'btn btn-warning text-white rounded p-1';
+                            } else if ($data['statusi'] == 'Transfered') {
+                                $statusColor = 'btn btn-primary text-white rounded p-1';
+                            } else if ($data['statusi'] == 'Completed') {
+                                $statusColor = 'btn btn-success text-white rounded p-1';
+                            }
+                            $date = date_create($data['data']);
+                            $date = date_format($date, "d/m/Y");
+
+                            $time = date_create($data['ora']);
+                            $time = date_format($time, "H:i");
+                        ?>
+                            <tr>
+                                <td>Dr.<?= $data['doktori'] ?></td>
+                                <td><?= $data['pacienti'] ?></td>
+                                <td><?= $date ?></td>
+                                <td><?= $time ?> </td>
+                                <td class="text-center"><span class="<?= $statusColor ?>"><?= $data['statusi'] ?></span></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <a href="./terminet.php" class="">
+                    <button class="btn btn-dark">View all</button>
+                </a>
+            </article>
+            <div class="appointmentsDashboard">
+                <h5 class="h5">Appointments chart</h5>
+                <hr>
+                <canvas id="myChart"></canvas>
+            </div>
+        </section>
+
     </main>
+
+
+
+
 </body>
 
 </html>

@@ -59,7 +59,7 @@ const closeAddDoc = () => {
     password.classList.remove('is-invalid');
     passwordErr.innerHTML = "";
 
-    
+
     backWrapper.style.display = 'none';
     popDocAdd.style.display = 'none';
 }
@@ -88,158 +88,158 @@ const AddDoctor = () => {
         data: formData,
         processData: false,
         contentType: false,
-        success:  response => { 
-                console.log(response);
-               response = JSON.parse(response);
-               let nameValid = true;
-               let departamentValid = true;
-               let genderValid = true;
-               let emailValid = true;
-               let phoneValid = true;
-               let photoValid = true;
-               let usernameValid = true;
-               let passwordValid = true;
+        success: response => {
+            console.log(response);
+            response = JSON.parse(response);
+            let nameValid = true;
+            let departamentValid = true;
+            let genderValid = true;
+            let emailValid = true;
+            let phoneValid = true;
+            let photoValid = true;
+            let usernameValid = true;
+            let passwordValid = true;
 
-               for (i = 0; i < response.length; i++) {
-                   // Check name
-                   if (response[i] == "*Emri duhet plotesuar.") {
-                       nameValid = false;
-                       docName.classList.add('is-invalid');
-                       nameErr.innerHTML = "*Emri duhet plotesuar.";
-                   } else if (response[i] == "*Nuk lejohen karaktere tjera perveq shkronjave.") {
-                       nameValid = false;
-                       docName.classList.add('is-invalid');
-                       nameErr.innerHTML = "*Nuk lejohen karaktere tjera perveq shkronjave.";
-                   }
+            for (i = 0; i < response.length; i++) {
+                // Check name
+                if (response[i] == "*Emri duhet plotesuar.") {
+                    nameValid = false;
+                    docName.classList.add('is-invalid');
+                    nameErr.innerHTML = "*Emri duhet plotesuar.";
+                } else if (response[i] == "*Nuk lejohen karaktere tjera perveq shkronjave.") {
+                    nameValid = false;
+                    docName.classList.add('is-invalid');
+                    nameErr.innerHTML = "*Nuk lejohen karaktere tjera perveq shkronjave.";
+                }
 
-                   // Check departament
-                   if (response[i] == "*Ju duhet te zgjedhni nje departament.") {
-                       departamentValid = false;
-                       departament.classList.add('is-invalid');
-                       departamentErr.innerHTML = "*Ju duhet te zgjedhni nje departament.";
-                   }
+                // Check departament
+                if (response[i] == "*Ju duhet te zgjedhni nje departament.") {
+                    departamentValid = false;
+                    departament.classList.add('is-invalid');
+                    departamentErr.innerHTML = "*Ju duhet te zgjedhni nje departament.";
+                }
 
-                   // Check gender
-                   if (response[i] == "*Gjinia duhet zgjedhur") {
-                       genderValid = false;
-                       gender.classList.add('is-invalid');
-                       genderErr.innerHTML = "*Gjinia duhet zgjedhur";
-                   }
+                // Check gender
+                if (response[i] == "*Gjinia duhet zgjedhur") {
+                    genderValid = false;
+                    gender.classList.add('is-invalid');
+                    genderErr.innerHTML = "*Gjinia duhet zgjedhur";
+                }
 
-                   // Check email
-                   if (response[i] == "*Emaili duhet plotesuar.") {
-                       emailValid = false;
-                       email.classList.add('is-invalid');
-                       emailErr.innerHTML = "*Emaili duhet plotesuar.";
-                   } else if (response[i] == "*Ky email nuk eshte valid.") {
-                       emailValid = false;
-                       email.classList.add('is-invalid');
-                       emailErr.innerHTML = "*Ky email nuk eshte valid.";
-                   }
+                // Check email
+                if (response[i] == "*Emaili duhet plotesuar.") {
+                    emailValid = false;
+                    email.classList.add('is-invalid');
+                    emailErr.innerHTML = "*Emaili duhet plotesuar.";
+                } else if (response[i] == "*Ky email nuk eshte valid.") {
+                    emailValid = false;
+                    email.classList.add('is-invalid');
+                    emailErr.innerHTML = "*Ky email nuk eshte valid.";
+                }
 
-                   // Check phone 
-                   if (response[i] == "*Numri i telefonit duhet vendosur.") {
-                       phoneValid = false;
-                       phone.classList.add('is-invalid');
-                       phoneErr.innerHTML = "*Numri i telefonit duhet vendosur.";
-                   } else if (response[i] == "*Ky numer i telefonit nuk eshte valid.") {
-                       phoneValid = false;
-                       phone.classList.add('is-invalid');
-                       phoneErr.innerHTML = "*Ky numer i telefonit nuk eshte valid.";
-                   }
+                // Check phone 
+                if (response[i] == "*Numri i telefonit duhet vendosur.") {
+                    phoneValid = false;
+                    phone.classList.add('is-invalid');
+                    phoneErr.innerHTML = "*Numri i telefonit duhet vendosur.";
+                } else if (response[i] == "*Ky numer i telefonit nuk eshte valid.") {
+                    phoneValid = false;
+                    phone.classList.add('is-invalid');
+                    phoneErr.innerHTML = "*Ky numer i telefonit nuk eshte valid.";
+                }
 
-                   // Check photo
-                   if (response[i] == "*Duhet te shtoni nje foto te personit ne fjale.") {
-                       photoValid = false;
-                       photo.classList.add('is-invalid');
-                       photoErr.innerHTML = "*Duhet te shtoni nje foto te personit ne fjale.";
-                   } else if (response[i] == "*Ky file eshte shume i madh.") {
-                       photoValid = false;
-                       photo.classList.add('is-invalid');
-                       photoErr.innerHTML = "*Ky file eshte shume i madh.";
-                   } else if (response[i] == "*Ky format nuk eshte valid. Formatet e lejuara(jpg, jpeg, png, gif, webp).") {
-                       photoValid = false;
-                       photo.classList.add('is-invalid');
-                       photoErr.innerHTML = "*Ky format nuk eshte valid. Formatet e lejuara(jpg, jpeg, png, gif, webp).";
-                   } else if (response[i] == "*Eshte shfaqur nje gabim i panjohur!") {
-                       photoValid = false;
-                       photo.classList.add('is-invalid');
-                       photoErr.innerHTML = "*Eshte shfaqur nje gabim i panjohur!";
-                   }
+                // Check photo
+                if (response[i] == "*Duhet te shtoni nje foto te personit ne fjale.") {
+                    photoValid = false;
+                    photo.classList.add('is-invalid');
+                    photoErr.innerHTML = "*Duhet te shtoni nje foto te personit ne fjale.";
+                } else if (response[i] == "*Ky file eshte shume i madh.") {
+                    photoValid = false;
+                    photo.classList.add('is-invalid');
+                    photoErr.innerHTML = "*Ky file eshte shume i madh.";
+                } else if (response[i] == "*Ky format nuk eshte valid. Formatet e lejuara(jpg, jpeg, png, gif, webp).") {
+                    photoValid = false;
+                    photo.classList.add('is-invalid');
+                    photoErr.innerHTML = "*Ky format nuk eshte valid. Formatet e lejuara(jpg, jpeg, png, gif, webp).";
+                } else if (response[i] == "*Eshte shfaqur nje gabim i panjohur!") {
+                    photoValid = false;
+                    photo.classList.add('is-invalid');
+                    photoErr.innerHTML = "*Eshte shfaqur nje gabim i panjohur!";
+                }
 
-                   // Check username
-                   if (response[i] == "*Username duhet plotesuar.") {
-                       usernameValid = false;
-                       username.classList.add('is-invalid');
-                       usernameErr.innerHTML = "*Username duhet plotesuar.";
-                   }
+                // Check username
+                if (response[i] == "*Username duhet plotesuar.") {
+                    usernameValid = false;
+                    username.classList.add('is-invalid');
+                    usernameErr.innerHTML = "*Username duhet plotesuar.";
+                }
 
-                   // Check password
-                   if (response[i] == "*Fjalkalimi duhet plotesuar.") {
-                       passwordValid = false;
-                       password.classList.add('is-invalid');
-                       passwordErr.innerHTML = "*Fjalkalimi duhet plotesuar.";
-                   }
+                // Check password
+                if (response[i] == "*Fjalkalimi duhet plotesuar.") {
+                    passwordValid = false;
+                    password.classList.add('is-invalid');
+                    passwordErr.innerHTML = "*Fjalkalimi duhet plotesuar.";
+                }
 
-                   // Check if its valid
-                   if (response[i] == "inserted") {
-                       popDocAdd.style.width = '400px';
-                       popDocAdd.style.height = '270px';
+                // Check if its valid
+                if (response[i] == "inserted") {
+                    popDocAdd.style.width = '400px';
+                    popDocAdd.style.height = '270px';
 
-                       popDocAdd.innerHTML = "<h3>Ju lutem prisni...</h3> <br> <div class='loader'></div>";
-                       setTimeout(() => {
-                           window.location.replace('../admin/doktoret.php');
-                       }, 900);
-                   }
-               }
+                    popDocAdd.innerHTML = "<h3>Ju lutem prisni...</h3> <br> <div class='loader'></div>";
+                    setTimeout(() => {
+                        window.location.replace('../admin/doktoret.php');
+                    }, 900);
+                }
+            }
 
-               if (nameValid) {
-                   nameValid = true;
-                   docName.classList.remove('is-invalid');
-                   nameErr.innerHTML = "";
-               }
+            if (nameValid) {
+                nameValid = true;
+                docName.classList.remove('is-invalid');
+                nameErr.innerHTML = "";
+            }
 
-               if (departamentValid) {
-                   departamentValid = true;
-                   departament.classList.remove('is-invalid');
-                   departamentErr.innerHTML = "";
-               }
+            if (departamentValid) {
+                departamentValid = true;
+                departament.classList.remove('is-invalid');
+                departamentErr.innerHTML = "";
+            }
 
-               if (genderValid) {
-                   genderValid = true;
-                   gender.classList.remove('is-invalid');
-                   genderErr.innerHTML = "";
-               }
+            if (genderValid) {
+                genderValid = true;
+                gender.classList.remove('is-invalid');
+                genderErr.innerHTML = "";
+            }
 
-               if (emailValid) {
-                   emailValid = true;
-                   email.classList.remove('is-invalid');
-                   emailErr.innerHTML = "";
-               }
+            if (emailValid) {
+                emailValid = true;
+                email.classList.remove('is-invalid');
+                emailErr.innerHTML = "";
+            }
 
-               if (phoneValid) {
-                   phoneValid = true;
-                   phone.classList.remove('is-invalid');
-                   phoneErr.innerHTML = "";
-               }
+            if (phoneValid) {
+                phoneValid = true;
+                phone.classList.remove('is-invalid');
+                phoneErr.innerHTML = "";
+            }
 
-               if (photoValid) {
-                   photoValid = true;
-                   photo.classList.remove('is-invalid');
-                   photoErr.innerHTML = "";
-               }
+            if (photoValid) {
+                photoValid = true;
+                photo.classList.remove('is-invalid');
+                photoErr.innerHTML = "";
+            }
 
-               if (usernameValid) {
-                   usernameValid = true;
-                   username.classList.remove('is-invalid');
-                   usernameErr.innerHTML = "";
-               }
+            if (usernameValid) {
+                usernameValid = true;
+                username.classList.remove('is-invalid');
+                usernameErr.innerHTML = "";
+            }
 
-               if (passwordValid) {
-                   passwordValid = true;
-                   password.classList.remove('is-invalid');
-                   passwordErr.innerHTML = "";
-               }
+            if (passwordValid) {
+                passwordValid = true;
+                password.classList.remove('is-invalid');
+                passwordErr.innerHTML = "";
+            }
 
         },
         error: function (xhr, status, error) {

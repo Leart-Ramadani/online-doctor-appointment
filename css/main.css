@@ -210,23 +210,14 @@ nav {
 
 
 
-.table_wrapper table tbody tr th {
-  border: 1px solid rgba(128, 128, 128, 0.521);
-}
 
 .table thead tr,
 .table tbody td {
   height: 30px !important;
-}
-
-.table {
-  width: 99% !important;
+  vertical-align: middle;
 }
 
 
-.table thead tr th {
-  border: 1px solid rgba(128, 128, 128, 0.521);
-}
 
 .table tbody tr td img {
   width: 150px !important;
@@ -234,10 +225,6 @@ nav {
   object-fit: contain;
 }
 
-.table tbody tr td {
-  border: 1px solid rgba(128, 128, 128, 0.521);
-  vertical-align: middle;
-}
 
 .popWrapper {
   position: fixed;
@@ -1415,7 +1402,7 @@ nav {
   background-color: #ffffff;
   background-image: linear-gradient(to right, 
     rgba(0, 158, 251, 0.80), #ffffff);
-  padding: 10px;
+  padding: 10px 0 10px 10px;
   color: white;
   border-radius: 5px;
   cursor: pointer;
@@ -1425,7 +1412,7 @@ nav {
   background-color: #009efb;
   position: absolute;
   padding: 26.5px;
-  border-radius: 50% 0 0 50%;
+  border-radius: 50% 5px 5px 50%;
   right: 0;
   top: -62px;
 }
@@ -1438,6 +1425,12 @@ nav {
   font-size: 24px;
   position: relative;
 }
+
+.appointmentsDashboard{
+  background-color: white;
+  padding: 20px;
+}
+
 
 .diagnose-selected input {
   cursor: pointer;
