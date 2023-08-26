@@ -64,7 +64,7 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <main class="main p-4 flex-column align-items-center">
+    <main class="main p-4 flex-column ">
         <div class="d-flex justify-content-center">
             <div class="d-flex flex-wrap gap-3">
                 <div class="dashboardCard-1">
@@ -116,7 +116,7 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
                 <hr>
                 <table class="table table-hover mt-2">
                     <thead>
-                        <tr class="table-primary">
+                        <tr class="table-info">
                             <th scope="col">Doctor</th>
                             <th scope="col">Patient</th>
                             <th scope="col">Date</th>
@@ -127,7 +127,7 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
                     <tbody>
                         <?php foreach ($data as $data) {
                             if ($data['statusi'] == 'Booked') {
-                                $statusColor = 'btn btn-warning  text-white rounded p-1';
+                                $statusColor = 'btn btn-info  text-white rounded p-1';
                             } else if ($data['statusi'] == 'Canceled') {
                                 $statusColor = 'btn btn-danger rounded p-1';
                             } else if ($data['statusi'] == 'In progres') {
@@ -163,6 +163,244 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
                 <canvas id="myChart"></canvas>
             </div>
         </section>
+
+        <?php
+        $searchedQuery = "";
+        $showEntries;
+        $entries = isset($_GET['entries']) ? $_GET['entries'] : 25;
+        if (isset($_GET['entries'])) {
+            $showEntries = $_GET['entries'];
+            $searchedQuery = isset($_GET['keyword']) ? $_GET['keyword'] : "";
+            if ($showEntries == 25) {
+                $entry25 = 'selected';
+            } else if ($showEntries == 50) {
+                $entry50 = 'selected';
+            } else if ($showEntries == 75) {
+                $entry75 = 'selected';
+            } else if ($showEntries == 100) {
+                $entry100 = 'selected';
+            }
+        }
+
+
+        $countSql = "SELECT COUNT(*) as total FROM users WHERE userType=2";
+        $countPrep = $con->prepare($countSql);
+        $countPrep->execute();
+        $totalRows = $countPrep->fetch();
+
+        $totalRows = $totalRows['total'];
+
+        $totalPages = ceil($totalRows / $entries);
+
+        $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+
+        $startIndex = ($currentPage - 1) * $entries;
+
+
+        $keywordPrep;
+        if (isset($_GET['search']) && !empty($_GET['keyword'])) {
+            $keyword = $_GET['keyword'];
+
+            $depQuery = "SELECT id FROM departamentet WHERE name = :nameDep";
+            $depPrep = $con->prepare($depQuery);
+            $depPrep->bindParam(':nameDep', $keyword);
+            $depPrep->execute();
+            $depFetch = $depPrep->fetch();
+            if ($depFetch) {
+                $dep = $depFetch['id'];
+            } else {
+                $dep = '';
+            }
+
+            $sort = "SELECT u.id, u.fullName, d.name AS
+                'dep_name' FROM users AS u INNER JOIN departamentet AS d ON u.departament = d.id 
+                WHERE userType=2 AND (fullName=:keyword OR d.id='$dep' OR 
+                username=:keyword OR email=:keyword OR phone=:keyword) LIMIT :startIndex, $entries";
+            $sql = $sort;
+
+            $prep = $con->prepare($sql);
+            $prep->bindParam(':keyword', $keyword);
+            $prep->bindParam(':keyword', $keyword);
+            $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
+            $prep->execute();
+            $data = $prep->fetchAll(PDO::FETCH_ASSOC);
+
+            $searchedQuery = $keyword;
+        } else {
+            $sql = "SELECT u.id, u.fullName, d.name AS
+            'dep_name' FROM users AS u INNER JOIN departamentet AS d ON u.departament = d.id 
+            WHERE userType=2 LIMIT :startIndex, $entries";
+            $prep = $con->prepare($sql);
+            $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
+            $prep->execute();
+            $data = $prep->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        if (!$data) {
+            $empty = 'empty';
+        } else {
+            $empty = '';
+        }
+        ?>
+
+
+        <article class="d-flex justify-content-between mt-5 gap-4">
+            <section class="d-flex">
+                <article class="appointmentsDashboard">
+                    <h5 class="h5">Doctors</h5>
+                    <hr>
+                    <article class="d-flex flex-column">
+                        <div class="d-flex justify-content-between pt-2">
+                            <div>
+                                <form id="entriesForm" method="GET" class="d-flex align-items-center w-25" action="">
+                                    <input type="hidden" name="page" value="<?= $currentPage ?>">
+                                    <select class="form-select" id="entries" aria-label="" name="entries" style="width: 80px; height: 38px" onchange="this.form.submit()">
+                                        <option value="25" <?= $entry25 ?? '' ?>>25</option>
+                                        <option value="50" <?= $entry50 ?? '' ?>>50</option>
+                                        <option value="75" <?= $entry75 ?? '' ?>>75</option>
+                                        <option value="100" <?= $entry100 ?? '' ?>>100</option>
+                                    </select>
+                                    <label for="entries" class="ms-2">entries</label>
+                                </form>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                    $('#entries').change(function() {
+                                        $('#entriesForm').submit();
+                                    });
+                                });
+                            </script>
+
+
+
+                            <div class="w-75 ms-2 me-1">
+                                <form method="get" action="">
+                                    <input type="hidden" name="entries" value="<?= $entries ?>">
+                                    <input type="hidden" name="page" value="<?= $currentPage ?>">
+                                    <div class="d-flex mb-1">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                                            <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <?php if ($empty == '') : ?>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th scope="col">Doctor</th>
+                                        <th scope="col">Departament</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($data as $data) : ?>
+                                        <tr class="selectDoctor" onclick="getId(this.id)" id="<?= $data['id'] ?>">
+                                            <td><?= $data['fullName'] ?></td>
+                                            <td><?= $data['dep_name'] ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        <?php endif; ?>
+                        <?php if ($empty == 'empty') { ?>
+                            <article class=" d-flex justify-content-center mt-5">
+                                <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
+                            </article>
+                        <?php } else { ?>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination m-0 p-0">
+                                    <?php
+                                    $maxVisibleLinks = 5; // Maximum number of visible page links
+
+                                    $startPage = max(1, $currentPage - floor($maxVisibleLinks / 2));
+                                    $endPage = min($startPage + $maxVisibleLinks - 1, $totalPages);
+
+                                    $showEllipsisStart = ($startPage > 1);
+                                    $showEllipsisEnd = ($endPage < $totalPages);
+
+                                    if ($currentPage == 1) {
+                                        echo '<li class="page-item disabled"><a href="#" class="page-link" tabindex="-1">Previous</a></li>';
+                                    }
+
+                                    if ($currentPage > 1) {
+                                        $previousPage = $currentPage - 1;
+                                        echo '<li class"page-item"><a href="?page=' . $previousPage . '" class="page-link">Previous</a></li>';
+                                    }
+
+                                    for ($i = $startPage; $i <= $endPage; $i++) {
+                                        $activePage = ($i == $currentPage) ? 'active' : '';
+                                        echo '<li class="page-item"><a class="page-link ' . $activePage . '" href="?page=' . $i . '">' . $i . '</a></li>';
+                                    }
+
+
+
+                                    if ($currentPage < $totalPages) {
+                                        $nextPage = $currentPage + 1;
+                                        echo '<li class="page-item"><a href="?page=' . $nextPage . '" class="page-link">Next</a></li>';
+                                    } else {
+                                        echo '<li class="page-item disabled"><a href="#" class="page-link" abindex="-1">Next</a></li>';
+                                    }
+                                    ?>
+                                </ul>
+                            </nav>
+                        <?php } ?>
+                    </article>
+            </section>
+            <article class="appointmentsDashboard w-75 d-flex justify-content-center">
+                <article class="w-100 doctorWork d-none">
+                    <h5 class="h5">Doctors work</h5>
+                    <hr>
+                    <article class="d-flex flex-column">
+                        <div class="d-flex justify-content-between pt-2">
+                            <div class="w-100">
+                                <form method="get" action="">
+                                    <input type="hidden" name="entries" value="<?= $entries ?>">
+                                    <input type="hidden" name="page" value="<?= $currentPage ?>">
+                                    <div class="d-flex mb-1">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                                            <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <?php if ($empty == '') : ?>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th scope="col">Patient</th>
+                                        <th scope="col">Personal ID</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="docTableBody">
+
+                                </tbody>
+                            </table>
+
+                        <?php endif; ?>
+                        <?php if ($empty == 'empty') { ?>
+                            <article class=" d-flex justify-content-center mt-5">
+                                <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
+                            </article>
+                        <?php } ?>
+                    </article>
+                </article>
+                <article class="workNotFound d-flex justify-content-center align-items-center">
+                    <h3 class="h3">Please select a doctor to see their work!</h3>
+                </article>
+                <article class="loaderWrapper d-flex d-none flex-column justify-content-center">
+                    <article class="loader">
+    
+                    </article>
+                </article>
+            </article>
 
     </main>
 

@@ -176,9 +176,11 @@ if (!isset($_SESSION['admin'])) {
         </script>
         <h3 class="h3 text-center fw-normal mt-5 mb-3">Gallery</h3>
         <?php if ($empty == '') : ?>
-            <table class="table table-border w-50 table_patient text-center">
+            <table class="table table-hover w-50 table_patient text-center">
                 <thead>
-                    <tr>
+                    <tr class="table-info">
+
+                        <th scope="col">#</th>
                         <th scope="col">Photo</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -186,6 +188,7 @@ if (!isset($_SESSION['admin'])) {
                 <tbody>
                     <?php foreach ($data as $data) : ?>
                         <tr>
+                            <td><?= $data['id']; ?></td>
                             <td class="p-0 w-50 text-center"><img class="gallery_img" src="uploads_gallery/<?= $data['foto_src'] ?>"></td>
                             <td class="w-25">
                                 <a class="text-decoration-none text-white" href="deletePhoto.php?id=<?= $data['id']  ?>">

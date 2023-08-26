@@ -63,7 +63,7 @@ if (!isset($_SESSION['fullName'])) {
     </div>
 
 
-    <main class=" main mainRes mainProfili pb-3">
+    <main class=" main mainRes mainProfili pb-3 justify-content-center">
         <?php
         $nameErr = $surnameErr = $personalNrErr = $genderErr = $emailErr = $birthdayErr = $phoneErr = $adressErr = $usernameErr = $PassErr = $newPass_err = $confirmPass_err = "";
 
@@ -258,7 +258,7 @@ if (!isset($_SESSION['fullName'])) {
 
         ?>
         <form method="POST" class="form-sigin form-siginPro mt-2" autocomplete="off">
-            <h1 class="h3 mb-3 fw-normal">Update your account</h1>
+            <h1 class="h3 mb-3 fw-normal text-center">Update your account</h1>
             <?php
 
             $sql = "SELECT * FROM users WHERE personal_id=:personal_id AND userType=1";

@@ -254,9 +254,9 @@
             </div>
         </div>
         <?php if ($empty == '') : ?>
-            <table class="table table-striped table_doc table_patient text-center table_doctors">
+            <table class="table table-hover table_doc table_patient text-center table_doctors w-100">
                 <thead>
-                    <tr>
+                    <tr class="table-info">
                         <th scope="col" style="display: none;">ID</th>
                         <th scope="col">Doctor</th>
                         <th scope="col">Departament</th>

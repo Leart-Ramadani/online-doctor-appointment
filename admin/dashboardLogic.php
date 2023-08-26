@@ -37,4 +37,29 @@
 
         echo json_encode($response);
     }
+
+
+    if(isset($_POST['action']) && $_POST['action'] == 'getDocWork'){
+        $id = $_POST['id'];
+
+        $doc_sql = "SELECT fullName, departament FROM users WHERE userType=2 AND id=:id";
+        $doc_prep = $con->prepare($doc_sql);
+        $doc_prep->bindParam(':id', $id, PDO::PARAM_INT);
+        $doc_prep->execute();
+
+        $doc_data = $doc_prep->fetch(PDO::FETCH_ASSOC);
+
+
+        $work_sql = "SELECT * FROM terminet WHERE doktori=:doctor AND departamenti=:departament AND ( statusi='Completed' OR statusi='Transfered')";
+        $work_prep = $con->prepare($work_sql);
+        $work_prep->bindParam(':doctor', $doc_data['fullName']);
+        $work_prep->bindParam(':departament', $doc_data['departament']);
+        $work_prep->execute();
+        
+        $doc_work = $work_prep->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($doc_work);
+    }
+
+
 ?>

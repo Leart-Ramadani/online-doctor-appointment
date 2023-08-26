@@ -168,9 +168,9 @@ if (!isset($_SESSION['admin'])) {
         </div>
         <?php if ($empty == '') : ?>
 
-            <table class="table table-striped text-center users">
+            <table class="table table-hover text-center users">
                 <thead>
-                    <tr>
+                    <tr class="table-info">
                         <th scope="col" class="d-none">ID</th>
                         <th scope="col">Doctor</th>
                         <th scope="col">Patient</th>
@@ -214,7 +214,7 @@ if (!isset($_SESSION['admin'])) {
                 <h1 class=" h1 fw-normal text-center mt-5">Data not found.</h1>
             </article>
         <?php } else { ?>
-            <nav aria-label="Page navigation example" class="w-100 ps-2">
+            <nav aria-label="Page navigation example" class="w-100">
                 <ul class="pagination">
                     <?php
                     $maxVisibleLinks = 5;

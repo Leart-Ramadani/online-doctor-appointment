@@ -189,9 +189,9 @@ if (!isset($_SESSION['fullName']) && !isset($_SESSION['username'])) {
 
 
         <?php if ($empty == '') : ?>
-            <table class="table table-striped text-center table_patient">
+            <table class="table table-hover text-center table_patient">
                 <thead>
-                    <tr>
+                    <tr class="table-info">
                         <th scope="col" style="display: none;">ID</th>
                         <th scope="col">Doctor</th>
                         <th scope="col" class="departamentRes">Departament</th>

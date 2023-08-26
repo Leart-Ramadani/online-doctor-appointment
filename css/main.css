@@ -1417,7 +1417,7 @@ nav {
   top: -62px;
 }
 
-.dashboardCard-1>div>div{
+.dashboardCard-1 > div > div{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1429,6 +1429,7 @@ nav {
 .appointmentsDashboard{
   background-color: white;
   padding: 20px;
+  border-radius: 5px;
 }
 
 

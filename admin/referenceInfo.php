@@ -127,7 +127,7 @@ $doctor_data = $doctor_prep->fetchAll();
                 </div>
                 <div class="appointmentInfo">
                     <div class="d-flex justify-content-end">
-                        <p class="appointmentId">Appointment ID</p>
+                        <p class="appointmentId">Reference ID</p>
                         <p class="app_data appointmentId" style="margin-left: 5px; width: 150px;"><?= $data['id'] ?></p>
                     </div>
                     <div>

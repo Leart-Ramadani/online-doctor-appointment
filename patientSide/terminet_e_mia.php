@@ -177,9 +177,23 @@ if (isset($_POST['anulo'])) {
         $pacienti = $pacienti_fetch['fullName'];
 
 
-        $sort = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, t.statusi, d.name AS 'dep_name' 
-            FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id
-            WHERE t.numri_personal=:numri_personal AND NOT t.statusi='completed'  AND (t.doktori=:keyword OR d.id='$dep' OR t.data=:keyword OR t.ora=:keyword) 
+        $sort = "SELECT 
+            t.id, 
+            t.doktori, 
+            t.departamenti, 
+            t.pacienti, 
+            t.numri_personal, 
+            t.email_pacientit, 
+            t.data, 
+            t.ora, 
+            t.statusi, 
+            d.name AS 'dep_name' 
+            FROM terminet AS t 
+            INNER JOIN departamentet AS d 
+            ON t.departamenti = d.id
+            WHERE t.numri_personal=:numri_personal 
+            AND t.statusi='booked' 
+            AND (t.doktori=:keyword OR d.id='$dep' OR t.data=:keyword OR t.ora=:keyword) 
             ORDER BY Date(t.data) LIMIT :startIndex, $entries";
         $sql = $sort;
 
@@ -202,7 +216,7 @@ if (isset($_POST['anulo'])) {
 
         $sql = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, t.statusi, d.name AS 'dep_name' 
             FROM terminet AS t INNER JOIN departamentet AS d ON t.departamenti = d.id
-            WHERE t.numri_personal=:numri_personal AND NOT t.statusi='completed' ORDER BY Date(t.data) LIMIT :startIndex, $entries";
+            WHERE t.numri_personal=:numri_personal AND t.statusi='booked' ORDER BY Date(t.data) LIMIT :startIndex, $entries";
         $prep = $con->prepare($sql);
         $prep->bindParam(':numri_personal', $_SESSION['numri_personal']);
         $prep->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
@@ -258,9 +272,9 @@ if (isset($_POST['anulo'])) {
                 </div>
             </div>
         <?php if ($empty == '') : ?>
-            <table class="table table-striped text-center mt-2 table_patient">
+            <table class="table table-hover text-center mt-2 table_patient">
                 <thead>
-                    <tr>
+                    <tr class="table-info">
                         <th scope="col" style="display: none;">ID</th>
                         <th scope="col">Doctor</th>
                         <th scope="col" class="departamentRes">Departament</th>
