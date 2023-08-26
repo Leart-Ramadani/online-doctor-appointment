@@ -184,9 +184,9 @@ if (!isset($_SESSION['fullName'])) {
             </div>
         </div>
         <?php if ($empty == '') : ?>
-            <table class="table table-striped text-center mt-2 table_patient">
+            <table class="table table-hover text-center mt-2 table_patient">
                 <thead>
-                    <tr>
+                    <tr class="table-info">
                         <th scope="col">Doctor</th>
                         <th scope="col" class="departamentRes">Departament</th>
                         <th scope="col">Date</th>

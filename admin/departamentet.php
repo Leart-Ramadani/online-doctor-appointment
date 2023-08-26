@@ -202,9 +202,9 @@ if (!isset($_SESSION['admin'])) {
                 </div>
             </div>
             <?php if ($empty == '') : ?>
-                <table class="table table-striped table-borderd text-center">
+                <table class="table table-hover table-borderd text-center">
                     <thead>
-                        <tr>
+                        <tr class="table-info">
                             <th scope="col" class="text-center">#</th>
                             <th scope="col">Departament</th>
                             <th scope="col">Action</th>

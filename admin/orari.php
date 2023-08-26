@@ -55,7 +55,7 @@ if (!isset($_SESSION['admin'])) {
     $doc_data = $doc_prep->fetchAll();
     ?>
 
-    <main class="main mainRes">
+    <main class="main mainRes justify-content-center">
 
         <?php
         require("../patientSide/PHPMailer-master/src/Exception.php");
@@ -472,7 +472,7 @@ if (!isset($_SESSION['admin'])) {
                     <input type="hidden" name="page" value="<?= $currentPage ?>">
                     <div class="d-flex mb-1">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control lastName" placeholder="Kerkro:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
+                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Kerkro:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
                             <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </div>
@@ -481,9 +481,9 @@ if (!isset($_SESSION['admin'])) {
         </div>
         <?php if ($empty == '') : ?>
 
-            <table class="table table-striped text-center table_patinet">
+            <table class="table table-hover text-center table_patinet">
                 <thead>
-                    <tr>
+                    <tr class="table-info">
                         <th scope="col">Doctor</th>
                         <th scope="col">Departament</th>
                         <th scope="col">Date</th>

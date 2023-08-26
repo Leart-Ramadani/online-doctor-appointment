@@ -171,9 +171,9 @@ if (!isset($_SESSION['admin'])) {
 
         </div>
         <?php if ($empty == '') : ?>
-            <table class="table table-striped text-center mt-2 table_patient">
+            <table class="table table-hover text-center mt-2 table_patient">
                 <thead>
-                    <tr>
+                    <tr class="table-info">
                         <th scope="col">Doctor</th>
                         <th scope="col">Departament</th>
                         <th scope="col">Patient</th>
@@ -201,10 +201,10 @@ if (!isset($_SESSION['admin'])) {
 
         <?php if ($empty == 'empty') { ?>
             <article class=" d-flex justify-content-center mt-5">
-                <h1 class=" h1 fw-normal text-center mt-5">Te dhenat nuk u gjenden ne databaze.</h1>
+                <h1 class=" h1 fw-normal text-center mt-5">Data not found.</h1>
             </article>
         <?php } else { ?>
-            <nav aria-label="Page navigation example" class="w-100 ps-2">
+            <nav aria-label="Page navigation example" class="w-100">
                 <ul class="pagination">
                     <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links

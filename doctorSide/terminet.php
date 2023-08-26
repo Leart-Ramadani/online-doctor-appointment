@@ -154,16 +154,16 @@ if (!isset($_SESSION['doctor'])) {
                             <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
                             <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
-                        <section class="bg-primary ms-2 addDoc fs-6" type="button" title="View calendar"><i class="fa-solid fa-calendar"></i></section>
+                        <!-- <section class="bg-primary ms-2 addDoc fs-6" type="button" title="View calendar"><i class="fa-solid fa-calendar"></i></section> -->
                     </div>
                 </form>
             </div>
         </div>
         </div>
         <?php if ($empty == '') : ?>
-            <table class="table table-striped mt-2 text-center">
+            <table class="table table-hover mt-2 text-center">
                 <thead>
-                    <tr>
+                    <tr class="table-info">
                         <th scope="col">Patient</th>
                         <th scope="col">Personal ID</th>
                         <th scope="col">Email</th>

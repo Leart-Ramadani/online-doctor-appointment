@@ -7,8 +7,23 @@ if (!isset($_SESSION['admin'])) {
 
 $id = $_GET['id'];
 
-$sql = "SELECT t.id, t.doktori, t.departamenti, t.pacienti, t.numri_personal, t.email_pacientit, t.data, t.ora, t.statusi, t.diagnoza, t.recepti, t.service, t.paied,
-    d.name AS 'dep_name', p.price AS 'price', c.code AS 'diagnose_code' 
+$sql = "SELECT 
+    t.id, 
+    t.doktori, 
+    t.departamenti, 
+    t.pacienti, 
+    t.numri_personal, 
+    t.email_pacientit, 
+    t.data, 
+    t.ora, 
+    t.statusi, 
+    t.diagnoza, 
+    t.recepti, 
+    t.service, 
+    t.paied,
+    d.name AS 'dep_name', 
+    p.price AS 'price', 
+    c.code AS 'diagnose_code' 
     FROM terminet AS t 
     INNER JOIN departamentet AS d ON t.departamenti = d.id 
     INNER JOIN prices AS p ON t.service = p.id

@@ -166,9 +166,9 @@ if (!isset($_SESSION['doctor'])) {
         </div>
         </div>
         <?php if ($empty == '') : ?>
-            <table class="table table-striped text-center">
+            <table class="table table-hover text-center">
                 <thead>
-                    <tr>
+                    <tr class="table-info">
                         <th scope="col">Patient</th>
                         <th scope="col">Personal ID</th>
                         <th scope="col">Date</th>

@@ -71,7 +71,7 @@ if (!isset($_SESSION['fullName'])) {
     $prep->execute();
     $data = $prep->fetch();
     ?>
-    <main class="main mainRes mainProfili">
+    <main class="main mainRes mainProfili justify-content-center">
         <?php
         $error_msg = '';
         if (isset($_POST['ankohu'])) {
