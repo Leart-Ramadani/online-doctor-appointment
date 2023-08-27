@@ -15,7 +15,7 @@ if (!isset($_SESSION['doctor'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $_SESSION['doctor'] ?> | Appointments</title>
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="icon" href="../photos/doctor.png">
+    <link rel="icon" href="../photos/doctor-icon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="../bootstrap-5.1.3-examples/sidebars/sidebars.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
@@ -212,7 +212,7 @@ if (!isset($_SESSION['doctor'])) {
                 <h1 class=" h1 fw-normal text-center mt-5">Data not found in database.</h1>
             </article>
         <?php } else { ?>
-            <nav aria-label="Page navigation example" class="d-flex justify-content-start w-100 ps-2">
+            <nav aria-label="Page navigation example" class="d-flex justify-content-start w-100">
                 <ul class="pagination">
                     <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
