@@ -12,20 +12,16 @@ if (!isset($_SESSION['doctor'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $_SESSION['doctor'] ?> | Appointments history</title>
-    <link rel="icon" href="../photos/doctor.png">
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="shortcut icon" href="../photos/doctor-icon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="../bootstrap-5.1.3-examples/sidebars/sidebars.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js" defer></script>
     <!-- Font-awesome script -->
     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous" defer></script>
-
-    <style>
-        .form-control {
-            width: 280px !important;
-        }
-    </style>
+    <!-- JQuery link -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script>
 </head>
 
 <body>
@@ -173,31 +169,27 @@ if (!isset($_SESSION['doctor'])) {
                         <th scope="col">Personal ID</th>
                         <th scope="col">Date</th>
                         <th scope="col">Time</th>
-                        <th scope="col">Diagnose</th>
-                        <th scope="col">Prescription</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                        foreach ($data as $data) { 
-                            $date = date_create($data['data']);
-                            $date = date_format($date, "d/m/Y");
-    
-                            $time = date_create($data['ora']);
-                            $time = date_format($time, "H:i");
-                            if($data['diagnose'] == ""){
-                                $diagnose = "Transfered";
-                            } else{
-                                $diagnose = $data['diagnose'];
-                            }
+                    <?php
+                    foreach ($data as $data) {
+                        $date = date_create($data['data']);
+                        $date = date_format($date, "d/m/Y");
+
+                        $time = date_create($data['ora']);
+                        $time = date_format($time, "H:i");
+                        if ($data['diagnose'] == "") {
+                            $diagnose = "Transfered";
+                        } else {
+                            $diagnose = $data['diagnose'];
+                        }
                     ?>
-                        <tr>
+                        <tr onclick="getId(this.id)" id="<?= $data['id'] ?>" data-bs-toggle="modal" data-bs-target="#appointmentDetails">
                             <td><?= $data['pacienti'] ?></td>
                             <td><?= $data['numri_personal'] ?></td>
-                            <td><?= $date    ?></td>
+                            <td><?= $date ?></td>
                             <td><?= $time ?> </td>
-                            <td><?= $diagnose ?></td>
-                            <td><?= $data['recepti'] ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -209,7 +201,7 @@ if (!isset($_SESSION['doctor'])) {
                 <h1 class=" h1 fw-normal text-center mt-5">Data not found.</h1>
             </article>
         <?php } else { ?>
-            <nav aria-label="Page navigation example" class="w-100 ps-2">
+            <nav aria-label="Page navigation example" class="w-100">
                 <ul class="pagination">
                     <?php
                     $maxVisibleLinks = 5; // Maximum number of visible page links
@@ -249,6 +241,104 @@ if (!isset($_SESSION['doctor'])) {
 
     </main>
 
+    <!-- Modal -->
+    <div class="modal fade" id="appointmentDetails" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Appointment ID: <span class="appointmentId"></span></h5>
+                    <button type="button" class="btn-close closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mt-3">
+                        <label for="Doctor" class="col-form-label me-2 labelDet">Doctor:</label>
+                        <input type="text" class="form-control doc rounded doctor" readonly id="Doctor">
+                        <label for="Departament" class="col-form-label ms-2 me-2">Departament:</label>
+                        <input type="text" class="form-control dep rounded departament" readonly id="Departament">
+                    </div>
+                    <div class="input-group mt-3">
+                        <div class="d-flex">
+                            <label for="patient" class="col-form-label me-2 labelDet">Patient:</label>
+                            <input type="text" class="form-control patient rounded patient" style="width: 279px;" readonly id="patient">
+                        </div>
+                        <div class="d-flex" style="width: 390px;">
+                            <label for="Personal ID" class="col-form-label ms-2 me-2 labelDet" style="width: 140px !important;">Personal ID:</label>
+                            <input type="text" class="form-control personal_id rounded" readonly id="Personal ID">
+                        </div>
+                    </div>
+                    <div class="input-group mt-3 align-items-center">
+                        <div class="d-flex">
+                            <label for="Date" class="col-form-label me-2 labelDet">Date:</label>
+                            <input type="text" class="form-control dateInp rounded" style="width: 279px !important;" readonly id="Date">
+                        </div>
+                        <div class="d-flex">
+                            <label for="Time" class="col-form-label ms-2 me-2" style="width: 97px;">Time:</label>
+                            <input type="text" class="form-control timeInp roundedInp" style="width: 276px;" readonly id="Time">
+                        </div>
+                    </div>
+                    <div class="input-group mt-3">
+                        <div class="d-flex">
+                            <label for="Service" class="col-form-label me-2 labelDet">Service:</label>
+                            <input type="text" class="form-control service rounded service" readonly id="Service" style="width: 278px !important;">
+                        </div>
+                        <label for="price" class="col-form-label ms-2 me-2" style="width: 98px !important;">Price:</label>
+                        <input type="text" class="form-control price rounded-start price" readonly id="price">
+                        <span class="input-group-text">&euro;</span>
+                    </div>
+                    <div class="input-group mt-3">
+                        <label for="" class="col-form-label me-2 labelDet">Diagnose:</label>
+                        <input type="text" class="form-control patient rounded diagnose" readonly id="">
+                    </div>
+                    <div class="mt-3 d-flex align-items-center w-100">
+                        <label for="" class="form-label labelDet">Prescription:</label>
+                        <textarea class="form-control ms-2 prescription" readonly style="resize:none;" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer mt-3">
+                    <button type="button" class="btn btn-secondary closeModal1" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const appId = document.querySelector('.appointmentId');
+        const doctor = document.querySelector('.doctor');
+        const departament = document.querySelector('.departament');
+        const patient = document.querySelector('.patient');
+        const personal_id = document.querySelector('.personal_id');
+        const date = document.querySelector('.dateInp');
+        const time = document.querySelector('.timeInp');
+        const service = document.querySelector('.service');
+        const price = document.querySelector('.price');
+        const diagnose = document.querySelector('.diagnose');
+        const prescription = document.querySelector('.prescription');
+
+        const getId = value => {
+            $.ajax({
+                url: '../admin/viewAppointment.php',
+                type: 'GET',
+                data: {
+                    App_id: value
+                },
+                success: response => {
+                    response = JSON.parse(response);
+                    appId.innerHTML = response.ID;
+                    doctor.value = response.Doctor;
+                    departament.value = response.Departament;
+                    patient.value = response.Patient;
+                    personal_id.value = response.Personal_ID;
+                    date.value = response.Date;
+                    time.value = response.Time;
+                    service.value = response.Service;
+                    price.value = response.Price;
+                    diagnose.value = response.Diagnose;
+                    prescription.value = response.Prescription;
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

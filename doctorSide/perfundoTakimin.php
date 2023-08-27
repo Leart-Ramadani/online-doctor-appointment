@@ -226,7 +226,7 @@ $depData = $depPrep->fetchAll();
                     </div>
                     <div class="desPrescription d-flex mt-2 flex-column">
                         <h3>Rp:</h3>
-                        <textarea class="form-control prescription" style="resize:none; height: 370px; background: transparent;" id="diagnoza" rows="3" maxlength="2000" name="recepti"><?= $rec; ?></textarea>
+                        <textarea class="form-control prescription" style="resize:none; height: 370px; background: transparent;" id="diagnoza" rows="3" maxlength="3000" name="recepti"><?= $rec; ?></textarea>
                         <span class="text-danger fw-normal prescriptionErr"></span>
                     </div>
                     <input type="submit" value="Complete" class="text-center h4 fw-normal p-2 mt-3 rounded w-25 bg-primary border-0 text-white finishAppointment_btn">

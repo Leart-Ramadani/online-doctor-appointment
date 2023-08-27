@@ -105,80 +105,80 @@ const AddDoctor = () => {
                 if (response[i] == "*Emri duhet plotesuar.") {
                     nameValid = false;
                     docName.classList.add('is-invalid');
-                    nameErr.innerHTML = "*Emri duhet plotesuar.";
+                    nameErr.innerHTML = "*Name is required.";
                 } else if (response[i] == "*Nuk lejohen karaktere tjera perveq shkronjave.") {
                     nameValid = false;
                     docName.classList.add('is-invalid');
-                    nameErr.innerHTML = "*Nuk lejohen karaktere tjera perveq shkronjave.";
+                    nameErr.innerHTML = "*Invalid name.";
                 }
 
                 // Check departament
                 if (response[i] == "*Ju duhet te zgjedhni nje departament.") {
                     departamentValid = false;
                     departament.classList.add('is-invalid');
-                    departamentErr.innerHTML = "*Ju duhet te zgjedhni nje departament.";
+                    departamentErr.innerHTML = "*Select a departament.";
                 }
 
                 // Check gender
                 if (response[i] == "*Gjinia duhet zgjedhur") {
                     genderValid = false;
                     gender.classList.add('is-invalid');
-                    genderErr.innerHTML = "*Gjinia duhet zgjedhur";
+                    genderErr.innerHTML = "*Gender is required";
                 }
 
                 // Check email
                 if (response[i] == "*Emaili duhet plotesuar.") {
                     emailValid = false;
                     email.classList.add('is-invalid');
-                    emailErr.innerHTML = "*Emaili duhet plotesuar.";
+                    emailErr.innerHTML = "*Email is required.";
                 } else if (response[i] == "*Ky email nuk eshte valid.") {
                     emailValid = false;
                     email.classList.add('is-invalid');
-                    emailErr.innerHTML = "*Ky email nuk eshte valid.";
+                    emailErr.innerHTML = "*Invalid email.";
                 }
 
                 // Check phone 
                 if (response[i] == "*Numri i telefonit duhet vendosur.") {
                     phoneValid = false;
                     phone.classList.add('is-invalid');
-                    phoneErr.innerHTML = "*Numri i telefonit duhet vendosur.";
+                    phoneErr.innerHTML = "*Phone number is required.";
                 } else if (response[i] == "*Ky numer i telefonit nuk eshte valid.") {
                     phoneValid = false;
                     phone.classList.add('is-invalid');
-                    phoneErr.innerHTML = "*Ky numer i telefonit nuk eshte valid.";
+                    phoneErr.innerHTML = "*Invalid phone number.";
                 }
 
                 // Check photo
                 if (response[i] == "*Duhet te shtoni nje foto te personit ne fjale.") {
                     photoValid = false;
                     photo.classList.add('is-invalid');
-                    photoErr.innerHTML = "*Duhet te shtoni nje foto te personit ne fjale.";
+                    photoErr.innerHTML = "*Add a picture.";
                 } else if (response[i] == "*Ky file eshte shume i madh.") {
                     photoValid = false;
                     photo.classList.add('is-invalid');
-                    photoErr.innerHTML = "*Ky file eshte shume i madh.";
+                    photoErr.innerHTML = "*The size of this file is too big.";
                 } else if (response[i] == "*Ky format nuk eshte valid. Formatet e lejuara(jpg, jpeg, png, gif, webp).") {
                     photoValid = false;
                     photo.classList.add('is-invalid');
-                    photoErr.innerHTML = "*Ky format nuk eshte valid. Formatet e lejuara(jpg, jpeg, png, gif, webp).";
+                    photoErr.innerHTML = "*Invalid format. Allowed formats(jpg, jpeg, png, gif, webp).";
                 } else if (response[i] == "*Eshte shfaqur nje gabim i panjohur!") {
                     photoValid = false;
                     photo.classList.add('is-invalid');
-                    photoErr.innerHTML = "*Eshte shfaqur nje gabim i panjohur!";
+                    photoErr.innerHTML = "*Unknown error!";
                 }
 
                 // Check username
                 if (response[i] == "*Username duhet plotesuar.") {
                     usernameValid = false;
                     username.classList.add('is-invalid');
-                    usernameErr.innerHTML = "*Username duhet plotesuar.";
+                    usernameErr.innerHTML = "*Username is required.";
                 }
 
                 // Check password
                 if (response[i] == "*Fjalkalimi duhet plotesuar.") {
                     passwordValid = false;
                     password.classList.add('is-invalid');
-                    passwordErr.innerHTML = "*Fjalkalimi duhet plotesuar.";
+                    passwordErr.innerHTML = "*Password is required.";
                 }
 
                 // Check if its valid
@@ -186,7 +186,7 @@ const AddDoctor = () => {
                     popDocAdd.style.width = '400px';
                     popDocAdd.style.height = '270px';
 
-                    popDocAdd.innerHTML = "<h3>Ju lutem prisni...</h3> <br> <div class='loader'></div>";
+                    popDocAdd.innerHTML = "<h3>Please wait...</h3> <br> <div class='loader'></div>";
                     setTimeout(() => {
                         window.location.replace('../admin/doktoret.php');
                     }, 900);
