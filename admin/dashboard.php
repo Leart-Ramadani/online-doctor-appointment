@@ -246,7 +246,7 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
 
         <article class="d-flex justify-content-between mt-5 gap-4">
             <section class="d-flex">
-                <article class="appointmentsDashboard">
+                <article class="appointmentsDashboard doctorWorkWrapper">
                     <h5 class="h5">Doctors</h5>
                     <hr>
                     <article class="d-flex flex-column">
@@ -350,25 +350,11 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
                         <?php } ?>
                     </article>
             </section>
-            <article class="appointmentsDashboard w-75 d-flex justify-content-center">
+            <article class="appointmentsDashboard doctorWorkWrapper w-75 d-flex justify-content-center">
                 <article class="w-100 doctorWork d-none">
                     <h5 class="h5">Doctors work</h5>
                     <hr>
                     <article class="d-flex flex-column">
-                        <div class="d-flex justify-content-between pt-2">
-                            <div class="w-100">
-                                <form method="get" action="">
-                                    <input type="hidden" name="entries" value="<?= $entries ?>">
-                                    <input type="hidden" name="page" value="<?= $currentPage ?>">
-                                    <div class="d-flex mb-1">
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
-                                            <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                         <?php if ($empty == '') : ?>
                             <table class="table table-hover">
                                 <thead>
@@ -397,7 +383,7 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
                 </article>
                 <article class="loaderWrapper d-flex d-none flex-column justify-content-center">
                     <article class="loader">
-    
+
                     </article>
                 </article>
             </article>
@@ -405,7 +391,65 @@ $countAppointments = $countAppointments_prep->fetch(PDO::FETCH_ASSOC);
     </main>
 
 
-
+    <!-- Modal -->
+    <div class="modal fade" id="appDetDashboard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Appointment ID: <span class="appDash_id"></span></h5>
+                    <button type="button" class="btn-close closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mt-3">
+                        <label for="Doctor" class="col-form-label me-2 labelDet">Doctor:</label>
+                        <input type="text" class="form-control doc rounded dashDoctor" readonly id="Doctor">
+                        <label for="Departament" class="col-form-label ms-2 me-2">Departament:</label>
+                        <input type="text" class="form-control dep rounded dashDepartament" readonly id="Departament">
+                    </div>
+                    <div class="input-group mt-3">
+                        <div class="d-flex">
+                            <label for="patient" class="col-form-label me-2 labelDet">Patient:</label>
+                            <input type="text" class="form-control patient rounded dashPatient" style="width: 279px;" readonly id="patient">
+                        </div>
+                        <div class="d-flex" style="width: 390px;">
+                            <label for="Personal ID" class="col-form-label ms-2 me-2 labelDet" style="width: 140px !important;">Personal ID:</label>
+                            <input type="text" class="form-control dash_personal_id rounded" readonly id="Personal ID">
+                        </div>
+                    </div>
+                    <div class="input-group mt-3 align-items-center">
+                        <div class="d-flex">
+                            <label for="Date" class="col-form-label me-2 labelDet">Date:</label>
+                            <input type="text" class="form-control dashDate rounded" style="width: 279px !important;" readonly id="Date">
+                        </div>
+                        <div class="d-flex">
+                            <label for="Time" class="col-form-label ms-2 me-2" style="width: 97px;">Time:</label>
+                            <input type="text" class="form-control dashTime roundedInp" style="width: 276px;" readonly id="Time">
+                        </div>
+                    </div>
+                    <div class="input-group mt-3">
+                        <div class="d-flex">
+                            <label for="Service" class="col-form-label me-2 labelDet">Service:</label>
+                            <input type="text" class="form-control service rounded dashService" readonly id="Service" style="width: 278px !important;">
+                        </div>
+                        <label for="price" class="col-form-label ms-2 me-2" style="width: 98px !important;">Price:</label>
+                        <input type="text" class="form-control price rounded-start dashPrice" readonly id="price">
+                        <span class="input-group-text">&euro;</span>
+                    </div>
+                    <div class="input-group mt-3">
+                        <label for="" class="col-form-label me-2 labelDet">Diagnose:</label>
+                        <input type="text" class="form-control patient rounded dashDiagnose" readonly id="">
+                    </div>
+                    <div class="mt-3 d-flex align-items-center w-100">
+                        <label for="" class="form-label labelDet">Prescription:</label>
+                        <textarea class="form-control ms-2 dashPrescription" readonly style="resize:none;" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer mt-3">
+                    <button type="button" class="btn btn-secondary closeModal1" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 
