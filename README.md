@@ -43,6 +43,7 @@ The Online Appointment System is divided into three main user roles: Administrat
 - Receive email notifications regarding appointment cancellation requests.
 - Reset passwords through email links.
 - Review appointment history.
+- Download the completed appointments as a PDF file.
 
 ![Alt text](image-1.png)
 ## Open Accounts
