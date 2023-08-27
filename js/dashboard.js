@@ -156,8 +156,15 @@ const getId = value => {
                                 dashDate.value = appointmentResponse.Date;
                                 dashTime.value = appointmentResponse.Time;
                                 dashService.value = appointmentResponse.Service;
+                                let diagnose = '';
+                                if(appointmentResponse.Service == 'Reference'){
+                                    diagnose = 'Transfered';
+                                } else{
+                                    diagnose = appointmentResponse.Diagnose;
+                                }
+
                                 dashPrice.value = appointmentResponse.Price;
-                                dashDiagnose.value = appointmentResponse.Diagnose;
+                                dashDiagnose.value = diagnose;
                                 dashPrescription.value = appointmentResponse.Prescription;
                             },
                             error: (xhr, status, error) => {

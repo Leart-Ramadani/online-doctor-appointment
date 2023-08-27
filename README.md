@@ -1,53 +1,88 @@
-# Online appointment booking system
+# Online Appointment System
+- Table of Contents
+- Introduction
+- System Overview
+- Admin Side
+- Doctor Side
+- Patient Side
+- Open Accounts
+### Introduction
+Welcome to the Online Appointment System! This project serves as a solution for medical institutions, including clinics and hospitals, by providing an efficient way for patients to book appointments with doctors online. The system is designed to streamline the appointment scheduling process, allowing patients to select their preferred doctor, book appointments, manage their appointments, and more.
 
-## <u>INFO</u>: In order for the Website to function as planned, Internet access is necessary. <br> <br>
+### System Overview
+The Online Appointment System is divided into three main user roles: Administrator, Doctor, and Patient. Each role has specific functionalities tailored to their needs.
 
-This project helps a certain medical institution, be it a clinic
-private or hospital, where customers/patients can book an appointment with a doctor online. This doctor appointment system will organize each patient's appointment times, which will be sent as a request to the doctor they have selected. The system has 3 parts which are the administrator, the doctor and the patient. The system administrator will complete the list of doctors with their specialties. Patients will browse the physician appointment system website to find a physician who has the specialty of their needs. The patient can check the doctor's weekly schedule to help them choose the day and time they can keep the appointment and they will submit their request for an appointment. After that, doctors can view all their appointments and patients' appointment requests for their availability.
+### Admin Side
+- Add, update, or delete doctors and their information.
+- Manage departments and their details.
+- Plan and manage doctor schedules.
+- View and manage appointments booked by patients.
+- Access patient data for administrative purposes.
+- Review the history of completed appointments.
+- Manage photos displayed in the gallery section.
+- Handle patient complaints and feedback.
+- Approve or reject requests for appointment cancellations.
 
-<br>
+![Alt text](image.png)
 
-## Admin side
-- Admin can add, update or delete a doctor;
-- Add and delete a department;
-- To plan the doctor's schedule;
-- View appointments booked by patients;
-- View patient data;
-- View the history of completed terms;
-- Add or delete photos that appear in the gallery section;
-- To look at complaints made by patients;
-- To approve or disapprove requests for cancellation of terms.
+### Doctor Side
+- View appointments booked with the doctor.
+- Mark appointments as completed after check-ups.
+- Schedule follow-up appointments for patients.
 
-## The doctor's side
-- The doctor can view the appointments booked with him and complete them after the check-up.
-- The doctor can book a second appointment for the patient after completing the appointment.
+![Alt text](image-2.png)
 
-## Patient side
-- The patient can register an account;
-- To update his account data;
-- View the gallery;
-- Book an appointment online;
-- To see his terms;
-- To express a complaint about any irregularity;
-- The patient cannot open an account without verifying it;
-- The patient can submit a request to cancel an appointment;
-- Receive email automatically if the request to cancel the appointment is approved or not.
-- Reset the password if you have forgotten it by accepting a link to reset the password.
-- To see the history of his terms.
+### Patient Side
+- Register an account using email verification.
+- Update account information.
+- Browse through the gallery.
+- Book appointments online with preferred doctors.
+- View their upcoming appointments.
+- Lodge complaints or provide feedback.
+- Request appointment cancellations.
+- Receive email notifications regarding appointment cancellation requests.
+- Reset passwords through email links.
+- Review appointment history.
 
-<br>
+![Alt text](image-1.png)
+## Open Accounts
+### Admin Account
+- Username: admin
+- Password: admin
 
-# Open accounts
-## Admin
-#### <u>Username</u>: admin
-#### <u>Password</u>: admin
-<br>
-
-## Doctor
-#### <u>Username</u>: mayaPatel
-#### <u>Password:</u> mayaPatel
-<br>
+### Doctor Account
+- Username: mayaPatel
+- Password: mayaPatel
 
 
-## The patient
-#### To see all the features of this website, please open an account with your email so that you can verify the account and accept the term details through your email.
+### Patient Account
+To access all features, create an account with a valid email to verify the account and receive appointment details.
+
+Thank you for choosing our Online Appointment System. We hope this system enhances your experience and simplifies appointment management for both patients and medical staff. For any questions or concerns, please contact our support team.
+
+<h3 align="left">Languages and Tools:</h3>
+<p align="left"> 
+    <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> 
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> 
+    </a> 
+        <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> 
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> 
+    </a> 
+    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> 
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> 
+    </a> 
+    <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> 
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="40" height="40"/> 
+    </a> 
+    <a href="https://www.php.net" target="_blank" rel="noreferrer"> 
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg" alt="php" width="40" height="40"/> 
+    </a> 
+    <a href="https://www.mysql.com/" target="_blank" rel="noreferrer"> 
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/> 
+    </a> 
+    <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> 
+        <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/>
+    </a> 
+</p>
+<hr>
+<i>Note: Internet access is required for the system to function properly.</i>
