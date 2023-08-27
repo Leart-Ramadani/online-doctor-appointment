@@ -1433,6 +1433,12 @@ nav {
 }
 
 
+
+.doctorWorkWrapper{
+  height: 550px;
+  overflow-y: scroll;
+}
+
 .diagnose-selected input {
   cursor: pointer;
   background: white !important;
