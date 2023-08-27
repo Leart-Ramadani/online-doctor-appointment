@@ -42,6 +42,12 @@ if (isset($_GET['App_id'])) {
     $date = date_create($data['data']);
     $date = date_format($date, "d/m/Y");
 
+    if($data['service'] == 'Reference'){
+        $diagnose = 'Transfered';
+    } else{
+        $diagnose = $data['diagnose'];
+    }
+
     $response = [
         "ID" => $data['id'],
         "Doctor" => $data['doktori'],
@@ -52,7 +58,7 @@ if (isset($_GET['App_id'])) {
         "Time" => $time,
         "Service" => $data['service'],
         "Price" => $data['price'],
-        "Diagnose" => $data['diagnose'],
+        "Diagnose" => $diagnose,
         "Prescription" => $data['recepti']
     ];
 
