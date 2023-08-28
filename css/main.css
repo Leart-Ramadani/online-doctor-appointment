@@ -184,11 +184,11 @@ nav {
 }
 
 .table_doc thead tr th {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .table_doc tbody tr td {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .form-select {
@@ -294,6 +294,7 @@ nav {
 .popWindow {
   display: block;
   z-index: 999;
+  position: fixed;
 }
 
 .close {
