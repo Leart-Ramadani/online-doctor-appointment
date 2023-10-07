@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	$host = 'localhost';
-	$db_name = 'online-appointment_v.2.0';
+	$db_name = 'online_doctor_appointment';
 	$user = "root";
 	$pass = "";
 
