@@ -16,16 +16,19 @@ if (!isset($_SESSION['doctor'])) {
     <title><?php echo $_SESSION['doctor'] ?> | Appointments</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="icon" href="../photos/doctor-icon.png">
+    <link rel="stylesheet" href="../css/calendar.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="../bootstrap-5.1.3-examples/sidebars/sidebars.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
     <script src="../bootstrap-5.1.3-examples/sidebars/sidebars.js" defer></script>
     <!-- Font-awesome script -->
     <script src="https://kit.fontawesome.com/a28016bfcd.js" crossorigin="anonymous" defer></script>
+    <!-- Google Font Link for Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <script src="../js/calendar.js" defer></script>
 </head>
 
 <body>
-
     <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
         <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <span class="fs-4"><?php echo $_SESSION['doctor'] ?></span>
@@ -154,7 +157,9 @@ if (!isset($_SESSION['doctor'])) {
                             <input type="text" class="form-control lastName" placeholder="Search:" aria-label="Search:" aria-describedby="button-addon2" name="keyword" value="<?= $searchedQuery ?>">
                             <button class="btn btn-outline-primary" id="button-addon2" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
-                        <!-- <section class="bg-primary ms-2 addDoc fs-6" type="button" title="View calendar"><i class="fa-solid fa-calendar"></i></section> -->
+                        <button class="btn btn-primary calendar_btn ms-2 fs-6" type="button" title="View calendar" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <span id="next" class="material-symbols-rounded">calendar_month</span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -249,8 +254,35 @@ if (!isset($_SESSION['doctor'])) {
                 </ul>
             </nav>
         <?php } ?>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="modal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: 450px;">
+                    <div class="wrapper">
+                        <header>
+                            <p class="current-date"></p>
+                            <div class="icons">
+                                <span id="prev" class="material-symbols-rounded">chevron_left</span>
+                                <span id="next" class="material-symbols-rounded">chevron_right</span>
+                            </div>
+                        </header>
+                        <div class="calendar">
+                            <ul class="weeks">
+                                <li>Sun</li>
+                                <li>Mon</li>
+                                <li>Tue</li>
+                                <li>Wed</li>
+                                <li>Thu</li>
+                                <li>Fri</li>
+                                <li>Sat</li>
+                            </ul>
+                            <ul class="days"></ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </main>
-
-
-
 </body>

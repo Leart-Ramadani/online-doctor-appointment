@@ -19,7 +19,7 @@ $patient_data = $prep->fetch();
 
 
 <?php
-
+$id = $_SESSION['id_ofApp'];
 $sql = "SELECT * FROM orari WHERE id=:id";
 $doc_prep = $con->prepare($sql);
 $doc_prep->bindParam(':id', $id);
