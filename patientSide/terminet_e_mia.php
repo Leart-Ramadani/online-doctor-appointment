@@ -377,19 +377,6 @@ if (isset($_POST['anulo'])) {
             </button>
         </div>
 
-        <h5 class="det_pac_h4">Patient Details</h5>
-
-        <div class="emri_pac">
-            <p>Patient: <span><?= $pacienti_fetch['fullName'] ?></span></p>
-            <hr>
-            <p>Email: <span><?= $pacienti_fetch['email'] ?></span></p>
-            <hr>
-            <p>Personal ID: <span><?= $pacienti_fetch['personal_id'] ?></span></p>
-            <hr>
-            <p>Phone number: <span><?= $pacienti_fetch['phone'] ?></span></p>
-            <hr>
-        </div>
-
         <h5 class="det_pac_h4">Appointment Details</h5>
 
         <div class="emri_pac doc_pac">
@@ -397,9 +384,9 @@ if (isset($_POST['anulo'])) {
         </div>
 
         <form action="terminet_e_mia.php" method="POST" class="submit_anu">
-            <div class="mb-3">
+            <div class="mb-3 ms-3">
                 <label for="arsyeja" class="form-label">Cancelation reason:</label>
-                <textarea class="form-control text" id="arsyeja" rows="3" maxlength="250" name="arsyejaAnulimit"></textarea>
+                <textarea class="form-control text w-100" id="arsyeja" rows="3" maxlength="250" name="arsyejaAnulimit"></textarea>
             </div>
 
             <button type="submit" name="anulo" class="anulo btn btn-primary w-25">Send</button>

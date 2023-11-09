@@ -6,7 +6,7 @@ veri_code[0].focus();
 const otpPaste = e => {
   const data = e.clipboardData.getData("text");
   const value = data.split("");
-  if(value.length === veri_code.length){
+  if (value.length === veri_code.length) {
     veri_code.forEach((input, index) => {
       input.value = value[index]
       veri_code[veri_code.length - 1].focus();
@@ -27,39 +27,81 @@ veri_code.forEach((code, index) => {
 });
 
 
-$(document).ready(function () {
-  $("#verify").click(function () {
-    let otp1 = $('#otp1').val();
-    let otp2 = $('#otp2').val();
-    let otp3 = $('#otp3').val();
-    let otp4 = $('#otp4').val();
-    let otp5 = $('#otp5').val();
-    let otp6 = $('#otp6').val();
 
-    let otpCode = otp1 + '' + otp2 + '' + otp3 + '' + otp4 + '' + otp5 + '' + otp6;
 
-    if (otp1 != "" && otp2 != "" && otp3 != "" && otp4 != "" && otp5 != "" && otp6 != "") {
-      $.ajax({
-        url: "../patientSide/verifyLogic.php",
-        type: "POST",
-        data: {
-          otp: otpCode
-        }, 
-        success: function (data) {
-          alert(data);
-          if (data !== "Ky kod nuk eshte i sakte! Ju lutemi provojeni perseri." && data !== "Ky kod ka skaduar!") {
+
+const verifyBtn = document.querySelector('.verify');
+const btnLoader = document.querySelector('.btnLoader');
+const btnText = document.querySelector('.btnText');
+
+
+const sendOtp = () => {
+  let otpCode = '';
+  veri_code.forEach(code => {
+    otpCode += code.value;
+  });
+
+  if (otpCode.length == 6) {
+    veri_code.forEach(code => {
+      code.style.borderColor = '';
+    });
+
+    btnLoader.classList.remove('d-none');
+    btnText.innerHTML = 'Verifying...';
+    verifyBtn.classList.add('disabled');
+    $.ajax({
+      url: '../patientSide/verifyLogic.php',
+      type: 'POST',
+      data: {
+        otpCode: otpCode
+      },
+      success: response => {
+        console.log(response);
+        if (response == 'verified') {
+          btnLoader.classList.add('d-none');
+          btnText.innerHTML = 'Verified';
+          verifyBtn.disabled = false;
+          setTimeout(() => {
             window.location.replace('../patientSide/rezervoTermin.php');
-          }
+          }, 500)
+        } else if (response == 'something went wrong') {
+          btnLoader.classList.add('d-none');
+          btnText.innerHTML = 'Something went wrong';
+          verifyBtn.disabled = false;
+        } else if (response == 'expierd code') {
+          alert('This code has expired. Check your email for the new code');
+          document.querySelector('.veri-form-wrapper').classList.add('d-none')
+          document.querySelector('.loaderWrapper').classList.remove('d-none');
+          btnLoader.classList.add('d-none');
+          btnText.innerHTML = 'Verify';
+          verifyBtn.disabled = false;
+          window.location.replace("../patientSide/resendCode.php");
+        } else if (response == 'wrong code') {
+          btnLoader.classList.add('d-none');
+          btnText.innerHTML = 'Wrong code';
+          verifyBtn.disabled = false;
         }
-      });
-    } else {
-      veri_code.forEach(code => {
-        if (code.value === "") {
-          code.style.borderColor = 'red';
-        } else {
-          code.style.borderColor = '';
-        }
-      });
+      }
+    });
+  } else {
+    veri_code.forEach(code => {
+      if (code.value === "") {
+        code.style.borderColor = 'red';
+      } else {
+        code.style.borderColor = '';
+      }
+    });
+  }
+
+}
+
+veri_code.forEach(code => {
+  code.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      sendOtp();
     }
   });
 });
+
+
+verifyBtn.addEventListener('click', sendOtp);

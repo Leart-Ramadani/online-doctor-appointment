@@ -4,6 +4,7 @@ if (isset($_SESSION['fullName'])) {
     header("Location: ../index.php");
 }
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

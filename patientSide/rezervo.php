@@ -18,24 +18,6 @@ $patient_data = $prep->fetch();
 
 
 
-<?php
-$id = $_SESSION['id_ofApp'];
-$sql = "SELECT * FROM orari WHERE id=:id";
-$doc_prep = $con->prepare($sql);
-$doc_prep->bindParam(':id', $id);
-$doc_prep->execute();
-$row = $doc_prep->fetch();
-
-
-$sql_doc = "SELECT fullName, departament FROM users WHERE userType=2 AND fullName=:doktori";
-$stm = $con->prepare($sql_doc);
-$stm->bindParam(':doktori', $row['doktori']);
-$stm->execute();
-$data = $stm->fetch();
-
-?>
-
-
 
     <?php
 
@@ -51,6 +33,21 @@ $data = $stm->fetch();
 
     if (isset($_POST['checking_viewbtn'])) {
         $_SESSION['id_ofApp'] = $_POST['id'];
+
+        $id = $_SESSION['id_ofApp'];
+        $sql = "SELECT * FROM orari WHERE id=:id";
+        $doc_prep = $con->prepare($sql);
+        $doc_prep->bindParam(':id', $id);
+        $doc_prep->execute();
+        $row = $doc_prep->fetch();
+
+
+        $sql_doc = "SELECT fullName, departament FROM users WHERE userType=2 AND fullName=:doktori";
+        $stm = $con->prepare($sql_doc);
+        $stm->bindParam(':doktori', $row['doktori']);
+        $stm->execute();
+        $data = $stm->fetch();
+
 
         $sql = "SELECT o.id, o.doktori, o.departamenti, o.data, o.nga_ora, o.deri_oren, o.kohezgjatja, o.zene_deri, d.name AS 'dep_name' 
             FROM orari AS o INNER JOIN departamentet AS d ON o.departamenti = d.id WHERE o.id=:id";
@@ -88,22 +85,25 @@ $data = $stm->fetch();
             $com_prep->execute();
             $comData = $com_prep->fetch();
 
-            if($appData){
+            if ($appData) {
                 $appointments .= "<button class='btn btn-danger' style='width: 80px;' value='{$time}' onclick='waitList(this.value)' data-bs-toggle='modal' data-bs-target='#staticBackdrop' title='This appointment is booked'>{$time}</button>";
-            } else if($comData) {
+            } else if ($comData) {
                 $appointments .= "<button class='btn btn-primary disabled' style='width: 80px;' title='This appointment is completed'>{$time}</button>";
-            } else{
+            } else {
                 $appointments .= "<button class='btn btn-primary' style='width: 80px;' value='{$time}' onclick='getValue(this.value)'>{$time}</button>";
             }
-
         }
+
+
+        $date = date_create($row['data']);
+        $date = date_format($date, "d/m/Y, D");
 
         echo $return = "
             <p>Doctor: <span class='doc_name'>{$row['doktori']}</span></p>
             <hr>
             <p>Departament: <span class='doc_dep'>{$row['dep_name']}</span></p>
             <hr>
-            <p>Appointment Date: <span class='app_date'>{$row['data']}</span></p>
+            <p>Appointment Date: <span class='app_date'>{$date}</span></p>
             <hr>
             <p>Duration: <span class='app_dur'>{$row['kohezgjatja']}min</span></p>
             <hr>
@@ -159,7 +159,7 @@ $data = $stm->fetch();
         $paied_prep->execute();
         $data_paied = $paied_prep->fetch();
 
-        if($data_paied){
+        if ($data_paied) {
             echo "not paied";
         } else {
             $check_sql = "SELECT * FROM terminet WHERE doktori=:doktori AND numri_personal=:numri_personal AND data=:data";
@@ -169,11 +169,11 @@ $data = $stm->fetch();
             $check_prep->bindParam(':data', $data);
             $check_prep->execute();
             $check_data = $check_prep->fetch();
-    
+
             if ($check_data) {
                 echo "Appointment exists";
             } else {
-    
+
                 $terminet_sql = "INSERT INTO terminet(doktori, departamenti, pacienti, numri_personal, email_pacientit, data, ora, statusi)
                             VALUES(:doktori, :departamenti, :pacienti, :numri_personal, :email_pacientit, :data, :ora, 'Booked')";
                 $terminet_prep = $con->prepare($terminet_sql);
@@ -184,10 +184,10 @@ $data = $stm->fetch();
                 $terminet_prep->bindParam(':email_pacientit', $email_pacientit);
                 $terminet_prep->bindParam(':data', $data);
                 $terminet_prep->bindParam(':ora', $time);
-    
+
                 if ($terminet_prep->execute()) {
                     $mail = new PHPMailer(true);
-    
+
                     try {
                         //Server settings
                         $mail->SMTPDebug = 0;                                       //Enable verbose debug output
@@ -198,16 +198,16 @@ $data = $stm->fetch();
                         $mail->Password   = SITE_PASSWORD;                          //SMTP password
                         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
                         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-    
+
                         //Recipients
                         $mail->setFrom('no@reply.com', 'online-appointment.com');
                         $mail->addAddress($email_pacientit, $pacienti);                           //Add a recipient
-    
-    
+
+
                         //Content
                         $mail->isHTML(true);                                        //Set email format to HTML
-    
-    
+
+
                         $mail->Subject = 'Appointment Booking Confirmation';
                         $mail->Body    =   "<p>
                                             $gender, <br><br>
@@ -226,15 +226,15 @@ $data = $stm->fetch();
                                             <br>
                                             online-appointment-booking.com
                                             </p>";
-    
+
                         $mail->send();
-    
+
                         unset($_SESSION['id_ofApp']);
-                        echo "Appointment booked";  
+                        echo "Appointment booked";
                     } catch (Exception $e) {
                         echo  "Problems with server or internet";
                     }
-    
+
                     exit();
                 }
             }

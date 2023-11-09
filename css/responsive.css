@@ -119,10 +119,6 @@
         margin-top: 20px;
     }
 
-    .popAnulo {
-        margin-top: 50px;
-        z-index: 999;
-    }
 
 }
 
@@ -182,6 +178,24 @@
 
     .table_patient {
         width: 100%;
+    }
+
+    .veri_form{
+        width: 303px !important;
+    }
+    .veri_form input{
+        width: 40px !important;
+        height: 40px !important;
+    }
+    .verifyBtnWrapper{
+        width: 100% !important;
+    }
+    .veri_form p{
+        font-size: 14px !important;
+    }
+
+    .veri_form h1 {
+        font-size: 28px !important;
     }
 
 
@@ -345,11 +359,6 @@
         margin-top: 20px;
     }
 
-    .popAnulo {
-        width: 400px;
-        height: 660px;
-        margin-top: 50px;
-    }
 
     .submit_anu {
         display: flex;
@@ -541,11 +550,6 @@
         margin-top: 20px;
     }
 
-    .popAnulo {
-        width: 350px;
-        height: 680px;
-        margin-top: 60px;
-    }
 
     .submit_anu {
         display: flex;
@@ -747,11 +751,6 @@
         font-size: 16px;
     }
 
-    .popAnulo {
-        width: 300px;
-        height: 680px;
-        margin-top: 60px;
-    }
 
     .submit_anu {
         display: flex;
@@ -762,19 +761,12 @@
         margin-left: 20px;
     }
 
-    #arsyeja {
-        width: 260px !important;
-    }
 
     .res {
         width: 230px !important;
         font-size: 14px !important;
     }
 
-    .mainProfili {
-        margin-left: 70px !important;
-        width: 300px !important;
-    }
 
     .updateRes {
         width: 100% !important;
@@ -984,10 +976,6 @@
         font-size: 16px;
     }
 
-    .mainProfili {
-        margin-left: 50px !important;
-        width: 247px !important;
-    }
 
     .dataNotfound {
         margin-left: 0;

@@ -145,7 +145,7 @@ if (isset($_POST['set']) && $_POST['id'] == 2) {
 
         $age = $currentDate->diff($birthdayDate)->y;
 
-        if ($age <= 18) {
+        if ($age < 18) {
             $birthdayErr = '*You must be 18 years or older.';
         } else {
             $birthdayErr = '';
@@ -282,7 +282,7 @@ if (isset($_POST['set']) && $_POST['id'] == 4) {
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom('no@reply.com', 'terminet-online.com');
+        $mail->setFrom('no@reply.com', 'online-appointment.com');
         $mail->addAddress($email, $fullName);                           //Add a recipient
 
 
@@ -316,14 +316,12 @@ if (isset($_POST['set']) && $_POST['id'] == 4) {
 
         $mail->send();
 
-        $veri_date = date('Y-m-d');
-        $veri_time = date('H:i:s');
         $verificated = false;
         
         $patientCode = 1;
 
-        $sql = "INSERT INTO users(userType, fullName, personal_id, gender, email, phone, birthday, adress, username, password, veri_code, veri_date, veri_time, verificated)
-                            VALUES(:userType, :fullName, :personal_id, :gender, :email, :phone, :birthday, :adress, :username, :password, :veri_code, :veri_date, :veri_time, :verificated)";
+        $sql = "INSERT INTO users(userType, fullName, personal_id, gender, email, phone, birthday, adress, username, password, veri_code, verificated)
+                            VALUES(:userType, :fullName, :personal_id, :gender, :email, :phone, :birthday, :adress, :username, :password, :veri_code, :verificated)";
         $prep = $con->prepare($sql);
         $prep->bindParam(':userType', $patientCode);
         $prep->bindParam(':fullName', $fullName);
@@ -336,8 +334,6 @@ if (isset($_POST['set']) && $_POST['id'] == 4) {
         $prep->bindParam(':username', $username);
         $prep->bindParam(':password', $encPass);
         $prep->bindParam(':veri_code', $veri_code);
-        $prep->bindParam(':veri_date', $veri_date);
-        $prep->bindParam(':veri_time', $veri_time);
         $prep->bindParam(':verificated', $verificated);
 
 

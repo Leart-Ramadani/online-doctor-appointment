@@ -1,7 +1,7 @@
 <?php
 include('../config.php');
 
-if(!isset($_SESSION['verify'])){
+if (!isset($_SESSION['verify'])) {
     header("Location: signup.php");
 }
 
@@ -11,7 +11,7 @@ $prep->bindParam(':username', $_SESSION['verify']);
 $prep->execute();
 $data = $prep->fetch();
 
-if($data['verificated'] == true){
+if ($data['verificated'] == true) {
     echo "<script>
         alert('Your account has been verified!');
         window.location.replace('../patientSide/rezervoTermin.php');
@@ -27,30 +27,38 @@ if($data['verificated'] == true){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verificate</title>
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <link rel="shortcut icon" href="../photos/icon-hospital.png">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous" defer></script>
 
 </head>
 
 <body style="background-color: #f5f5f5;">
     <main class="mainVeriCode">
         <form autocomplete="off" class="veri_form">
-            <h1>Verify your account</h1>
-            <p>Write down the code that was sent in your email!</p>
-            <div>
-                <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp1">
-                <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp2">
-                <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp3">
-                <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp4">
-                <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp5">
-                <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp6">
+            <div class="veri-form-wrapper d-flex flex-column align-items-center">
+                <h1>Verify your account</h1>
+                <p>Write down the code that was sent in your email!</p>
+                <div>
+                    <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp1">
+                    <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp2">
+                    <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp3">
+                    <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp4">
+                    <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp5">
+                    <input class="veri_code" type="text" maxlength="1" placeholder="0" id="otp6">
+                </div>
+                <div class="verifyBtnWrapper">
+                    <button class="btn btn-primary w-100 mt-2 verify" id="verify" type="button">
+                        <span class="spinner-border spinner-border-sm d-none btnLoader" role="status" aria-hidden="true"></span>
+                        <span class="btnText">Verify</span>
+                    </button>
+                </div>
+                <a class="countdown"><span class="restart"> Resend code:</span> <span class="timer"> </span></a>
             </div>
-            <div class="verifyBtnWrapper">
-                <button type="button" class="verify w-100 mt-3 btn btn-lg btn-primary" id="verify">Verify</button>
+            <div class="d-none loaderWrapper">
+                <div class="loader"></div>
+                <h3 class="h3 mt-3">Sending new code...</h3>
             </div>
-            <a class="countdown"><span class="restart"> Resend code:</span> <span class="timer"> </span></a>
         </form>
     </main>
 
@@ -91,10 +99,14 @@ if($data['verificated'] == true){
             let verifyBtn = document.querySelector('#verify');
             let veri_code = document.querySelectorAll('.veri_code');
 
-            if(currentTime >= endTime2){
+            if (currentTime >= endTime2) {
                 document.querySelector(".restart").style.opacity = 1;
                 resend.href = "./resendCode.php";
             }
+            resend.addEventListener('click', () => {
+                document.querySelector('.veri-form-wrapper').classList.add('d-none')
+                document.querySelector('.loaderWrapper').classList.remove('d-none');
+            })
 
             if (currentTime >= endTime) {
                 document.querySelector(".restart").style.opacity = 1;
@@ -105,7 +117,7 @@ if($data['verificated'] == true){
                     code.disabled = true;
                     code.style.borderColor = '';
                 });
-                
+
                 alert("Code has expired. Please click on the resend code link to resend the code!");
             } else {
                 verifyBtn.disabled = false;
@@ -120,8 +132,9 @@ if($data['verificated'] == true){
         window.onload = displayTimeRemaining;
     </script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="../js/verificate.js"></script>
-    
 
 </body>
 

@@ -14,7 +14,7 @@ if (isset($_POST['popAnulo'])) {
     $ter_data = $prep->fetch();
 
     $date = date_create($ter_data['data']);
-    $date = date_format($date, "d/m/Y, l");
+    $date = date_format($date, "d/m/Y, D");
 
     $time = date_create($ter_data['ora']);
     $time = date_format($time, "H:i");

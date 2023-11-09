@@ -48,7 +48,7 @@
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom('no@reply.com', 'terminet-online.com');
+        $mail->setFrom('no@reply.com', 'online-appointment.com');
         $mail->addAddress($data['email'], $data['pacienti']);                           //Add a recipient
 
 
@@ -84,7 +84,7 @@
 
         if ($del_kerkesa_prep->execute()) {
             echo "<script>
-                alert('Kerkesa nuk u miratua.');
+                alert('Request not apprroved.');
                 window.location.replace('kerkesatAnulimit.php');
             </script>";
         }

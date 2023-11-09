@@ -148,7 +148,7 @@ $doc_data = $doc_prep->fetch();
                             $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                             //Recipients
-                            $mail->setFrom('no@reply.com', 'terminet-online.com');
+                            $mail->setFrom('no@reply.com', 'online-appointment.com');
                             $mail->addAddress($email_pacientit, $pacienti);                           //Add a recipient
 
 

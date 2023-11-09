@@ -50,8 +50,6 @@ try {
     $mail->isHTML(true);                                        //Set email format to HTML
 
     $veri_code = rand(111111, 999999);
-    $veri_date = date('Y-m-d');
-    $veri_time = date('H:i:s');
 
     $mail->Subject = 'Your Account Verification Code';
     $mail->Body    = "<p>
@@ -59,7 +57,7 @@ try {
                         Thank you for signing up with us. To verify your account, 
                         please use the following verification code:
                         <br>
-                        Verification Code: <b>[Verification Code]</b>
+                        Verification Code: <b>$veri_code</b>
                         <br><br>
                         Please note that this code is valid for the next 02:30 seconds. 
                         After this period, you'll need to request a new verification code 
@@ -76,16 +74,14 @@ try {
 
     $mail->send();
 
-    $sql = "UPDATE users SET veri_code=:veri_code, veri_date=:veri_date, veri_time=:veri_time WHERE username=:username";
+    $sql = "UPDATE users SET veri_code=:veri_code, registerd=NOW() WHERE username=:username AND userType=1";
     $prep = $con->prepare($sql);
     $prep->bindParam(':username', $_SESSION['verify']);
     $prep->bindParam(':veri_code', $veri_code);
-    $prep->bindParam(':veri_date', $veri_date);
-    $prep->bindParam(':veri_time', $veri_time);
     $prep->execute();
 
     echo "<script>
-            alert('Shiko emailin tuaj per kodin verifikues!');
+            alert('Check your email for verification code!');
             window.location.replace('./emailVerification.php');
         </script>";
 

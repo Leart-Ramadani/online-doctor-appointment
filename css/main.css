@@ -246,8 +246,8 @@ nav {
 }
 
 .popAnulo {
-  width: 500px;
-  height: 650px;
+  width: 320px;
+  height: 460px;
   position: absolute;
   background-color: white;
   top: 50%;
@@ -322,7 +322,7 @@ nav {
 }
 
 .emri_pac p {
-  margin-left: 50px;
+  margin-left: 27px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -370,7 +370,7 @@ nav {
 
 .submit_anu {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   margin-right: 20px;
   margin-top: 15px;
 }
